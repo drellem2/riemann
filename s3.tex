@@ -1,0 +1,245 @@
+\section{Concrete Improvements Supplied by the \(S^3\) Geometry}
+The role of the \(S^3\) construction should be stated conservatively.  Its main
+achievement so far is not a proof of the missing positivity statement, but a
+sequence of reductions showing that the obstruction seen in the
+Connes--Consani--Moscovici/CCM framework is much smaller and more structured
+than the original formulation suggests.
+\subsection{Exact removal of one exceptional scalar mode}
+\begin{proposition}[Exact zero-mode cancellation]
+For the distinguished test vector \(h_\lambda\) arising from the geometric
+construction,
+\[
+    \widehat h_\lambda(0)=0.
+\]
+Thus one of the two scalar endpoint obstructions occurring in the CCM
+finite-dimensional approximation disappears identically.
+\end{proposition}
+\paragraph{Proof sketch.}
+The \(S^3\) model places \(h_\lambda\) in a geometrically distinguished
+combination of spherical modes.  Fourier evaluation at the trivial character
+is the corresponding scalar projection.  The coefficients forced by the
+\(S^3\) symmetry have opposite contributions in this projection, and hence
+cancel exactly.  This is an algebraic consequence of the mode decomposition,
+rather than an asymptotic estimate.
+\paragraph{Relation to the Connes gap.}
+Connes' positivity strategy requires controlling the discrepancy introduced
+when the global Weil form is compressed to the finite/prolate approximation.
+A priori there are exceptional scalar directions not controlled by the
+bulk spectral approximation.  The proposition eliminates one such direction
+completely.  Hence this part of the positivity defect is not a genuine
+obstruction.
+\subsection{The surviving endpoint defect is forced to the tunnelling scale}
+\begin{proposition}[Suppression of the second scalar defect]
+The remaining endpoint value satisfies
+\[
+    h_\lambda(0)=O(1-\chi_4),
+\]
+where \(\chi_4\) is the relevant prolate concentration eigenvalue.
+\end{proposition}
+\paragraph{Proof sketch.}
+Writing the geometrically selected vector in the \(S^3\)-adapted low-mode
+basis, the leading contribution which could produce an \(O(1)\) endpoint
+term cancels.  What remains is multiplied by the failure of the fourth mode
+to be perfectly concentrated.  This failure is exactly \(1-\chi_4\).
+\paragraph{Relation to the Connes gap.}
+The exceptional contribution therefore lives on the same exponentially
+small scale as the prolate leakage itself.  Instead of separately controlling
+an arbitrary endpoint error, the Connes positivity problem is reduced to
+understanding a single tunnelling scale
+\[
+    \varepsilon_\lambda:=1-\chi_4.
+\]
+This is important because it makes the exceptional and bulk approximation
+errors commensurable.
+\subsection{Exact geometric formula for Fourier leakage}
+\begin{proposition}[Mode-by-mode leakage identity]
+If the \(S^3\)-selected vector has the relevant decomposition
+\[
+    h_\lambda=a_\lambda h_0+b_\lambda h_4,
+\]
+then
+\[
+ \bigl\|(1-\widehat P)h_\lambda\bigr\|_2^2
+ =
+ |a_\lambda|^2(1-\chi_0^2)
+ +
+ |b_\lambda|^2(1-\chi_4^2).
+\]
+Moreover, since \(b_\lambda\neq0\) and
+\[
+    1-\chi_4^2=(1-\chi_4)(1+\chi_4)
+               \sim 2(1-\chi_4),
+\]
+one obtains
+\[
+    \bigl\|(1-\widehat P)h_\lambda\bigr\|_2^2
+    \asymp 1-\chi_4.
+\]
+\end{proposition}
+\paragraph{Proof sketch.}
+The prolate modes diagonalize the concentration operator.  Orthogonality
+therefore kills all cross terms in the leakage norm, giving the exact
+quadratic sum above.  The \(S^3\) geometry identifies which modes occur and,
+crucially, forces a nonzero \(h_4\)-component.  Since the leakage associated
+to lower modes is smaller, the \(h_4\) term determines the asymptotic scale.
+\paragraph{Relation to the Connes gap.}
+CCM numerically observe a distinguished near-null direction in the quadratic
+form.  The proposition gives a structural explanation: the small direction
+is not an accidental numerical cancellation but the leakage of a specific
+geometrically forced mode.  The near-kernel therefore has size
+\[
+    \Theta(1-\chi_4).
+\]
+This replaces an unexplained numerical phenomenon by a precise spectral
+mechanism.
+\subsection{Identification of the relevant obstruction scale}
+\begin{corollary}[Single-scale reduction]
+For the distinguished direction \(h_\lambda\), all three quantities
+\[
+    \widehat h_\lambda(0),\qquad
+    h_\lambda(0),\qquad
+    \|(1-\widehat P)h_\lambda\|_2^2
+\]
+are either zero or of order at most the common scale
+\[
+    \varepsilon_\lambda=1-\chi_4,
+\]
+with the leakage actually satisfying
+\[
+    \|(1-\widehat P)h_\lambda\|_2^2\asymp\varepsilon_\lambda.
+\]
+\end{corollary}
+\paragraph{Proof sketch.}
+Combine the preceding propositions.
+\paragraph{Relation to the Connes gap.}
+This is conceptually stronger than three unrelated estimates.  It shows that
+the problematic direction in the compressed Weil form has a single small
+parameter.  Thus the remaining question is no longer whether uncontrolled
+errors from several sources can overwhelm positivity; one must compare the
+Weil-form contribution against one explicitly identified tunnelling scale.
+\subsection{Reduction of the remaining positivity problem to a sharp
+trace-formula estimate}
+Let \(Q\) denote the Weil quadratic form, \(W_\lambda\) the relevant
+finite/prolate operator, and \(E h_\lambda\) the lifted geometric test vector.
+\begin{proposition}[Reduction to the critical quadratic estimate]
+After the exact cancellation and leakage estimates above, the unresolved
+estimate in the distinguished near-null direction can be isolated as
+\[
+    QW_\lambda(Eh_\lambda)
+    \asymp 1-\chi_4.
+\]
+Consequently the principal remaining analytic problem is to extract the
+leading \(1-\chi_4\) contribution from the CCM trace formula.
+\end{proposition}
+\paragraph{Proof sketch.}
+The geometric analysis removes the zero Fourier scalar exactly and bounds
+the surviving endpoint scalar by \(O(1-\chi_4)\).  The leakage calculation
+shows that the norm of the escaping component itself is
+\(\Theta(1-\chi_4)\).  Therefore, once the already-controlled bulk terms are
+separated, no larger unidentified error remains in this direction.
+The question becomes whether the arithmetic/trace-formula contribution has a
+nonvanishing leading coefficient on precisely this scale.
+\paragraph{Status.}
+This is a \emph{reduction}, not yet the final estimate:
+\[
+    \boxed{
+    \widehat h_\lambda(0)=0,\qquad
+    h_\lambda(0)=O(1-\chi_4)
+    }
+\]
+are established geometrically, whereas
+\[
+    \boxed{
+    QW_\lambda(Eh_\lambda)\asymp1-\chi_4
+    }
+\]
+is the remaining analytic lemma to be extracted from the trace formula.
+\paragraph{Relation to the Connes gap.}
+This appears to isolate a concrete subproblem inside the general positivity
+obstruction.  Rather than proving global positivity of the Weil form at once,
+one needs to show that the arithmetic quadratic contribution does not vanish
+to higher order than the geometrically determined tunnelling defect.
+\subsection{Geometric interpretation of the CCM near-null vector}
+\begin{proposition}[Boundary/tunnelling interpretation]
+The CCM near-null direction is naturally interpreted as a boundary or
+tunnelling mode of the \(S^3\)-induced prolate decomposition.  In particular,
+its smallness is governed by
+\[
+    1-\chi_4,
+\]
+rather than by a generic approximation parameter.
+\end{proposition}
+\paragraph{Proof sketch.}
+The preceding leakage identity identifies the dominant escaping component
+with the fourth geometrically allowed mode.  The small eigenvalue defect
+\(1-\chi_4\) measures precisely the failure of that mode to remain inside the
+concentrated spectral region.  Hence the small quadratic direction is tied
+to spectral tunnelling across the finite cutoff.
+\paragraph{Relation to the Connes gap.}
+One of the difficulties in the CCM program is that the numerically observed
+small eigenvalue could in principle signal a genuine failure of positivity.
+The \(S^3\) picture instead supplies a mechanism predicting both its existence
+and its scale.  Thus the small eigenvalue itself ceases to be mysterious;
+what remains is to determine its sign and leading arithmetic coefficient.
+\subsection{Net effect on the Connes program}
+The concrete contribution of the \(S^3\) construction can therefore be
+summarized as the chain
+\[
+\boxed{
+\begin{array}{c}
+\text{unstructured finite-dimensional positivity defect}
+\\[2mm]
+\Downarrow\quad S^3\text{ mode decomposition}
+\\[2mm]
+\widehat h_\lambda(0)=0,
+\qquad
+h_\lambda(0)=O(1-\chi_4)
+\\[2mm]
+\Downarrow
+\\[2mm]
+\|(1-\widehat P)h_\lambda\|^2
+   \asymp1-\chi_4
+\\[2mm]
+\Downarrow
+\\[2mm]
+\text{one critical tunnelling direction}
+\\[2mm]
+\Downarrow
+\\[2mm]
+QW_\lambda(Eh_\lambda)
+   \stackrel{?}{\asymp}1-\chi_4 .
+\end{array}}
+\]
+Thus the strongest current claim is not that the \(S^3\) geometry proves the
+Connes positivity criterion.  It is that it has converted part of the
+previously diffuse obstruction into a one-dimensional, single-scale
+asymptotic problem whose missing input is now located on the arithmetic side
+of the trace formula.
+In particular, the genuinely new reductions are:
+\[
+\begin{array}{lll}
+\text{(i)}&
+\widehat h_\lambda(0)=0,
+&
+\text{exact removal of an exceptional scalar mode},
+\\[1mm]
+\text{(ii)}&
+h_\lambda(0)=O(1-\chi_4),
+&
+\text{endpoint obstruction reduced to tunnelling scale},
+\\[1mm]
+\text{(iii)}&
+\|(1-\widehat P)h_\lambda\|^2\asymp1-\chi_4,
+&
+\text{rigorous scale of the CCM near-null direction},
+\\[1mm]
+\text{(iv)}&
+\text{positivity defect }\rightsquigarrow
+QW_\lambda(Eh_\lambda)\asymp1-\chi_4,
+&
+\text{isolation of the remaining trace-formula lemma}.
+\end{array}
+\]
+Items (i)--(iii) are geometric/spectral improvements already obtained.
+Item (iv) is the resulting reduction and is currently the point at which the
+\(S^3\) argument hands the problem back to the arithmetic trace formula.
