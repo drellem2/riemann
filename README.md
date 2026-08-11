@@ -21,6 +21,19 @@ Early. The repository holds two working documents.
 
 Nothing in either is a finished result, and no result is claimed here.
 
+`notes/` holds audits of those documents. They do not modify the `.tex` files and
+cite them by line.
+
+- `s3-reduction-audit.md` — audits `s3.tex` item (iii) and ranks candidate
+  \(S^3\) reductions. Finds that every \(S^3\) statement examined restates a
+  classical Slepian statement, and sharpens items (ii) and (iii) to exact
+  constants.
+- `s3-sign-blindness.md` — asks whether the \(S^3\) geometry can determine the
+  sign of the remaining coefficient. Finds that it cannot as constructed: the
+  whole chain in `s3.tex` is invariant under \(W_\lambda \mapsto -W_\lambda\).
+
+Each has a companion `verify_*.py` (numpy) reproducing its numbers.
+
 The specific research target is still being chosen. Expect the contents to
 change substantially.
 
