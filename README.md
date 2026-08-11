@@ -31,8 +31,13 @@ cite them by line.
 - `s3-sign-blindness.md` — asks whether the \(S^3\) geometry can determine the
   sign of the remaining coefficient. Finds that it cannot as constructed: the
   whole chain in `s3.tex` is invariant under \(W_\lambda \mapsto -W_\lambda\).
+- `signed-geometry-proposals.md` — proposes alternative geometries in which the
+  arithmetic sign flows through to the geometry, ranked. Argues the missing
+  ingredient is a product and an involution rather than a higher-dimensional
+  manifold, and reports which of its own candidates are sign-blind.
 
-Each has a companion `verify_*.py` (numpy) reproducing its numbers.
+The first two have a companion `verify_*.py` (numpy) reproducing their numbers;
+the third is structural and has none.
 
 The specific research target is still being chosen. Expect the contents to
 change substantially.
