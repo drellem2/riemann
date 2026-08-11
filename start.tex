@@ -1,0 +1,432 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\W}{\mathcal W}
+
+\title{Status of the \(S^3\)--Connes Program for the Riemann Hypothesis}
+\date{10 August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The purpose of this program is not to construct a new explicit formula for
+\(\zeta\), but to use an \(S^3\)-based geometry to understand the concrete
+positivity obstruction in Connes' spectral approach to the Riemann
+Hypothesis (RH).  The main progress is a reduction of the observed
+near-null direction in the Connes--Consani--Moscovici (CCM) finite
+approximations to a very specific boundary/tunnelling phenomenon in the
+prolate decomposition.  For the distinguished CCM test vector
+\(h_\lambda\), two potentially dangerous scalar defects are now controlled
+at precisely the prolate tunnelling scale:
+\[
+        \widehat h_\lambda(0)=0
+        \qquad\text{exactly},
+        \qquad
+        h_\lambda(0)=O(1-\chi_4).
+\]
+Thus the remaining issue is no longer a vague approximation problem.
+The principal unresolved estimate is
+\[
+        QW_\lambda(Eh_\lambda)\asymp 1-\chi_4,
+\]
+or a sufficiently strong one-sided version of it.  Here \(E\) is the
+arithmetic periodization operator, \(W_\lambda\) is the truncated Weil
+operator/form, \(Q\) removes the expected low-dimensional exceptional
+sector, and \(\chi_4\) is the relevant prolate concentration eigenvalue.
+Extracting this estimate from the 2023 trace formula is currently the
+shortest plausible route to turning the geometric mechanism into a
+rigorous statement directly relevant to RH.
+\end{abstract}
+
+\section{The Connes problem}
+
+We use Weil's positivity criterion as the analytic target.  In the
+multiplicative picture the arithmetic operator
+\[
+        E(f)(u)
+        =
+        u^{1/2}\sum_{n\geq1}f(nu)
+\]
+has Mellin transform
+\[
+        \widehat{Ef}(s)=\zeta(s)\widehat f(s),
+\]
+up to the chosen normalization.  Equivalently,
+\[
+        E(f)(u)
+        =
+        u^{1/2}\operatorname{Tr}_{\ell^2(\mathbb N)}
+        f\!\left(ue^{H_{\rm BC}}\right),
+\]
+so the zeta factor is built directly into the spectral/arithmetic
+periodization.
+
+Connes' program rewrites the explicit formula as a trace/positivity
+problem.  Schematically,
+\[
+        \mathrm{RH}
+        \quad\Longleftrightarrow\quad
+        W(F)\geq0
+\]
+on the appropriate codimension-two space of test functions, the two
+removed directions corresponding to the familiar pole/end-point
+obstructions.
+
+The difficult point is therefore not finding the zeros of \(\zeta\):
+it is proving positivity after arithmetic periodization and removal of
+the exceptional modes.
+
+CCM's finite-\(\lambda\) calculations reveal a striking almost-null
+direction.  Their numerical Figure~4 suggests that its defect is
+controlled by a prolate concentration eigenvalue.  Explaining this
+phenomenon rigorously is the immediate target of the present program.
+
+\section{Where the \(S^3\) geometry enters}
+
+The \(S^3\) construction supplies a geometric model for the same
+decomposition that appears analytically in the Connes--CCM problem.
+The useful dictionary is schematic rather than an asserted literal
+equivalence:
+\[
+\begin{array}{c|c}
+S^3\text{ geometry} & \text{Connes--CCM analysis}\\
+\hline
+\text{global compact geometry}
+&
+\text{completed spectral problem}
+\\
+\text{two distinguished/boundary directions}
+&
+\text{two exceptional Weil directions}
+\\
+\text{geometric concentration}
+&
+\text{prolate concentration}
+\\
+\text{failure to remain in a geometric sector}
+&
+\text{time--band leakage}
+\\
+\text{small boundary/tunnelling term}
+&
+1-\chi_n
+\\
+\text{geometric projection}
+&
+Q\text{ / removal of exceptional modes}.
+\end{array}
+\]
+
+The important conceptual prediction from the geometry is therefore:
+\emph{after the exact exceptional directions have been removed, the
+remaining failure of positivity should be a boundary leakage phenomenon,
+not a bulk arithmetic phenomenon.}
+
+This is now substantially supported by the analytic reductions below.
+
+\section{The distinguished CCM vector}
+
+Let \(h_{0,\lambda}\) and \(h_{4,\lambda}\) denote the two relevant
+prolate modes and set
+\[
+        h_\lambda
+        =
+        \alpha h_{0,\lambda}
+        +
+        \beta h_{4,\lambda},
+\]
+with the CCM choice of coefficients.  Let
+\(\chi_0,\chi_4\) be their concentration eigenvalues, with
+\(\chi_4\to1\) as \(\lambda\to\infty\).
+
+The arithmetic candidate is
+\[
+        k_\lambda=E(h_\lambda).
+\]
+This is the finite-scale vector numerically behaving like the ground
+state of the simple-even Weil form.
+
+The key question had been whether the exceptional components generated
+by \(E\) were much larger than the exponentially/super-polynomially
+small prolate leakage.  Direct norm estimates on \(E\) do not resolve
+this: crude leakage estimates are only polynomial and therefore lose
+the scale visible numerically.
+
+The geometry suggested looking instead for exact cancellation of the
+exceptional components.
+
+\section{New reductions}
+
+For the CCM combination one obtains
+\[
+        \boxed{\widehat h_\lambda(0)=0.}
+\]
+Thus one exceptional scalar direction vanishes \emph{exactly}, rather
+than merely being small.
+
+For the second endpoint one finds
+\[
+ h_\lambda(0)
+ =
+ \alpha h_{0,\lambda}(0)
+ \frac{\chi_4-\chi_0}{\chi_4},
+\]
+and hence, since the relevant concentration eigenvalues approach one
+together,
+\[
+        \boxed{h_\lambda(0)=O(1-\chi_4).}
+\]
+
+Consequently the two obvious exceptional defects satisfy
+\[
+\boxed{
+\text{exceptional sector}
+=
+0+O(1-\chi_4).
+}
+\]
+
+This is the main new structural result.  It converts the previously
+problematic mismatch of scales into exactly the scale predicted by the
+\(S^3\)/prolate geometry.
+
+In particular, the numerical near-kernel is no longer mysterious:
+the CCM vector has been engineered, or geometrically forced, to kill
+one obstruction exactly and suppress the other to the tunnelling scale.
+
+\section{The remaining lemma}
+
+Let \(W_\lambda\) denote the finite/truncated Weil operator or quadratic
+form in the CCM setup, and let \(Q\) denote projection away from the
+exceptional sector.  The desired statement is now essentially
+\[
+        \boxed{
+        QW_\lambda(Eh_\lambda)
+        \asymp
+        1-\chi_4.
+        }
+        \tag{*}
+\]
+Depending on normalization, a one-sided coercive estimate of the
+corresponding quadratic form may suffice.
+
+The significance of \((*)\) is that both sides now live at the same
+natural scale.  Earlier approaches attempted to compare a generic
+periodization error with \(1-\chi_4\), which is hopelessly small.
+The endpoint identities show that the large apparent errors lie in
+directions which cancel before the decisive comparison is made.
+
+Thus the problem has been reduced from
+
+\[
+\text{``control the arithmetic operator }E\text{ extremely accurately''}
+\]
+
+to
+
+\[
+\text{``identify the surviving boundary term in the trace formula.''}
+\]
+
+That is a much sharper problem.
+
+\section{Relation to the 2023 trace formula}
+
+The next step should be to insert \(h_\lambda\), or the corresponding
+rank-one/prolate projector, directly into the 2023 trace formula and
+separate
+\[
+        \text{bulk}
+        +
+        \text{exceptional terms}
+        +
+        \text{boundary crossing}.
+\]
+
+The first two pieces should cancel or be removed by \(Q\).  The claim
+suggested by both the geometry and the CCM numerics is that what remains
+is precisely the prolate boundary leakage:
+\[
+        \text{boundary contribution}
+        \sim
+        1-\chi_4.
+\]
+
+There is already an exact analytic indication in this direction.
+For the prolate Sturm--Liouville operator \(L_c\) and the relevant
+concentration projector \(P\),
+\[
+        [L_c,P]=0.
+\]
+When the prime part of the explicit formula is written in terms of
+multiplicative translations, commutator matrix elements localize to
+boundary-crossing strips.  Thus the nonlocal arithmetic operation becomes
+a boundary phenomenon after comparison with the prolate decomposition.
+
+This is strikingly close to the mechanism predicted by the \(S^3\)
+geometry.
+
+\section{What has not worked}
+
+The principal unsuccessful routes can be summarized briefly.
+
+\begin{itemize}[leftmargin=2em]
+\item \textbf{Naive \(E\)-norm estimates.}
+They give errors far larger than \(1-\chi_4\) and therefore cannot
+explain the CCM numerics.
+
+\item \textbf{Generic Fourier/prolate leakage bounds.}
+These control the wrong object.  The decisive cancellation occurs in
+the exceptional scalar components before generic norm estimates become
+relevant.
+
+\item \textbf{Prime--archimedean cancellation at low frequency.}
+A direct symbol calculation does not yield the hoped-for cancellation;
+the completed prime and \(\Gamma\)-terms can reinforce rather than
+cancel there.
+
+\item \textbf{Commutator estimates alone.}
+The identity/localization to boundary-crossing strips is useful, but
+without the trace-formula coefficient calculation it does not determine
+the sign or exact size required for Weil positivity.
+\end{itemize}
+
+These failures are informative: they point away from global estimates
+and toward an exact boundary-term computation.
+
+\section{Current interpretation}
+
+The emerging picture is
+\[
+\boxed{
+\begin{gathered}
+S^3\text{ geometry}
+\\
+\Downarrow
+\\
+\text{two exceptional directions + boundary leakage}
+\\
+\Downarrow
+\\
+\text{prolate decomposition}
+\\
+\Downarrow
+\\
+\widehat h_\lambda(0)=0,\qquad
+h_\lambda(0)=O(1-\chi_4)
+\\
+\Downarrow
+\\
+\text{only a tunnelling-scale Weil defect remains.}
+\end{gathered}}
+\]
+
+This gives a geometric explanation for why the CCM construction should
+work: the small eigenvalue is not an accidental numerical approximation
+to zeta.  It appears to measure the failure of a nearly invariant
+geometric/prolate sector to close exactly at finite scale.
+
+In this sense the \(S^3\) construction is currently most valuable not
+as a replacement for Connes' machinery, but as a structural guide to
+\emph{which term in that machinery must be estimated and why it should
+have the correct sign and scale}.
+
+\section{Shortest plausible route forward}
+
+The research program should now be aggressively concentrated on the
+following chain.
+
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{Extract the boundary term.}
+Specialize the 2023 trace formula to the CCM vector \(h_\lambda\) and
+write \(QW_\lambda(Eh_\lambda)\) explicitly after using
+\[
+        \widehat h_\lambda(0)=0,
+        \qquad
+        h_\lambda(0)=O(1-\chi_4).
+\]
+
+\item \textbf{Prove the tunnelling estimate.}
+Show
+\[
+        QW_\lambda(Eh_\lambda)
+        =
+        C_\lambda(1-\chi_4)
+        +o(1-\chi_4),
+\]
+ideally with
+\[
+        0<c\leq C_\lambda\leq C.
+\]
+The sign of \(C_\lambda\) is more important than a sharp asymptotic
+constant.
+
+\item \textbf{Identify the coefficient geometrically.}
+Relate \(C_\lambda\) to the \(S^3\) boundary/intersection quantity.
+This is where the geometry could turn an analytic estimate into a
+structural positivity statement rather than a delicate asymptotic
+calculation.
+
+\item \textbf{Upgrade the single-vector calculation to coercivity.}
+Once the CCM ground-state direction is controlled, determine whether
+the orthogonal complement already has a uniform positive gap from the
+existing trace-formula/prolate theory.  If so, the entire positivity
+problem reduces to the one tunnelling direction.
+
+\item \textbf{Pass to the limit.}
+Combine finite-\(\lambda\) positivity with density/convergence of the
+CCM approximation to obtain Weil positivity on the full admissible
+test-function space, hence RH.
+\end{enumerate}
+
+The critical logical point is Step~4.  Proving \((*)\) explains
+Figure~4 and controls the apparent ground state, but RH follows only
+if the rest of the Weil form is simultaneously known to be positive
+with adequate uniform control.  This distinction should be maintained
+explicitly.
+
+\section{Research target}
+
+The immediate target can therefore be stated as a compact lemma.
+
+\medskip
+\noindent
+\textbf{Boundary Leakage Lemma.}
+\emph{For the CCM prolate combination \(h_\lambda\), after projection
+away from the two exceptional Weil directions, arithmetic
+periodization converts the finite Weil defect into a boundary term
+comparable to the fourth prolate tunnelling probability:}
+\[
+        \left\|QW_\lambda(Eh_\lambda)\right\|
+        \asymp
+        1-\chi_4,
+\]
+\emph{with the corresponding quadratic contribution having the
+positivity sign required by Weil's criterion.}
+
+\medskip
+
+A proof of this lemma would provide a rigorous explanation of the
+numerical phenomenon observed by CCM and would establish the first
+direct analytic bridge from the \(S^3\) geometry to the concrete
+obstruction in Connes' RH program.
+
+The most efficient next calculation is therefore not another global
+estimate and not a new numerical experiment.  It is the explicit
+specialization of the 2023 trace formula to \(Eh_\lambda\), retaining
+the boundary-crossing term and exploiting the two endpoint
+cancellations above.  If that computation produces a positive multiple
+of \(1-\chi_4\), the program should immediately turn to proving a
+uniform gap on its orthogonal complement; together those two statements
+would place the approach on a direct route to Weil positivity and RH.
+
+\end{document}
