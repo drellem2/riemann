@@ -711,7 +711,7 @@ to twelve decimals only if the quantities are the same.
 
 | # | item | why it is open |
 |---|---|---|
-| S1 | Does the semilocal angle operator $P^S\widehat P^SP^S$ have *any* known spectral description, even partial? | I read CCM's semilocal-case section and the survey's *Geometric Perspectives*; neither gives one. Absence over what I read, not proof of absence |
+| S1 | ~~Does the semilocal angle operator $P^S\widehat P^SP^S$ have *any* known spectral description, even partial?~~ **ANSWERED 2026-08-12 (mg-0bd7): partially yes, and the partial is sharply located — §11** | was: absence over CCM's semilocal section and the survey's *Geometric Perspectives*. Now: at **one** non-archimedean place the pair is completely and explicitly described by Burnol (IMRN 2000), and the angle operator there is **degenerate** — the two cutoffs commute. Semilocally nothing: the cutoff is by the *product* module, so it does not factor, and Connes 1999 substitutes a construction ($\psi\mapsto\psi\otimes1_R$) for a spectrum at exactly that step. §11 says where I looked |
 | S2 | ~~Is the archimedean positivity theorem *known* to be sharp at $\mu=2$, or only numerically observed to fail past it?~~ **ANSWERED 2026-08-12 (mg-555b): only numerically observed — and now independently reproduced. §10** | was: rests on Connes–Consani's figures, no theorem found. Now: no theorem exists (§10.1 says where I looked and how the authors' own prose describes the figures), the numerics are theirs *and* ours (§10.2), an explicit witness function needs no matrix (§10.3), and the sharpness is at $\mu=2.271$, not $2$ |
 | S3 | ~~Has the second candidate semilocal prolate operator appeared since Feb 2026?~~ **RE-CHECKED against primary sources 2026-08-12 (mg-6d7e): NOT FOUND. A clean negative — §9** | was §7: search-result-level evidence only. Now: author listings for all three principals enumerated, the survey's LaTeX read for the words themselves, version histories checked. §9 says where I looked, so the next person can tell this negative from an unexamined one |
 | S4 | Does the corpus's `start.tex:264-273` commutator localisation have a semilocal analogue — i.e. does $[\mathbf W_{\lambda,S},P^S]=0$ for either CCM candidate? | This is the natural corpus-side question raised by §3.1 and §5.4, and answering it needs the deferred Jacobi coefficients. Recorded, not pursued: it is a proof attempt, and this ticket is not |
@@ -1081,3 +1081,267 @@ in the paper. Whether it delivers the corpus's $\asymp1-\chi_4$ (`start.tex:177-
 `citation-audit.md` §4.4 item 1) needs `index-convention.md` applied to the two indices and
 a numerical check of $\psi_0(0)\psi_{2n}(0)$ against $1-\chi$, **neither of which this note
 does**. Recorded as a lead, not a result.
+
+---
+
+## 11. Appendix — S1 answered (added 2026-08-12, mg-0bd7)
+
+*Appended. Nothing above is deleted; the S1 row in §8 is annotated in place. §3.1's
+"the spectrum of $P^S\widehat P^SP^S$ is **not known**" and §2's I8 row are left
+untouched and remain correct: both are statements about the **semilocal** operator,
+and §11.2–§11.4 below leave them standing. What changes is that the **single
+finite place** is no longer an open question — it is settled, and the answer is that
+the object is degenerate there.*
+
+**Answer: partially yes.** At one non-archimedean place the pair
+$(P_\Lambda,\widehat P_\Lambda)$ has a complete, explicit, published spectral
+description — and its content is that the angle operator is **trivial**. Semilocally
+there is still nothing, and §11.2 identifies the exact definitional reason the
+one-place result does not transfer. This is a more useful answer than the clean
+negative §8 expected, because the two halves point in opposite directions.
+
+### 11.1 One finite place: completely described, and degenerate — Burnol 1999
+
+J.-F. Burnol, *Scattering on the p-adic field and a trace formula*,
+arXiv:math/9901051 (12 Jan 1999, rev. 31 Jan 1999), **IMRN 2000 no. 2, 57–70**.
+Source file `scatteringV2.tex`, read as primary source (320 lines). **Proved.**
+
+Burnol's last section is titled *Exact evaluation of a trace considered by Connes*
+and takes **Connes' own operator**, not an analogue (`:246-250`):
+
+> Connes considers the operator $\widetilde{P_\Lambda}P_\Lambda U(f)$ where
+> $P_\Lambda$ is orthogonal projection to functions with support in
+> $|x|\leq\Lambda$, $\widetilde{P_\Lambda}$ is its Fourier conjugate […] He shows
+> (also at an archimedean place) that it is of trace class, has a main logarithmic
+> divergency and a constant term which is the local term of the Explicit Formula and
+> a $o(1)$ error term. **In the non-archimedean case his proof actually gives the
+> exact value for $\Lambda$ large enough.**
+
+The reference is to Connes 1999, Theorem 3 of Section V — i.e. the semilocal trace
+formula this note's I5 row rests on. Burnol sets $\Lambda=q^n$, $Q_n:=\widetilde{P_n}P_n$,
+and decomposes by the characters $\chi$ of the unit group. **Theorem XI** (`:255-260`)
+gives the kernel of $Q_n^\chi$ in closed form in every case. What matters here is not
+the kernel but what the *proof* (`:262-268`) says about the two projections
+separately:
+
+- **Ramified $\chi$** (`:262`): *"The action of $P_n$ is orthogonal projection to the
+  span of $\{z^j, j\leq n\}$ while the action of $\widetilde{P_n}$ is by Theorem I
+  orthogonal projection to the span of $\{z^j, j\geq e(\chi) + \delta -n\}$."* Two
+  projections onto coordinate subspaces of **the same orthonormal basis**.
+- **Trivial $\chi$, $2n\geq\delta$** (`:264`), with $\omega_j$ the normalised
+  indicator of the ball of radius $q^j$ and $L^2_1={\cal L}_n\oplus{\cal K}_n\oplus{\cal M}_n$:
+  *"$P_n$ cuts off ${\cal M}_n$, $\widetilde{P_n}$ cuts off ${\cal L}_n$, **so they
+  commute** and their combination $Q_n$ is just orthogonal projection to
+  ${\cal K}_n$."* The word is Burnol's, not mine.
+- **Trivial $\chi$, $0\leq2n<\delta$** (`:266`): here they do *not* commute; $Q_n$ is
+  the rank-one operator $\phi\mapsto q^{-(\delta-2n)/2}\langle\omega_n|\phi\rangle\,\omega_m$,
+  $m=\delta-n$. $\delta$ is the different exponent, so **this case is empty over
+  $\mathbb Q_p$**, where $\delta=0$.
+
+> **Reading (ours, and marked as such because Burnol does not phrase it this way).**
+> Over $\mathbb Q_p$ — $\delta=0$, so $2n\ge\delta$ always — the two cutoff
+> projections commute at every $\Lambda=p^n$. A commuting pair has
+> $P\widehat PP=P\widehat P$, a projection; its spectrum is contained in $\{0,1\}$;
+> Connes' angle $\Theta$ (defined at math/9811068 `:2735-2739` by
+> $\mathrm{Sin}(\Theta)=|P_1-P_2|$) takes only the values $0$ and $\pi/2$. There are
+> **no non-trivial angles, no plunge region, and hence no prolate family to find**.
+> The finite-dimensional space ${\cal K}_n$ is the whole story, and Burnol gives its
+> dimension (Theorem V, `:164`).
+
+So the single-finite-place question is not open, and has not been since 1999. It is
+answered **completely** — and the answer is that the object degenerates.
+
+**Independent corroboration from a different literature, abstract-level only.**
+K. Abhinav, Q. Jahan, *Gabor Orthonormal Bases with Maximal Localization and Gabor
+Frame Operator on Local Fields*, arXiv:2606.31355 (30 Jun 2026), abstract: *"an
+explicit construction of a Gabor orthonormal bases for a local field $K$ that provides
+maximal localization in both time and frequency. **Such a localization is not true in
+case of $\mathbb R$ due to the uncertainty principle.**"* Same phenomenon, reached
+from signal processing rather than from Tate's thesis. I read the abstract only.
+
+### 11.2 Why the one-place result does not transfer — the cutoff is by the *product* module
+
+This is the load-bearing distinction and it is definitional, so it is checkable
+without doing any mathematics. From Connes' 2026 survey, the endnote attached to the
+semilocal trace formula (`rhready.tex:1236-1240`), which is where $P^S_T$ and
+$\widehat P^S_W$ are defined:
+
+> the projections $P_T^S$ and $\widehat P_W^S$ are defined as in the archimedean case
+> **using the module** […] ${\rm Mod}_S(u):=|(u_v)_{v\in S}|_S=\prod|u|_v\in\mathbb R_+$
+
+$P^S_T$ cuts off the set $\{x\in\mathbb A_S : \prod_{v\in S}|x_v|_v\le T\}$. That is a
+single condition on a **product** of local absolute values, not a condition at each
+place, so $P^S_T\neq\bigotimes_{v\in S}P_{T_v}$ and Burnol's place-by-place
+computation says nothing about it. CCM use the same module and are explicit that the
+region is not a product — `mainc2m24fine.tex:766-767` states only an **inclusion**,
+$\eta_S(P_\lambda)\subset P^S_\lambda$, and its proof (`:778-781`) gets there by the
+one-way implication $\lambda<|x|=|y||u|\le|u|\Rightarrow|u|>\lambda$.
+
+**Consequence, stated flatly:** the one-place triviality of §11.1 is evidence that
+whatever difficulty the semilocal angle operator has is located **entirely in the
+coupling between places through the product module**, not in any individual place.
+Each finite place on its own contributes a commuting pair and one line of Sonin space
+(§2's local fact, CCM Prop. `soninppp`).
+
+### 11.3 Connes 1999 substitutes a construction for a spectrum at exactly this step
+
+A. Connes, *Trace formula in noncommutative geometry and the zeros of the Riemann
+zeta function*, arXiv:math/9811068, Selecta Math. **5** (1999) 29–106. Source file
+`zeta.tex` (5468 lines), read as primary source.
+
+Connes states the archimedean spectrum in full — Slepian–Pollak's plunge description,
+`:2809-2815`: the eigenvalues $\lambda_n$ of $P_\Lambda\widehat P_\Lambda P_\Lambda$
+*"are decreasing very slowly from $\lambda_0\sim1$ until the value $n\sim4\Lambda^2$
+of the index $n$, they then decrease from $\sim1$ to $\sim0$ in an interval of length
+$\sim\log(\Lambda)$ and then stay close to $0$"* — and uses it to define the subspace
+$B_\Lambda$. Immediately afterwards (`:2823-2830`):
+
+> We now know what is the subspace $B_\Lambda$ for the single place $\infty$, and to
+> obtain it **for an arbitrary set of places (containing the infinite one), we just
+> use the same rule as in the case of function fields**, i.e. we consider the map
+> $\psi\mapsto\psi\otimes1_R$, which suffices when we deal with the Riemann zeta
+> function.
+
+That sentence is the whole of the semilocal prescription in the 1999 paper, and it is
+a **construction, not a spectrum**: at the archimedean place $B_\Lambda$ is the span
+of the prolate functions $\psi_n$, $n\le4\Lambda^2$, cut off where the eigenvalues
+plunge; semilocally it is the image of that span under tensoring with $1_R$. Nothing
+is computed about the eigenvalues of the semilocal pair, then or since. The map
+$\psi\mapsto\psi\otimes1_R$ is CCM's $\eta_S$, and it is exactly the map §2 records as
+*"hilbertian", not unitary*. **This is the sharpest available statement of the gap,
+and it is in Connes' own text.**
+
+For completeness: the only other spectral remark in `zeta.tex` about this operator is
+`:2951-2977`, where Connes notes that the eigenvalues of $\Theta$ *"also play a key
+role in the theory of random unitary matrices"* via Mehta's expansion of $E(n,s)$ in
+the eigenvalues of $\widehat{P_\pi}P_t$. Archimedean, and a remark rather than a
+result used.
+
+### 11.4 CCM 2024: an explicit semilocal spectral measure — for a different operator
+
+The nearest thing to a semilocal spectral description in the literature is real, and
+it is worth stating precisely how far it falls short, because "CCM have nothing
+semilocal" would be wrong. From `mainc2m24fine.tex` (arXiv:2310.18423 v2, 4 May 2024;
+Ann. Funct. Anal. **15** (2024) no. 4, Paper 87), read as primary source:
+
+| what | where | status |
+|---|---|---|
+| An explicit semilocal spectral measure $dm_S(s):=\big\vert\prod_{v\in S}L_v(\tfrac12-is)\big\vert^2\,ds$, and a unitary ${\cal V}_S:L^2(X_S)^{K_S}\to L^2(\mathbb R,dm_S)$ putting the cyclic pair $(\mathfrak{Scal},\xi_S)$ in canonical form | `:787-790` (eq. `ms`), `:791-805` (Prop. `httransfoS`) | **proved** |
+| The pair is even; the grading is the semilocal Fourier transform ${\cal F}_S$ | `:793` | **proved** |
+| A semilocal Hermite operator $N_S$, eigenfunctions $\eta_S(P^S_n(x)e^{-\pi x^2})$, and $\mathfrak{Scal}$ a hermitian Jacobi matrix in that basis | `:828-840` (Thm. `hermsemiloc`) | **proved** |
+| The candidate $\mathbf W_{\lambda,S}=(H+\tfrac12)^2+\lambda^2N_S$ | `:843` | **definition** |
+| The Jacobi coefficients for general $S$ | `:259` | **deferred**: *"The computation of the coefficients of the hermitian Jacobi matrix of the cyclic pair for a general $S$ as above is deferred to a forthcoming paper."* |
+
+So there *is* an explicit spectral object semilocally, and its ingredients are the
+local $L$-factors on the critical line. **But it diagonalises the scaling operator
+$\mathfrak{Scal}$ with cyclic vector $\xi_S$, not $P^S\widehat P^SP^S.$** The link
+that would make it a spectral description of the angle operator is precisely the one
+that is missing:
+
+- **No commutation is claimed anywhere in the paper.** I grepped `commut` over all
+  1474 lines of `mainc2m24fine.tex`. Every hit is about the grading $\gamma$
+  anticommuting with $D$, the spectral-triple commutators $[D,f]$, or the two
+  commutative diagrams. **There is no statement that $\mathbf W_{\lambda,S}$ commutes
+  with $P^S_\lambda$ or $\widehat P^S_\lambda$** — which is what I8 needs and what
+  §3.1 says is absent.
+- CCM themselves call the Sonin-space match a **constraint on the search**, not a
+  theorem (`:266`): the archimedean coincidence of the Sonin space with the negative
+  part of the prolate spectrum *"gives another constraint in the search of the
+  semilocal analogue of the prolate operator."*
+- Remark `care` (`:845-861`) records the two ways the transport fails:
+  $N_S\circ\eta_S\neq\eta_S\circ N_\infty$ unless $S=\{\infty\}$, and
+  $|\bullet|_S^2\,\eta_S(f)\neq\eta_S(|\bullet|^2f)$, worked out for $S=\{p,\infty\}$.
+
+This is the same shape as §4's finding one level down: an **announced** strategy with
+a proved framework under it and the computable content deferred.
+
+### 11.5 Where I looked and found nothing — so this can be told from an unexamined negative
+
+The standard is §9.3's. Searches quoted; counts are what the interfaces returned on
+2026-08-12.
+
+**1. arXiv full-text metadata, the two obvious names.** `all:"prolate" AND
+all:"p-adic"` → **0 results**. `all:"Slepian" AND all:"p-adic"` → **0 results**.
+`all:"prolate" AND (all:"adele" OR all:"adelic")` → **2 results**, both the same
+group and both false friends (next item). `all:"Sonin space"` → 6 results: CCM
+arXiv:2112.05500 and arXiv:2310.18423, two Burnol papers, Connes–Consani
+arXiv:2008.10974, and Blower arXiv:math/0605010 (unitary-ensemble spectral edges) —
+nothing new.
+
+**2. False friends, named because they are what a repeat of this search will hit
+first.**
+
+- **"Adelic Grassmannian" is not adelic.** Casper–Grünbaum–Yakimov–Zurrián,
+  *Reflective prolate-spheroidal operators and the adelic Grassmannian*
+  (arXiv:2003.11616), and its companion arXiv:1909.01448, are about **Wilson's
+  adelic Grassmannian** of the KP hierarchy. The word has no relation to the adeles
+  of a number field. This is genuinely the deepest modern work on *why* commuting
+  differential operators exist for time-band limiting (bispectrality / Darboux), and
+  it is the right place to look for a mechanism — but it is not a p-adic or adelic
+  result and gives nothing about $P^S\widehat P^SP^S$. Abstract-level.
+- **"p-adic uncertainty principle" mostly means the wrong Hilbert space.**
+  arXiv:2506.18913 (*p-adic Ghobber-Jaming Uncertainty Principle*) and
+  arXiv:2210.10941 (*Spectral theory of p-adic Hermite operator*) work in Hilbert
+  spaces **over** a p-adic ground field, not in $L^2(\mathbb Q_p,\mathbb C)$, which is
+  the space this note's operator acts on. Abstract-level; not pursued further.
+- **"Local field" collides with neurophysiology.** `abs:"local field" AND
+  abs:"time-frequency"` returns local field *potentials* — six of six hits. Any search
+  in this area must pin the number-theoretic sense.
+
+**3. Citation-forward from Burnol's paper.** Semantic Scholar lists **13** citations
+of arXiv:math/9901051. **Eight are Burnol's own** later papers. The rest are Volovich
+(2019, integrable systems), Khrennikov (2018, ultrametric pseudodifferential
+equations), Chacón-Cortés (2015, p-adic Laplacians), Biane (2009, OPUC and discrete
+Painlevé) — p-adic mathematical physics and orthogonal polynomials. **None extends
+the computation to several places, and none mentions the semilocal setting.**
+
+**4. Neither CCM nor Connes cites the paper that answers the one-place case.** I
+checked both bibliographies directly. `mainc2m24fine.tex` cites Burnol at `:1413`,
+`:1415`, `:1417` and `rhready.tex` at `:1380-1393`; in both cases the entries are the
+**same three** archimedean/de Branges papers — the two C. R. Acad. Sci. notes on
+Sonine spaces (2001, 2002) and the J. Théor. Nombres Bordeaux paper (2004). The
+p-adic scattering paper does not appear in either. That is not a criticism — the
+Sonine papers are what they need — but it means the one-place computation is
+**outside the corpus's citation graph**, and it is why §8's original absence-finding
+missed it.
+
+**5. Citation-forward from CCM's semilocal paper, for the deferred coefficients.**
+Semantic Scholar lists **9** citations of arXiv:2310.18423: Connes' own survey and
+*Zeta Spectral Triples*, Connes–van Suijlekom, Suzuki (2023, *On the Hilbert space
+derived from the Weil distribution*), Meynig (2025, spheroidal eigenvalue asymptotics),
+Groskin (2026), Glazunov (2026, ×2). **None computes the semilocal Jacobi
+coefficients.** Consistent with §9.3's finding that the forthcoming paper has not
+appeared.
+
+**What this negative does not cover.** arXiv and Semantic Scholar. Semantic Scholar's
+citation lists are not exhaustive and under-report non-arXiv venues, so a
+journal-only paper could be missed; the two personal pages §9.3 could not reach
+(`math.jhu.edu/~kc`, `alainconnes.org`) were not retried. I read Burnol's other
+1998–2003 local-field papers (arXiv:math/9811040 *Spectral Analysis of the local
+Conductor Operator*, arXiv:math/9812012 *…local Commutator Operators*,
+arXiv:math/0001013 *An adelic causality problem related to abelian L-functions*, J.
+Number Theory **87** (2001) 253–269) **at abstract level only**. They are the nearest
+adjacent objects — the conductor operator $H=\log|q|+\log|p|$ and its commutators,
+whose spectral functions Burnol identifies with the logarithmic derivative of the
+Tate–Gel'fand–Graev Gamma function on the critical line — but they are an *additive*
+combination of the two localisations, not the *compression* $P\widehat PP$, and I did
+not read their bodies. `math/0001013` is adelic and Lax–Phillips and is the single
+most likely place for a semilocal statement to be hiding; **it is the obvious next
+check for anyone who wants to tighten this.**
+
+### 11.6 Consequence for the direction question
+
+Recorded, not argued — the (a)/(b)/(c) call is Daniel's (vision document, amendment
+5). The two facts that bear on it:
+
+- **(a) is not work on an untouched object at one finite place.** That case is closed
+  and degenerate, and has been since Burnol 1999. Anyone starting there would
+  rediscover a commuting pair.
+- **(a) *is* work on an untouched object semilocally**, and §11.2 says why the two
+  are not the same question: the semilocal cutoff is a single condition on the product
+  module. So the named gap — cancellation between places — and the missing spectral
+  description are **the same difficulty seen twice**, which is a point in (a)'s
+  favour, not against it.
+
+Per the ticket, no mathematics was attempted; §11.1's one derived sentence is marked
+as a reading and does nothing but restate Burnol's own word "commute".
