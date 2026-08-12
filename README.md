@@ -77,10 +77,26 @@ cite them by line.
   size \(\approx0.025\log\mu\), with every prime power below \(\mu\) individually
   indispensable — is a sharpening of the positivity obstruction that does not depend
   on the semilocal theorem.
+- `prolate-rate.md` — asks whether that decay is genuinely governed by a prolate
+  concentration defect, and if so which one. Finds that it is, but at prolate index
+  **4**, not index 0: the index is forced by the domain \(f(0)=\widehat f(0)=0\) of
+  Connes' summation map together with the finite-Fourier phase, and it is
+  Connes–Consani's own \(\phi_2\). Against the index-0 defect the ratio is
+  \(5\times10^{8}\) to \(2.8\times10^{10}\) and grows by a factor \(56\); against the
+  index-4 defect it is \(7.6\) to \(13.0\), and after the truncation bias is
+  extrapolated away it has no trend left. Records that the rate \(4\pi\) itself
+  **cannot discriminate** — Fuchs' \(e^{-2c}\) does not depend on the index, so every
+  candidate passes that test — and that the power \(9/2\) and the constant, which do
+  discriminate, are already published in Connes' 2026 survey. Carries Connes–Consani's
+  construction to an identity: the Weil form at the prolate vector *is* the Weil form
+  of the part that falls outside the window. And finds that the rate cannot be made a
+  theorem: a rate is two-sided, and its lower half is a positive lower bound on the
+  Weil form for all \(\lambda\), which is equivalent to RH.
 
 `s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
-`verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md` and
-`deficit-repair.md` have ones using `mpmath` in arbitrary precision and no numpy;
+`verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md`,
+`deficit-repair.md` and `prolate-rate.md` have ones using `mpmath` in arbitrary
+precision and no numpy;
 `signed-geometry-proposals.md` and `citation-audit.md` are
 structural and have none. The first three notes were written offline and say so;
 `citation-audit.md` is the pass that checks them, `index-convention.md` closes one item

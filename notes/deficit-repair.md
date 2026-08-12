@@ -437,6 +437,33 @@ is exponential in $\mu$ at a rate consistent with $4\pi$, which is the Slepian
 rate at their own prolate parameter $c=2\pi\mu$.** What is not claimed is that
 the rate *is* $4\pi$; T2 and T3 in §9 are the two things that would settle it.
 
+> **NARROWED 2026-08-12 by mg-fcb8 — [`prolate-rate.md`](prolate-rate.md).
+> Three corrections, and the identification comes out stronger, not weaker.**
+>
+> 1. **The index is 4, not 0.** The near-radical vector for the smallest *even*
+>    eigenvalue is Connes–Consani's $\phi_2=\psi_2\psi_0(0)-\psi_0\psi_2(0)$
+>    (`Spectraltriples.tex:744`), and their $\psi_2=\mathit{PS}_{4,0}$. Index 4
+>    is forced by $\mathcal E$'s domain $f(0)=\widehat f(0)=0$ together with the
+>    finite-Fourier phase — mg-aedf's mode-4 selection, in the prolate rather
+>    than the Hermite limit. Measured: $s/(1-\Lambda_0)$ runs $5\times10^8$ to
+>    $2.8\times10^{10}$ and *grows* by a factor $56$; $s/(1-\chi_2)$, with
+>    $\chi_2=\sqrt{\Lambda_4}$, runs $7.6$ to $13.0$.
+> 2. **"No rate is given there or anywhere else in the paper" is true of
+>    arXiv:2106.01715 and false of the survey.** Connes, `rhready.tex:1149`
+>    (Feb 2026), states $1-\chi_2\sim\frac{2^{14}\sqrt2\,\pi^5}{3}\mu^{9/2}
+>    e^{-4\pi\mu}$ from Fuchs Thm 1, and reports a "striking similarity" between
+>    $\epsilon(\lambda)$ and $1-\chi_2$ — as a figure, with no constant. The
+>    rate, the $9/2$ and the constant are his; the quantitative confrontation
+>    with $s(\mu)$ is ours.
+> 3. **The rate cannot discriminate.** Fuchs' factor $e^{-2c}$ does not depend
+>    on the index, so *every* prolate index passes the $0.12\sigma$ test. What
+>    discriminates is the power $n+\tfrac12$ and the constant — and at index 4
+>    all three fitted parameters land within $1\sigma$, with none of them free.
+>
+> One anchor correction while here: `:184` above should be `:191`. The prolate
+> identification $\psi_{m,\lambda}=\mathit{PS}_{2m,0}(2\pi\lambda^2,x/\lambda)$
+> is at `Spectraltriples.tex:191`, re-read on this pass; `:189` in §6 is right.
+
 ### 5.1 Their one published number
 
 At $\mu=11$ the smallest positive eigenvalue is $2.389\times10^{-48}$
@@ -582,6 +609,13 @@ checked against Slepian's papers on this pass. It enters only the *interpretatio
 of the fitted constant $A$, never its measurement, and §5 marks the
 identification as indicated rather than proved.
 
+> **mg-fcb8: and it is quoted at the wrong index.** Fuchs at index $n$ is
+> $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$, and the index that governs $s$ is $n=4$.
+> The general-$n$ form is now checked against an arbitrary-precision computation
+> of $\Lambda_0,\Lambda_2,\Lambda_4$ — `verify_prolate_rate.py` check 1 — and
+> against Connes' independently printed constant, which is exactly $\tfrac12$
+> Fuchs at $n=4$, $c=2\pi\mu$. Fuchs' paper itself is still not read.
+
 ---
 
 ## 9. Open, and left open deliberately
@@ -589,8 +623,8 @@ identification as indicated rather than proved.
 | # | item | why it is open |
 |---|---|---|
 | **T1** | Is $D(\mu)\to-2\vartheta'(0)$ exactly, or to something strictly smaller? | The saturation is numerical to $\mu=10^{20}$ and the gap is still $0.089$. The limit argument (concentrate $\widehat f$ at $t=0$ while killing the boundary term with an $O(e^{-L/4})$ correction near $\pm L/2$) is sketched and not written out. It would make §2 a clean two-sided theorem |
-| **T2** | Prove the rate $4\pi$ | §5 is a fit plus a heuristic. The route would be to evaluate $QW_\lambda$ directly on Connes–Consani's prolate near-radical vectors rather than on the numerical eigenvector — which is their §`riemweilexpl`, so this is a question about *their* construction and may already be within reach of it |
-| **T3** | The $B=5.32$ in the fit | Not the $\tfrac12$ the naive Slepian prefactor predicts. Either the subleading structure differs or the fit is absorbing a truncation drift. Distinguishing them needs $s(\mu)$ converged in $N$, which is the expensive direction |
+| **T2** | ~~Prove the rate $4\pi$~~ — **SPLIT by mg-fcb8** | The route named here was right: `prolate-rate.md` §6 evaluates $QW_\lambda$ on the prolate vector and gets an *identity*, $QW_\lambda(g)=\sum_Z\lvert\mathcal F_\mu r\rvert^2$ with $r$ the part of $\mathcal E\phi$ falling outside $[\lambda^{-1},\lambda]$. But the goal is unreachable as stated. A rate is two-sided, and its lower half is a positive lower bound on $\lambda_{\min}(QW_\lambda)$ for every $\lambda$ — which **is equivalent to RH** (`rhready.tex:1145`). What remains open is **T2a**: the mean-value bound over the zeros that gives the upper half |
+| **T3** | ~~The $B=5.32$ in the fit~~ — **CLOSED by mg-fcb8** | Neither horn. The prediction was never $\tfrac12$: at the forced index the Slepian prefactor is $n+\tfrac12=9/2$, stated independently by Connes at `rhready.tex:1149`, and the fit is $0.86\sigma$ from it. This row was the index-0 hypothesis leaving its one visible mark |
 | **T4** | The odd sector | Everything here is $\sigma^+$, as Connes–Consani's sensitivity sections are. They report the odd matrix behaves similarly with one fewer small eigenvalue (`:664`). Not checked here |
 | **T5** | Is the sign reversal of §4.2 stable in $\mu$? | Verified for $5\le\mu\le12$. It is the load-bearing structural claim of the note and the range is short |
 
