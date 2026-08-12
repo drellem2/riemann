@@ -74,16 +74,16 @@ mode-selection result changes. The phase-matching condition is $n\equiv0\pmod 4$
 
 Daniel's forthcoming examples should state the indexing explicitly.
 
-> **Still open — audit U6 (`citation-audit.md` §7).** The citation audit sharpened this
-> falsifier without settling it, and it is recorded here as open rather than dropped.
-> Connes–Consani index their two-mode combinations by
-> $\psi_{m,\lambda}:=\mathrm{PS}_{2m,0}$, so **their $m$ is half the prolate index**.
-> The script here uses prolate index 4, i.e. their $m=2$. If `start.tex:138-145` means
-> *their* $m=4$, it is prolate index 8 and every constant in this note changes. What
-> survives either reading is §3's phase rule, since both candidate indices are
-> $\equiv0\pmod4$; what does not survive is the $8/11$ of §2. So the falsifier above is
-> not hypothetical — there is a live second reading in the published source, and only
-> Daniel can close it.
+> **SETTLED 2026-08-12 — audit U6 closed by mg-9433; see §8 and `index-convention.md`.**
+> The reading assumed throughout this note — prolate index 4 — is the corpus's. The
+> alarm was real: Connes–Consani do index by $\psi_{m,\lambda}:=\mathrm{PS}_{2m,0}$, so
+> *their* $m$ is half the prolate index, and *their* $m=4$ would be prolate index 8.
+> But `start.tex:138-145` transcribes **Connes–Consani–Moscovici's** $\psi^+_\ell$ at
+> $\ell=1$ (arXiv:2310.18423 source line 624), which combines the **Hermite** functions
+> $h_0$ and $h_{4\ell}$ in the full index — same letter $h$, both subscripts, and "the
+> CCM choice of coefficients" is that formula's $-h_4(0)/h_0(0)$. So every constant
+> below stands. The falsifier above is answered, not retired: its first branch holds,
+> and `index-convention.md` §5 records what the second would have cost.
 
 ---
 
@@ -319,7 +319,7 @@ The documents do not say which, and the two readings give materially different p
 This is a definition to write down, not a theorem to prove, and it gates the value of
 everything in §§2–4. **It is the cheapest high-value item on this list.**
 
-### On #5 — the numerical sign computation has a narrow window
+### On #5 — the numerical sign computation has a narrow window *(narrowed by §8)*
 
 mg-8888's recommended next target was to compute $\mathrm{sign}(C_\lambda)$ numerically.
 The audit measured the feasibility, and it is tighter than it looks:
@@ -401,3 +401,51 @@ This does not displace "compute $\mathrm{sign}(C_\lambda)$ and the true exponent
 
 `s3.tex:183` remains accurate: what is left is the sign and the leading arithmetic
 coefficient. Nothing found here supplies either.
+
+---
+
+## 8. Outcome of the index question, and one correction to §5 (added 2026-08-12, mg-9433)
+
+*Appended, not merged into the text above, so that what this note concluded on its own
+evidence stays legible. Full account: [`index-convention.md`](index-convention.md);
+companion script [`verify_index_convention.py`](verify_index_convention.py).*
+
+**The index question (§0 falsifier, audit U6) is settled in this note's favour.** The
+corpus's $h_{4,\lambda}$ is prolate index 4. Every constant here stands: $8/11$,
+$3/11$, $\sqrt{3/8}$, $\pi^{-1/4}$, $\tfrac{3}{512}c^{-4}$, and the boxed signed
+formula at `:278`. Nothing in §§1–7 is rewritten because nothing needs to be.
+
+**How it was settled is not how the ticket expected, and that is worth recording.**
+`start.tex:180-181` — the identity §0 offers as evidence for the reconstruction —
+**cannot** discriminate. In arbitrary precision it holds *exactly*, to full working
+precision, for **every** partner mode $m\equiv0\pmod4$ and fails by four to twenty
+orders of magnitude for **every** $m\equiv2\pmod4$. It is algebraically equivalent to
+$i^{\,m}=+1$ and carries no further information. So §0's "reproduces to 8 significant
+figures … a formula that specific is not matched by coincidence" is right that the
+reconstruction $\chi_n=\sqrt{\Lambda_n}$ is confirmed, and wrong to read the agreement
+as pinning the index — prolate index 8 reproduces it just as exactly. The "8 figures"
+was a double-precision artefact; the true residual is roundoff at any precision.
+
+What settled it was documentary: the corpus's vector is Connes–Consani–**Moscovici's**
+$\psi^+_\ell:=h_{4\ell}-\frac{h_{4\ell}(0)}{h_0(0)}h_0$ at $\ell=1$ (arXiv:2310.18423,
+source line 624), in **Hermite** functions indexed in full, transported to finite
+$\lambda$ by that paper's own line 616. §2's $\sqrt{3/8}$ corroborates it exactly:
+CCM's closed form $h_{2n}(0)=(-1)^n2^{1/4-n}\sqrt{(2n)!}/n!$ gives
+$h_4(0)/h_0(0)=\sqrt{3/8}$, the number §2 derived independently from the Hermite limit.
+
+**Correction to §5.** The double-precision ceiling measured there ("$\sim10\%$ wrong at
+$c=16$ … meaningless at $c=20$") is a property of the **sinc-kernel implementation**,
+not of the identity. On the differential-operator route §5 itself recommends
+(`:340-345`), double precision holds the identity to 12 digits at $c=16$ and 10 digits
+at $c=20$, degrading to $\sim10^{-5}$ only by $c=24$. §5's headline — that the sign
+computation needs arbitrary precision — survives for any computation reaching large
+$c$, since the cancellation $\chi_m-\chi_0\sim1-\Lambda_0\sim e^{-2c}$ is real and
+unavoidable. What does not survive is the specific window $10\le c\le14$.
+
+**Still Daniel's, and unchanged:** §7's item 1 ("state whether $h_4$ is the 4th prolate
+of order zero"). The corpus is *internally consistent* under prolate index 4; it does
+not follow that the two available labels were noticed. And `:73`'s third falsifier
+branch — $h_{4,\lambda}$ as "the 4th eigenvector of $W_\lambda$" — is now heavily
+constrained (it would have to be a single even prolate with positive finite-Fourier
+eigenvalue) but not formally excluded, because the corpus never defines $W_\lambda$.
+That is Gate 2.

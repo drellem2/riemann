@@ -498,7 +498,7 @@ Two facts from this sweep are directly actionable:
 | U3 | Slepian 1965 uniform-error version of the Hermite limit | Source confirmed (J. Math. and Phys. **44** (1965) 99–140); the *uniform* error statement mg-aedf attributes to it (`s3-reduction-audit.md:155-156`) not checked — paywalled |
 | U4 | Fuchs 1964, the exact constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$ | Source confirmed (JMAA **9** (1964) 317–330); the constant not checked against the paper. mg-aedf verified the $c^{-4}$ *ratio* numerically at $c=8\ldots14$ and reported the constant "converging (slow)" (`s3-reduction-audit.md:183-185`), which is consistent with but not a check of the formula |
 | U5 | "the 2023 trace formula" (`start.tex:46,242,425`) | Two candidates (§4.1), and the phrase is used for the thing to be *specialised to $h_\lambda$* at `start.tex:244-246,425`. Which paper is meant determines whether step 1 of `start.tex:348-356` is a computation in Connes–Consani 2023 or in CCM 2310.18423. Only Daniel can say |
-| U6 | whether the corpus's $h_{4,\lambda}$ means prolate index 4 or Connes–Consani's index $m=4$ | Their $\psi_{m,\lambda}:=\mathrm{PS}_{2m,0}$, so their $m$ is half the prolate index. mg-aedf's scripts use prolate index 4 (their $m=2$). If `start.tex:138-145` means their $m=4$, it is prolate index 8 and every constant in mg-aedf changes. The phase rule is unaffected (both are $\equiv0\bmod4$); the $8/11$ is not |
+| U6 | ~~whether the corpus's $h_{4,\lambda}$ means prolate index 4 or Connes–Consani's index $m=4$~~ **CLOSED 2026-08-12, mg-9433 — prolate index 4** | Their $\psi_{m,\lambda}:=\mathrm{PS}_{2m,0}$, so their $m$ is half the prolate index, and the collision was real. But `start.tex:138-145` transcribes **Connes–Consani–Moscovici's** $\psi^+_\ell:=h_{4\ell}-\frac{h_{4\ell}(0)}{h_0(0)}h_0$ at $\ell=1$ (arXiv:2310.18423 source line 624), in Hermite functions indexed in full — same letter $h$, both subscripts, and "the CCM choice of coefficients" is that formula. mg-aedf's constants stand. Note the method: `start.tex:180-181` **cannot** discriminate — it holds exactly for every $m\equiv0\bmod4$ — so this was settled from the sources, not numerically. See §10 and [`index-convention.md`](index-convention.md) |
 | U7 | whether Connes–Consani anywhere size the residual $\hat\varphi(0)$ | I read §3 and §2.5 and the abstract. They state $\chi_m\simeq(-1)^m$ for $m\le\nu(\mu)$ and "act as if" the Poisson relation were exact; I found no error term. Absence of evidence over ~40 pages skimmed, not a proof of absence. §4.4 item 1 rests on this |
 | U8 | the $c_{\text{ours}}=2\pi c_{\text{Groskin}}$ dictionary | Argued in §5 from the two definitions ($\gamma=2\pi\lambda^2$; $L=\log c$ vs $L=2\log\lambda$). Neither paper states it. One numerical check would settle it |
 | U9 | Bonami–Karoui volume/pages | Constr. Approx. **43** (2016), Springer; exact page range not confirmed |
@@ -580,3 +580,67 @@ Figure 22–24 captions ("Eigenvector for the smallest eigenvalue of $QW_\lambda
 no operator $Q$ is ever introduced and $W_\lambda$ is defined by their eq. (3.3) as the
 prolate operator. It is checkable in one minute by anyone with the paper, which is the
 standard the rest of this note is written to.
+
+---
+
+## 10. Appendix — U6 closed, and §4.3 checked against source (added 2026-08-12, mg-9433)
+
+*Appended. Nothing above is deleted; the U6 row in §7 is annotated in place.
+Full account: [`index-convention.md`](index-convention.md).*
+
+### U6 is closed: prolate index 4
+
+`start.tex:138-145` transcribes **Connes–Consani–Moscovici's**
+$\psi^+_\ell:=h_{4\ell}-\frac{h_{4\ell}(0)}{h_0(0)}h_0$ at $\ell=1$ (arXiv:2310.18423,
+source `mainc2m24fine.tex` line 624), built from **Hermite** functions in the full
+index — CCM state $\fourier_{e_\R}(h_{2m})=(-1)^mh_{2m}$ at line 622 and transport the
+$h_{2n}$ to finite $\lambda$ as the prolate operator's eigenfunctions at line 616. Same
+letter $h$, both subscripts, and "the CCM choice of coefficients" (`start.tex:147`) is
+that formula's $-h_4(0)/h_0(0)$. mg-aedf's constants stand unchanged.
+
+**Correction to §4.2 row 8.** That row maps `start.tex:138-145` to Connes–Consani's
+$\varphi_{2n}$. The *construction* correspondence is right and the "mirrored endpoint"
+verdict is right — CC impose $\varphi_n(0)=0$ and carry the residual on the Fourier
+side; the corpus imposes $\widehat h_\lambda(0)=0$ and carries it at the endpoint. But
+the **labelling** the corpus uses is CCM's, not CC's, and that is the whole of U6: under
+CC's $\psi_{m,\lambda}:=\mathrm{PS}_{2m,0}$ the same object is $\psi_{2,\lambda}$, not
+$\psi_{4,\lambda}$.
+
+**Method note, because it matters for anyone re-checking.** `start.tex:180-181` —
+the identity that looked like a discriminator — **cannot** settle this. In arbitrary
+precision it holds exactly for **every** partner mode $m\equiv0\pmod4$ and fails for
+every $m\equiv2\pmod4$; it is equivalent to $i^{\,m}=+1$ and carries one bit. U6 was
+settled from the sources, not numerically.
+
+### §4.3 confirmed from primary source, both halves
+
+The claim §9 flags as the most damaging if wrong. Read from `Spectraltriples.tex`
+(arXiv:2106.01715 LaTeX source), not from rendered HTML:
+
+- **line 169:** "By semi-local Weil quadratic form we mean the restriction $QW_\lambda$
+  of the sesquilinear form …". $QW_\lambda$ is a single symbol, defined as the Weil
+  quadratic form. No operator $Q$ appears in the paper.
+- **lines 713, 717:** `({\bf W}_{\lambda}\psi)(q)=-\partial((\lambda^2-q^2)\partial)\ldots`;
+  "The operator ${\bf W}_{\lambda}$ … is selfadjoint and positive and its eigenfunctions
+  are the prolate spheroidal wave functions."
+
+And the mechanism of the corpus's error is now visible: `W_\lambda` occurs 41 times in
+that file, **every one inside `QW_\lambda`**, while the prolate operator occurs 4 times
+and only in **bold**, `{\bf W}_{\lambda}`. Two different objects in one section,
+separated by a font. §4.3 stands as written and can be quoted.
+
+### Gate 1's published-reading answer is now verbatim, not inferred
+
+§4.4 / the vision document read *finitely many primes* off Figures 7–17. Line 169 says
+it: $QW_\lambda$ "only involves primes less than, say, $\lambda^2$". That is the middle
+branch of `signed-geometry-proposals.md:388-389`, and it upgrades the partial answer at
+`:399-404` from a reading of figures to a statement in the text. Still Daniel's to
+confirm that it is what `start.tex` means.
+
+### Provenance of this appendix
+
+All four items above are from arXiv LaTeX sources downloaded from `arxiv.org/e-print/`
+and read directly — `Spectraltriples.tex` (2106.01715) and `mainc2m24fine.tex`
+(2310.18423, 99,875 bytes, dated 2024-05-04). Line numbers are lines of those files.
+This is a stronger provenance than §9 records for the same passages, which is why items
+this note left open can be closed here. It is not the published journal text.

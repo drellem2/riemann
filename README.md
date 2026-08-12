@@ -40,10 +40,17 @@ cite them by line.
   literature. Finds that the objects of `start.tex` §§1,3 are those of
   Connes–Consani, *Spectral triples and \(\zeta\)-cycles* (2023), in that paper's
   own notation.
+- `index-convention.md` — settles which prolate mode the corpus's \(h_{4,\lambda}\)
+  denotes, an ambiguity the citation audit left open and on which every constant in
+  `s3-reduction-audit.md` depends. Finds prolate index 4, and finds that the identity
+  at `start.tex:180-181` cannot decide it: in arbitrary precision that identity holds
+  exactly for every mode \(\equiv 0 \bmod 4\).
 
-The first two have a companion `verify_*.py` (numpy) reproducing their numbers;
-the last two are structural and have none. The first three were written offline
-and say so; `citation-audit.md` is the pass that checks them.
+`s3-reduction-audit.md` and `s3-sign-blindness.md` have a companion `verify_*.py`
+(numpy); `index-convention.md` has one using `mpmath` in arbitrary precision and no
+numpy; `signed-geometry-proposals.md` and `citation-audit.md` are structural and have
+none. The first three were written offline and say so; `citation-audit.md` is the pass
+that checks them, and `index-convention.md` closes one item it left open.
 
 The specific research target is still being chosen. Expect the contents to
 change substantially.
