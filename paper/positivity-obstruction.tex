@@ -1,0 +1,1705 @@
+% The prolate mechanism is sign-blind --- a sharpening of the positivity obstruction.
+%
+% DRAFT.  Assembled 2026-08-12 (work item mg-8b7b) from the notes in ../notes/.
+% Not a submission.  Publication is not decided by this document.
+%
+% Build:  pdflatex positivity-obstruction.tex   (twice, for cross-references)
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1.05in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,%
+            urlcolor=blue!45!black]{hyperref}
+\sloppy
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{hypothesis}{Hypothesis}
+\renewcommand{\thehypothesis}{H\arabic{hypothesis}}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% --- status and attribution tags ------------------------------------------
+% Every load-bearing statement in this paper carries one status tag and one
+% attribution tag.  See section 1.5 for what the words mean.
+\newcommand{\st}[1]{{\normalfont\sffamily\footnotesize[#1]}}
+\newcommand{\proved}{\st{proved}}
+\newcommand{\announced}{\st{announced}}
+\newcommand{\observed}{\st{observed}}
+\newcommand{\conj}{\st{conjectural}}
+\newcommand{\ours}{{\normalfont\sffamily\footnotesize[ours]}}
+\newcommand{\theirs}[1]{{\normalfont\sffamily\footnotesize[#1]}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\PS}{\mathit{PS}}
+\newcommand{\Sonin}{\mathbf{S}}
+\newcommand{\QW}{QW}
+\newcommand{\file}[1]{\path{#1}}
+
+% keep macros out of PDF bookmark strings
+\pdfstringdefDisableCommands{%
+  \def\QW{QW}\def\E{E}\def\F{F}\def\R{R}\def\Q{Q}\def\Z{Z}\def\A{A}%
+  \def\PS{PS}\def\Sonin{S}\def\file#1{#1}%
+}
+
+\title{The prolate mechanism is sign-blind:\\
+a sharpening of the positivity obstruction}
+
+\author{\normalsize (draft --- author line deliberately left blank)}
+\date{Draft of 12 August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Connes and Consani exhibit, numerically, a family of minuscule eigenvalues
+$s(\mu)$ of the semi-local Weil quadratic form $\QW_\lambda$ restricted to test
+functions supported in $[\lambda^{-1},\lambda]$, $\mu=\lambda^2$, and locate the
+mechanism behind them: the radical of $\QW_\lambda$ contains the range of the
+summation map $\E$, and the failure of the double support condition is a
+Slepian concentration defect.  This paper does three things.  First, it
+assembles what is \emph{proved} in that circle of ideas and separates it from
+what is announced, observed, or conjectural, claim by claim and number by
+number.  Second, it makes the size of $s(\mu)$ quantitative: $s(\mu)$ is
+governed by the prolate concentration defect at index~$4$ --- not index~$0$ ---
+with $s/(1-\chi_2)$ between $7$ and $13$ over $\mu=5,\dots,12$, and the
+underlying construction is carried to an identity, $\QW_\lambda$ at the prolate
+vector \emph{is} the Weil form of the part of $\E(\phi)$ that falls outside the
+window.  Third, and this is the point, it observes that the entire mechanism is
+invariant under $\QW_\lambda\mapsto-\QW_\lambda$.  A kernel is a kernel either
+way; a concentration defect is a magnitude.  So the mechanism explains why
+$|s(\mu)|$ is minuscule and says nothing whatever about why $s(\mu)>0$ --- and
+that sign-blindness is exactly what forces the missing lower bound to carry the
+whole arithmetic content.  Since a lower bound on $s$ of any shape is equivalent
+to the Riemann Hypothesis, the decay rate $4\pi$ cannot be made an unconditional
+theorem, and no computation can change that.  What remains is a genuine
+sharpening of the obstruction, stated as three explicit constraints on method:
+no fixed-relative-error argument can work; no prime below $\mu$ may be dropped
+and no tail estimated at any cutoff; and the difficulty is cancellation, not
+magnitude --- the archimedean deficit is bounded by
+$\log\pi-\psi(\tfrac14)=5.3721834\ldots$ for every $\mu$.
+\end{abstract}
+
+\noindent
+\textbf{Status of this document.}  This is a draft.  It is not a submission, and
+nothing in it has been sent anywhere.  It assembles the working notes produced
+in this project's repository on 12 August 2026 (listed in \S\ref{sec:provenance});
+each section names the note it comes from, so every claim below can be traced to a source or to a script
+without asking the authors anything.  Where a claim is not ours, it is marked so
+at the point of use.
+
+\tableofcontents
+
+% ==========================================================================
+\section{Introduction}
+% ==========================================================================
+
+\subsection{The object}
+
+Let $\lambda>1$, $\mu=\lambda^2$, $L=2\log\lambda=\log\mu$.  Connes and
+Consani's \emph{semi-local Weil quadratic form}
+(\cite{CC2023}, source line \file{Spectraltriples.tex:169}, eq.\ \texttt{weilQ}) is
+\begin{equation}\label{eq:QW}
+  \QW(f,g)=\sum_{\frac12+is\in Z}\overline{\widehat f(\bar s)}\,\widehat g(s),
+  \qquad
+  \widehat f(s)=\F_\mu(f)(s)=\int_{\R_+^*}f(u)\,u^{-is}\,d^*u ,
+\end{equation}
+with $Z$ the set of non-trivial zeros of $\zeta$; $\QW_\lambda$ denotes its
+restriction to test functions supported in $[\lambda^{-1},\lambda]$.  The symbol
+$\QW_\lambda$ is \emph{one symbol} --- $Q$ for quadratic form, $W$ for Weil.
+There is no operator $Q$ in this literature (\S\ref{sec:onesymbol}).  By Weil's
+criterion, positivity of $\QW_\lambda$ for all $\lambda>1$ is equivalent to the
+Riemann Hypothesis (\cite{CC2023} at \file{:169}; \cite{Connes2026} at
+\file{rhready.tex:1145}). \proved
+
+By Proposition \texttt{Hilbert} of \cite{CC2023} (\file{:289}, proved there),
+$\QW_\lambda$ has the Hilbert-space form
+\begin{equation}\label{eq:hilbert}
+  \QW_\lambda(f,f)=
+  \underbrace{\int|\widehat f(t)|^2\,\frac{2\vartheta'(t)}{2\pi}\,dt
+  \;+\;2\,\Re\!\big(\widehat f(\tfrac i2)\overline{\widehat f(-\tfrac i2)}\big)}
+  _{\textstyle \sigma^{\mathrm{arch}}}
+  \;-\;\sum_{1<n\le\mu}\Lambda(n)\,\langle f\mid V(n)f\rangle ,
+\end{equation}
+$\vartheta$ the Riemann--Siegel theta function and $V(n)$ the compression to
+$[\lambda^{-1},\lambda]$ of $n^{-1/2}(\vartheta_n+\vartheta_{n^{-1}})$.  In the
+even sector (parity under $u\mapsto u^{-1}$) the truncated form is a matrix
+$\sigma^+$, and we write
+\[
+  s(\mu):=\lambda_{\min}(\sigma^+),
+\]
+which is Connes--Consani's $s(L)$ at \file{:645} and, read as
+$\min(s^+,s^-)$, Connes' $\epsilon(\lambda)$ at
+\file{rhready.tex:1145}--\file{:1147}.
+
+\subsection{The question, and the thesis}
+
+Connes and Consani report that $s(\mu)$ decays exponentially in $\mu$ and
+display it as a figure; at $\mu=11$ the smallest positive eigenvalue is
+$2.389\times10^{-48}$ (\file{:178}).  Connes' 2026 survey reports ``a striking
+similarity'' between $\epsilon(\lambda)$ and the angular function
+$1-\chi_2(\lambda)$, again as a figure, with no constant
+(\file{rhready.tex:1149}). \observed
+
+The natural programme is to convert that similarity into an estimate and the
+estimate into a proof of positivity.  This paper reports how far that goes and
+where it stops, and the stopping point is structural rather than technical:
+
+\begin{quote}
+\textbf{Thesis.}  The prolate mechanism --- the radical of $\QW_\lambda$
+contains $\operatorname{ran}\E$, the near-radical is the failure of a double
+support condition, and the size of the residue is a concentration defect --- is
+\emph{entirely invariant} under $\QW_\lambda\mapsto-\QW_\lambda$.  A kernel is a
+kernel either way; a concentration defect is a magnitude.  So it explains why
+$|s(\mu)|$ is minuscule and says nothing whatever about why $s(\mu)>0$.  That
+sign-blindness is what forces the missing lower bound to carry the whole
+arithmetic content, and the arithmetic content is~RH.
+\end{quote}
+
+Everything below is either evidence for that claim or a consequence of it.  It
+is not an apology for a failed attempt: the sign-blindness is a property of the
+mechanism that can be checked one statement at a time, and \S\ref{sec:houserule}
+checks it on every principal claim of this paper, including the ones we are
+pleased with.
+
+\subsection{Results, and whose they are}
+\label{sec:whose}
+
+The following is the whole of what this paper asserts, with attribution.  Rows
+marked \emph{ours} are established in the project notes named in
+\S\ref{sec:provenance}; the rest are in the literature and are recalled here
+because the argument needs them.
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.50\textwidth}p{0.20\textwidth}p{0.22\textwidth}@{}}
+\hline
+statement & status & whose \\
+\hline
+$W_\infty(g\star g^*)\ge\operatorname{Tr}(\vartheta(g)\Sonin\vartheta(g)^*)$ for
+support in $[2^{-1/2},2^{1/2}]$; the sign is a square
+& proved & Connes--Consani \cite{CC2021} \\
+$V(n)$ is unitarily equivalent to $-V(n)$; its spectrum is exactly symmetric
+about $0$, with $\|V(n)\|=2n^{-1/2}\cos(\pi/(m+2))$
+& proved & \emph{ours} (\S\ref{sec:indefinite}) \\
+At a finite place the two cutoff projections commute over $\Q_p$: no plunge, no
+prolate family
+& proved & Burnol \cite{Burnol1999}; reading \emph{ours} \\
+Semilocally the angle operator has no spectral description, because $P^S_T$ cuts
+off the product module and does not factor
+& proved (definitional) & \emph{ours}, from \cite{Connes2026,CCM2023} \\
+Archimedean-only positivity fails past $\mu=2.2710$
+& observed, reproduced & Connes--Consani \cite{CC2023}; reproduction \emph{ours} \\
+An explicit truncation-free test function on which the archimedean form is
+negative for $\mu\ge3.5581$, and the uncertainty-principle reason
+& proved (for that function) & \emph{ours} (\S\ref{sec:witness}) \\
+$D(\mu)=-\lambda_{\min}(\sigma^{\mathrm{arch}})<\log\pi-\psi(\tfrac14)=5.3721834\ldots$
+for every $\mu$, and it saturates
+& proved & \emph{ours} (\S\ref{sec:deficit}) \\
+On the near-radical direction the signs reverse: the archimedean half is the
+credit and the primes are the debit
+& observed & \emph{ours} (\S\ref{sec:thirddirection}) \\
+$1-\chi_2\sim\frac{2^{14}\sqrt2\,\pi^5}{3}\mu^{9/2}e^{-4\pi\mu}$, and
+$\epsilon(\lambda)$ behaves like $1-\chi_2$
+& proved (asymptotic); observed (similarity) & Connes \cite{Connes2026}, from
+Fuchs \cite{Fuchs1964} \\
+$s(\mu)$ is governed by the defect at prolate index~$4$, not $0$;
+$s/(1-\chi_2)\in[7.1,\,9.9]$ after extrapolation, with no trend
+& observed (arbitrary precision) & \emph{ours} (\S\ref{sec:confront}) \\
+The rate $4\pi$ \emph{cannot} discriminate the index; the power $9/2$ and the
+constant can, and both are published
+& proved & \emph{ours} as an observation (\S\ref{sec:index}) \\
+$\QW_\lambda(g,g)=\sum_{Z}|\F_\mu r(s)|^2$ with $r$ the spill outside the window
+& proved & \emph{ours}, from \cite{CC2023} (\S\ref{sec:identity}) \\
+Under \eqref{H0}+\eqref{H1}, $\limsup\mu^{-1}\log s(\mu)\le-4\pi$
+& conditional & \emph{ours} (\S\ref{sec:identity}) \\
+A lower bound $s(\mu)\ge\kappa(\mu)>0$ for all $\mu$ implies RH; the two-sided
+rate is therefore unreachable
+& proved & \emph{ours} as an observation, from Weil and \cite{Connes2026} \\
+Three constraints on method (\S\ref{sec:sharpening})
+& proved / observed, per constraint & \emph{ours} \\
+\hline
+\end{tabular}
+\end{center}
+
+Two attributions are worth stating separately because it would be easy to appear
+to claim them.  \emph{The identification of the controlling scale is not ours}:
+Connes names $1-\chi_2$ and gives its asymptotic in the February 2026 survey.
+\emph{The construction of the near-radical vectors is not ours}: the two-mode
+prolate combination $\phi_2=\psi_2\psi_0(0)-\psi_0\psi_2(0)$ is
+Connes--Consani's, at \file{Spectraltriples.tex:744}.  What is ours in
+\S\ref{sec:scale} is the quantitative confrontation, the index argument, the
+identity, and the observation that the rate is a non-discriminating parameter.
+
+\subsection{Routes closed, and at what threshold}
+\label{sec:closed}
+
+A reader who knows the programme will want, in one place, which methods are
+excluded and by what.  Each row is argued in the section named.
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.30\textwidth}p{0.34\textwidth}p{0.26\textwidth}@{}}
+\hline
+route & why it is closed & threshold / status \\
+\hline
+Assemble positivity place by place
+& the archimedean term alone goes negative; no $-\Lambda(n)V(n)$ is of one sign
+& $\mu>2.2710$ \observed; explicit witness at $\mu\ge3.5581$ \proved{};
+  $V(n)$ indefinite at every $\mu$ \proved{} (\S\ref{sec:noplacewise}) \\
+Get the sign from a compression of a projection, as at the archimedean place
+& a compression $\vartheta(g)\Pi\vartheta(g)^*$ is positive; $V(n)$'s spectrum is
+exactly symmetric about $0$
+& all $\mu$, all $n$ \proved{} (\S\ref{sec:indefinite}) \\
+Bound either side to a fixed relative error, or to a fixed power of $\mu$
+& the two sides agree to $\approx5.46\mu$ decimal digits; the required relative
+accuracy is $e^{-4\pi\mu}/(0.025\log\mu)$
+& fails at
+  $\mu\gtrsim(k\log\mu+\log\varepsilon^{-1})/5.4575$ \observed{}
+  (\S\ref{sec:sharpening}) \\
+Drop a prime, or estimate the tail $\sum_{p>P}$ crudely
+& omitting any single $p^m<\mu$ makes the form negative by $0.10$ to $0.84$, i.e.\
+$53$ orders above the residue, and the cost is not ordered by size
+& every cutoff $P<\mu$ \observed{} (\S\ref{sec:loadbearing}) \\
+Argue that the archimedean side is the thing that runs away
+& it does not: $D(\mu)<5.3721834\ldots$ for every $\mu$
+& all $\mu$ \proved{} (\S\ref{sec:deficit}) \\
+Look for a plunge / prolate family at a single finite place
+& over $\Q_p$ the two cutoff projections commute; the angle operator is trivial
+& all $\Lambda=p^n$ \proved{} (\S\ref{sec:burnol}) \\
+Prove the decay rate $4\pi$ as a two-sided unconditional theorem
+& its lower half is a positive lower bound on $\QW_\lambda$ for all $\lambda$,
+which is equivalent to RH
+& all $\mu$ \proved{} (\S\ref{sec:boundary}) \\
+Settle the rate by a wider grid or a converged truncation
+& a computation cannot supply a lower bound at a $\mu$ it has not computed, and
+the statement quantifies over all $\mu$
+& permanent \proved{} (\S\ref{sec:boundary}) \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Standards of evidence used throughout}
+\label{sec:standards}
+
+These are not decoration; the corrections recorded in \S\ref{sec:provenance}
+were each caught by one of them.
+
+\paragraph{Status words.}  Every load-bearing sentence carries one.
+\emph{Proved}: a theorem with a proof in a published or arXived paper, cited by
+label and source line, or proved here.  \emph{Announced}: the authors say it can
+be done, or defer it to a forthcoming paper; no proof given.  \emph{Observed}:
+supported by computation, presented as evidence, and not a theorem.
+\emph{Conjectural}: neither.  The distinction is not pedantry: an earlier draft
+of this project's notes read a stated strategy as a companion theorem, and the
+same class of error was then made three more times.
+
+\paragraph{Reproduction versus verification.}  A number we recomputed
+independently at a precision where the computation is not delicate is a
+\emph{verification}.  A number we recomputed in a regime where the arithmetic is
+tight, and which agrees with a published one, is a \emph{reproduction} --- it
+confirms that we and the source are computing the same thing, and does not
+certify the digits.  Both appear below and each is labelled.  For example, the
+sign change at $\mu=2.2710$ is a verification (entries $O(1)$, spectrum down to
+$1.3\times10^{-3}$); the match with $2.389\times10^{-48}$ at $\mu=11$ is a
+reproduction whose \emph{exponent} is settled and whose mantissa is not
+converged (\S\ref{sec:theirnumber}).
+
+\paragraph{Second-hand numbers.}  A number that reaches us through a summary
+rather than through the source is either re-opened at the source or marked.  One
+class of external fact is used here without being read: Fuchs' 1964 asymptotic
+\cite{Fuchs1964}, taken in the form Connes cites it and then checked against an
+independent arbitrary-precision computation of $\Lambda_0,\Lambda_2,\Lambda_4$
+(\S\ref{sec:fuchs}).  Yoshida's 1992 paper \cite{Yoshida1992} is likewise not
+read; it is the one place a sharpness statement for the archimedean theorem
+could be hiding (\S\ref{sec:notheorem}).
+
+\paragraph{The standing test (``the house rule'').}  \emph{Is the statement
+false for $-\QW_\lambda$?}  If not, it is sign-blind, and it cannot be evidence
+about the direction of an inequality however sharp it is.  This test is applied
+to the present paper in \S\ref{sec:houserule}, and it is the source of the
+thesis in \S1.2.
+
+% ==========================================================================
+\section{The objects, and the literature they belong to}
+\label{sec:objects}
+% ==========================================================================
+
+This section claims nothing.  It exists so that a reader can see which objects
+below are Connes--Consani's --- almost all of them --- and so that the small
+residue that is not theirs can be identified precisely.
+
+\subsection{\texorpdfstring{$\QW_\lambda$}{QW-lambda} is one symbol}
+\label{sec:onesymbol}
+
+In \cite{CC2023}, $\mathbf{W}_\lambda$ (in bold, four occurrences) is the
+\emph{prolate differential operator}
+$(\mathbf{W}_\lambda\psi)(q)=-\partial((\lambda^2-q^2)\partial)\psi+(2\pi\lambda q)^2\psi$
+of eq.\ (3.3), self-adjoint, positive, with the prolate spheroidal wave
+functions as eigenfunctions; while $W_\lambda$ occurs $41$ times, \emph{every
+one of them inside} $\QW_\lambda$, which is defined at \file{:169} as ``the
+restriction $\QW_\lambda$ of the sesquilinear form\ldots''.  Two different
+objects in one section, separated by a font. \proved{} (read in the arXiv \LaTeX{}
+source.)
+
+The consequence used below: there is no projection $Q$ to be applied after a
+form.  The two conditions $f(0)=\widehat f(0)=0$ that one might expect such a
+projection to impose are already the definition of the domain
+$\mathcal S_0^{ev}$ of the summation map $\E$, and they are conditions on the
+test function imposed \emph{before} $\E$ is applied.
+
+\subsection{Object by object}
+
+With $\E(f)(x)=x^{1/2}\sum_{n>0}f(nx)$ on
+$\mathcal S_0^{ev}=\{f\ \text{even Schwartz}:f(0)=\widehat f(0)=0\}$, the
+following are Connes--Consani's objects in Connes--Consani's letters
+(\cite{CC2023} \S3): the map $\E$ itself (eq.\ (3.1)); the projections
+$P_\lambda$, $\widehat P_\lambda$ and their angle operator
+$P_\lambda\widehat P_\lambda P_\lambda$, diagonalised by the prolates; the
+characteristic values $\chi(\mu,m)$ with
+$\F_{e_\R}\psi_{m,\lambda}=\chi_m\psi_{m,\lambda}$ on $[-\lambda,\lambda]$ and
+$\chi_m\simeq(-1)^m$; the count $\nu(\mu)\sim2\mu$ of small eigenvalues of the
+angle operator; the two-mode combinations
+$\phi_{2n}=\psi_{2n}\psi_0(0)-\psi_0\psi_{2n}(0)$ (\file{:744}); the vectors
+$\E(\phi_n)$ and their Gram--Schmidt orthonormalisation $\varepsilon_n$; and the
+near-null phenomenon itself, which is the paper's abstract.
+
+The mechanism is also theirs, and it is stated in one line: \emph{the radical of
+$\QW$ contains the range of $\E$} (\file{:181}, \file{:699}), because
+$\F_\mu(\E f)$ carries a factor $\zeta(\tfrac12-is)$ and so vanishes at every
+zero.  The prolate input is needed only to force the support into
+$[\lambda^{-1},\lambda]$, and they are explicit that the construction ``only
+uses the prolate vectors without any reference to $\QW_\lambda$''. \proved
+
+\subsection{Index convention: the governing index is 4}
+\label{sec:convention}
+
+Connes--Consani write $\psi_{m,\lambda}(x)=\PS_{2m,0}(2\pi\lambda^2,x/\lambda)$,
+so their $m$ is \emph{half} the prolate index.  Connes' survey writes
+$\chi_k(\lambda)^2=\Lambda_{2k}(c)$ with $c=2\pi\lambda^2$, so his $\chi_2$ is
+prolate index~$4$.  Both agree with the labelling of
+Connes--Consani--Moscovici, whose $\psi^+_\ell:=h_{4\ell}-\frac{h_{4\ell}(0)}{h_0(0)}h_0$
+is written in Hermite functions indexed in full.  Throughout this paper prolate
+indices are \emph{full} indices, so the governing defect is $1-\Lambda_4$ and
+Connes' $1-\chi_2=\tfrac12(1-\Lambda_4)+O((1-\Lambda_4)^2)$. \proved
+
+\begin{remark}
+The collision is real and has cost this project time.  It cannot be resolved
+numerically: the identity
+$h_\lambda(0)=\alpha h_{0,\lambda}(0)(\chi_4-\chi_0)/\chi_4$, which looks like a
+discriminator, holds \emph{exactly} in arbitrary precision for every partner mode
+$m\equiv0\bmod4$ and fails for every $m\equiv2\bmod4$.  It carries exactly one
+bit --- the finite-Fourier phase --- and both candidate readings sit on the same
+side of it.
+\end{remark}
+
+\subsection{The named open problem these objects are adjacent to}
+\label{sec:adjacent}
+
+Precisely: \emph{semilocal Weil positivity}, and within it, CCM's programme of
+finding ``the semilocal analogue of the prolate operator''
+(\cite{CCM2023} \file{mainc2m24fine.tex:197}--\file{:198}). \announced
+
+The state of that programme, as of the principals' own most recent statements:
+\begin{itemize}\itemsep2pt
+\item Weil positivity is \emph{proved} at the archimedean place, for test
+functions supported in $[2^{-1/2},2^{1/2}]$ \cite{CC2021}; Connes' 2026 survey
+restates it with the same hypotheses (\file{rhready.tex:1198}--\file{:1200},
+again in prose at \file{:1298}). \proved
+\item The semilocal \emph{trace formula} is Connes 1999 and is not the gap
+(\file{rhready.tex:1233}--\file{:1238}). \proved
+\item The semilocal \emph{Sonin space} is stable under enlarging $S$
+(\cite{CCM2023} Theorem~2). \proved
+\item The candidate semilocal prolate operator
+$\mathbf W_{\lambda,S}=(H+\tfrac12)^2+\lambda^2N_S$ is a definition; its Jacobi
+coefficients for general $S$ are deferred to a forthcoming paper
+(\file{:259}); a second candidate, via the Weil representation of the
+metaplectic cover of $SL_2(\A_S)$, is deferred to the same (\file{:270}); and the
+property that would make either usable --- negative eigenspace $=$ Sonin space
+--- is called ``another constraint in the search'' (\file{:266}), not a theorem.
+\announced
+\item Neither deferred item had appeared as of 12 August 2026.  This is a
+searched negative, not a proof of absence: author listings for all three
+principals were enumerated, the survey's \LaTeX{} contains \emph{metaplectic}
+zero times and \emph{Weil representation} zero times, and version histories were
+checked.  Journal-only or personally-hosted work would not have been seen.
+\end{itemize}
+
+Two further named items, from the survey's own subsection \emph{Remaining steps}
+(\file{rhready.tex:1174}): (i)~that the smallest eigenvalue of $\QW_\lambda$ is
+simple with even eigenvector, and (ii)~that $k_\lambda:=\E(h_\lambda)$ is a good
+enough approximation of $\theta_x$.  Neither is semilocal positivity, and the
+survey does not list semilocal positivity at all.  This paper's \S\ref{sec:scale}
+is adjacent to (ii) and does not deliver it: a Rayleigh-quotient bound would need
+a spectral gap, and the near-radical is $\sim2\mu$-dimensional with all its
+eigenvalues minuscule, so the gap is minuscule too.
+
+% ==========================================================================
+\section{The one proved sign, and why it does not travel}
+\label{sec:onesign}
+% ==========================================================================
+
+\subsection{The archimedean chain, and where the sign enters}
+
+\cite{CC2021} proves: for $g\in C_c^\infty(\R_+^*)$ with support in
+$[2^{-1/2},2^{1/2}]$ and $\widehat g(i/2)=\widehat g(0)=0$,
+\begin{equation}\label{eq:CC2021}
+  W_\infty(g\star g^*)\;\ge\;\operatorname{Tr}\big(\vartheta(g)\,\Sonin\,\vartheta(g)^*\big),
+\end{equation}
+$\Sonin$ the orthogonal projection onto the Sonin space. \proved{} Seventy pages
+go into it.  The sign, however, enters in one line, and it enters twice in the
+same way: $P\widehat PP\ge0$, and $\Sonin=\Sonin^*=\Sonin^2$, so
+$\operatorname{Tr}(\vartheta(g)\Sonin\vartheta(g)^*)=\|\Sonin\vartheta(g)^*\|_{HS}^2\ge0$.
+\emph{An involution and a square.}  The authors say so themselves in the
+abstract (\file{weil-compo.tex:86}).  Everything else --- the operator
+$Q=-(\rho\partial_\rho)^2+\tfrac14$ implementing the vanishing conditions
+without changing supports, Boas--Kac, the trace-remainder $\delta$, its jump at
+$\rho=1$, the dihedral decomposition, the Toeplitz analysis of $\mathcal K_I$
+--- is sign-preserving bookkeeping and remainder control.
+
+It is worth saying plainly what supplies the sign there, because it is
+\emph{not} the prolate functions.  They supply the labels of the
+two-dimensional pieces in the dihedral decomposition, i.e.\ the bookkeeping that
+makes the remainder computable.  \textbf{Prolate theory is the coordinate
+system, not the mechanism.}
+
+The endgame turns on three numbers, all specific to $I=[\tfrac12,2]$:
+$\mathcal K_I$ has exactly one eigenvalue $>1$, and only just
+($\lambda_{\max}=1.05158$); the next is $\lambda_2=0.686494$, giving a gap
+$>0.2278$ on the complement; and the offending eigenvector satisfies
+$\langle\zeta\mid\xi_0\rangle\approx0.94865$, i.e.\ the bad direction is $95\%$
+aligned with the one admissible linear condition.  Change any of the three
+materially and the proof stops. \proved{} \cite{CC2021}
+
+So any semilocal analogue must produce all three: a finite-dimensional bad
+subspace, a spectral gap on its complement, and an alignment between each bad
+direction and an admissible condition --- \emph{uniformly in $\lambda$}, which
+the archimedean case never had to face, since it was proved at a single
+$\lambda$.  Meanwhile the dimension of the near-radical grows like $2\mu$.
+
+\subsection{What survives at a finite place, and what does not}
+
+Most of the machinery survives.  The twist $\Delta^{1/2}$ and the involution
+$f\mapsto f^*$, Boas--Kac, and the operator $Q$ are statements about
+$C_c^\infty(\R_+^*)$, the same algebra at every place; the trace-formula
+representation is proved semilocally (Connes 1999); the radical of $\QW$
+containing $\operatorname{ran}\E$ is a statement about the semilocal form
+already; and the semilocal Sonin space exists and is stable.  Positivity of
+$\operatorname{Tr}(\vartheta(g)\Sonin_S\vartheta(g)^*)$ survives trivially,
+because it is positivity of a compression. \proved
+
+Two things do not survive, and they are the two that carry the sign.
+
+\begin{enumerate}\itemsep3pt
+\item \textbf{There is no semilocal Slepian--Pollak.}  The archimedean argument
+needs the angle operator to be diagonalised by an explicitly known family with a
+known spectrum, and a differential operator commuting with it --- what Connes'
+survey calls ``the miraculous existence, discovered by the Bell Labs group''
+(\file{rhready.tex:1293}).  Semilocally $P^S_T$ and $\widehat P^S_W$ exist and
+the trace formula holds; the spectrum of $P^S\widehat P^SP^S$ is \emph{not
+known}, and producing the operator that would make it computable is the entire
+content of the semilocal-prolate-operator programme. \announced
+
+\item \textbf{There is no comparison term at all.}  No semilocal $\delta$, no
+semilocal $\epsilon$, no compactness statement, no spectral analysis.  The 60
+pages that were the work at the archimedean place have not been begun
+semilocally.
+\end{enumerate}
+
+In one sentence: \emph{the archimedean proof buys its sign with a compression and
+pays for it with a diagonalisation; semilocally the compression is free and the
+diagonalisation does not exist.}
+
+\subsection{The prime terms are exactly indefinite}
+\label{sec:indefinite}
+
+This is a small theorem and it excludes a mechanism, so it is stated as one.
+Put $x=\log u$, $L=\log\mu$, $a=\log n$; then $V(n)$ of \eqref{eq:hilbert} is
+the compression to $L^2([-\tfrac L2,\tfrac L2])$ of $n^{-1/2}(T_a+T_a^*)$, with
+$T_a$ translation by $a$.
+
+\begin{proposition}[\ours, elementary]\label{prop:indefinite}
+$V(n)$ is unitarily equivalent to $-V(n)$.  Its spectrum is exactly symmetric
+about $0$, at every $\lambda$, before any support or vanishing condition is
+imposed, and
+\[
+  \|V(n)\|=2n^{-1/2}\cos\!\Big(\frac{\pi}{m+2}\Big),
+  \qquad m=\lceil L/\log n\rceil-1 .
+\]
+\end{proposition}
+
+\begin{proof}
+Multiplication by $e^{i\pi x/a}$ is a unitary of $L^2([-\tfrac L2,\tfrac L2])$
+and conjugates $T_a$ into $-T_a$, hence $V(n)$ into $-V(n)$.  The norm is the
+Boas--Kac bound already used in \cite{CC2021} at \file{weil-compo.tex:842}.
+\end{proof}
+
+Verified numerically as well: spectrum symmetric to $10^{-15}$, and the closed
+form matched at every row, on the full space and on the even sector that carries
+$\sigma^+$ (\file{verify_semilocal_gap.py}, check 1; re-run on this pass).
+
+Three consequences and one warning.
+
+\begin{itemize}\itemsep2pt
+\item \textbf{No compression of a projection can produce the prime terms.}  A
+compression $\vartheta(g)\Pi\vartheta(g)^*$ is positive; $V(n)$ is symmetric
+about zero.  The mechanism of \eqref{eq:CC2021} does not extend to them even in
+principle.
+\item \textbf{The prime terms do not weaken as $\lambda$ grows.}  $\|V(n)\|$
+increases with $L$ towards $2n^{-1/2}$.  Adding places does not perturb a proved
+inequality; it adds a full-strength indefinite term.
+\item \textbf{The number of them grows} like $\pi(\mu)+O(\sqrt\mu)$.
+\item \textbf{Warning, and it is the house rule applied to this very
+proposition.}  ``Exactly indefinite'' is \emph{invariant} under
+$W\mapsto-W$.  It says a sign cannot come from here; it says nothing about which
+sign.  It is admissible as a negative result and must not be quoted as though it
+explained the direction of an inequality.
+\end{itemize}
+
+\subsection{One finite place is degenerate; the difficulty is between places}
+\label{sec:burnol}
+
+It is natural to ask whether the missing spectral description exists at a single
+finite place.  It does, it has since 1999, and its content is that the object
+degenerates.
+
+Burnol \cite{Burnol1999} takes \emph{Connes' own operator}
+$\widetilde{P_\Lambda}P_\Lambda U(f)$ over a non-archimedean field, sets
+$\Lambda=q^n$, $Q_n:=\widetilde{P_n}P_n$, and decomposes by the characters of
+the unit group.  His Theorem~XI gives the kernel of $Q_n^\chi$ in closed form in
+every case; what matters here is what the proof says about the two projections
+separately.  For ramified $\chi$ they are projections onto coordinate subspaces
+of the \emph{same} orthonormal basis.  For trivial $\chi$ with $2n\ge\delta$, in
+Burnol's own words, ``$P_n$ cuts off $\mathcal M_n$, $\widetilde{P_n}$ cuts off
+$\mathcal L_n$, \emph{so they commute}''.  The remaining case $0\le2n<\delta$ is
+empty over $\Q_p$, where the different exponent $\delta$ is $0$. \proved
+
+\begin{observation}[\ours; Burnol does not phrase it this way]
+Over $\Q_p$ the two cutoff projections commute at every $\Lambda=p^n$.  A
+commuting pair has $P\widehat PP=P\widehat P$, a projection, with spectrum in
+$\{0,1\}$; Connes' angle $\Theta$ takes only the values $0$ and $\pi/2$.  There
+are no non-trivial angles, no plunge region, and hence no prolate family to find.
+\end{observation}
+
+This does not transfer to the semilocal case, and the reason is definitional, so
+it can be checked without doing any mathematics.  The semilocal projections are
+defined ``using the module'' $\mathrm{Mod}_S(u)=\prod_{v\in S}|u|_v$
+(\file{rhready.tex:1236}--\file{:1240}), so $P^S_T$ cuts off
+$\{x:\prod_v|x_v|_v\le T\}$ --- one condition on a \emph{product}, not a
+condition at each place.  Hence $P^S_T\neq\bigotimes_v P_{T_v}$, and CCM state
+only an \emph{inclusion} $\eta_S(P_\lambda)\subset P^S_\lambda$
+(\file{mainc2m24fine.tex:766}--\file{:767}).
+
+\begin{quote}
+\textbf{Consequence, stated flatly.}  Whatever difficulty the semilocal angle
+operator has is located \emph{entirely in the coupling between places through
+the product module}, not in any individual place.  Each finite place on its own
+contributes a commuting pair and a one-dimensional Sonin space (CCM,
+Prop.\ \texttt{soninppp}).
+\end{quote}
+
+It is worth recording that Connes 1999 substitutes a construction for a spectrum
+at exactly this step: having given the archimedean plunge description in full,
+he writes that for an arbitrary set of places ``we just use the same rule as in
+the case of function fields'', i.e.\ the map $\psi\mapsto\psi\otimes1_R$
+(\file{zeta.tex:2823}--\file{:2830}).  That map is CCM's $\eta_S$, which is
+hilbertian and \emph{not} unitary.  This is the sharpest available statement of
+the gap, and it is in Connes' own text.
+
+Neither CCM nor the survey cites Burnol's p-adic scattering paper --- their
+Burnol citations are the three archimedean/de~Branges papers --- which is why an
+earlier absence-finding of ours missed it.  The one-place computation is outside
+the corpus's citation graph.
+
+% ==========================================================================
+\section{Archimedean-only positivity fails, and it is not an artefact}
+\label{sec:noplacewise}
+% ==========================================================================
+
+\subsection{Status: observed, not proved}
+\label{sec:notheorem}
+
+Connes--Consani report that the archimedean contribution alone ceases to be
+positive past $L=\log2$, that positivity is restored by adding the prime $2$,
+and that perturbing $2$ to $1.9999$ or $2.0005$ destroys it
+(\file{Spectraltriples.tex:542}--\file{:600}).  Their own prose is unambiguous
+about the register: ``The first fact we \emph{report from the numerical
+computations}\ldots'' (\file{:543}); ``we \emph{test numerically}\ldots''
+(\file{:177}); ``we \emph{report graphical evidence}'' (\file{:210}).  The verbs
+are indicative --- they assert the fact --- but they never prove it, and there is
+\emph{no theorem, proposition, lemma or corollary environment anywhere} in the
+three sensitivity subsections, checked mechanically. \observed
+
+Where else this was looked for, so the negative can be told from an unexamined
+one: \cite{CC2021} never asserts sharpness of its Theorem~1, and two nearby
+statements are easy to mistake for it --- the proved remark that $D\circ Q$ is
+not negative on $[2^{-1},2]$ (a different object: the remainder, limit
+$\approx+2.98699$), and the observation that $\lambda_{\max}(\mathcal K_I)<1$
+``no longer holds true when the interval length gets closer to $\log2$'' (the
+\emph{method} degrading, not positivity failing).  Its own reason for the
+interval cuts the other way: the interval is chosen ``so that rational primes are
+not involved'', i.e.\ for convenience.  \cite{CCM2023} does not mention the
+figures.  Connes' 2026 survey restates Theorem~1 twice with the same hypotheses
+and never mentions that the archimedean form goes negative past that range ---
+if sharpness were known as a theorem, that is where it would appear.  The one
+place it could be hiding is Yoshida \cite{Yoshida1992}, which we did not read.
+
+\subsection{Their computation, rebuilt}
+
+The third possibility --- that the failure is an artefact of truncation or of
+double precision --- is excluded.  The even matrix $\sigma^+$ was rebuilt from
+the explicit formula, with sign conventions taken from the formula rather than
+inherited, and it matches Connes--Consani on all five numbers they report.
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.42\textwidth}p{0.18\textwidth}p{0.32\textwidth}@{}}
+\hline
+Connes--Consani & source & ours \\
+\hline
+smallest eigenvalue at $L=\log2$, $\sim0.00133$ & \file{:551} &
+$0.0013303$ at $N=80$; $0.0013296$ at $N=160$ \\
+archimedean-alone crossing at $\mu=2.27$ & \file{:568} &
+$\mu^*=2.2710$ at $N=160$, still decreasing in $N$ \\
+$\infty+2$ at $\mu=3$: $<6\times10^{-8}$ & \file{:568} & $5.55\times10^{-8}$ \\
+admissible $p$-window at $\mu=3$: width $<10^{-3}$ & \file{:574} &
+$[1.9999995,\,2.00043]$, width $4.4\times10^{-4}$ \\
+prime $3$ repairs past $\mu=3$ & \file{:579} &
+at $\mu=3.5$: $\infty{+}2=-1.19\times10^{-2}$,
+$\infty{+}2{+}3=+2.48\times10^{-10}$ \\
+\hline
+\end{tabular}
+\end{center}
+
+The second row carries the weight, because $2.27$ was not a number we aimed at:
+the crossing was computed and then found written in their prose.  Their stated
+window for it, $L\in[0.493,0.893]$, contains $L^*=0.82023$, in its ``upper
+part'' as they say.
+
+Why artefact is excluded, and it is not merely that the numbers agree.
+\emph{Truncation cannot manufacture the failure}: restricting a quadratic form
+to a subspace can only \emph{raise} its smallest eigenvalue, so a negative
+truncated eigenvalue certifies a negative one for the full form.  Truncation can
+hide a failure of positivity; it can never invent one.  The computed values
+behave accordingly, decreasing monotonically in $N$.  \emph{Double precision is
+not load-bearing for the sign change}: entries are $O(1)$, the spectrum at
+$N=160$ runs $[1.3\times10^{-3},5.5]$, every number quadrature-converged to ten
+digits --- four orders of magnitude away from the regime where this project's
+arithmetic is unsound.  The rows that \emph{are} in that regime (the repaired
+eigenvalues, $10^{-8}$ down to $10^{-12}$) are reported as reproductions, not
+verifications, and nothing above leans on them: the load-bearing values are the
+negative ones, of size $10^{-2}$ to $10^{-5}$.
+
+\subsection{A witness, and why failure had to come eventually}
+\label{sec:witness}
+
+Two things the reproduction does not by itself give: a statement independent of
+any matrix, and a reason.
+
+\begin{proposition}[\ours]\label{prop:witness}
+Let $f(x)=\cos(\pi x/L)+\kappa\cos(3\pi x/L)$ on $[-L/2,L/2]$ in the additive
+coordinate $x=\log u$, continuous on $\R$ since both modes vanish at the
+endpoints, with $\kappa$ fixed by $\int f(x)\cosh(x/2)\,dx=0$.  For real even $f$
+that integral is $\widehat f(\pm i/2)$, so the boundary term of
+\eqref{eq:hilbert} vanishes exactly and the archimedean value is $-W_\R$ alone.
+It crosses zero at $\mu=3.5581$ and is negative at every larger $\mu$ tested;
+at $\mu=4.0552$ it is $-0.646$ against $\|f\|^2=6.48$.
+\end{proposition}
+
+Evaluating it is three one-dimensional quadratures.  The threshold is weaker
+than the true $2.2710$ --- it is one fixed vector, not the bottom eigenvector ---
+but no truncation and no eigenvalue enters the argument, and the function can be
+written down in a line.
+
+\paragraph{The reason.}  On the Fourier side the archimedean part is
+$\int|\widehat f(t)|^2\,\frac{2\vartheta'(t)}{2\pi}dt$ plus the boundary term,
+and $\vartheta'$ is \emph{negative} on $|t|<6.2898$
+($\vartheta'(0)=-2.68609170961\ldots$; first zero $6.2898360$).  So the Weil
+density is negative in a neighbourhood of $t=0$, and the only thing stopping a
+test function from living there is the uncertainty principle: a short support
+forces $\widehat f$ to spread past the crossing, where $\vartheta'>0$.
+Lengthening the support removes that obstruction.
+
+This is a \emph{mechanism, not a proof} --- it says failure at large $L$ is
+structurally expected and says nothing about where.  But it settles the shape of
+the answer: the archimedean form is not a positive form that happens to be
+verified on a small interval; it is an indefinite form whose positivity on a
+small interval is an uncertainty-principle effect.  Turning it into a theorem ---
+an explicit family with an explicit threshold --- looks routine and is not
+attempted here.  \textbf{Gap G1} (\S\ref{sec:gaps}).
+
+\begin{quote}
+\textbf{Consequence for the shape of the missing theorem.}  Neither the
+archimedean term beyond $\mu=2.2710$ nor any $-\Lambda(n)V(n)$ at any $\mu$ is a
+positive form.  Only the sum is --- conjecturally, since that is RH.  So the
+required theorem is about \emph{cancellation between places}, not about the
+assembly of per-place positives.  That is a different and harder object than the
+one that was proved.
+\end{quote}
+
+% ==========================================================================
+\section{The archimedean deficit is bounded, and the balance is elsewhere}
+\label{sec:deficit}
+% ==========================================================================
+
+Past the threshold, how does the archimedean deficit compare with what the
+primes supply?  Write
+\[
+  \sigma^{\mathrm{arch}}=W_{0,2}-W_\R,\qquad
+  D(\mu)=-\lambda_{\min}(\sigma^{\mathrm{arch}}),\qquad
+  R(\mu)=-\sum_pW_p(v_{\rm arch}),
+\]
+with $v_{\rm arch}$ the minimiser of $\sigma^{\mathrm{arch}}$; so $D$ is the
+deficit and $R$ is what the primes supply \emph{on the direction where the
+archimedean side is worst}.  All computations in this section are in arbitrary
+precision, which is not caution: the quantity that settles the competition is
+$\sim10^{-48}$ at $\mu=11$ against matrix entries of order $1$, so double
+precision cannot represent the answer, let alone resolve it.
+
+\subsection{The bound}
+
+\begin{theorem}[\ours, \proved{} given \cite{CC2023} Prop.\ \texttt{Hilbert}]
+\label{thm:deficit}
+For every $\mu$ and every unit $f$ in the even sector,
+$\sigma^{\mathrm{arch}}(f,f)\ge2\vartheta'(0)\|f\|^2$; hence
+\[
+  D(\mu)\;<\;-2\vartheta'(0)\;=\;\log\pi-\psi(\tfrac14)\;=\;5.3721834192\ldots
+\]
+\end{theorem}
+
+\begin{proof}
+Three one-line facts applied to \eqref{eq:hilbert}.
+(i) \emph{$\vartheta'$ attains its minimum at $t=0$.}
+$\vartheta'(t)=\tfrac12\Re\psi(\tfrac14+\tfrac{it}2)-\tfrac12\log\pi$ and
+$\frac{d}{dt}\Re\psi(\tfrac14+\tfrac{it}2)=-\tfrac12\Im\psi'(\tfrac14+\tfrac{it}2)$;
+since $\psi'(z)=\sum_{k\ge0}(z+k)^{-2}$, at $z=\tfrac14+\tfrac{it}2$ each term
+has imaginary part $-t(k+\tfrac14)/|z+k|^4<0$ for $t>0$.  So $\Im\psi'<0$,
+$\vartheta'$ is strictly increasing on $t>0$, and
+$\inf_t\vartheta'=\vartheta'(0)$.
+(ii) \emph{On the even sector the boundary term is a square}: for real $f$ even
+under $u\mapsto u^{-1}$, $\widehat f(\tfrac i2)=\widehat f(-\tfrac i2)=\int
+F\cosh(x/2)dx$ is real, so the term is $2(\int F\cosh(x/2)dx)^2\ge0$.
+(iii) \emph{Plancherel} in this normalisation:
+$\int|\widehat f(t)|^2dt/2\pi=\|f\|^2$.
+\end{proof}
+
+What is not re-proved is Proposition \texttt{Hilbert} itself, which is proved in
+\cite{CC2023}.  Its normalisation is the one place this could silently go wrong
+by a factor of $2$, so it is \emph{checked and not assumed}: both sides of
+\eqref{eq:hilbert} were evaluated on $f=\xi_1$, where $\widehat f$ is
+closed-form, agreeing to $2\times10^{-8}$ at $\mu=2$ and $1\times10^{-8}$ at
+$\mu=20$ (the residual is the $\log t/t^2$ tail, added from its asymptotic
+form), with Plancherel confirmed at $0.999999998$.  There is no extra factor.
+Their own proof of that proposition says $\vartheta'$ is ``lower bounded'' and
+never extracts the constant.
+
+\subsection{It saturates}
+
+\begin{center}\small
+\begin{tabular}{@{}rrr@{}}
+\hline
+$\mu$ & $L$ & $D(\mu)$, $N=160$ \\
+\hline
+$3$ & $1.09861$ & $0.07397889$ \\
+$5$ & $1.60944$ & $0.37270355$ \\
+$11$ & $2.39790$ & $0.77466583$ \\
+$20$ & $2.99573$ & $1.02682548$ \\
+$10^{2}$ & $4.60517$ & $1.62332472$ \\
+$10^{3}$ & $6.90776$ & $2.44603691$ \\
+$10^{6}$ & $13.8155$ & $4.23599851$ \\
+$10^{9}$ & $20.7233$ & $4.87322925$ \\
+$10^{12}$ & $27.6310$ & $5.10422655$ \\
+$10^{20}$ & $46.0517$ & $5.28349631$ \\
+\hline
+bound & & $5.37218341923\ldots$ \\
+\hline
+\end{tabular}
+\end{center}
+
+$D$ is increasing in $\mu$ --- as it must be, since the supports are nested and
+the form is the same form, so $\lambda_{\min}$ can only fall.  Over the computed
+range it grows like $\log\log\mu$; that is descriptive only and is not offered
+as a law.  Whether $D(\mu)\to-2\vartheta'(0)$ exactly is open: \textbf{Gap G2}.
+
+\begin{quote}
+\textbf{Why this matters more than it looks.}  The natural reading of
+``archimedean positivity fails past $\mu=2.271$, and the primes repair it'' is
+that the thing to be repaired grows without limit and the repair must grow to
+match.  It does not.  The archimedean side is negative by at most $5.3722$,
+ever, on a unit vector.  \emph{The difficulty is not magnitude.}
+\end{quote}
+
+\subsection{On the archimedean bad direction the primes over-repair}
+
+Since $s(\mu)\le\sigma^{\mathrm{arch}}(v_{\rm arch})-\sum_pW_p(v_{\rm arch})=R-D$
+and $s>0$ under RH, positivity forces $R>D$; the question is by how much.
+
+\begin{center}\small
+\begin{tabular}{@{}rrrrr@{}}
+\hline
+$\mu$ & $D(\mu)$ & $R(\mu)$ & $R-D$ & $R/D$ \\
+\hline
+$3$ & $0.07393778$ & $0.12404900$ & $0.05011122$ & $1.6777$ \\
+$4$ & $0.23972403$ & $0.26633090$ & $0.02660687$ & $1.1110$ \\
+$5$ & $0.37262595$ & $0.41590755$ & $0.04328161$ & $1.1162$ \\
+$6$ & $0.47506903$ & $0.48993904$ & $0.01487000$ & $1.0313$ \\
+$8$ & $0.62435999$ & $0.64978693$ & $0.02542693$ & $1.0407$ \\
+$10$ & $0.73104987$ & $0.74250899$ & $0.01145912$ & $1.0157$ \\
+$12$ & $0.81337243$ & $0.83273410$ & $0.01936168$ & $1.0238$ \\
+$16$ & $0.93617534$ & $0.94601094$ & $0.00983560$ & $1.0105$ \\
+$20$ & $1.02672849$ & $1.04224568$ & $0.01551719$ & $1.0151$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent$R>D$ at every computed $\mu$ --- but read the last column rather than
+the fourth: the \emph{relative} excess closes, from $1.678$ at $\mu=3$ to
+$1.015$ at $\mu=20$, while the absolute slack oscillates in $0.010$--$0.050$
+with maxima just after a new prime power enters. \observed
+
+If the semilocal question were the question of these two columns it would be
+answered in the affirmative, on a margin of $1.5\%$ at $\mu=20$ and falling.  It
+is not that question.
+
+\subsection{The balance is on a third direction, and its signs are reversed}
+\label{sec:thirddirection}
+
+The bottom eigenvector $v_\mu$ of the \emph{full} form is not $v_{\rm arch}$.
+Splitting the Rayleigh quotient there, at $N=100$ and $120$ digits:
+
+\begin{center}\small
+\begin{tabular}{@{}rrrrrr@{}}
+\hline
+$\mu$ & $\sigma^{\mathrm{arch}}(v_\mu)$ & $-\sum_pW_p(v_\mu)$ & $s(\mu)$ &
+$\log_{10}s$ & digits \\
+\hline
+$5$ & $+0.03958194$ & $-0.03958194$ & $1.005\times10^{-17}$ & $-16.998$ & $15.60$ \\
+$6$ & $+0.04538231$ & $-0.04538231$ & $8.211\times10^{-23}$ & $-22.086$ & $20.74$ \\
+$7$ & $+0.04959492$ & $-0.04959492$ & $7.731\times10^{-28}$ & $-27.112$ & $25.81$ \\
+$8$ & $+0.05273312$ & $-0.05273312$ & $4.581\times10^{-33}$ & $-32.339$ & $31.02$ \\
+$9$ & $+0.05520046$ & $-0.05520046$ & $3.135\times10^{-38}$ & $-37.504$ & $36.25$ \\
+$10$ & $+0.05719477$ & $-0.05719477$ & $1.784\times10^{-43}$ & $-42.749$ & $41.51$ \\
+$11$ & $+0.05882638$ & $-0.05882638$ & $1.226\times10^{-48}$ & $-47.912$ & $46.68$ \\
+$12$ & $+0.06018733$ & $-0.06018733$ & $5.531\times10^{-54}$ & $-53.257$ & $52.04$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent(``digits'' is
+$\log_{10}(|\sigma^{\mathrm{arch}}(v_\mu)|/s(\mu))$: the number of decimal
+digits to which the two halves agree.)
+
+\textbf{The signs are the other way round.}  On the direction that decides
+positivity the archimedean contribution is \emph{positive} and the prime
+contribution is \emph{negative}.  The phrase ``the primes repair the archimedean
+deficit'' describes the previous subsection's direction and is \emph{false} on
+this one, where the primes are the entire threat and the archimedean side is
+what holds the form up.  Both statements are true of their own vector; what
+follows is that the deficit-versus-repair columns are not the two sides of the
+balance, and that the comfortable margin above buys nothing. \observed{}
+(verified for $5\le\mu\le12$; the range is short --- \textbf{Gap G3}.)
+
+\textbf{Both halves are small and grow slowly.}
+$|\sigma^{\mathrm{arch}}(v_\mu)|$ is $0.0396$ at $\mu=5$ and $0.0602$ at
+$\mu=12$; divided by $\log\mu$ it sits between $0.0242$ and $0.0255$ across the
+range, so it is $\approx0.025\log\mu$.  Both halves are two orders below the
+deficit $D$: the near-radical direction is not where the archimedean form is
+bad, it is where it is nearly \emph{flat}.
+
+\subsection{Every prime power is load-bearing}
+\label{sec:loadbearing}
+
+Connes--Consani show graphically, up to $\lambda^2\sim7$, that ignoring the
+contribution of a prime power below $\lambda^2$ destroys positivity
+(\file{:177}, figures at \file{:576}--\file{:600}).  Here that is a number.  At
+$\mu=12$, $N=60$, $70$ digits, dropping one prime power at a time:
+
+\begin{center}\small
+\begin{tabular}{@{}lr@{}}
+\hline
+omitted & $\lambda_{\min}$ \\
+\hline
+none & $+9.19\times10^{-54}$ \\
+$2$ & $-0.71226224$ \\
+$3$ & $-0.83688017$ \\
+$4$ & $-0.34656987$ \\
+$5$ & $-0.71772943$ \\
+$7$ & $-0.59699566$ \\
+$8$ & $-0.17682307$ \\
+$9$ & $-0.24427816$ \\
+$11$ & $-0.10260697$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent(The ``none'' row is the $N=60$ upper bound; the $N=100$ value at
+$\mu=12$ is $5.53\times10^{-54}$ --- consistent, since a looser truncation gives
+a larger bound.)
+
+Omit any single $p^m<\mu$ and the form goes negative by $0.10$ to $0.84$:
+\emph{fifty-three orders of magnitude} above the residue that survives when all
+are present.  There is no dominant prime, no ordering by size ($3$ costs more
+than $2$; $11$, the largest, costs least but still $10^{52}$ times the residue),
+and no tail that can be estimated crudely at any cutoff below $\mu$. \observed
+
+% ==========================================================================
+\section{The scale of \texorpdfstring{$s(\mu)$}{s(mu)}}
+\label{sec:scale}
+% ==========================================================================
+
+\subsection{The index is forced, and it is 4}
+\label{sec:index}
+
+$\E$ is defined on $\mathcal S_0^{ev}$, i.e.\ $f(0)=\widehat f(0)=0$.  These two
+conditions are not optional: they are what makes $\E f$ a test function at all.
+For $f=\sum_mb_m\psi_{m,\lambda}$,
+\[
+  f(0)=\sum_mb_m\psi_m(0),\qquad
+  \widehat f(0)=\int f=\sum_mb_m\chi_m\psi_m(0),
+\]
+the second because $\F_{e_\R}\psi_m=\chi_m\psi_m$ on $[-\lambda,\lambda]$
+evaluated at $0$.  Two modes can satisfy both \emph{only if
+$\chi_{m_1}=\chi_{m_2}$}; otherwise the $2\times2$ system is non-singular and
+forces $b=0$.  Since $\chi_m\simeq(-1)^m$, that requires $m_1\equiv m_2\bmod2$
+in Connes--Consani's labelling, i.e.\ \emph{prolate indices congruent mod 4}.
+
+\begin{itemize}\itemsep1pt
+\item $m=0$ alone: $\psi_0(0)\ne0$, inadmissible.
+\item prolate indices $\{0,2\}$: $\chi\simeq+1$ and $-1$.  Excluded \emph{by the
+phase, not by size}.
+\item prolate indices $\{0,4\}$: both $\chi\simeq+1$.  Admissible, and minimal.
+This is Connes--Consani's $\phi_2$.
+\end{itemize}
+
+\noindent So the governing defect is $1-\Lambda_4$, i.e.\ $1-\chi_2$ in Connes'
+notation. \proved{} (\ours{} as an argument; the construction is
+Connes--Consani's, and mode-4 selection by the finite-Fourier phase was found
+earlier in this project in the Hermite rather than the prolate limit.)
+
+\begin{remark}[a correction to Connes--Consani's construction, and it is free]
+\label{rem:thirdmode}
+Since $\chi_0=\chi_2$ only approximately, $\phi_2$ satisfies $\phi_2(0)=0$
+exactly but
+$\widehat{\phi_2}(0)=(\chi_0-\chi_2)\psi_0(0)\psi_2(0)\neq0$, with
+$|\chi_0-\chi_2|\simeq1-\chi_2$.  That is not a rounding remark: by Poisson a
+non-zero $\widehat f(0)$ puts an $x^{-1/2}$ tail on $\E f$ as $x\to0$, which is
+not in $L^2(d^*u)$, and equivalently a pole in $\F_\mu(\E f)$ at $s=\pm\tfrac i2$
+--- which is exactly what the two conditions are for.  It can be removed exactly
+with a third mode: taking $\phi=b_0\psi_0+b_2\psi_2+b_4\psi_4$ (prolate indices
+$0,4,8$, all with $\chi\simeq+1$) and imposing both conditions gives
+$u_4/u_2\simeq-(1-\chi_2)/(1-\chi_4)$, a relative weight of $1.3\times10^{-8}$ at
+$\mu=12$.  The vector is still essentially $\phi_2$ and the governing defect is
+still $1-\Lambda_4$. \ours
+\end{remark}
+
+\subsection{Fuchs at general index, and Connes' constant}
+\label{sec:fuchs}
+
+Fuchs' asymptotic, in the form Connes cites it, is
+$1-\Lambda_n(c)\sim4\sqrt\pi\,8^nc^{\,n+1/2}e^{-2c}/n!$.  Connes states
+(\file{rhready.tex:1149})
+\[
+  1-\chi_2\;\sim\;\frac{2^{14}\sqrt2\,\pi^5}{3}\,\mu^{9/2}e^{-4\pi\mu},
+\]
+and with $1-\chi_2=\tfrac12(1-\Lambda_4)+O((1-\Lambda_4)^2)$ and $c=2\pi\mu$
+this is \emph{identically} one half of Fuchs at $n=4$ --- verified to $100$
+digits, difference $1.4\times10^{-101}$.  The $9/2$ is $n+\tfrac12$ at $n=4$.
+\proved{} \theirs{Connes, from Fuchs}
+
+Two things follow that matter for what any numerical agreement can be evidence
+\emph{for}.
+
+\begin{quote}
+\textbf{The rate cannot discriminate the index.}  The exponential factor
+$e^{-2c}$ in Fuchs \emph{does not depend on $n$}.  At $c=2\pi\mu$ every prolate
+index predicts the same rate $2c/\mu=4\pi$.  A test that every candidate passes
+is not a test.  What discriminates is the power $n+\tfrac12$ and the constant ---
+and both are published. \ours{} as an observation
+\end{quote}
+
+\noindent Also, the asymptotic is not accurate enough to be used as the
+comparison object.  Checked at $260$ digits against exact prolate eigenvalues,
+the ratio asymptotic/exact at $n=4$ is $1.31219$ at $c=2\pi\cdot5$, $1.17936$ at
+$c=2\pi\cdot8$, $1.11442$ at $c=2\pi\cdot12$, falling to $1.02897$ at $c=280$:
+Fuchs \emph{over}-estimates by $1+O(1/c)$, and by $11$--$31\%$ over the whole
+range where $s(\mu)$ is computed.  So the confrontation below uses exact
+$1-\chi_2$.  (This is a check of the formula against the thing it approximates;
+an earlier pass of ours had checked two \emph{formulas} against each other,
+which is a weaker statement.) \ours
+
+\subsection{The confrontation}
+\label{sec:confront}
+
+$s(\mu)$ recomputed at $N=100$, $120$ digits; $1-\Lambda_0$ and $1-\chi_2$ from
+the prolate differential operator in the normalised Legendre basis, with the
+apparatus validated three ways (Slepian's tabulated
+$\Lambda_0(1)=0.57258$ recovered as $0.572581780638\ldots$; agreement to every
+printed digit with an independent dense eigensolver; no movement across working
+precisions $80$--$200$ digits and Legendre truncations $K=165,220$).
+
+\begin{center}\small
+\begin{tabular}{@{}rlllll@{}}
+\hline
+$\mu$ & $s(\mu)$, $N=100$ & $1-\Lambda_0$ & $s/(1-\Lambda_0)$ & $1-\chi_2$ &
+$s/(1-\chi_2)$ \\
+\hline
+$5$ & $1.00502\times10^{-17}$ & $2.02073\times10^{-26}$ & $4.974\times10^{8}$ & $1.29839\times10^{-18}$ & $7.741$ \\
+$6$ & $8.21103\times10^{-23}$ & $7.73821\times10^{-32}$ & $1.061\times10^{9}$ & $1.07935\times10^{-23}$ & $7.607$ \\
+$7$ & $7.73054\times10^{-28}$ & $2.91979\times10^{-37}$ & $2.648\times10^{9}$ & $7.78995\times10^{-29}$ & $9.924$ \\
+$8$ & $4.58127\times10^{-33}$ & $1.08993\times10^{-42}$ & $4.203\times10^{9}$ & $5.07899\times10^{-34}$ & $9.020$ \\
+$9$ & $3.13549\times10^{-38}$ & $4.03552\times10^{-48}$ & $7.770\times10^{9}$ & $3.06721\times10^{-39}$ & $10.223$ \\
+$10$ & $1.78439\times10^{-43}$ & $1.48462\times10^{-53}$ & $1.202\times10^{10}$ & $1.74467\times10^{-44}$ & $10.228$ \\
+$11$ & $1.22587\times10^{-48}$ & $5.43359\times10^{-59}$ & $2.256\times10^{10}$ & $9.45817\times10^{-50}$ & $12.961$ \\
+$12$ & $5.53055\times10^{-54}$ & $1.98020\times10^{-64}$ & $2.793\times10^{10}$ & $4.92908\times10^{-55}$ & $11.220$ \\
+\hline
+\end{tabular}
+\end{center}
+
+Against $1-\Lambda_0$ the ratio is $\sim10^9$ and \emph{grows by a factor $56$}
+across the range --- almost all of that being the growth of
+$(1-\chi_2)/(1-\Lambda_0)$ itself, which is $\mu^{4.3}$ here, since Fuchs' index
+ratio contributes $\mu^4$.  The index-0 reading is not off by a constant; it is
+off by the whole of the index-4 prefactor.  Against $1-\chi_2$ the ratio lies
+between $7.6$ and $13.0$, with residual growth a factor $1.45$.
+
+\emph{A factor of ten, nearly flat, against nine orders of magnitude with a
+$\mu^4$ drift.}  That is the discrimination the rate could not make. \observed
+
+One structure worth recording rather than smoothing: the ratio is largest at
+$\mu=7,9,11$, each the last integer before a prime power enters the form.  $s$
+is at its largest just before a new prime power arrives to repair it --- the
+oscillation of $R-D$ seen from the near-radical direction, and a reminder that
+$s(\mu)$ at integer $\mu$ samples a function with arithmetic structure at exactly
+the scale of the sample spacing.
+
+\subsection{The truncation bias, measured rather than asserted}
+
+Truncation is variational and cuts one way, so every $s$ above is an
+\emph{upper} bound, looser at larger $\mu$ --- which is the direction that
+inflates $s/(1-\chi_2)$ at large $\mu$.  Computing $s(\mu)$ at $N=60,80,100,120$
+and extrapolating geometrically in $N$ leaves ratios
+$7.11,\ 9.65,\ 8.71,\ 9.92,\ 8.21,\ 9.21$ at $\mu=5,7,8,10,11,12$ --- a factor
+$1.40$ spread with \emph{no monotone trend left in it}.  (At $\mu=6$ and $\mu=9$
+the last two increments are not decreasing, so the geometric fit refuses and no
+extrapolation is reported: that is the fit declining, not the sequence
+diverging.)  At $N=100$ the ratio rose by $1.45$ across the range; after
+extrapolation the rise is gone.
+
+The extrapolation is a three-point model, not a theorem, but it can only move
+the ratio \emph{down}, and it moves it down more at large $\mu$.  The claim made
+here is therefore only the weak one: \emph{$\kappa=s/(1-\chi_2)$ grows no faster
+than $\log\mu$}, which is also what \eqref{H1} would produce, since the mean
+density of zeros near height $T$ is $\frac1{2\pi}\log\frac{T}{2\pi}$.  Either
+way it is sub-polynomial and cannot touch an exponential rate.  Whether $\kappa$
+is a constant of about $9$ is \textbf{Gap G4}.
+
+\subsection{Their one published number}
+\label{sec:theirnumber}
+
+At $\mu=11$, Connes--Consani report $2.389\times10^{-48}$ (\file{:178}).
+Convergence in $N$ here, at 100 digits: $2.389468\times10^{-48}$ at $N=50$;
+$1.370549\times10^{-48}$ at $N=80$; $1.225866\times10^{-48}$ at $N=100$;
+$1.120712\times10^{-48}$ at $N=120$.  \textbf{The exponent is settled at $-48$
+and reproduces their number; the mantissa is not converged}, so this is a
+reproduction and not a verification of $2.389$.
+
+Note what $N=50$ does: it lands on their four printed digits.  Either that is
+their truncation level or it is a coincidence; the paper never says which $N$
+they used (\file{:210} says only $|n|,|m|\le N$), so this cannot be settled from
+the paper and is recorded as unresolved.  On their own log-scale figures the
+entire $N=50\to120$ drift is a change of $0.33$ against an ordinate of $-48$:
+invisible, which is consistent with their remark that increasing $N$ ``does not
+alter substantially the lower part of the spectrum'' without that remark being
+evidence that the mantissa has converged.
+
+\subsection{The identity, and the one inequality that is missing}
+\label{sec:identity}
+
+Everything in Connes--Consani's chain is exact except the last step, and the
+last step is where a proof would live.  Here is what the chain actually gives.
+
+Let $\phi$ be the normalised three-mode vector of Remark~\ref{rem:thirdmode}, so
+that $\E\phi\in L^2(d^*u)$ and $\F_\mu(\E\phi)$ has no pole at $s=\pm\tfrac i2$.
+Since $\operatorname{supp}\phi\subseteq[-\lambda,\lambda]$ we have
+$\operatorname{supp}\E\phi\subseteq(0,\lambda]$, so with
+\[
+  g:=\E(\phi)\big|_{[\lambda^{-1},\lambda]},\qquad
+  r:=\E(\phi)\big|_{(0,\lambda^{-1})},\qquad \E(\phi)=g+r,
+\]
+the decomposition is exhaustive: nothing spills above $\lambda$.
+
+\begin{proposition}[\ours, from \cite{CC2023}]\label{prop:identity}
+$\displaystyle \QW_\lambda(g,g)=\sum_{\frac12+is\in Z}\big|\F_\mu r(s)\big|^2 .$
+\end{proposition}
+
+\begin{proof}
+$\F_\mu(\E\phi)$ vanishes on $Z$, so $\F_\mu g=-\F_\mu r$ on $Z$.
+\end{proof}
+
+This is an identity and it is the conceptual content: \textbf{$\QW_\lambda$
+evaluated at the prolate vector is the Weil form of the part of $\E\phi$ that
+falls outside the window.}  The near-radical is not ``nearly in the kernel'' by
+accident; it is exactly as far from the kernel as the construction fails to fit
+inside $[\lambda^{-1},\lambda]$.
+
+\paragraph{The size of the spill.}  By Poisson, for $x<\lambda^{-1}$,
+$\E\phi(x)=\E\widehat\phi(x^{-1})$, so with $y=x^{-1}>\lambda$,
+$\|r\|^2=\int_\lambda^\infty|\sum_{n>0}\widehat\phi(ny)|^2dy$.  The $n=1$
+diagonal term is half the out-of-band energy of $\phi$, and that energy splits
+\emph{exactly} across the prolate modes, since
+$\langle\widehat{\mathcal P_\lambda}\psi_n,\widehat{\mathcal P_\lambda}\psi_m\rangle=\Lambda_m\delta_{nm}$
+makes the in-band parts orthogonal and hence the out-of-band parts too:
+\[
+  \big\|(1-\widehat{\mathcal P_\lambda})\phi\big\|^2
+  =\sum_m|b_m|^2(1-\Lambda_{2m})=w\,(1-\Lambda_4)(1+o(1)),\qquad w\to\tfrac8{11}.
+\]
+So $\|r\|^2\asymp(1-\chi_2)$, linearly, and the corpus's central estimate
+$\QW_\lambda(\E h_\lambda)\asymp1-\chi_4$ is the $n=1$ term of this line, with
+the constant it hides being $\tfrac8{11}$ times an $O(1)$ mean value over the
+zeros.  \emph{The $n\ge2$ terms and the cross terms are not free}: $\widehat\phi$
+decays only like $y^{-1}$ off-band and the Cauchy--Schwarz sum is
+logarithmically divergent before the oscillation of $\widehat\phi$ is used.  The
+honest form is $\|r\|^2=C_1(\lambda)(1-\chi_2)$ with $C_1$ conjecturally
+$O(\log\mu)$.  \textbf{Gap G5.}
+
+\paragraph{The missing inequality.}  To convert this into a bound on $s$ one
+needs two hypotheses, neither proved here:
+
+\setcounter{hypothesis}{-1}
+\begin{hypothesis}\label{H0}
+$\|g\|^2$ is bounded below.  Since
+$\|\E\phi\|^2=\frac1{2\pi}\int|\Gamma_\R(\tfrac12-is)\zeta(\tfrac12-is)P_\phi(s)|^2ds$,
+this is a mean-value statement about $|\zeta(\tfrac12+it)|^2$ against an explicit
+weight --- routine in shape, but $P_\phi$ depends on $\lambda$ and the bound must
+be uniform.
+\end{hypothesis}
+
+\begin{hypothesis}\label{H1}
+There is $\Theta(\lambda)$, subexponential in $\mu$, with
+$\sum_{\frac12+is\in Z}|\F_\mu r(s)|^2\le\Theta(\lambda)\|r\|^2$ for the spill
+$r$.
+\end{hypothesis}
+
+\eqref{H1} is a mean-value estimate for the zeta zeros as a sampling set, of
+Plancherel--P\'olya type.  It is not automatic: $\QW_\lambda$ takes values in
+$(-\infty,+\infty]$ and is unbounded above, so no uniform $\Theta$ exists on
+$L^2$; \eqref{H1} must use the specific $r$, which is smooth on
+$(0,\lambda^{-1})$ but has a jump at the endpoint, so $\F_\mu r$ decays only like
+$|s|^{-1}$ and the sum converges only because the zero density is logarithmic.
+The expected size of $\Theta$ is $O(\log\mu)$.
+
+\begin{corollary}[conditional]\label{cor:upper}
+Under \eqref{H0} and \eqref{H1},
+\[
+  s(\mu)\;\le\;\frac{\QW_\lambda(g,g)}{\|g\|^2}\;\le\;
+  \frac{\Theta(\lambda)C_1(\lambda)}{\|g\|^2}\,(1-\chi_2(\lambda)),
+  \qquad\text{hence}\qquad
+  \limsup_{\mu\to\infty}\frac{\log s(\mu)}{\mu}\;\le\;-4\pi .
+\]
+\end{corollary}
+
+That is a real half of the answer, and it is the half every number in this
+project is consistent with, because every computed $s$ is itself an upper bound.
+It also says that the residual truncation bias and the identification's
+one-sidedness are the \emph{same} fact and not two.
+
+% ==========================================================================
+\section{The boundary: a lower bound of any shape implies RH}
+\label{sec:boundary}
+% ==========================================================================
+
+A rate is two-sided.  The remaining half is that $s(\mu)$ does not decay
+\emph{faster} than $e^{-4\pi\mu}$, i.e.\ a lower bound $s(\mu)\ge\kappa(\mu)>0$
+for all $\mu$.
+
+Connes states the equivalence himself (\file{rhready.tex:1145}): ``By the result
+of Andr\'e Weil discussed in \S\texttt{sectweilpos}, the positivity of
+$\QW_\lambda$ for all $\lambda>1$ is equivalent to RH''; Connes--Consani state
+the same at \file{Spectraltriples.tex:169}. \proved{} Therefore:
+
+\begin{theorem}[\ours{} as an observation, from Weil and \cite{Connes2026}]
+\label{thm:boundary}
+Any theorem of the form $\min(s^+(\mu),s^-(\mu))\ge\kappa(\mu)>0$ for all $\mu$
+implies RH.  A theorem that additionally pins the rate is strictly stronger,
+since RH gives positivity with no rate at all.
+\end{theorem}
+
+Two places one might hope to slip through, and neither works.
+
+\begin{itemize}\itemsep3pt
+\item \textbf{Restricting to large $\mu$ does not help.}  The supports are
+nested, so $\QW_\Lambda\ge0$ implies $\QW_\lambda\ge0$ for every
+$\lambda<\Lambda$: a lower bound valid for all $\mu\ge\mu_0$ already gives
+positivity for \emph{all} $\lambda$.
+\item \textbf{Dropping the sign does help --- and that is the tell.}  The
+statement $|s(\mu)|=e^{-4\pi\mu+o(\mu)}$, with no claim that $s>0$, does not
+formally imply RH.  But it is invariant under $\QW_\lambda\mapsto-\QW_\lambda$,
+and is therefore compatible with the form being negative on the near-radical at
+every $\mu$.  \emph{The only version of ``the rate is $4\pi$'' that says anything
+about the sign of the Weil form is the version that contains RH.}
+\end{itemize}
+
+\begin{corollary}\label{cor:permanent}
+The $4\pi$ rate cannot be made an unconditional theorem --- not for want of
+technique; the statement contains RH.  And no computation can change that: a
+wider grid or a converged truncation sharpens the fitted constant, but it cannot
+supply a lower bound at a $\mu$ it has not computed, and the statement quantifies
+over all $\mu$.
+\end{corollary}
+
+\begin{quote}
+\textbf{The house rule predicted this.}  The mechanism of \S\ref{sec:objects}
+--- the radical contains $\operatorname{ran}\E$, the near-radical is the failure
+of a double support condition, the size is a concentration defect --- is entirely
+invariant under $\QW_\lambda\mapsto-\QW_\lambda$.  A kernel is a kernel either
+way; a concentration defect is a magnitude.  So the prolate story explains why
+$|s|$ is minuscule and says nothing whatever about why $s>0$.  It is exactly that
+sign-blindness which forces the lower bound to carry the whole arithmetic
+content, and RH is the arithmetic content.  \emph{The standing test located the
+obstruction before the analysis did.}
+\end{quote}
+
+For the record, the same two-sidedness has a numerical shadow that is worth
+naming, because it is a check anyone can run: the three-parameter fit
+$\log_{10}s(\mu)=-A\mu+B\log_{10}\mu+D$ over $\mu=5,\dots,12$ gives
+$A=5.4635\pm0.052$, $B=5.322\pm0.96$, $D=6.589\pm0.44$, against the index-4
+predictions $4\pi/\log10=5.45751$ ($0.12\sigma$), $9/2$ ($0.86\sigma$) and
+$\log_{10}(2^{14}\sqrt2\pi^5/3)=6.373563$ ($0.49\sigma$) --- three parameters,
+none free.  The index-0 reading predicts $B=\tfrac12$, which is $5.0\sigma$ away.
+That is evidence for the \emph{identification}; by Corollary~\ref{cor:permanent}
+it is not, and can never be, evidence for the theorem.
+
+% ==========================================================================
+\section{The obstruction, sharpened}
+\label{sec:sharpening}
+% ==========================================================================
+
+This is the deliverable.  Combining \S\ref{sec:deficit} and \S\ref{sec:scale}: a
+proof of $\QW_\lambda\ge0$ must establish that, on the near-radical direction,
+\[
+  \sigma^{\mathrm{arch}}(v_\mu)\;=\;\Big(\sum_pW_p\Big)(v_\mu)\;+\;s(\mu),
+  \qquad
+  \sigma^{\mathrm{arch}}(v_\mu)\approx0.025\log\mu,
+  \qquad
+  s(\mu)\approx\kappa\,(1-\chi_2(\lambda)),
+\]
+with $s>0$.  In words: \emph{two computable quantities of size
+$\approx0.025\log\mu$, one archimedean and one a finite sum over $p^m<\mu$,
+agree to about $5.2$ decimal digits per unit of $\mu$ over the computed range ---
+at a rate consistent with $4\pi/\log10=5.4575$ --- and the sign of the
+discrepancy is always the same one.}
+
+Three consequences.  Each is a constraint on \emph{method}, not a restatement of
+difficulty.
+
+\begin{enumerate}\itemsep4pt
+\item \textbf{No fixed-relative-error argument can work.}  Any bound on either
+side accurate to a fixed relative error $\varepsilon$, or to a fixed power
+$\mu^{-k}$, loses at
+$\mu\gtrsim(k\log\mu+\log(1/\varepsilon))/(4\pi/\log10)$.  The required relative
+accuracy is $e^{-4\pi\mu}/(0.025\log\mu)$: not a constant, and not polynomial.
+
+\item \textbf{No prime can be dropped and no tail estimated.}  Each $p^m<\mu$
+individually carries $0.10$--$0.84$, fifty-three orders above the residue
+(\S\ref{sec:loadbearing}), and the cost is not ordered by the size of the prime.
+The sum is not dominated by its head, and the standard move of controlling
+$\sum_{p>P}$ crudely is unavailable at every $P<\mu$.
+
+\item \textbf{The difficulty is not magnitude but cancellation, and
+Theorem~\ref{thm:deficit} is what makes that precise.}  The deficit is bounded by
+$5.3721834\ldots$ for all $\mu$ --- a fixed, small, explicit constant.  Nothing
+on the archimedean side diverges.  What has to be proved is an
+exact-to-$e^{-4\pi\mu}$ agreement between two bounded quantities, which is a
+statement about the arithmetic of the primes and not about the size of anything.
+\end{enumerate}
+
+Read the other way, this is also an explanation of \emph{why} Connes--Consani's
+near-radical construction is the right conceptual object: the near-radical is
+exactly the subspace on which the two sides are forced into this agreement, and
+its dimension $1+\nu(\mu)\sim2\mu$ is the number of independent such agreements
+that $\mu$ demands at once.
+
+And it is why the sharpening stops here rather than continuing.  A fourth
+constraint would have to say something about the \emph{direction} of the
+discrepancy; by \S\ref{sec:boundary} any such statement, of any shape, is RH.
+
+% ==========================================================================
+\section{The house rule, applied to this paper}
+\label{sec:houserule}
+% ==========================================================================
+
+\begin{center}
+\emph{Is any statement in this paper false for $-\QW_\lambda$?}
+\end{center}
+
+\noindent Applied claim by claim.  ``Sign-blind'' is not an accusation; it is a
+classification, and the pattern in the last column is the paper's thesis.
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.36\textwidth}p{0.38\textwidth}p{0.16\textwidth}@{}}
+\hline
+claim & under $\QW_\lambda\mapsto-\QW_\lambda$ & verdict \\
+\hline
+\S\ref{sec:objects}: the objects are Connes--Consani's; $\QW_\lambda$ is one
+symbol; the index is 4
+& statements about notation, about $\E$'s domain and about a phase; unchanged
+& \textbf{sign-blind} \\
+\S\ref{sec:onesign}: the archimedean sign is
+$\operatorname{Tr}(\vartheta(g)\Sonin\vartheta(g)^*)\ge0$
+& the theorem would read $-W_\infty(g\star g^*)\ge\operatorname{Tr}(\cdots)\ge0$,
+contradicting the positivity Yoshida established by explicit computation
+& \textbf{false for $-W$} \\
+Prop.~\ref{prop:indefinite}: $V(n)\sim-V(n)$
+& invariant by construction
+& \textbf{sign-blind} \\
+\S\ref{sec:burnol}: the projections commute over $\Q_p$
+& a statement about two projections
+& \textbf{sign-blind} \\
+\S\ref{sec:noplacewise}: archimedean positivity fails past $\mu=2.2710$;
+Prop.~\ref{prop:witness}'s witness has value $-0.646$
+& becomes a claim about negativity being restored by the prime 2, and about a
+value $+0.646$; both false of the same computation
+& \textbf{false for $-W$} \\
+Thm.~\ref{thm:deficit}: $\lambda_{\min}(\sigma^{\mathrm{arch}})\ge2\vartheta'(0)$
+& becomes $\lambda_{\max}\le5.372$; measured $\lambda_{\max}=5.4855$ at $\mu=2$
+and unbounded in $N$, since the form takes values in $(-\infty,+\infty]$
+& \textbf{false for $-W$}, and not marginally \\
+\S\ref{sec:deficit}: $R(\mu)>D(\mu)$
+& the primes would have to reduce an archimedean excess and instead increase it
+& \textbf{false for $-W$} \\
+\S\ref{sec:thirddirection}: $\sigma^{\mathrm{arch}}(v_\mu)>0$,
+$-\sum_pW_p(v_\mu)<0$, sum $=s>0$
+& all three signs flip; the sum is $-s<0$
+& \textbf{false for $-W$} \\
+\S\ref{sec:loadbearing}: every prime power load-bearing
+& ``the form goes negative'' becomes ``goes positive''
+& \textbf{false for $-W$} \\
+\S\ref{sec:confront}: $s/(1-\chi_2)\in[7,13]$
+& $\lambda_{\min}(-\sigma^+)=-\lambda_{\max}(\sigma^+)$, large, negative, and
+growing without bound in $N$
+& \textbf{false for $-W$} \\
+Prop.~\ref{prop:identity}: $\QW_\lambda(g,g)=\sum_Z|\F_\mu r|^2$
+& both sides negate; the identity survives
+& \textbf{sign-blind} \\
+Cor.~\ref{cor:upper}: $\limsup\mu^{-1}\log s\le-4\pi$, and the rate $4\pi$
+& magnitude only --- except for the left half of $0<s\le\cdots$, which fails
+& \textbf{sign-blind} (the bound); \textbf{false for $-W$} (the positivity) \\
+Thm.~\ref{thm:boundary}: a lower bound for all $\mu$ implies RH
+& for $-W$ the hypothesis asserts $\sigma^+\prec0$, already false at $\mu=2$
+where $\lambda_{\max}=5.4855$
+& \textbf{false for $-W$} \\
+\S\ref{sec:sharpening} constraint 1 (relative accuracy)
+& a statement about digits
+& \textbf{sign-blind} \\
+\S\ref{sec:sharpening} constraints 2 and 3
+& rest on \S\ref{sec:loadbearing} and Thm.~\ref{thm:deficit}, both sign-bearing
+& \textbf{false for $-W$} \\
+\hline
+\end{tabular}
+\end{center}
+
+Read the table.  \emph{Every sign-blind row is part of the prolate/magnitude
+machinery} --- the objects, the notation, the index, the indefiniteness of the
+prime terms, the commuting pair at a finite place, the identity, the rate.
+\emph{Every sign-bearing row is an inequality about $\lambda_{\min}$ of the
+actual form}, or the one proved square at the archimedean place.  There is no row
+in which the prolate mechanism produces a direction, and this is not for want of
+looking: the classification was run on the claims as they stood.
+
+The same test applied to the underlying note on the rate gave three sign-blind
+claims out of six --- the index, the identity, and the rate itself --- with the
+three sign-bearing ones each an inequality about $\lambda_{\min}$.  That is the
+honest result and it is \emph{the argument}, not an embarrassment: it is what
+turns ``we did not manage to prove positivity'' into ``this mechanism cannot
+prove positivity, and here is the test that shows it''.
+
+\paragraph{Two warnings to whoever quotes this paper.}
+``$s(\mu)$ is governed by $1-\chi_2$'' is by itself invariant under
+$W\mapsto-W$; it is sign-bearing only as ``$0<s(\mu)\le\cdots$'', and the left
+half of that is RH.  Likewise ``the two halves agree to $5.46\mu$ digits'' is
+sign-blind on its own, and is admissible only as part of ``\ldots and the
+archimedean half is the positive one''.
+
+% ==========================================================================
+\section{Gaps, and open problems}
+\label{sec:gaps}
+% ==========================================================================
+
+Recorded rather than filled; several were discovered while assembling this paper
+and are not closed by it.
+
+\begin{center}\small
+\begin{tabular}{@{}lp{0.72\textwidth}@{}}
+\hline
+\textbf{G1} & Turn Prop.~\ref{prop:witness} into a theorem: an explicit family of
+test functions and an explicit $\mu_0$ past which archimedean-only positivity
+provably fails.  Looks routine.  It would upgrade the most-cited numerical claim
+in this area from \observed{} to \proved. \\
+\textbf{G2} & Is $D(\mu)\to-2\vartheta'(0)$ exactly, or to something strictly
+smaller?  The saturation is numerical to $\mu=10^{20}$ and the gap is still
+$0.089$.  The limit argument --- concentrate $\widehat f$ at $t=0$ while killing
+the boundary term with an $O(e^{-L/4})$ correction near $\pm L/2$ --- is sketched
+and not written out.  It would make Theorem~\ref{thm:deficit} two-sided. \\
+\textbf{G3} & Is the sign reversal of \S\ref{sec:thirddirection} stable in $\mu$?
+Verified only for $5\le\mu\le12$.  It is the load-bearing structural claim of
+\S\ref{sec:deficit} and the range is short. \\
+\textbf{G4} & Is $\kappa(\mu)=s/(1-\chi_2)$ a constant, and is it about $9$?
+Extrapolated values are $7.1$--$9.9$ with no trend, but a three-point model over
+eight points cannot separate a constant from $\log\mu$. \\
+\textbf{G5} & Prove $\|r\|^2=C_1(\lambda)(1-\chi_2)$ with $C_1=O(\log\mu)$:
+the $n\ge2$ terms and cross terms in \S\ref{sec:identity} need the oscillation of
+$\widehat\phi$, since Cauchy--Schwarz alone diverges logarithmically. \\
+\textbf{G6} & Prove \eqref{H1} --- the Plancherel--P\'olya-type mean-value bound
+over the zeros for the spill $r$ --- and \eqref{H0}.  Together with G5 these give
+$\limsup\mu^{-1}\log s\le-4\pi$ unconditionally.  \emph{This is the one genuinely
+open analytic problem this paper produces}, and it is the whole remaining content
+of the upper bound. \\
+\textbf{G7} & The odd sector.  Connes--Consani's
+$\phi_3=\psi_3\psi_1(0)-\psi_1\psi_3(0)$ is built from $\PS_{6,0}$ and
+$\PS_{2,0}$, so the odd smallest eigenvalue should be governed by prolate index
+\textbf{6} --- power $13/2$ at the same rate $4\pi$.  A sharp, cheap, falsifiable
+prediction; not checked here. \\
+\textbf{G8} & Evaluate $\QW_\lambda$ on $g$ directly and compare with $s(\mu)$.
+Prop.~\ref{prop:identity} makes this the cleanest possible test of the whole
+chain, replacing twelve figures with a ratio.  Not done: $\E\phi$ has jump
+discontinuities at $u=\lambda/n$, so its coefficients decay like $j^{-1}$ and the
+truncated Rayleigh quotient may be dominated by the tail rather than by the
+$10^{-54}$ it is trying to measure.  Wants panel quadrature at the breakpoints. \\
+\textbf{G9} & Does the corpus's commutator localisation have a semilocal
+analogue, i.e.\ does $[\mathbf W_{\lambda,S},P^S]=0$ for either CCM candidate?
+Answering it needs the deferred Jacobi coefficients. \\
+\textbf{G10} & Not open, and recorded so it is not reopened: the matching
+\emph{lower} bound on $s(\mu)$.  That is RH (Theorem~\ref{thm:boundary}). \\
+\hline
+\end{tabular}
+\end{center}
+
+% ==========================================================================
+\section{Provenance, and how to check every claim}
+\label{sec:provenance}
+% ==========================================================================
+
+\subsection{Sources read, and how}
+
+All Connes / Connes--Consani / CCM / Burnol material was read as arXiv \LaTeX{}
+source, downloaded from \texttt{arxiv.org/e-print/} on 12 August 2026; line
+references of the form \file{Spectraltriples.tex:169} are lines of those files
+and are stable for that snapshot.  Specifically:
+\file{Spectraltriples.tex} (arXiv:2106.01715), \file{weil-compo.tex}
+(arXiv:2006.13771), \file{mainc2m24fine.tex} (arXiv:2310.18423),
+\file{rhready.tex} (arXiv:2602.04022), \file{zeta.tex} (arXiv:math/9811068),
+\file{scatteringV2.tex} (arXiv:math/9901051).  Where only a statement was read
+and not its proof, the underlying notes say so section by section.
+
+\paragraph{Not read.}  Fuchs \cite{Fuchs1964} --- its statement is taken in the
+form Connes cites and then checked against independent arbitrary-precision
+computation of $\Lambda_0,\Lambda_2,\Lambda_4$ (\S\ref{sec:fuchs}); if the
+general-$n$ constant were wrong, the $B$ and $D$ predictions of
+\S\ref{sec:boundary} would move and the $A$ prediction would not.  Yoshida
+\cite{Yoshida1992} --- not on arXiv and not reachable; it is the one place a
+sharpness statement could hide (\S\ref{sec:notheorem}).  Slepian's tabulated
+$\Lambda_0(1)=0.57258$ is quoted from the standard literature and used only as a
+five-digit sanity check.
+
+\subsection{Scripts}
+
+Every numerical claim above has a companion script in the project's
+\file{notes/} directory; all are self-contained and take no arguments.
+
+\begin{center}\small
+\begin{tabular}{@{}llp{0.42\textwidth}@{}}
+\hline
+script & needs & what it certifies here \\
+\hline
+\file{verify_semilocal_gap.py} & numpy &
+Prop.~\ref{prop:indefinite} (symmetry to $10^{-15}$, Boas--Kac norm);
+Fuchs vs Connes' constant to 12 decimals \\
+\file{verify_arch_positivity.py} & numpy &
+\S\ref{sec:noplacewise}: the five reproduced numbers, and
+Prop.~\ref{prop:witness}'s witness ($\approx2.5$ min) \\
+\file{verify_deficit_repair.py} & mpmath &
+\S\ref{sec:deficit} entirely: the bound, the saturation table, $R/D$, the
+Rayleigh split, the prime-omission table ($\approx20$ min; \texttt{-{}-quick}
+$\approx4$) \\
+\file{verify_prolate_rate.py} & mpmath &
+\S\ref{sec:fuchs}--\S\ref{sec:theirnumber}: exact prolate defects, the
+confrontation, the truncation extrapolation ($\approx40$ min;
+\texttt{-{}-quick} $\approx5$) \\
+\file{verify_index_convention.py} & mpmath &
+\S\ref{sec:convention}: that the candidate discriminator carries one bit \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{What was re-run while assembling this paper, and what was not.}
+Two scripts were re-run on 12 August 2026 (python 3.11, numpy 1.25.2, mpmath
+1.3.0).  \file{verify_semilocal_gap.py} reproduced both of its checks:
+Proposition~\ref{prop:indefinite}'s exact spectral symmetry and Boas--Kac norm at
+every row, and the Fuchs-vs-Connes constant to twelve decimals.
+\file{verify_prolate_rate.py --quick} reproduced check~0 (Slepian's
+$\Lambda_0(1)=0.572581780638$; two independent eigensolvers agreeing to every
+printed digit), check~1 (Connes' constant identified as $\tfrac12$ Fuchs at
+$n=4$, and the Fuchs/exact ratios of \S\ref{sec:fuchs}), check~4 (the
+three-parameter test) and check~5 (precision and truncation stability).  It did
+\emph{not} reproduce the $s(\mu)$ column of \S\ref{sec:confront}: \texttt{-{}-quick}
+runs $N\le80$, and its ratios ($8.7$ to $18.6$) sit above the $N=100$ ones, which
+is the direction truncation must move them.
+
+Everything else in \S\ref{sec:noplacewise}--\S\ref{sec:scale} is transcribed from
+the notes named below, which each report their own script's output, and was
+\emph{not} re-run on this pass.  That is the honest status of those numbers:
+computed once, by the note that owns it, at the stated precision and truncation,
+and reproducible by the command above.
+
+One transcription error was found this way and is corrected here: the predicted
+intercept $\log_{10}(2^{14}\sqrt2\pi^5/3)$ is $6.373563\ldots$, and one table in
+\file{prolate-rate.md} gave $6.37347$.  The script had it right; the table did
+not.  The $0.49\sigma$ and everything downstream are unchanged.  The note is
+annotated in place.
+
+\subsection{The notes this paper assembles}
+
+In dependency order: \file{citation-audit.md} (positioning; $\QW_\lambda$ is one
+symbol; the object-by-object correspondence); \file{index-convention.md} (the
+index is 4, and the numerical route cannot settle it);
+\file{semilocal-gap.md} (\S\ref{sec:onesign} and \S\ref{sec:noplacewise},
+including the Burnol appendix and the archimedean-failure appendix);
+\file{deficit-repair.md} (\S\ref{sec:deficit} and \S\ref{sec:sharpening});
+\file{prolate-rate.md} (\S\ref{sec:scale} and \S\ref{sec:boundary}).  Two earlier
+notes --- \file{s3-reduction-audit.md} and \file{s3-sign-blindness.md} --- are
+where the house rule of \S\ref{sec:houserule} was first stated and first used to
+kill a chain of the project's own proposals; \file{signed-geometry-proposals.md}
+is where it was sharpened to ``an involution and a square''.
+
+\subsection{Corrections, recorded rather than absorbed}
+
+Four corrections of ours are folded into the text above.  They are listed here
+because a reader weighing the tables should know which way the errors ran, and
+because the pattern in them is itself a finding.
+
+\begin{enumerate}\itemsep3pt
+\item \textbf{A stated strategy read as a companion theorem.}  An early note
+cited ``the archimedean place and its semilocal extension'' as though both were
+proved.  Only the archimedean place is.  This is the origin of the status
+vocabulary in \S\ref{sec:standards}.
+\item \textbf{A check against one paper, written as a claim about the
+literature.}  A row of the citation audit called the identification of the
+controlling scale ``corpus-specific'' on the strength of arXiv:2106.01715.  It is
+Connes', in a survey that predated the audit by six months and that the audit
+itself named as the place to look.  A scoping defect, not a decayed finding.
+\item \textbf{The wrong prolate index, from the nearer formula.}  The rate was
+first read off the index-0 Slepian asymptotic, because that was the formula in
+the note being continued --- while the correct index was already written into two
+other notes of ours, two commits earlier.  Proximity beat provenance, and the
+provenance was our own.
+\item \textbf{A non-discriminating parameter mistaken for a test.}  The
+$0.12\sigma$ agreement of the fitted rate with $4\pi$ was treated as evidence for
+the index.  It is not: $e^{-2c}$ has no index dependence, so every candidate
+passes.  \S\ref{sec:fuchs}.
+\end{enumerate}
+
+\paragraph{The claim in this paper that would do the most damage if wrong} is the
+ratio table of \S\ref{sec:confront}, because \S\ref{sec:index},
+\S\ref{sec:identity} and \S\ref{sec:boundary} are all readings of it.  It has two
+exposures: the prolate solver (guarded by an independent eigensolver and by
+precision-stability checks), and the possibility that the near-flatness of
+$s/(1-\chi_2)$ over $\mu=5..12$ is an accident of a short range --- eight integer
+points spanning a factor $2.4$ in $\mu$, on a quantity that varies by $37$ orders
+of magnitude across them.  The second is not guarded and cannot be at this cost.
+The next most exposed is Theorem~\ref{thm:deficit}, whose only soft joint is the
+normalisation of Connes--Consani's Proposition \texttt{Hilbert} --- a factor of
+$2$ there doubles the constant, which is why that normalisation is checked
+against the matrix actually built rather than against the formula as printed, and
+why the proposition itself is taken on trust and marked as such.
+
+% ==========================================================================
+\begin{thebibliography}{99}
+
+\bibitem{Burnol1999}
+J.-F. Burnol,
+\emph{Scattering on the p-adic field and a trace formula},
+Int. Math. Res. Not. \textbf{2000}, no.~2, 57--70; arXiv:math/9901051.
+
+\bibitem{Connes1999}
+A. Connes,
+\emph{Trace formula in noncommutative geometry and the zeros of the Riemann zeta
+function},
+Selecta Math. (N.S.) \textbf{5} (1999), no.~1, 29--106; arXiv:math/9811068.
+
+\bibitem{Connes2026}
+A. Connes,
+\emph{The Riemann Hypothesis: past, present and a letter through time},
+arXiv:2602.04022 (Feb 2026).
+
+\bibitem{CC2021}
+A. Connes, C. Consani,
+\emph{Weil positivity and trace formula, the archimedean place},
+Selecta Math. (N.S.) \textbf{27} (2021), no.~4, Paper No.~77, 70 pp.;
+arXiv:2006.13771.
+
+\bibitem{CC2023}
+A. Connes, C. Consani,
+\emph{Spectral triples and $\zeta$-cycles},
+Enseign. Math. \textbf{69} (2023), no.~1--2, 93--148; arXiv:2106.01715.
+
+\bibitem{CM2022}
+A. Connes, H. Moscovici,
+\emph{The UV prolate spectrum matches the zeros of zeta},
+Proc. Natl. Acad. Sci. USA \textbf{119} (2022), e2123174119; arXiv:2112.05500.
+
+\bibitem{CCM2023}
+A. Connes, C. Consani, H. Moscovici,
+\emph{Zeta zeros and prolate wave operators: semilocal adelic operators},
+Ann. Funct. Anal. \textbf{15} (2024), no.~4, Paper 87; arXiv:2310.18423.
+
+\bibitem{CCM2025}
+A. Connes, C. Consani, H. Moscovici,
+\emph{Zeta spectral triples},
+arXiv:2511.22755 (Nov 2025).
+
+\bibitem{Fuchs1964}
+W. H. J. Fuchs,
+\emph{On the eigenvalues of an integral equation arising in the theory of
+band-limited signals},
+J. Math. Anal. Appl. \textbf{9} (1964), 317--330.
+\emph{(Not read; used in the form cited by \cite{Connes2026} and checked
+numerically --- \S\ref{sec:fuchs}.)}
+
+\bibitem{Groskin2026}
+A. Groskin,
+\emph{A finite Guinand--Weil dictionary and archimedean tail order for the
+truncated Weil quadratic form},
+arXiv:2607.02828 (Jul 2026); and arXiv:2605.20224 (May 2026).
+
+\bibitem{SlepianPollak1961}
+D. Slepian, H. O. Pollak,
+\emph{Prolate spheroidal wave functions, Fourier analysis and uncertainty --- I},
+Bell System Tech. J. \textbf{40} (1961), 43--63.
+
+\bibitem{Suzuki2026}
+M. Suzuki,
+\emph{Weil's quadratic form via the screw function},
+arXiv:2606.09096 (Jun 2026).
+
+\bibitem{Yoshida1992}
+H. Yoshida,
+\emph{On Hermitian forms attached to zeta functions},
+Adv. Stud. Pure Math. \textbf{21} (1992), 281--325.
+\emph{(Not read --- \S\ref{sec:notheorem}.)}
+
+\end{thebibliography}
+
+\end{document}

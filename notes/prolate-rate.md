@@ -65,7 +65,7 @@ passes.** Against mg-7606's fit:
 |---|---|---|---|
 | $A$ | $5.4635\pm0.052$ | $4\pi/\log10=5.45751$ | $0.12\sigma$ |
 | $B$ | $5.322\pm0.96$ | $9/2$ | $0.86\sigma$ |
-| $D$ | $6.589\pm0.44$ | $\log_{10}(2^{14}\sqrt2\pi^5/3)=6.37347$ | $0.49\sigma$ |
+| $D$ | $6.589\pm0.44$ | $\log_{10}(2^{14}\sqrt2\pi^5/3)=6.373563$ | $0.49\sigma$ | <!-- was 6.37347: transcription slip, corrected mg-8b7b, §12 -->
 
 The index-0 reading predicts $B=\tfrac12$, which is $5.0\sigma$ away. **This
 retires open item T3**, which was not a puzzle about subleading structure but
@@ -757,3 +757,35 @@ of magnitude across them. The second is not guarded and cannot be, at this cost.
 | **P3** | Is $\kappa(\mu)=s/(1-\chi_2)$ a constant, and is it about $9$? | §5's extrapolated values are $7.1$–$9.9$ with no trend, which suggests a constant; but the extrapolation is a three-point model over eight points and cannot separate a constant from $\log\mu$. Distinguishing them needs converged $s$ over a wider range, or the constant in (H1) |
 | **P4** | The odd sector | CC's $\phi_3=\psi_3\psi_1(0)-\psi_1\psi_3(0)$ is built from $\mathit{PS}_{6,0}$ and $\mathit{PS}_{2,0}$, so the odd smallest eigenvalue should be governed by $1-\chi_3$, i.e. prolate index **6** — a *different* power, $13/2$, at the same rate $4\pi$. Not checked here, and it is a sharp prediction: mg-7606's T4 now has a number to aim at |
 | **P5** | Evaluate $QW_\lambda$ on $g$ directly and compare with $s(\mu)$ | §6(a) makes this the cleanest possible test of the whole chain — it would replace CC's twelve figures with a ratio. Not done here: $\mathcal E\phi$ has jump discontinuities at $u=\lambda/n$, so its coefficients in the $\xi_j$ basis decay like $j^{-1}$ and the truncated Rayleigh quotient may be dominated by the tail rather than by the $10^{-54}$ it is trying to measure. Worth one ticket, with panel quadrature at the breakpoints |
+
+---
+
+## 12. Correction — the $D$ prediction's fifth digit (added 2026-08-12, mg-8b7b)
+
+*Appended while assembling [`../paper/positivity-obstruction.tex`](../paper/positivity-obstruction.tex).
+Nothing above is deleted; §Bottom line item 4's table is corrected in place,
+line-count-preserving, and carries a comment pointing here.*
+
+The bottom-line table gave the predicted intercept as
+$\log_{10}(2^{14}\sqrt2\,\pi^5/3)=6.37347$. **The correct value is
+$6.373563\ldots$** — the constant is $2363540.4858790407833\ldots$ and its
+logarithm is $6.3735630458787\ldots$, recomputed at 30 digits here and printed
+as `6.373563` by this note's own script (check 4). The `6.37347` was a
+transcription slip between the script's output and the table.
+
+**Nothing turns on it.** $(6.589-6.373563)/0.44=0.4896$, which is the $0.49\sigma$
+already stated; the three-parameter test, T3's closure, and the index-4
+identification are all unchanged. It is recorded rather than quietly fixed
+because the note's own §9 is about a number reaching a table by a route that was
+not the source, and this is the same shape one digit down: the script had it
+right and the table did not.
+
+**Provenance of this correction.** `verify_prolate_rate.py --quick` was re-run on
+2026-08-12 (python 3.11, mpmath 1.3.0) and reproduced check 0 (Slepian's
+$\Lambda_0(1)=0.572581780638$, two independent eigensolvers agreeing to every
+printed digit), check 1 (Connes' constant identified as $\tfrac12$ Fuchs at
+$n=4$; the Fuchs/exact ratios $1.0143194$, $1.0937828$, $1.3121893$ at
+$c=2\pi\cdot5$), check 4 and check 5 exactly as §§3–5 report them. The $s(\mu)$
+column was **not** reproduced at $N=100$: `--quick` runs $N\le80$, and its ratios
+($8.66$ to $18.65$) sit above §4's, which is the direction truncation must move
+them.

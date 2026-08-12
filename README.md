@@ -10,7 +10,19 @@ sharpening of the positivity obstruction that stands on its own.
 
 ## Status
 
-Early. The repository holds two working documents.
+`paper/positivity-obstruction.tex` is a **draft** assembling the notes below into
+one standalone document: *The prolate mechanism is sign-blind — a sharpening of
+the positivity obstruction*. It is not a submission and nothing has been sent
+anywhere. Build with `pdflatex positivity-obstruction.tex` (three passes; 23
+pages). Its thesis is that the whole prolate mechanism is invariant under
+\(QW_\lambda \mapsto -QW_\lambda\), so it explains why the smallest eigenvalue is
+minuscule and says nothing about why it is positive — which is what forces the
+missing lower bound to carry the arithmetic content, and that content is RH. It
+carries a status word (proved / announced / observed / conjectural) and an
+attribution on every load-bearing claim, a table of routes closed with their
+thresholds, and the house rule applied to itself.
+
+Early. The repository also holds two working documents.
 
 - `start.tex` records where the program stands: the setup, the reductions
   attempted so far, the routes that did not work, and a candidate next lemma.
@@ -72,7 +84,9 @@ cite them by line.
   one, where the archimedean contribution is *positive*, the primes *negative*, and
   the two agree to about \(5.2\) decimal digits per unit of \(\mu\) — a rate
   consistent with \(4\pi/\log 10=5.4575\), the constant behind a decay
-  Connes–Consani plot as a figure and never name. The resulting statement — a proof
+  Connes–Consani plot as a figure and never name (narrowed by `prolate-rate.md`:
+  true of arXiv:2106.01715, but the rate, the power and the constant are named in
+  Connes' Feb 2026 survey, and are his). The resulting statement — a proof
   must exhibit an exact-to-\(e^{-4\pi\mu}\) cancellation between two quantities of
   size \(\approx0.025\log\mu\), with every prime power below \(\mu\) individually
   indispensable — is a sharpening of the positivity obstruction that does not depend
