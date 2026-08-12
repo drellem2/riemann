@@ -260,7 +260,7 @@ is a **factorisation**: the semilocal Weil form is shown to be
 $W_S=A^*A+(\text{controlled})$ on the relevant space, i.e. positivity by exhibiting
 a square. In the taxonomy of §2.1 this is the $C^*$-algebra row: a Hermitian form
 polarised by an explicit isometry rather than by a Hodge structure. This is
-mechanism (2) of `s3-sign-blindness.md:181` — the one the note listed as
+mechanism (2) of `s3-sign-blindness.md:192` — the one the note listed as
 sign-breaking and did not pursue.
 
 **(3) The flow-through — named.** The involution is the same $f\mapsto f^*$; the
@@ -417,7 +417,7 @@ pairing on a **finite** group has no signature over $\mathbb R$: there is no not
 of a positive or negative eigenvalue, so it cannot sign the real number $C_\lambda$.
 Second, and independently, it is discrete — it is determined by the class group and
 is locally constant, while $C_\lambda$ varies continuously with $\lambda$
-(`s3-sign-blindness.md:338-346`). Third, criterion 3 has no candidate map at all:
+(`s3-sign-blindness.md:380-388`). Third, criterion 3 has no candidate map at all:
 nothing connects $\lambda(x,x)$ to $W_\lambda$.
 
 **Self-test: fails.** Every statement about $M$'s linking form is true for
@@ -427,7 +427,7 @@ this note as an *explanation of $S^3$* (§2.2), not as a candidate.
 
 ### C5 — the 4-dimensional filling, the $\eta$-invariant, Dedekind sums
 
-`s3-sign-blindness.md:334-336` named "a 4-dimensional filling ($S^3=\partial B^4$)"
+`s3-sign-blindness.md:376-378` named "a 4-dimensional filling ($S^3=\partial B^4$)"
 as a route to restore even dimension and middle cohomology, and §6 there developed
 the $\eta$-invariant with the round-$S^3$ falsifier $\eta\equiv0$. Three further
 observations, each cheaper than that falsifier:
@@ -439,7 +439,7 @@ observations, each cheaper than that falsifier:
    Criterion 1 fails at the first step.
 2. **A signature is an integer.** Whatever filling is chosen, $\operatorname{sign}(X)
    \in\mathbb Z$, and by Novikov additivity it is stable under gluing. $C_\lambda$
-   varies continuously. This is `s3-sign-blindness.md:338-346`'s argument, and it
+   varies continuously. This is `s3-sign-blindness.md:380-388`'s argument, and it
    applies to the filling as well as to the boundary.
 3. **Dedekind sums do not know about Euler products.** §6 there noted, correctly,
    that lens-space $\eta$-invariants are Dedekind sums and that this is "the one

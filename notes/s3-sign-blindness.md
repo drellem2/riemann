@@ -6,6 +6,14 @@ here: [`s3-reduction-audit.md`](s3-reduction-audit.md) (mg-aedf).
 
 Nothing in `start.tex` or `s3.tex` was edited. References are by line.
 
+**Superseded claims (added 2026-08-12).** One claim in this note has since been
+refuted and is annotated in place rather than rewritten: **§4's endorsement of the
+audit's "no compact group acts on the primes" objection** (below, and at §4's close)
+does **not** stand — see [`signed-geometry-proposals.md`](signed-geometry-proposals.md)
+§6 (mg-8599). Nothing else here is affected; in particular §3's central finding, that
+the whole `s3.tex` chain is invariant under $W_\lambda\mapsto-W_\lambda$, is untouched
+by that correction and stands as written.
+
 ---
 
 ## Bottom line
@@ -55,6 +63,9 @@ Two corrections to prior documents, both stated as claims to be checked:
   block-diagonality — a *reindexing* of the sign question. §4. And the corpus
   already contains a worked instance of candidate (a) which delivers exactly zero
   sign information.
+  *(2026-08-12: the Schur half of this stands. The part of §4 that additionally
+  endorsed the audit's "no compact group acts on the primes" objection does not —
+  see the note at the close of §4, and `signed-geometry-proposals.md` §6.)*
 - **Against `start.tex:373-377`**, which proposes identifying $C_\lambda$ with an
   $S^3$ "boundary/intersection quantity": $C_\lambda$ varies continuously with
   $\lambda$, and an intersection number is locally constant. The intersection
@@ -200,6 +211,12 @@ mean (`s3-reduction-audit.md:293-298`): a unitary representation of a compact gr
 on the test space commuting with $W_\lambda$, so that "positivity could then come
 from group averaging (Bochner/Godement) rather than from an estimate."
 
+> **Read with the correction (2026-08-12).** The Schur argument below is unaffected,
+> but this section closes by endorsing the audit's objection that no *compact* group
+> acts on the primes. That objection has since been refuted — averaging does not need
+> compactness — so do not invest in it on the way through; see the annotation at the
+> close of §4 and `signed-geometry-proposals.md` §6.
+
 **This overstates what a symmetry buys, and the gap matters.**
 
 If $\pi$ is a unitary representation of a compact $G$ and $[W_\lambda,\pi(g)]=0$,
@@ -238,6 +255,31 @@ entire gap**, and it is the same input-side/operator-side split as §3.
 The audit's own objection — $W_\lambda$ carries the primes and no compact group acts
 on those — stands. What is added here is that we now know what the consolation prize
 looks like, because we already have it.
+
+> **Superseded, 2026-08-12 (mg-8599).** The sentence above does **not** stand, and is
+> left in place only as the record of what this note concluded.
+> [`signed-geometry-proposals.md`](signed-geometry-proposals.md) §6 (see also its
+> Bottom line, item 4) shows the objection fails as stated: **positivity by averaging
+> does not require compactness** — Bochner's theorem is a theorem about *locally
+> compact abelian* groups, and Bochner–Schwartz extends it to tempered distributions.
+> The group that acts on the primes is the idele class group
+> $C_{\mathbb Q}=\mathbb A^\times_{\mathbb Q}/\mathbb Q^\times$, which is locally
+> compact abelian and not compact — and which does not merely act on the primes, it is
+> built out of them.
+>
+> The correction **closes** a route rather than opening one, which is why it is worth
+> stating precisely. Repaired, candidate (a) says that $W$ is a distribution on
+> $C_{\mathbb Q}$ and that Weil positivity is the statement that $W$ is of positive
+> type — i.e. candidate (a) **coincides with Connes' own formulation**. It is Weil
+> positivity restated, not a new mechanism: group averaging is not blocked by the
+> primes, it simply *becomes* the open problem once you take the group that does act
+> on them. So this is a live claim being retired, not good news being withheld.
+>
+> Unaffected by this: the Schur block-diagonality argument earlier in §4 (a symmetry
+> gives a reindexing of the sign question, not positivity), the $\mathbb{Z}/4$ worked
+> instance, and §3's central finding that the whole `s3.tex` chain is invariant under
+> $W_\lambda\mapsto-W_\lambda$. `signed-geometry-proposals.md` §6 endorses the Schur
+> correction explicitly; only the compactness clause is withdrawn.
 
 ---
 
