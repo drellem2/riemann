@@ -541,7 +541,7 @@ that and this note found nothing that disturbs it.
 | **Q1** | Prove $x|\Phi_{n,c}(x)|\le K|\Phi_{n,c}(1)|$ for $x\ge1$ with $K$ subexponential, in the regime $\chi_n<c^2$. Lemma 5.1 gives the amplitude; what is missing is the WKB decay ~~which must be connected through the **regular singular point $x=1$**~~ (mg-6851: it need not be — the row's diagnosis was wrong) | **PROVED (mg-6851), [`band-edge-connection.md`](band-edge-connection.md) Thm 5.2, with $K(c)=2^{3/4}e^{E(c)}$ *bounded*, $\downarrow2^{3/4}$. Q2 now carries the weight** |
 | **Q2** | Pass from the single-term bound (Q1) to (P) for $G=\sum_{n\ge1}\Phi(n\,\cdot)$. The mechanism is the sawtooth $\sum_n n^{-1}\sin(cnt)$ (§4) — right; ~~what must be controlled is the sum of the *remainders* in Osipov–Rokhlin's exact expansion, which is the off-band leakage of $t\Phi(t)$ (§6)~~ (mg-9d43: wrong variable — what is needed is one more power of $x$, not one less power of $e^{c}$) | **PROVED (mg-9d43), [`dilate-sum.md`](dilate-sum.md) Thm 5.1, with $K_P(c)=O(\log c)$. The evaluation cost was on the wrong side of a Poisson summation: `dilate-sum.md` Prop. 6.1 makes $tG(t)$ a sum of $\lfloor\mu t\rfloor+1$ *on-band* values. Q3 now carries the weight** |
 | **Q3** | Write out the two flagged steps of §3: ~~the fractional-Sobolev handling of the $\log^3$ weight~~ (mg-731c: its premise is false and the step is not needed), and the $\sigma\to\pm\tfrac12$ edge ~~$\pm$~~ (mg-731c: one edge, and it does not converge in this ordering) | **CLOSED (mg-731c), [`q3-log-weight-and-edge.md`](q3-log-weight-and-edge.md) Thm 4.4, $\Xi=O(\mu^{9/2}\log^3\mu)$ — but NOT routine: one premise false, one ordering divergent, and the repair uses §6(a) of `prolate-rate.md`, which §3 does not name. the $-4\pi$ upper bound now rests on (H0)/Q4 alone. It is (4.3) that is proved, not (H1) as §0 writes it — §1 rules that form out** |
-| **Q4** | (H0), $\|g\|^2$ bounded below — untouched here. It is the paper's other half of G6 and is a mean value of $|\zeta(\tfrac12+it)|^2$ against an explicit weight | **open, unchanged by this note** |
+| **Q4** | (H0), $\|g\|^2$ bounded below — untouched here. It is the paper's other half of G6 and ~~is a mean value of $|\zeta(\tfrac12+it)|^2$ against an explicit weight~~ (mg-6818: it is **not**. No mean value of $\zeta$ is involved anywhere in it) | **PROVED (mg-6818), [`h0-lower-bound.md`](h0-lower-bound.md) Thm 6.1: $\|g\|^2\to\|\mathcal E\phi_\infty\|^2=0.2192471995\ldots$, with $\phi_\infty=\sqrt{8/11}(h_4-\sqrt{3/8}h_0)$ — `start.tex:39`'s own vector. $\|g\|^2\ge\int_A^B|\mathcal E\phi|^2d^*u$ over any fixed compact, which is a finite sum of ON-BAND prolate values; the content is that $\phi_\lambda$ does not degenerate, and that is Dunster 2017 (arXiv:1601.00699) eq. (124), whose standing hypothesis $\lambda<0$ IS our $\chi<c^2$. **The $-4\pi$ upper bound is now unconditional**; see §15** |
 | **Q5** | Prove the endpoint identity §7, including the constant $c$ (not $\pi c/2$) and the $-(2n+1)/(4c)$ correction. It may well be in Slepian's or Fuchs' asymptotics in some normalisation; I did not find it | **observed only** |
 
 **What this note did not do:** it did not prove H1, and it did not find a
@@ -823,3 +823,86 @@ to (P); Prop. 3.1 and Prop. 3.2 themselves, which are correct as stated — it i
 bookkeeping bullets after them that were not. **This is the third inherited misdiagnosis
 on this chain** (mg-6851 on §5, mg-9d43 on §§4/6, this on §3), and the pattern is now
 three for three: the note was right that something was missing and wrong about what.
+
+---
+
+## 15. Appended by mg-6818 — Q4/(H0) is proved, and §9's description of it was wrong
+
+*Append-only. Nothing above is rewritten; the in-place annotation in §9 is inside the existing
+Q4 row and changes no line count. Companion note:
+[`h0-lower-bound.md`](h0-lower-bound.md), script [`verify_h0.py`](verify_h0.py).*
+
+**(H0) is proved, and $\|g\|^2$ does not merely stay above zero — it converges.**
+$$\lim_{\lambda\to\infty}\|g(\lambda)\|^2=\|\mathcal E\phi_\infty\|^2=0.219247199549\ldots,
+\qquad \phi_\infty=\sqrt{\tfrac8{11}}\big(h_4-\sqrt{\tfrac38}h_0\big),$$
+measured at $\mu=3,5,8,12,20$ and computed in the limit two independent ways agreeing to $22$
+digits. So Cor. `cor:upper` has both its hypotheses, and with Q1+Q2+Q3 **and §A of that note**,
+$$\limsup_{\mu\to\infty}\mu^{-1}\log s(\mu)\le-4\pi\quad\textbf{unconditionally},$$
+quantitatively $s(\mu)\le(4.5610\ldots+o(1))\,\Xi(\mu)(1-\chi_2)
+=O(\mu^{21/2}\log^3\mu\,e^{-4\pi\mu})$. It is **not** progress toward RH: §8's verdicts are
+unchanged, every line of the new note is sign-blind, and the matching lower bound is still RH.
+
+**Closing (H0) was not by itself enough, and the shortfall was inherited.** mg-731c's Thm 4.4
+bounds the zero sum by $\Phi(1)^2$ and its §4 cost table converts $\Phi(1)^2\to(1-\chi_2)$
+citing **§7 above, which is observed** — and §14 above records the needed half as "sketched
+but not written out". §A of the new note writes it out, $\Phi_n(1)^2=O(c^{5/2}(1-\Lambda_n))$,
+from `dilate-sum.md` Prop. 4.1(ii) and the exact identity (4.1) of §4 above; the cost is $\mu^{3/2}$
+over the observed truth, so $\Xi=O(\mu^6\log^3\mu)$ proved in place of $O(\mu^{9/2}\log^3\mu)$
+observed. **Anyone printing "unconditional" is quoting §A as well as Q4.**
+
+**Say it in the true sentence, not the convenient one.** §14 already made this point and it
+matters more now that nothing is left conditional: **do not write "H1 is proved".** §1 above
+proves that no bound of the form $\Theta(\lambda)\|r\|^2$ exists, so (H1) *as printed at* `:1242`
+is false in that form and was bypassed, not proved. What holds is **(4.3)** plus **(H0)**.
+
+**§9's Q4 row was wrong about what (H0) is, and the error is the same shape as the previous
+three.** "A mean value of $|\zeta(\tfrac12+it)|^2$ against an explicit weight" — there **is**
+such an identity, $\|\mathcal E\phi\|^2=\frac1{2\pi}\int|\Gamma_{\mathbb R}\zeta P_\phi|^2$,
+and it is one route to the *whole* norm when only a *lower bound* is wanted.
+
+1. **$\|g\|^2$ is its own integral over its own range, with no $\zeta$ in it.** With
+   $u=\lambda/t$ and $S(t)=\sum_{n\le t}\Phi(n/t)$,
+   $$\|g\|^2=\int_1^{\mu}\frac{S(t)^2}{t^2}dt,\qquad \|r\|^2=\int_\mu^\infty\frac{S(t)^2}{t^2}dt,$$
+   exactly, every argument $n/t$ **on band**. `h0-lower-bound.md` Lemma 2.1. The subtraction
+   $\|g\|^2=\|\mathcal E\phi\|^2-\|r\|^2$, which is what makes (H0) look like a statement about
+   the whole critical line, is never needed.
+2. **A fixed compact window suffices**, because $\|g\|^2\ge\int_A^B|\mathcal E\phi|^2d^*u$ for
+   every $[A,B]\subseteq[\lambda^{-1},\lambda]$ — and $\int_{1/2}^2$ recovers $99.9999\%$ of the
+   limit. So no uniformity in $\lambda$ over a growing region is at stake either.
+3. **The content is that $\phi_\lambda$ does not degenerate.** Seen from the mean-value side the
+   same thing: the weight $|P_{\phi_\lambda}|^2$ moves with $\lambda$ and $\zeta$ does not, so it
+   is the weight's convergence that decides it. The paper's `:1234` names the difficulty
+   correctly — "$P_\phi$ depends on $\lambda$ and the bound must be uniform" — and then attaches
+   it to $\zeta$.
+4. **And the corollary never needed "bounded below".** It consumes $\mu^{-1}\log\|g\|^2\to0$;
+   any $\|g\|^2\ge e^{-o(\mu)}$ gives the same $-4\pi$.
+
+**The input is published, and the regime that has blocked this chain three times is the one it
+covers.** T. M. Dunster, *Asymptotics of prolate spheroidal wave functions*, J. Classical
+Analysis 11 (2017), no. 1, 1–21, doi:10.7153/jca-11-01, arXiv:1601.00699, eq. **(124)** with eq. **(107)**: for fixed $m,n$ and
+$\gamma\to\infty$, $\mathrm{Ps}_n^m$ is a parabolic cylinder function up to a relative
+$O(\gamma^{-1}\log\gamma)$, uniformly on $0\le x\le1-\delta_0$, with explicit error bounds. His
+separation constant is $\lambda_{\text{D}}=\chi-c^2$, so **his standing hypothesis
+$\lambda_{\text{D}}<0$ is exactly our $\chi_n<c^2$** — the hypothesis §6 above found
+Osipov–Rokhlin's theorems *negating*, and the one Lemma 5.1 and Q1 are built on. Dunster states
+on his second page that his earlier paper assumed the opposite sign. Via DLMF 12.7.2,
+$U(-n-\tfrac12,z)=e^{-z^2/4}\mathit{He}_n(z)$, (124) at $x=X/\lambda$ **is** the Hermite limit
+$\lambda^{-1/2}\Phi_n(X/\lambda)\to h_n(X)$.
+
+**What is proved here rather than imported:** the window identity; the localisation; that
+$\mathcal E$ is continuous on a fixed window against $\|f\|_2^{1/2}$; the tightness bound
+$c^2\int y^2\Phi^2\le\chi$ straight from the prolate equation, which is what stops mass escaping
+to infinity; and that $\mathcal E\phi_\infty$ is analytic and non-zero. Only the Hermite limit
+itself is imported.
+
+**Nothing above changes.** `prolate-rate.md` §11 item **P2** and §6(d) are annotated in place,
+and P2's "why it is open" column was right about the difficulty and wrong about the object.
+
+**Unchanged:** Q5, still observed only in its constant — §A bounds $\Phi_n(1)^2$ from above by
+$O(c^{5/2}(1-\Lambda_n))$, $\mu^{3/2}$ away from the truth, and Dunster's §§3–4 (the Bessel
+approximations, valid at the band edge) is now the obvious place to look, and was not pursued;
+§§1–4; every sign-blindness verdict in §8; the reading (`prolate-rate.md` §0) that
+$\epsilon(\lambda)=\min(s^+,s^-)$ is what $QW_\lambda(g,g)/\|g\|^2$ bounds. **This is the fourth
+inherited misdiagnosis on this chain** (mg-6851 on §5, mg-9d43 on §§4/6, mg-731c on §3, this on
+§9's Q4 row), and the pattern is now four for four: the note was right that something was
+missing and wrong about what it was.

@@ -511,11 +511,11 @@ only like $|s|^{-1}$ and the sum converges only because the zero density is
 logarithmic. The expected size of $\Theta$ is $O(\log\mu)$, which is what §5
 measures.
 
-**(d) What follows.** Under (H1), and with $\|g\|^2$ bounded below (call it
-(H0); $\|g\|^2=\|\mathcal E\phi\|^2-\|r\|^2$ and
+**(d) What follows.** Under (H1), and with $\|g\|^2$ bounded below (call it <!-- mg-6818: (H0) is now PROVED, and this parenthesis mis-describes it. See h0-lower-bound.md. -->
+(H0); $\|g\|^2=\|\mathcal E\phi\|^2-\|r\|^2$ and <!-- mg-6818: the subtraction is never needed: ||g||^2 is its own integral over its own range, Lemma 2.1 there. -->
 $\|\mathcal E\phi\|^2=\frac1{2\pi}\int|\Gamma_{\mathbb R}(\tfrac12-is)
-\zeta(\tfrac12-is)P_\phi(s)|^2ds$, so this is a statement about a mean value of
-$|\zeta(\tfrac12+it)|^2$ against an explicit weight — routine but not free),
+\zeta(\tfrac12-is)P_\phi(s)|^2ds$, so this is a statement about a mean value of <!-- mg-6818: the identity is right; calling it what (H0) IS is wrong. -->
+$|\zeta(\tfrac12+it)|^2$ against an explicit weight — routine but not free), <!-- mg-6818: the content is the WEIGHT's non-degeneracy, not zeta's. ||g||^2 -> 0.2192471995... -->
 $$s(\mu)\;\le\;\frac{QW_\lambda(g,g)}{\|g\|^2}\;\le\;
 \frac{\Theta(\lambda)C_1(\lambda)}{\|g\|^2}\,(1-\chi_2(\lambda)),$$
 hence
@@ -770,7 +770,7 @@ of magnitude across them. The second is not guarded and cannot be, at this cost.
 | # | item | why it is open |
 |---|---|---|
 | **P1** | Prove (H1): $\sum_{Z}|\mathcal F_\mu r(s)|^2\le\Theta(\lambda)\|r\|^2$ for the spill, with $\Theta$ subexponential | This is mg-7606's T2 with the unreachable half removed. It is a mean-value estimate over the zeros for one explicit function and it is the whole remaining content of the upper bound. <!-- mg-8462: still open, but REDUCED — the zeros come out of it entirely and what is left is a prolate tail bound off the interval. §13. --> |
-| **P2** | Prove (H0): $\|g\|^2$ bounded below, i.e. a lower bound for $\int|\zeta(\tfrac12+it)P_\phi|^2$ against the archimedean weight | Routine in shape, but $P_\phi$ depends on $\lambda$ and the bound must be uniform |
+| **P2** | Prove (H0): $\|g\|^2$ bounded below, ~~i.e. a lower bound for $\int|\zeta(\tfrac12+it)P_\phi|^2$ against the archimedean weight~~ (mg-6818: it is not that; no $\zeta$ is involved) | ~~Routine in shape, but~~ **PROVED (mg-6818), [`h0-lower-bound.md`](h0-lower-bound.md) Thm 6.1: $\|g\|^2\to0.2192471995\ldots$** The "why it is open" column was right about the difficulty — "$P_\phi$ depends on $\lambda$ and the bound must be uniform" — and attached it to the wrong object: the $\lambda$-dependence is the *weight's*, i.e. the non-degeneracy of the prolate vector, and it is Dunster 2017 |
 | **P3** | Is $\kappa(\mu)=s/(1-\chi_2)$ a constant, and is it about $9$? | §5's extrapolated values are $7.1$–$9.9$ with no trend, which suggests a constant; but the extrapolation is a three-point model over eight points and cannot separate a constant from $\log\mu$. Distinguishing them needs converged $s$ over a wider range, or the constant in (H1) |
 | **P4** | The odd sector | CC's $\phi_3=\psi_3\psi_1(0)-\psi_1\psi_3(0)$ is built from $\mathit{PS}_{6,0}$ and $\mathit{PS}_{2,0}$, so the odd smallest eigenvalue should be governed by $1-\chi_3$, i.e. prolate index **6** — a *different* power, $13/2$, at the same rate $4\pi$. Not checked here, and it is a sharp prediction: mg-7606's T4 now has a number to aim at |
 | **P5** | Evaluate $QW_\lambda$ on $g$ directly and compare with $s(\mu)$ | §6(a) makes this the cleanest possible test of the whole chain — it would replace CC's twelve figures with a ratio. Not done here: $\mathcal E\phi$ has jump discontinuities at $u=\lambda/n$, so its coefficients in the $\xi_j$ basis decay like $j^{-1}$ and the truncated Rayleigh quotient may be dominated by the tail rather than by the $10^{-54}$ it is trying to measure. Worth one ticket, with panel quadrature at the breakpoints |
