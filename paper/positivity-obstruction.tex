@@ -1,6 +1,9 @@
 % The prolate mechanism is sign-blind --- a sharpening of the positivity obstruction.
 %
 % DRAFT.  Assembled 2026-08-12 (work item mg-8b7b) from the notes in ../notes/.
+% Revised 2026-08-12 (work item mg-6467): the conditional upper bound of the first
+% draft is now unconditional --- Q1 (mg-6851), Q2 (mg-9d43), Q3 (mg-731c) and H0
+% (mg-6818) closed the chain --- and the gap list is restructured accordingly.
 % Not a submission.  Publication is not decided by this document.
 %
 % Build:  pdflatex positivity-obstruction.tex   (twice, for cross-references)
@@ -73,7 +76,7 @@ $s(\mu)$ of the semi-local Weil quadratic form $\QW_\lambda$ restricted to test
 functions supported in $[\lambda^{-1},\lambda]$, $\mu=\lambda^2$, and locate the
 mechanism behind them: the radical of $\QW_\lambda$ contains the range of the
 summation map $\E$, and the failure of the double support condition is a
-Slepian concentration defect.  This paper does three things.  First, it
+Slepian concentration defect.  This paper does four things.  First, it
 assembles what is \emph{proved} in that circle of ideas and separates it from
 what is announced, observed, or conjectural, claim by claim and number by
 number.  Second, it makes the size of $s(\mu)$ quantitative: $s(\mu)$ is
@@ -81,14 +84,25 @@ governed by the prolate concentration defect at index~$4$ --- not index~$0$ ---
 with $s/(1-\chi_2)$ between $7$ and $13$ over $\mu=5,\dots,12$, and the
 underlying construction is carried to an identity, $\QW_\lambda$ at the prolate
 vector \emph{is} the Weil form of the part of $\E(\phi)$ that falls outside the
-window.  Third, and this is the point, it observes that the entire mechanism is
+window.  Third, it proves the upper half of the decay rate:
+\[
+  \limsup_{\mu\to\infty}\ \frac{\log s(\mu)}{\mu}\ \le\ -4\pi ,
+  \qquad\text{unconditionally,}
+\]
+quantitatively $s(\mu)=O(\mu^{21/2}\log^3\!\mu\;e^{-4\pi\mu})$.  The chain that
+gets there is four theorems about prolate spheroidal wave functions off their
+interval and one about the summation map; no hypothesis about the zeros of
+$\zeta$ survives it, and its one imported ingredient is Dunster's 2017
+parabolic-cylinder asymptotic, whose standing hypothesis is exactly the regime
+we are in.  Fourth, and this is the point, the entire mechanism is
 invariant under $\QW_\lambda\mapsto-\QW_\lambda$.  A kernel is a kernel either
 way; a concentration defect is a magnitude.  So the mechanism explains why
 $|s(\mu)|$ is minuscule and says nothing whatever about why $s(\mu)>0$ --- and
 that sign-blindness is exactly what forces the missing lower bound to carry the
 whole arithmetic content.  Since a lower bound on $s$ of any shape is equivalent
-to the Riemann Hypothesis, the decay rate $4\pi$ cannot be made an unconditional
-theorem, and no computation can change that.  What remains is a genuine
+to the Riemann Hypothesis, the \emph{two-sided} rate cannot be made an
+unconditional theorem, and no computation can change that: what has just been
+proved is precisely the half that carries no arithmetic.  What remains is a genuine
 sharpening of the obstruction, stated as three explicit constraints on method:
 no fixed-relative-error argument can work; no prime below $\mu$ may be dropped
 and no tail estimated at any cutoff; and the difficulty is cancellation, not
@@ -112,6 +126,18 @@ transcendental function and no eigensolver; all five reproduce to every printed
 digit.  What that does and --- as sharply --- does
 \emph{not} establish is set out in \S\ref{sec:recheck}: both implementations
 read the same paper, so a shared misreading of it is invisible to the exercise.
+
+\medskip\noindent
+\textbf{What changed in this revision.}  The first draft of this document listed
+the upper bound of \S\ref{sec:unconditional} as conditional on two hypotheses,
+and named one of them --- ``a mean-value bound of Plancherel--P\'olya type'' ---
+as the single genuinely open analytic problem the line produces.  Both
+hypotheses have since been disposed of, and neither was what its name said.
+\S\ref{sec:unconditional} replaces them with what is actually true, including
+the two places where the convenient sentence is the wrong one: hypothesis
+\eqref{H1} \emph{as it was printed} was bypassed rather than proved, and the
+chain imports one theorem (Dunster \cite{Dunster2017}) that nobody here has
+proved.  Both are stated where the result is stated, not in a footnote.
 
 \tableofcontents
 
@@ -187,6 +213,76 @@ mechanism that can be checked one statement at a time, and \S\ref{sec:houserule}
 checks it on every principal claim of this paper, including the ones we are
 pleased with.
 
+\paragraph{And the thesis is what makes the unconditional half worth stating
+carefully rather than loudly.}  \S\ref{sec:unconditional} proves
+$\limsup\mu^{-1}\log s(\mu)\le-4\pi$ with no hypothesis.  That is the first
+unconditional statement about the size of $s(\mu)$ in this circle of ideas, and
+a reader who stops after the first sentence of it will take away something
+false.  The bound is on $|s|$; it is invariant under
+$\QW_\lambda\mapsto-\QW_\lambda$; every one of the theorems it is built
+from is a statement about prolate spheroidal wave functions or about the
+summation map $\E$, and not one of them mentions a sign, a prime, or the
+direction of an inequality.  \emph{The chain closing is evidence for the thesis
+and not against it}: what closed is exactly the half the house rule predicts can
+close, and the half it predicts cannot --- the lower bound --- is
+Theorem~\ref{thm:boundary}, i.e.\ RH, and did not move.
+
+\subsection{The picture: phase space, not a manifold --- and it is sign-blind}
+\label{sec:phasespace}
+
+A reader coming from the geometric side of this programme will ask what the
+construction is a shadow \emph{of}.  It has an answer, the answer is pretty, and
+it is put here rather than suppressed --- with the label attached in the same
+breath, because the way this project has previously lost weeks is by writing the
+first half of this subsection and not the second.
+
+\paragraph{The picture.}  Three things line up --- and they line up because they
+are the same thing seen three times --- with a fourth falling out of them.
+
+\begin{itemize}\itemsep2pt
+\item \textbf{$c=2\pi\lambda^2$ is an area.}  The bandwidth parameter of the
+prolate family is the Slepian time--bandwidth product --- the area of a box in
+phase space, one side the support $[\lambda^{-1},\lambda]$ and the other the
+dual window.  It is not a length, a curvature or a period.
+\item \textbf{The obstruction's dimension is a phase-space volume.}  The
+near-radical has dimension $1+\nu(\mu)\sim2\mu$
+(\S\ref{sec:objects}), which is exactly the number of degrees of freedom a band
+of that width supports --- one per unit of area, as an uncertainty principle
+requires.  It is a count of modes, not a topological invariant, and it grows
+with $\mu$ for the same reason a wider band carries more independent signals.
+\item \textbf{Archimedean positivity on a short interval is an uncertainty
+artifact.}  The Weil density $2\vartheta'(t)/2\pi$ is \emph{negative} on
+$|t|<6.2898$ (\S\ref{sec:witness}), so the form is indefinite and always was.
+What a short support does is forbid $\widehat f$ from sitting inside that
+window: the uncertainty principle spreads it past the crossing, where
+$\vartheta'>0$.  Positivity there is a statement about resolution, not about the
+form.  \ours
+\item \textbf{And the $4\pi$ is $2\times2\pi$ from the same source} --- one
+$2\pi$ from the time--bandwidth normalisation $c=2\pi\mu$, one factor $2$ from
+the exponent of Fuchs' $e^{-2c}$ (\S\ref{sec:fuchs}).  There is no sphere in it.
+\end{itemize}
+
+\paragraph{The label, and it is not a hedge.}  \emph{Every sentence above
+survives $\QW_\lambda\mapsto-\QW_\lambda$.}  An area is a magnitude; a count of
+modes is a magnitude; an uncertainty principle is a magnitude.  So by the house
+rule of \S\ref{sec:standards} this subsection is \textbf{exposition and not a
+route}: it can orient a reader, and it cannot be a step in any argument about
+the direction of an inequality.  It is listed as sign-blind in
+\S\ref{sec:houserule} with everything else.
+
+\paragraph{The manifold reading, for the record, is dead.}  It is recorded here
+because it is the first thing a geometer will propose and it has already
+consumed an arc of this project's work.  The $S^3$/arithmetic-topology
+dictionary --- linking forms, eta invariants, the Milnor--Mazur analogy --- is
+sign-blind in every row: not one of its entries contains $\QW_\lambda$, $\E$,
+$\zeta$ or a prime, so the whole dictionary is invariant under
+$W\mapsto-W$.  And the natural repair, filling in one dimension and reading
+$C_\lambda$ off a $4$-manifold, dies on a type mismatch rather than on a
+computation: \emph{a signature is an integer and $C_\lambda$ varies
+continuously}.  Neither is reopened by anything in this paper, and in particular
+not by the constant $4\pi$, which \S\ref{sec:fuchs} accounts for without
+geometry.
+
 \subsection{Results, and whose they are}
 \label{sec:whose}
 
@@ -235,8 +331,33 @@ constant can, and both are published
 & proved & \emph{ours} as an observation (\S\ref{sec:index}) \\
 $\QW_\lambda(g,g)=\sum_{Z}|\F_\mu r(s)|^2$ with $r$ the spill outside the window
 & proved & \emph{ours}, from \cite{CC2023} (\S\ref{sec:identity}) \\
-Under \eqref{H0}+\eqref{H1}, $\limsup\mu^{-1}\log s(\mu)\le-4\pi$
-& conditional & \emph{ours} (\S\ref{sec:identity}) \\
+The sum over zeros reduces to weighted $L^2$ norms of the spill alone, using
+only Riemann--von Mangoldt and a classical zero-free region; \emph{no hypothesis
+about the zeros remains}
+& proved & \emph{ours} (\S\ref{sec:zetaside}) \\
+$|\Phi_n(x)|\le|\Phi_n(1)|$ for $x\ge1$ when $0\le\chi_n<c^2$ (Sturm amplitude)
+& proved & \emph{ours} (\S\ref{sec:lemma51}) \\
+$x|\Phi_{n,c}(x)|\le K(c)|\Phi_{n,c}(1)|$ for $x\ge1$, $0\le\chi_n<c^2$, with
+$K(c)=2^{3/4}e^{E(c)}$ \emph{bounded} and independent of the index
+& proved & \emph{ours} (\S\ref{sec:q1}) \\
+$\sup_{t>1}t|\sum_{m\ge1}\Phi_n(mt)|\le K_P(c)|\Phi_n(1)|$ with
+$K_P=O(\log c)$; and it is \emph{false} for a general solution of the same ODE
+& proved & \emph{ours} (\S\ref{sec:q2}) \\
+$\sum_Z|\F_\mu r(s)|^2\le\Xi(\mu)(1-\chi_2)$ with $\Xi$ polynomial, by
+truncating the zero sum at height $e^{4\pi\mu}$
+& proved & \emph{ours} (\S\ref{sec:q3}) \\
+$\|g\|^2\to\|\E\varphi_\infty\|^2=0.219247199549\ldots$, so \eqref{H0} holds ---
+and there is no $\zeta$ in it
+& proved, on \cite{Dunster2017} & \emph{ours}; the Hermite limit is Dunster's
+(\S\ref{sec:h0}) \\
+$\limsup\mu^{-1}\log s(\mu)\le-4\pi$, and
+$s(\mu)=O(\mu^{21/2}\log^3\!\mu\,e^{-4\pi\mu})$
+& \textbf{proved, unconditionally}, modulo the one import above
+& \emph{ours} (\S\ref{sec:unconditional}) \\
+Hypothesis \eqref{H1} \emph{as printed} is not a possible target of proof: no
+$\Theta$ works uniformly on $L^2$, since point evaluation of a Hardy-class
+function on the boundary is unbounded.  It is bypassed, not proved
+& proved & \emph{ours} (\S\ref{sec:notH1}) \\
 A lower bound $s(\mu)\ge\kappa(\mu)>0$ for all $\mu$ implies RH; the two-sided
 rate is therefore unreachable
 & proved & \emph{ours} as an observation, from Weil and \cite{Connes2026} \\
@@ -264,6 +385,31 @@ prolate combination $\phi_2=\psi_2\psi_0(0)-\psi_0\psi_2(0)$ is
 Connes--Consani's, at \file{Spectraltriples.tex:744}.  What is ours in
 \S\ref{sec:scale} is the quantitative confrontation, the index argument, the
 identity, and the observation that the rate is a non-discriminating parameter.
+
+\paragraph{One ingredient is imported and is proved by nobody here.}  It is
+stated at this altitude, and again where it is used
+(\S\ref{sec:h0}), because it is the only external load in the chain of
+\S\ref{sec:unconditional} and a reader is entitled to see it before the word
+\emph{unconditional}.  The convergence of the rescaled prolate function to its
+Hermite limit, with error bounds, is
+\begin{quote}
+T.~M.~Dunster, \emph{Asymptotics of prolate spheroidal wave functions}
+\cite{Dunster2017}, eq.~(124) together with eq.~(107):
+for fixed $m,n$ and $\gamma\to\infty$, $\mathrm{Ps}^m_n$ is a parabolic cylinder
+function of argument $\hat\rho\sqrt{2\gamma}$ to relative accuracy
+$O(\gamma^{-1}\log\gamma)$, uniformly on $0\le x\le1-\delta_0$.
+\end{quote}
+His separation constant is $\lambda_{\mathrm D}=\chi-c^2$, so \emph{his standing
+hypothesis $\lambda_{\mathrm D}<0$ is exactly our $\chi_n<c^2$} --- the same
+regime hypothesis that Theorem~\ref{thm:q1} and Theorem~\ref{thm:q2} are built
+on, and the negation of the one under which the neighbouring literature works
+(\S\ref{sec:q1}).  We read the statement and its hypotheses in the source; we
+did \emph{not} read the coalescing-turning-point theory his error bounds rest
+on, and we have not re-proved any of it.  Everything else in
+\S\ref{sec:unconditional} --- the reduction, the two ODE theorems, the
+truncation, the window identity and the tightness bound --- is proved here.  If
+one thing in this paper is to be checked by a second reader, or formalised, it
+is this import.
 
 \subsection{Routes closed, and at what threshold}
 \label{sec:closed}
@@ -308,6 +454,22 @@ Settle the rate by a wider grid or a converged truncation
 & a computation cannot supply a lower bound at a $\mu$ it has not computed, and
 the statement quantifies over all $\mu$
 & permanent \proved{} (\S\ref{sec:boundary}) \\
+Bound the sum over zeros by $\Theta(\lambda)\|r\|^2$, as
+hypothesis \eqref{H1} was originally stated
+& $\F_\mu r$ is Hardy-class on a half-plane and the zeros sit on its boundary,
+where point evaluation is unbounded; no such $\Theta$ exists on $L^2$
+& all $\lambda$ \proved{} (\S\ref{sec:notH1}) \\
+Reach \eqref{H1} by a Plancherel--P\'olya or Carleson sampling theorem
+& Plancherel--P\'olya needs exponential type and separated nodes; the spill is
+non-compactly supported \emph{because} it is a spill, and the zero density
+$\tfrac1{2\pi}\log\tfrac{T}{2\pi}$ is unbounded.  Under RH the Carleson weight
+$\Im z_k$ vanishes identically
+& structural, all $\lambda$ \proved{} (\S\ref{sec:notH1}) \\
+Prove the dilate-sum bound (P) from the prolate differential equation alone
+& (P) is \emph{false} for a general solution of that equation: a solution whose
+off-band leading term carries a cosine has $\sup_t t|G(t)|=+\infty$.  What is
+used is the finite-Fourier eigenrelation, i.e.\ quantisation
+& every $c$ \proved{} (\S\ref{sec:q2}) \\
 \hline
 \end{tabular}
 \end{center}
@@ -354,6 +516,21 @@ independent arbitrary-precision computation of $\Lambda_0,\Lambda_2,\Lambda_4$
 (\S\ref{sec:fuchs}).  Yoshida's 1992 paper \cite{Yoshida1992} is likewise not
 read; it is the one place a sharpness statement for the archimedean theorem
 could be hiding (\S\ref{sec:notheorem}).
+
+\paragraph{Imported theorems, which are a different exposure from second-hand
+numbers.}  A number can be recomputed; a theorem used as a black box cannot,
+and the honest accounting is to name it, say what its hypotheses are in
+\emph{our} symbols, and say how far into it we read.  Three are used that way.
+Connes--Consani's Proposition \texttt{Hilbert} (\file{:289}), which every number
+in \S\ref{sec:deficit}--\S\ref{sec:scale} rests on: its normalisation is tested
+here to $18$ digits (\S\ref{sec:bound}), its proof is not re-proved.  Fuchs'
+asymptotic \cite{Fuchs1964}, quoted in the form Connes cites and checked against
+exact prolate eigenvalues (\S\ref{sec:fuchs}).  And Dunster
+\cite{Dunster2017} eq.\ (124)+(107), the sole external load in the chain of
+\S\ref{sec:unconditional}, stated in full at \S\ref{sec:whose} and used at
+\S\ref{sec:h0}.  Everything else asserted as \proved{} here is either proved
+here or proved in a cited paper whose statement \emph{and} whose relevant
+hypotheses were read in the source.
 
 \paragraph{The standing test (``the house rule'').}  \emph{Is the statement
 false for $-\QW_\lambda$?}  If not, it is sign-blind, and it cannot be evidence
@@ -1153,9 +1330,13 @@ extrapolation the rise is gone.
 The extrapolation is a three-point model, not a theorem, but it can only move
 the ratio \emph{down}, and it moves it down more at large $\mu$.  The claim made
 here is therefore only the weak one: \emph{$\kappa=s/(1-\chi_2)$ grows no faster
-than $\log\mu$}, which is also what \eqref{H1} would produce, since the mean
-density of zeros near height $T$ is $\frac1{2\pi}\log\frac{T}{2\pi}$.  Either
-way it is sub-polynomial and cannot touch an exponential rate.  Whether $\kappa$
+than $\log\mu$}.  Theorem~\ref{thm:q3} now proves the corresponding
+\emph{upper} statement outright, at $\Xi=O(\mu^6\log^3\!\mu)$, which is
+polynomial rather than logarithmic and so is compatible with the measurement
+without confirming it --- the logarithm being what the mean zero density
+$\frac1{2\pi}\log\frac{T}{2\pi}$ suggests and what the truncation of
+\S\ref{sec:q3} pays $\mu^3$ to avoid needing.  Either
+way it is sub-polynomial in the exponent and cannot touch an exponential rate.  Whether $\kappa$
 is a constant of about $9$ is \textbf{Gap G4}.
 
 \subsection{Their one published number}
@@ -1224,19 +1405,21 @@ the constant it hides being $\tfrac8{11}$ times an $O(1)$ mean value over the
 zeros.  \emph{The $n\ge2$ terms and the cross terms are not free}: $\widehat\phi$
 decays only like $y^{-1}$ off-band and the Cauchy--Schwarz sum is
 logarithmically divergent before the oscillation of $\widehat\phi$ is used.  The
-honest form is $\|r\|^2=C_1(\lambda)(1-\chi_2)$ with $C_1$ conjecturally
-$O(\log\mu)$.  \textbf{Gap G5.}
+honest form would be $\|r\|^2=C_1(\lambda)(1-\chi_2)$ with $C_1=O(\log\mu)$;
+that was listed as a gap in the first draft of this paper and is now a
+consequence of Theorem~\ref{thm:q2}, which is exactly the statement that the
+oscillation of $\widehat\phi$ does the work Cauchy--Schwarz will not do
+(\S\ref{sec:q2}).
 
-\paragraph{The missing inequality.}  To convert this into a bound on $s$ one
-needs two hypotheses, neither proved here:
+\paragraph{The two hypotheses this once needed.}  Converting the identity into a
+bound on $s$ needs a lower bound on $\|g\|^2$ and an upper bound on the sum over
+zeros.  They are recorded here in the form the first draft of this paper gave
+them, because \S\ref{sec:unconditional} disposes of them in ways that make the
+exact wording matter:
 
 \setcounter{hypothesis}{-1}
 \begin{hypothesis}\label{H0}
-$\|g\|^2$ is bounded below.  Since
-$\|\E\phi\|^2=\frac1{2\pi}\int|\Gamma_\R(\tfrac12-is)\zeta(\tfrac12-is)P_\phi(s)|^2ds$,
-this is a mean-value statement about $|\zeta(\tfrac12+it)|^2$ against an explicit
-weight --- routine in shape, but $P_\phi$ depends on $\lambda$ and the bound must
-be uniform.
+$\|g\|^2$ is bounded below, uniformly in $\lambda$.
 \end{hypothesis}
 
 \begin{hypothesis}\label{H1}
@@ -1245,23 +1428,46 @@ $\sum_{\frac12+is\in Z}|\F_\mu r(s)|^2\le\Theta(\lambda)\|r\|^2$ for the spill
 $r$.
 \end{hypothesis}
 
-\eqref{H1} is a mean-value estimate for the zeta zeros as a sampling set, of
-Plancherel--P\'olya type.  It is not automatic: $\QW_\lambda$ takes values in
-$(-\infty,+\infty]$ and is unbounded above, so no uniform $\Theta$ exists on
-$L^2$; \eqref{H1} must use the specific $r$, which is smooth on
-$(0,\lambda^{-1})$ but has a jump at the endpoint, so $\F_\mu r$ decays only like
-$|s|^{-1}$ and the sum converges only because the zero density is logarithmic.
-The expected size of $\Theta$ is $O(\log\mu)$.
+\noindent The first draft glossed \eqref{H0} as ``a mean-value statement about
+$|\zeta(\tfrac12+it)|^2$ against an explicit weight'' and \eqref{H1} as ``a
+mean-value estimate for the zeta zeros as a sampling set, of
+Plancherel--P\'olya type'', and listed the pair as the one genuinely open
+analytic problem the line produces.  \emph{Both glosses were wrong, and not in
+the same way.}  There is no $\zeta$ in \eqref{H0} at all
+(\S\ref{sec:h0}); and \eqref{H1} \emph{as written} is not open but is not a
+possible target of proof either, so what replaces it is a different estimate
+(\S\ref{sec:notH1}).  Both are disposed of in \S\ref{sec:unconditional}, and the
+conclusion below is unconditional.  The correct one-line description of what
+\eqref{H1} was reaching for, replacing ``of Plancherel--P\'olya type'', is:
 
-\begin{corollary}[conditional]\label{cor:upper}
-Under \eqref{H0} and \eqref{H1},
+\begin{quote}
+\emph{a weighted-$L^2$ tail bound for the entire extension of a prolate function
+outside its interval.}
+\end{quote}
+
+\noindent That names a problem with no number theory in it, about a classical
+special function studied since 1961 and computable to arbitrary precision ---
+none of which was true of \eqref{H1} as stated, and all of which is why the
+chain closed.
+
+\begin{corollary}\label{cor:upper}
+Suppose \eqref{H0} holds, and suppose
+$\sum_{\frac12+is\in Z}|\F_\mu r(s)|^2\le\Xi(\mu)(1-\chi_2(\lambda))$ with $\Xi$
+subexponential in $\mu$.  Then
 \[
   s(\mu)\;\le\;\frac{\QW_\lambda(g,g)}{\|g\|^2}\;\le\;
-  \frac{\Theta(\lambda)C_1(\lambda)}{\|g\|^2}\,(1-\chi_2(\lambda)),
+  \frac{\Xi(\mu)}{\|g\|^2}\,(1-\chi_2(\lambda)),
   \qquad\text{hence}\qquad
   \limsup_{\mu\to\infty}\frac{\log s(\mu)}{\mu}\;\le\;-4\pi .
 \]
 \end{corollary}
+
+Both hypotheses of Corollary~\ref{cor:upper} are supplied in
+\S\ref{sec:unconditional}: the second by Theorem~\ref{thm:q3} and the first by
+Theorem~\ref{thm:h0}.  Note what the corollary actually consumes of \eqref{H0},
+because it is weaker than the hypothesis and the difference is what made
+\eqref{H0} tractable: only $\mu^{-1}\log\|g\|^2\to0$, so \emph{any}
+$\|g\|^2\ge e^{-o(\mu)}$ gives the same $-4\pi$.
 
 That is a real half of the answer, and it is the half every number in this
 project is consistent with, because every computed $s$ is itself an upper bound.
@@ -1269,13 +1475,607 @@ It also says that the residual truncation bias and the identification's
 one-sidedness are the \emph{same} fact and not two.
 
 % ==========================================================================
+\section{The upper bound is unconditional}
+\label{sec:unconditional}
+% ==========================================================================
+
+\begin{theorem}[\ours, \proved{} modulo \cite{Dunster2017} eq.\ (124)+(107)]
+\label{thm:main}
+$\displaystyle\limsup_{\mu\to\infty}\ \frac{\log s(\mu)}{\mu}\ \le\ -4\pi$,
+with no hypothesis.  Quantitatively,
+\[
+  s(\mu)\;\le\;\big(4.5610617\ldots+o(1)\big)\,\Xi(\mu)\,(1-\chi_2(\lambda)),
+  \qquad \Xi(\mu)=O\big(\mu^{6}\log^3\!\mu\big),
+\]
+hence $s(\mu)=O\big(\mu^{21/2}\log^3\!\mu\;e^{-4\pi\mu}\big)$.
+\end{theorem}
+
+This section is the chain that gets there.  It is six statements, and the order
+below is the order of dependence rather than the order of discovery.  Nothing in
+it is about the sign; \S\ref{sec:chainsignblind} says so with the house rule
+applied, and \S\ref{sec:boundary} is unmoved.
+
+\begin{center}\small
+\begin{tabular}{@{}llll@{}}
+\hline
+& statement & status & where \\
+\hline
+1 & the sum over zeros reduces to weighted $L^2$ of the spill
+  & proved & \S\ref{sec:zetaside} \\
+2 & $|\Phi_n(x)|\le|\Phi_n(1)|$ on $x\ge1$ (amplitude)
+  & proved & \S\ref{sec:lemma51} \\
+3 & $x|\Phi_n(x)|\le K(c)|\Phi_n(1)|$, $K$ bounded (Q1)
+  & proved & \S\ref{sec:q1} \\
+4 & $\sup_{t>1}t|\sum_m\Phi_n(mt)|\le K_P(c)|\Phi_n(1)|$, $K_P=O(\log c)$ (Q2)
+  & proved & \S\ref{sec:q2} \\
+5 & the truncated zero sum: $\Xi$ polynomial (Q3)
+  & proved & \S\ref{sec:q3} \\
+6 & $\|g\|^2\to0.219247199549\ldots$ \eqref{H0}
+  & proved, on \cite{Dunster2017} & \S\ref{sec:h0} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{What is proved is (4.3), not \texorpdfstring{\eqref{H1}}{H1} as
+written}
+\label{sec:notH1}
+
+This subsection comes first because the convenient sentence --- ``\eqref{H1} is
+proved'' --- is available, is what a reader will write down, and is not what
+happened.  What is proved is the estimate of Theorem~\ref{thm:q3}, which bounds
+the same sum against $(1-\chi_2)$ rather than against $\|r\|^2$.  The difference
+is not bookkeeping, and this subsection is why.
+
+\begin{proposition}[\ours]\label{prop:noH1}
+\emph{(i)} For each fixed $\lambda$, \eqref{H1} holds trivially, with
+$\Theta(\lambda):=\sum_\rho|\F_\mu r(s_\rho)|^2/\|r\|^2$; the sum converges by
+\S\ref{sec:zetaside}.  So the entire content of \eqref{H1} is the growth of that
+one ratio in $\lambda$.  \emph{(ii)} No proof of it can use $\|r\|^2$ alone:
+over $L^2$ no uniform $\Theta$ exists, because $\F_\mu r$ is Hardy-class on a
+half-plane whose boundary carries the sampling points, and point evaluation
+there is an unbounded functional.
+\end{proposition}
+
+Both halves matter, and the second is the reason the first is not a triviality
+one can quote past.
+
+\paragraph{It is a ratio, not a hypothesis.}  For each $\lambda$ there is exactly
+one $r$, so there is no class of functions for a general theorem to be applied
+to.  \eqref{H1} therefore cannot be ``reduced to a known theorem'' in the
+abstract at all: any proof has to be applied to \emph{this} $r$, and then what
+is used is whatever structure this $r$ has --- which is exactly the structure
+\S\S\ref{sec:lemma51}--\ref{sec:q2} supply, and which $\|r\|$ does not see.
+
+\paragraph{And the normalisation by $\|r\|^2$ is the wrong denominator.}
+Substituting
+$u=e^{-v}$ and $R(v)=r(e^{-v})$, supported on $[\log\lambda,\infty)$,
+\[
+  \F_\mu r(s)=\int_{\log\lambda}^\infty R(v)e^{isv}dv ,
+\]
+which is (up to a unimodular factor) a Hardy-space $H^2(\C^+)$ function, with
+$\|\F_\mu r\|^2_{L^2(\R)}=2\pi\|r\|^2$.  Point evaluation of an $H^2$ function
+at a \emph{boundary} point is an unbounded functional.  Under RH every $s_\rho$
+is real, i.e.\ every sampling point is on that boundary.  So
+$\sum_\rho|\F_\mu r(s_\rho)|^2\le\Theta\|r\|^2$ holds for \emph{no} finite
+$\Theta$ uniformly over $L^2$, at any $\lambda$ --- and hence any proof of it
+for our $r$ must use decay or smoothness that $\|r\|$ does not see, at which
+point $\|r\|^2$ has stopped being the object doing the work.  (This is also
+visible from the form itself: $\QW_\lambda$ takes values in $(-\infty,+\infty]$
+and is unbounded above.)  \proved{} \ours
+
+\paragraph{Two named theorems that cannot reach it, and why that is structural.}
+The first draft called \eqref{H1} a bound ``of Plancherel--P\'olya type''.
+Plancherel--P\'olya requires (i) $f$ entire of exponential type --- equivalently
+$\widecheck f$ compactly supported --- and (ii) uniformly separated sampling
+nodes.  \emph{Both fail, and the first fails structurally}: $R$ is supported on
+a half-line precisely \emph{because} $r$ is a spill, so the very fact that
+creates the near-radical vector destroys the Paley--Wiener hypothesis, and no
+repair of the argument restores it.  And the zeros are not separated: the mean
+gap $2\pi/\log(\gamma/2\pi)\to0$, and the relatively-separated version needs a
+bounded $N$ where ours is $\asymp\log T$.  The Hardy-space replacement is worse:
+Carleson-measure theorems bound $\sum_k|F(z_k)|^2\Im z_k$, and \emph{under RH
+that weight vanishes identically}.  \proved{} \ours
+
+\begin{quote}
+\textbf{So the correct sentence is this one.}  \emph{The upper bound
+$\limsup\mu^{-1}\log s(\mu)\le-4\pi$ is unconditional.  Hypothesis \eqref{H1} as
+stated is bypassed rather than proved --- its $\|r\|^2$ normalisation is ruled
+out as a target of proof --- and is replaced by the estimate of
+Theorem~\ref{thm:q3}, which is what Corollary~\ref{cor:upper} consumes.
+Hypothesis \eqref{H0} is proved.}  Anyone quoting this paper should quote that,
+and not ``H1 is proved''.
+\end{quote}
+
+Recorded so this subsection is not over-read in the other direction, since it
+would be easy to make it say more than it does.  None of it asserts that
+\eqref{H1} is \emph{false} for our family --- Proposition~\ref{prop:noH1}(i)
+says the opposite at each fixed $\lambda$, and with the $\|r\|^2\asymp(1-\chi_2)$
+of \S\ref{sec:identity} a subexponential $\Theta$ is in fact what one would
+expect.  What is ruled out is the \emph{shape}: a hypothesis whose right-hand
+side is $\|r\|^2$ names a quantity no proof can be built on, so it cannot be the
+statement a chain of theorems terminates in.  And none of it is a connection
+between \eqref{H1} and RH.  It is a statement about which proof techniques
+apply, and its practical consequence is the one recorded above: quote (4.3).
+
+\subsection{The zeta side discharges unconditionally}
+\label{sec:zetaside}
+
+This is a positive result and it belongs in the body rather than in a gap list:
+\emph{the zeros are not the obstruction}.  Two classical unconditional inputs,
+and nothing else about $\zeta$ is used anywhere in this section.
+
+\begin{itemize}\itemsep1pt
+\item \textbf{(RvM)} $\#\{\rho:|\gamma_\rho-t|\le1\}\le C_1\log(3+|t|)$, with
+multiplicity (Riemann--von Mangoldt). \proved{} \theirs{classical}
+\item \textbf{(ZFR)} $\frac{c_0}{\log(3+|\gamma|)}\le\beta\le1-\frac{c_0}{\log(3+|\gamma|)}$
+(de la Vall\'ee Poussin, with the functional equation for the left inequality).
+\proved{} \theirs{classical}
+\end{itemize}
+
+\noindent Write $F:=\F_\mu r$ and, with $R(v):=r(e^{-v})$ supported on
+$[\log\lambda,\infty)$, assume the decay
+\textbf{(D)}: $|R(v)|\le Ae^{-v/2}$ there.  (D) makes $F$ holomorphic on the
+half-plane $\{\Im s>-\tfrac12\}$, which contains the strip $|\Im s|<\tfrac12$
+and hence every $s_\rho$ --- unconditionally, since $\Im s_\rho=\beta_\rho-\frac12$
+and $0<\beta_\rho<1$.  \S\ref{sec:q2} shows (D) is exactly what the prolate
+structure supplies.
+
+\begin{proposition}[\ours]\label{prop:zetaside}
+Under \textup{(D)},
+\[
+  \sum_\rho|F(s_\rho)|^2\;\le\;\frac{C}{c_0^2}\int_{-1/2}^{1/2}\!\!\int_\R
+  \log^3(3+|t|)\,|F(t+i\sigma)|^2\,dt\,d\sigma ,
+\]
+and for each $|\sigma|<\tfrac12$, $\int_\R|F(t+i\sigma)|^2dt
+=2\pi\int_{\log\lambda}^\infty|R(v)|^2e^{-2\sigma v}dv$ by Plancherel.
+\end{proposition}
+
+\begin{proof}
+Put $\epsilon_\rho:=\tfrac12\min(1,\beta_\rho,1-\beta_\rho)$, so
+$\epsilon_\rho\ge c_0/(2\log(3+|\gamma_\rho|))$ by (ZFR) and the disc
+$D(s_\rho,\epsilon_\rho)$ lies in the strip where $F$ is holomorphic.  $|F|^2$
+is subharmonic, so
+$|F(s_\rho)|^2\le(\pi\epsilon_\rho^2)^{-1}\iint_{D(s_\rho,\epsilon_\rho)}|F|^2dA$.
+Sum over $\rho$: a point $t+i\sigma$ lies in $D(s_\rho,\epsilon_\rho)$ only if
+$|\gamma_\rho-t|\le1$, so by (RvM) it is covered $\le C_1\log(3+|t|)$ times, and
+each covering $\rho$ carries weight
+$(\pi\epsilon_\rho^2)^{-1}\ll\log^2(3+|t|)/c_0^2$.
+\end{proof}
+
+\emph{After this there are no zeros left in the problem}, and what remains is a
+weighted-$L^2$ tail bound for one explicit special function.  Two things worth
+saying about this proposition rather than passing over it.
+
+\begin{itemize}\itemsep2pt
+\item \textbf{It makes the logarithmic zero density the mechanism, not an
+aside.}  The first draft observed that ``the sum converges only because the zero
+density is logarithmic''.  That is right, and Proposition~\ref{prop:zetaside} is
+where it is used: the density enters exactly twice, as the covering multiplicity
+and --- through (ZFR) --- as the radius of the discs.  Nothing else about the
+distribution of the zeros is needed, and in particular RH is not, either as a
+hypothesis or as an obstacle.
+\item \textbf{It absorbs two gaps into one.}  The first draft listed the bound
+on $\|r\|^2$ (G5) and the bound on the zero sum (G6) separately.  They are not
+independent: Proposition~\ref{prop:zetaside} bounds the zero sum by weighted
+norms of the spill, and \S\ref{sec:q2} bounds those, so a single hypothesis
+about a prolate function discharges both.  Note also that $\|r\|^2$ itself never
+appears in the final estimate --- consistent with \S\ref{sec:notH1}, and the
+reason G5 comes along for free.
+\end{itemize}
+
+\subsection{The amplitude lemma}
+\label{sec:lemma51}
+
+Everything from here to \S\ref{sec:q3} is about the entire extension of a
+prolate function outside its interval.  There is no number theory in any of it.
+Write $\Phi=\Phi_{n,c}=\PS_{n,0}$ on $[-1,1]$ at bandwidth $c=2\pi\mu$,
+normalised by $\int_{-1}^1\Phi^2=1$ and extended to the entire function it is;
+$\chi_n$ is the eigenvalue of the prolate differential operator and $\Lambda_n$
+the Slepian concentration eigenvalue.
+
+The exact identity that makes the whole reduction possible is classical in
+substance: the finite Fourier relation
+$\int_{-1}^1\Phi_n(y)e^{icxy}dy=\mu_\Phi\Phi_n(x)$ holds for \emph{all} $x$, and
+$\Lambda_n=\frac{c}{2\pi}\mu_\Phi^2$, so by Plancherel
+\begin{equation}\label{eq:outofband}
+  \int_{|x|>1}|\Phi_n(x)|^2\,dx\;=\;\frac{1-\Lambda_n}{\Lambda_n}.
+\end{equation}
+\emph{The out-of-band energy of a prolate function is the integral of its own
+entire extension outside the interval} --- so the small quantity $1-\Lambda_n$
+and the pointwise size of $\Phi$ off the interval are the same object. \proved
+
+\begin{lemma}[\ours, elementary]\label{lem:amplitude}
+Let $\Phi$ satisfy $\big((1-x^2)\Phi'\big)'+(\chi_n-c^2x^2)\Phi=0$ and suppose
+$\chi_n<c^2$.  Then $|\Phi(x)|\le|\Phi(1)|$ for all $x\ge1$.
+\end{lemma}
+
+\begin{proof}
+For $x>1$ put $p:=(x^2-1)\Phi'$, $q:=c^2x^2-\chi_n$ and $D:=(x^2-1)q$, so the
+equation reads $p'=-q\Phi$.  $\chi_n<c^2$ gives $q>0$ on $[1,\infty)$ and
+$D'=2x(2c^2x^2-\chi_n-c^2)>0$ there, since at $x=1$ the bracket is
+$c^2-\chi_n>0$ and increases.  With $V:=p^2/D+\Phi^2$ and
+$\Phi'=p/(x^2-1)$,
+\[
+  V'=\frac{2pp'}{D}-\frac{p^2D'}{D^2}+2\Phi\Phi'
+   =-\frac{2pq\Phi}{D}-\frac{p^2D'}{D^2}+\frac{2\Phi p}{x^2-1}
+   =-\,p^2\frac{D'}{D^2}\;\le\;0 ,
+\]
+the first and third terms cancelling identically because $D=(x^2-1)q$.  $\Phi$
+is entire, so $p\to0$ at $x=1$ while $D\to0$ linearly, whence $p^2/D\to0$ and
+$V(1^+)=\Phi(1)^2$.  Finally $\Phi^2\le V\le V(1^+)$.
+\end{proof}
+
+Two remarks, the second of which is why this lemma is in the body rather than
+inside the next proof.
+
+\begin{itemize}\itemsep2pt
+\item \textbf{The hypothesis is the regime we are in, and it is the complement
+of the published one.}  Measured, $\chi_n/c^2$ runs $0.020$ to $0.64$ over the
+indices $n=0,2,4$ and bandwidths $c=2\pi\mu$, $\mu=2,\dots,8$; and
+$\chi_n\sim(2n+1)c$ against $c^2$, so for each fixed $n$ the hypothesis holds
+once $c$ is large.  The sharpest published work on prolates off the interval
+\cite{OsipovRokhlin2013} assumes $\chi_n>c^2$ throughout --- the
+regime of index \emph{above} the plunge --- so its theorems do not apply here,
+and the one result of theirs that holds in every regime is an exact identity
+whose remainder is the out-of-band leakage of $t\Phi(t)$, an object of the same
+size as the quantity being bounded.  Hypotheses read in the source. \proved
+\item \textbf{It is also the connection.}  Lemma~\ref{lem:amplitude} supplies
+the amplitude \emph{at a point away from the singular point} $x=1$, which is
+what lets the asymptotic argument of \S\ref{sec:q1} start at $x=\sqrt2$ and
+never cross $x=1$.  The first draft of the underlying note called the missing
+step ``a Bessel-type connection problem at the regular singular point''; that
+diagnosis was wrong, and this lemma is why.
+\end{itemize}
+
+\subsection{Q1: the single-term bound, with a bounded constant}
+\label{sec:q1}
+
+\begin{theorem}[\ours]\label{thm:q1}
+Let $c>\sqrt2$ and $0\le\chi<c^2$, and let $\Phi\not\equiv0$ be a real solution
+of $\big((1-x^2)\Phi'\big)'+(\chi-c^2x^2)\Phi=0$ analytic at $x=1$.  Then
+$\Phi(1)\ne0$ and
+\[
+  x\,|\Phi(x)|\;\le\;K(c)\,|\Phi(1)|\qquad(x\ge1),\qquad
+  K(c)=2^{3/4}e^{E(c)},
+\]
+\[
+  E(c)=\frac{5\sqrt2}{c-\sqrt2}+\frac{\sqrt2\,c/3+2}{(c-\sqrt2)^2}.
+\]
+$K$ depends on $c$ alone --- in particular it is \emph{independent of $\chi$,
+hence of the index $n$}, throughout $0\le\chi<c^2$ --- and $K(c)$ decreases to
+$2^{3/4}=1.68179\ldots$ as $c\to\infty$.
+\end{theorem}
+
+Sketch, because the mechanism is the interesting part.  On $1\le x\le\sqrt2$
+there is nothing to prove: Lemma~\ref{lem:amplitude} gives
+$x|\Phi(x)|\le\sqrt2|\Phi(1)|$.  Above $\sqrt2$, in modified Pr\"ufer variables
+with $\rho^2=V$ the Sturm amplitude and $A:=\rho D^{1/4}$ the WKB invariant,
+one has the \emph{exact} identity $A'/A=-\frac{D'}{4D}\cos2\theta$.  The
+right-hand side is sign-indefinite and vanishes on average; what converts that
+average into a bound is the hypothesis, in a form worth stating on its own:
+\begin{equation}\label{eq:noturning}
+  k(x)^2=\frac{c^2x^2-\chi}{x^2-1}=c^2+\frac{c^2-\chi}{x^2-1}\;>\;c^2 ,
+\end{equation}
+i.e.\ \emph{$\chi<c^2$ says exactly that there is no turning point outside the
+band, and the phase advances at rate at least $c$ everywhere}.  One integration
+by parts against $\theta'\ge c-\sqrt2$ then gives
+$|\int_{\sqrt2}^X\frac{D'}{4D}\cos2\theta|\le E(c)$ for every $X$.  Feeding in
+$A(\sqrt2)\le2^{1/4}c^{1/2}|\Phi(1)|$ from Lemma~\ref{lem:amplitude} and
+$D(X)^{1/4}>c^{1/2}(X^2-1)^{1/2}$ finishes it.  In the published regime
+$\chi>c^2$ there \emph{is} a turning point, at $x=\sqrt\chi/c>1$; that is the
+structural reason the neighbouring literature cannot be borrowed, seen from the
+other side.
+
+\paragraph{The constant, evaluated.}  $c=2\pi\mu$:
+
+\begin{center}\small
+\begin{tabular}{@{}rrrr@{}}
+\hline
+$\mu$ & $c$ & $E(c)$ & $K(c)=2^{3/4}e^{E}$ \\
+\hline
+$2$ & $12.5664$ & $0.69777$ & $3.3792$ \\
+$3$ & $18.8496$ & $0.44137$ & $2.6149$ \\
+$5$ & $31.4159$ & $0.25436$ & $2.1689$ \\
+$8$ & $50.2655$ & $0.15551$ & $1.9648$ \\
+$12$ & $75.3982$ & $0.10243$ & $1.8632$ \\
+\hline
+$\to\infty$ & & $\to0$ & $\to1.68179$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{The hypotheses, including the one cell where they fail.}  $\chi<c^2$
+is used three times; $\chi\ge0$ once, and it is free for prolate functions since
+$\chi_n\ge n(n+1)$; $c>\sqrt2$ (our range starts at $c=4\pi$); $\Phi$ real, and
+analytic at $x=1$ --- the last only for $V(1^+)=\Phi(1)^2$, and boundedness near
+$x=1$ would do, since by Frobenius the exponents there are $0,0$ and the second
+solution carries a logarithm.  The hypotheses were tightened after the theorem
+was first stated: it is $0\le\chi<c^2$ and not $\chi<c^2$.
+\emph{Uniformity in the index is real but conditional, and at one corner it
+fails}: since $\chi_n\sim(2n+1)c$, the hypothesis fails for $n\gtrsim c/2$, and
+measured,
+\begin{quote}
+$\chi_8/c^2=1.040$ at $c=4\pi$ --- \textbf{the theorem does not cover prolate
+index $8$ at $\mu=2$}.  It covers index $8$ from $\mu=3$ on ($0.780$ at $c=6\pi$,
+falling to $0.084$ at $c=200$) and indices $0,2,4,6$ throughout.
+\end{quote}
+\noindent Index $8$ is not idle: it is the third mode of
+Remark~\ref{rem:thirdmode}, the one that removes $\widehat\phi(0)\ne0$ exactly.
+So the honest statement is that the chain of this section is established for
+$\mu\ge3$, and at $\mu=2$ only for the two-mode vector.  Nothing downstream
+notices --- Theorem~\ref{thm:main} is a $\limsup$ --- and the third mode carries
+relative weight $1.3\times10^{-8}$ at $\mu=12$ in any case.  The cell is
+reported rather than rounded away, and it is reported here because the
+underlying note's own table stopped at index $4$ and would not have shown it.
+
+\paragraph{Q1$'$: the constant is honest and not sharp, and the slack is a
+$\sqrt c$.}  The truth is $\sup_{x\ge1}x|\Phi(x)|/|\Phi(1)|=1$, attained at
+$x=1$; the theorem gives $1.86$ to $3.38$ over $\mu=2$ to $12$.  More
+interestingly, away from the edge the true amplitude is
+$A\to\sqrt{2/\pi}\,|\Phi(1)|=0.797885\ldots|\Phi(1)|$, $c$-free and $n$-free ---
+measured, and equal to the constant in Osipov--Rokhlin's off-band leading term,
+which is an independent confirmation of both --- while the proof buys its
+starting amplitude from Lemma~\ref{lem:amplitude} at $2^{1/4}\sqrt c$ and
+thereby throws away a factor $\sqrt c$.  Recovering it \emph{does} need the
+band-edge connection ($J_0$ matching at $x=1$), which is the one place that
+description was correct.  \observed{} \ours{}  \textbf{Gap G11}
+(\S\ref{sec:gaps}); nothing downstream needs it.
+
+\subsection{Q2: the sum over dilates, and the quantisation point}
+\label{sec:q2}
+
+Passing from one prolate function to the summation map means passing from
+$\Phi$ to $G(t):=\sum_{m\ge1}\Phi(mt)$, and the triangle inequality is
+log-divergent: $\sum_m|\Phi(1)|/(mt)$ diverges harmonically.
+
+\begin{theorem}[\ours]\label{thm:q2}
+Let $c>\sqrt2$, let $n$ be even and $0\le\chi_n<c^2$.  Then for every $t>1$ the
+series $G(t)=\sum_{m\ge1}\Phi_n(mt)$ converges, and
+\[
+  \sup_{t>1}\;t\,|G(t)|\;\le\;K_P(c)\,|\Phi_n(1)|,\qquad K_P(c)=O(\log c),
+\]
+explicitly $K_P=\frac{\pi}{c|\mu_\Phi|}+B_1\big(3+\log\frac{B_2}{B_1}\big)$ with
+$B_1=K_1+\frac{2}{c|\mu_\Phi|}$, $B_2=K_1(6c+2^{-1/2})$ and $K_1=K(c)$ the
+constant of Theorem~\ref{thm:q1}.  For a combination
+$\phi=\sum_mb_m\Phi_{n_m}$ with every $n_m$ even and $\chi_{n_m}<c^2$ the same
+holds with $|\Phi_n(1)|$ replaced by $\sum_m|b_m||\Phi_{n_m}(1)|$.
+\end{theorem}
+
+\noindent This is the hypothesis \textbf{(P)} that
+Proposition~\ref{prop:zetaside}'s decay input (D) needs, and with it (D) holds
+with $A^2\ll\lambda K_P^2\Phi(1)^2$.  Numerically $K_P=26.5$ at $c=4\pi$, with a
+minimum $17.9$ near $c\approx80$ and never above $27$ in this project's range;
+measured, $\sup_t t|G|/|\Phi(1)|=0.94$--$1.05$, attained as $t\to1^+$, so the
+proved constant is loose by a factor $17$--$28$ and the truth is $1$.
+
+\paragraph{Theorem~\ref{thm:q1} is not a stepping stone to this; it is the
+hypothesis in disguise.}  In the Liouville form $u=\sqrt{x^2-1}\,\Phi$, which
+satisfies $u''+(c^2+\epsilon)u=0$ with
+$\epsilon=\frac{c^2-\chi+1}{x^2-1}$ integrable at infinity, Q1 says exactly that
+\emph{$u$ is bounded} --- and bounded $u$ against an integrable perturbation is
+what makes the Lagrange coefficients converge and gives the off-band remainder
+its second power of $x$.  Lemma~\ref{lem:amplitude} alone would not do: it gives
+$|u|\le\sqrt{x^2-1}|\Phi(1)|$, which grows.  What (P) needed was \emph{one more
+power of $x$}, not one less power of $e^{c}$; the earlier reading of the
+obstacle --- that Osipov--Rokhlin's remainder is ``of the same exponential size
+as the term being bounded'' --- is true and is not an obstruction, because
+$|\Phi(1)|$ sits outside the sum and its size is irrelevant to a harmonic
+divergence.
+
+\paragraph{And here is the conceptually interesting half.}  The theorem turns on
+the leading off-band term being a \emph{pure sine}:
+$\Phi(x)=\frac{a_1\sin(cx)}{x}+O(x^{-2})$ with \textbf{no cosine},
+$\beta_\infty=0$, which is the cancellation
+$\sum_mm^{-1}\sin(cmt)=\frac{\pi-\gamma}{2}$ for
+$\gamma:=ct\bmod2\pi\in(0,2\pi)$, and $0$ at $\gamma=0$: of modulus
+$\le\pi/2$ either way, where the triangle inequality gave $+\infty$.
+
+\begin{corollary}[\ours]\label{cor:quantisation}
+For a solution of the prolate equation analytic at $x=1$ with
+$\beta_\infty\ne0$, $\sup_{t>1}t|G(t)|=+\infty$: the sum diverges
+logarithmically as $ct$ approaches $2\pi\Z$, since
+$\sum_mm^{-1}\cos(cmt)=-\log|2\sin\tfrac{ct}{2}|$ is unbounded.
+\end{corollary}
+
+\begin{quote}
+\textbf{So (P) is false for a general solution of the prolate differential
+equation and true for the eigenfunctions.}  $\beta_\infty=0$ is a
+\emph{quantisation} statement, proved from the finite-Fourier eigenrelation and
+\emph{not} from the ODE.  Theorem~\ref{thm:q2} is therefore not analysis that
+happens to apply to prolate functions; it is true \emph{because} they are
+eigenfunctions, and no argument using the differential equation alone can prove
+it.  Any argument that appears to is wrong.
+\end{quote}
+
+That is stated at this length deliberately: a statement of Q2 that omits it
+invites exactly the ODE-only proof attempt that cannot work.
+
+\subsection{Q3: the truncation, and the premise that was false}
+\label{sec:q3}
+
+\begin{theorem}[\ours]\label{thm:q3}
+With (P) --- Theorems \ref{thm:q1} and \ref{thm:q2} --- and the classical inputs
+of \S\ref{sec:zetaside},
+\[
+  \sum_{\frac12+is\in Z}\big|\F_\mu r(s)\big|^2\;\le\;\Xi(\mu)\,(1-\chi_2(\lambda)),
+  \qquad
+  \Xi(\mu)=\begin{cases}
+    O\big(\mu^{9/2}\log^3\!\mu\big) & \text{\observed}\\[2pt]
+    O\big(\mu^{6}\log^3\!\mu\big) & \text{\proved}
+  \end{cases}
+\]
+--- polynomial either way, hence subexponential, which is all
+Corollary~\ref{cor:upper} needs.
+\end{theorem}
+
+The two values of $\Xi$ differ by exactly one thing and it is worth naming: the
+conversion $\Phi(1)^2\mapsto(1-\Lambda_4)$.  The endpoint identity
+$\Phi_n(1)^2=c(1-\Lambda_n)(1-\frac{2n+1}{4c}+O(c^{-2}))$ is \observed{} only
+(\textbf{Gap G12}); the \proved{} substitute is one-sided in each direction ---
+$\Phi_n(1)^2\ge(1-\Lambda_n)/(2K_1^2\Lambda_n)$ from Theorem~\ref{thm:q1} and
+\eqref{eq:outofband}, and $\Phi_n(1)^2=O(c^{5/2}(1-\Lambda_n))$ from the
+$x^{-2}$ remainder bound --- and costs $\mu^{3/2}$.  \emph{Anyone printing
+``unconditional'' is quoting the proved column.}
+
+\paragraph{The mechanism is a truncation of the zero sum, and no fractional
+Sobolev theory appears anywhere.}  Split the sum at $|\gamma_\rho|=T_*$ with
+$\log T_*=4\pi\mu+O(\log\mu)$.
+
+\begin{itemize}\itemsep2pt
+\item \emph{Above $T_*$}: use $\F_\mu r=-\F_\mu g$ on $Z$ ---
+Proposition~\ref{prop:identity}'s own identity, used again --- and the bounded
+variation of $g$ in the logarithmic variable, giving
+$\sum_{|\gamma_\rho|>T_*}|F(s_\rho)|^2\ll\lambda V_*^2\log T_*/T_*$.  This is
+below the target because $\Phi(1)^2\ge(1-\Lambda_4)/(2K_1^2C_*^2)$ is bounded
+below, which is where Theorem~\ref{thm:q1} enters a second time.
+\item \emph{Below $T_*$}: apply Proposition~\ref{prop:zetaside} with the weight
+$\log^3(3+|t|)$ \emph{frozen} at $\log^3(4+T_*)=O(\mu^3)$ before integrating.
+With no $t$-dependent factor left inside, Plancherel on horizontal lines applies
+as it stands and nothing about the smoothness of $R$ is ever needed.  The same
+truncation caps the $\sigma\to-\tfrac12$ edge at $\eta_*\asymp c_0/\mu$.
+\end{itemize}
+
+\noindent The whole cost is that $\mu^3$, and it is forced by the size of the
+target rather than by any analysis.
+
+\paragraph{An error in our own working notes, recorded because the first draft
+of this paper carried it too.}  The route above replaced one that does not
+exist, and the reason it does not is worth stating.  The earlier plan was to
+absorb the $\log^3$ weight into a fractional Sobolev norm of $R$, on the premise
+that ``$R$ is bounded with a single jump at $v=\log\lambda$ and is smooth to the
+right of it'' --- which is the same claim the first draft of this paper made
+when it described $r$ as ``smooth on $(0,\lambda^{-1})$ but with a jump at the
+endpoint''.  \textbf{That premise is false.}  $R$ jumps at $u=\lambda/N$ for
+\emph{every} integer $N>\mu$, of size exactly $|\Phi(1)|N^{-1/2}$, because
+$\E\phi(u)=u^{1/2}\sum_{n\le\lambda/u}\phi(nu)$ is a finite sum whose terms
+switch on one at a time and $\phi(\lambda)\ne0$; measured against one-sided
+limits at $24$ cells, ratio $1.0$ to every printed digit.  Those jumps are the
+\emph{same} sawtooth that makes Theorem~\ref{thm:q2} work --- so the two
+sections of that note contradicted each other, and the section that used the
+sawtooth was the right one.  The input the Sobolev route asks for does not
+exist: $R'$ is not a function, and between jumps $|R'|\asymp\mu t|R|$, growing
+where (D) decays.  Separately, the edge is \emph{one}-sided
+($\sigma\to-\tfrac12$ only) and does not converge in the order originally
+proposed, since (ZFR) puts the edge at height $e^{c_0/\eta}$ where the $\log^3$
+weight is already $(c_0/\eta)^3$, making ``a further logarithm''
+$\int d\eta/\eta$ really $\int d\eta/\eta^4$.  \emph{The two flagged steps were
+not independent and could not be costed separately}, which is how they had been
+costed.  \proved{} \ours
+
+\subsection{H0: the prolate vector does not degenerate, and there is no
+\texorpdfstring{$\zeta$}{zeta} in it}
+\label{sec:h0}
+
+\begin{theorem}[\ours, \proved{} modulo \cite{Dunster2017} eq.\ (124)+(107)]
+\label{thm:h0}
+$\displaystyle\lim_{\lambda\to\infty}\|g(\lambda)\|^2
+=\|\E\varphi_\infty\|^2=0.219247199549\ldots>0$, with
+$\varphi_\infty=\sqrt{\tfrac8{11}}\big(h_4-\sqrt{\tfrac38}\,h_0\big)$.  In
+particular \eqref{H0} holds.
+\end{theorem}
+
+\paragraph{The first draft named the wrong object, and this is the correction.}
+It glossed \eqref{H0} as a mean value of $|\zeta(\tfrac12+it)|^2$ against an
+explicit weight.  There \emph{is} such an identity ---
+$\|\E\phi\|^2=\frac1{2\pi}\int|\Gamma_\R(\tfrac12-is)\zeta(\tfrac12-is)P_\phi(s)|^2ds$
+--- and it is correct, but it is one \emph{route} to $\|g\|^2$ and it is the
+harder one, because it computes the whole norm when only a lower bound is
+wanted.  \textbf{There is no $\zeta$ in \eqref{H0}.}  With $u=\lambda/t$ and
+$S(t)=\sum_{n\le t}\Phi(n/t)$,
+\[
+  \|g\|^2=\int_1^{\mu}\frac{S(t)^2}{t^2}\,dt,
+  \qquad
+  \|r\|^2=\int_\mu^\infty\frac{S(t)^2}{t^2}\,dt ,
+\]
+exactly, with every argument $n/t$ \emph{on band}; the subtraction
+$\|g\|^2=\|\E\phi\|^2-\|r\|^2$, which is what makes \eqref{H0} look like a
+statement about the whole critical line, is never needed.  And
+$\|g\|^2\ge\int_A^B|\E\phi|^2d^*u$ for any fixed compact
+$[A,B]\subseteq[\lambda^{-1},\lambda]$, where $\E\phi$ is a finite sum of
+on-band values of one prolate function; $\int_{1/2}^2$ already recovers
+$99.9999\%$ of the limit.
+
+\paragraph{What \eqref{H0} actually requires is that $\phi_\lambda$ does not
+degenerate}, i.e.\ that the rescaled prolate vector converges in $L^2(\R)$, with
+no mass escaping, to a fixed non-zero function.  Seen from the mean-value side
+this is the same thing: the weight $|P_{\phi_\lambda}|^2$ moves with $\lambda$
+and $\zeta$ does not, so it is the weight's convergence that decides the
+question.  The first draft's own sentence --- ``$P_\phi$ depends on $\lambda$ and
+the bound must be uniform'' --- named the difficulty correctly and then attached
+it to the wrong object.
+
+\paragraph{Proof, in outline, and where the import enters.}  (i)
+$\phi_\lambda\to\varphi_\infty$ in $L^2(\R)$: by Dunster's (124)+(107) the
+rescaled $\lambda^{-1/2}\Phi_n(X/\lambda)$ is $A_\lambda[h_n(X)+O(c^{-1}\log c)]$
+uniformly on compacta, and the tightness bound $c^2\int y^2\Phi^2\le\chi$ ---
+straight from the prolate equation --- stops mass escaping to infinity, forcing
+$A_\lambda\to1$.  (ii) The window functional
+$f\mapsto(\int_A^B|\E f|^2d^*u)^{1/2}$ is continuous against
+$\|f\|_2^{1/2}$ on a fixed window, so it converges.  (iii) Hence
+$\liminf\|g\|^2\ge\int_{1/2}^2|\E\varphi_\infty|^2d^*u=0.219246959898\ldots>0$,
+\emph{and that alone is what the $-4\pi$ bound needs}.  (iv) The matching upper
+bound, giving the limit itself, needs both tails controlled uniformly in
+$\lambda$; the small-$u$ tail uses $\phi(0)=\widehat\phi(0)=0$ and
+Theorem~\ref{thm:q1} again.  The limit is measured at $\mu=3,5,8,12,20$ and
+computed two independent ways agreeing to $22$ digits.  What the theorem does
+not give is an explicit $\lambda_0$ beyond which the bound holds: it is a limit
+statement, and the finite-$\mu$ values are measured rather than proved
+(\textbf{Gap G14}).  Theorem~\ref{thm:main} is a $\limsup$ and does not need
+one.
+
+\paragraph{The import, said once more where it is used.}  Only step (i)'s
+Hermite limit is imported: \cite{Dunster2017} eq.\ (124) with (107), whose
+standing hypothesis $\lambda_{\mathrm D}=\chi-c^2<0$ is exactly $\chi_n<c^2$ ---
+the same hypothesis as Theorems \ref{thm:q1} and \ref{thm:q2}, and the negation
+of Osipov--Rokhlin's.  Via DLMF 12.7.2,
+$U(-n-\tfrac12,z)=e^{-z^2/4}\mathit{He}_n(z)$, his (124) at $x=X/\lambda$ is the
+Hermite limit.  His statement and hypotheses were read in the source; the
+coalescing-turning-point theory his error bounds rest on was not opened.
+\textbf{Gap G13.}  Everything else in the proof --- the window identity, the
+localisation, the continuity of $\E$ on a compact window, the tightness bound,
+and the non-vanishing of $\E\varphi_\infty$ --- is proved here.
+
+\paragraph{And note that the limit vector is the corpus's own.}
+$\varphi_\infty$ is $h_4-\sqrt{3/8}\,h_0$ normalised, with the weight
+$\tfrac8{11}$ of \S\ref{sec:index} --- the same two-mode combination the whole
+construction is built on, in its Hermite limit.
+
+\subsection{The house rule, applied to the chain}
+\label{sec:chainsignblind}
+
+Every statement in \S\S\ref{sec:notH1}--\ref{sec:h0} is \textbf{sign-blind}, and
+that is the correct answer rather than a defect.  \eqref{H1} and its replacement
+are bounds on $\sum_\rho|\F_\mu r|^2$, a sum of squared moduli, which cannot
+distinguish $\QW_\lambda$ from $-\QW_\lambda$ and was never going to.
+Theorems \ref{thm:q1}, \ref{thm:q2} and Lemma~\ref{lem:amplitude} contain no
+zeta function at all.  Theorem~\ref{thm:h0} is a statement about the
+non-degeneracy of a prolate vector.  Theorem~\ref{thm:main} bounds $|s(\mu)|$
+from above; the left half of $0<s\le\cdots$ is untouched by any of it, and is
+Theorem~\ref{thm:boundary}.
+
+\begin{quote}
+\textbf{So the chain closing leaves the thesis exactly where it was, and makes
+stating it matter more.}  What was conditional is now proved, and what was
+proved is that no part of this machinery can produce a direction.  The
+improvement is real, and it is entirely within the magnitude half --- the half
+\S\ref{sec:houserule} classifies as sign-blind on every row.  An unconditional
+theorem is precisely the point at which a reader stops after the first sentence,
+which is why the label is attached here and again in \S\ref{sec:boundary}
+rather than left to the summary.
+\end{quote}
+
+% ==========================================================================
 \section{The boundary: a lower bound of any shape implies RH}
 \label{sec:boundary}
 % ==========================================================================
 
-A rate is two-sided.  The remaining half is that $s(\mu)$ does not decay
+A rate is two-sided.  \S\ref{sec:unconditional} proved one half of it
+unconditionally.  The remaining half is that $s(\mu)$ does not decay
 \emph{faster} than $e^{-4\pi\mu}$, i.e.\ a lower bound $s(\mu)\ge\kappa(\mu)>0$
-for all $\mu$.
+for all $\mu$ --- and \emph{that} half is not open in the sense the other one
+was.  The asymmetry is the point of this section, and it is worth naming
+before the argument: what closed did so because it is a bound on a magnitude,
+and what remains carries the arithmetic precisely because it is not.
 
 Connes states the equivalence himself (\file{rhready.tex:1145}): ``By the result
 of Andr\'e Weil discussed in \S\texttt{sectweilpos}, the positivity of
@@ -1305,12 +2105,26 @@ about the sign of the Weil form is the version that contains RH.}
 \end{itemize}
 
 \begin{corollary}\label{cor:permanent}
-The $4\pi$ rate cannot be made an unconditional theorem --- not for want of
-technique; the statement contains RH.  And no computation can change that: a
-wider grid or a converged truncation sharpens the fitted constant, but it cannot
-supply a lower bound at a $\mu$ it has not computed, and the statement quantifies
-over all $\mu$.
+The \emph{two-sided} $4\pi$ rate cannot be made an unconditional theorem --- not
+for want of technique; the statement contains RH.  And no computation can change
+that: a wider grid or a converged truncation sharpens the fitted constant, but it
+cannot supply a lower bound at a $\mu$ it has not computed, and the statement
+quantifies over all $\mu$.
 \end{corollary}
+
+\begin{quote}
+\textbf{Read Theorem~\ref{thm:main} and Corollary~\ref{cor:permanent} together,
+because separately each of them misleads.}  The upper half of the rate is now a
+theorem with no hypotheses; the lower half is RH.  \emph{Those two facts have the
+same cause.}  The upper bound was reachable because it bounds
+$\sum_\rho|\F_\mu r|^2$, a sum of squared moduli, by a concentration defect ---
+every step a statement about magnitude.  The lower bound is unreachable for
+exactly the reason the upper one was reachable: there is nothing in the prolate
+mechanism that knows which way the inequality goes.  So the closure of
+\S\ref{sec:unconditional} is not progress toward the lower bound and does not
+narrow the distance to it by any amount; it is the completion of the half that
+was never the difficulty.
+\end{quote}
 
 \begin{quote}
 \textbf{The house rule predicted this.}  The mechanism of \S\ref{sec:objects}
@@ -1388,6 +2202,16 @@ And it is why the sharpening stops here rather than continuing.  A fourth
 constraint would have to say something about the \emph{direction} of the
 discrepancy; by \S\ref{sec:boundary} any such statement, of any shape, is RH.
 
+\paragraph{What \S\ref{sec:unconditional} adds to the three constraints, and
+what it does not.}  It makes the ``$\approx5.2$ decimal digits per unit of
+$\mu$'' half of the sentence above a theorem rather than a measurement: the
+upper bound $s(\mu)=O(\mu^{21/2}\log^3\!\mu\,e^{-4\pi\mu})$ says that the two
+sides \emph{do} agree at least that well, for every $\mu$, with no hypothesis.
+Constraint~1 therefore no longer rests on a fit.  It changes constraints 2 and 3
+not at all --- those are about the primes and about
+Theorem~\ref{thm:deficit} --- and it changes nothing about the direction of the
+discrepancy, which is the whole content and is RH.
+
 % ==========================================================================
 \section{The house rule, applied to this paper}
 \label{sec:houserule}
@@ -1446,7 +2270,32 @@ growing without bound in $N$
 Prop.~\ref{prop:identity}: $\QW_\lambda(g,g)=\sum_Z|\F_\mu r|^2$
 & both sides negate; the identity survives
 & \textbf{sign-blind} \\
-Cor.~\ref{cor:upper}: $\limsup\mu^{-1}\log s\le-4\pi$, and the rate $4\pi$
+\S\ref{sec:phasespace}: $c$ is a time--bandwidth area; the near-radical's
+dimension is a phase-space volume; short-interval positivity is an
+uncertainty-principle artifact; the $4\pi$ is $2\times2\pi$
+& an area, a mode count and an uncertainty principle are all magnitudes; every
+sentence is unchanged.  \emph{This is why the subsection is labelled exposition
+and not a route}
+& \textbf{sign-blind} \\
+\S\ref{sec:notH1}: \eqref{H1} as printed is no target of proof; no
+Plancherel--P\'olya, no Carleson
+& statements about supports, separation, and an unbounded functional
+& \textbf{sign-blind} \\
+Prop.~\ref{prop:zetaside}: the zeta side discharges
+& $|\F_\mu r|^2$ is unchanged and so is the sum
+& \textbf{sign-blind} \\
+Lemma~\ref{lem:amplitude}, Thm.~\ref{thm:q1}, Thm.~\ref{thm:q2},
+Cor.~\ref{cor:quantisation}, Thm.~\ref{thm:q3}
+& statements about the prolate equation, its eigenfunctions and a sum over
+zeros; there is no zeta function in any of them and no inequality has a
+direction
+& \textbf{sign-blind} \\
+Thm.~\ref{thm:h0}: $\|g\|^2\to0.219247\ldots>0$
+& a norm is a magnitude; the statement is that a prolate vector does not
+degenerate
+& \textbf{sign-blind} \\
+Thm.~\ref{thm:main} / Cor.~\ref{cor:upper}:
+$\limsup\mu^{-1}\log s\le-4\pi$, and the rate $4\pi$
 & magnitude only --- except for the left half of $0<s\le\cdots$, which fails
 & \textbf{sign-blind} (the bound); \textbf{false for $-W$} (the positivity) \\
 Thm.~\ref{thm:boundary}: a lower bound for all $\mu$ implies RH
@@ -1473,9 +2322,16 @@ whatever row it corroborates
 Read the table.  \emph{Every sign-blind row that says anything about the form is
 part of the prolate/magnitude machinery} --- the objects, the notation, the
 index, the indefiniteness of the prime terms, the commuting pair at a finite
-place, the identity, the rate.  (The last row says nothing about the form: it
+place, the identity, the rate, the phase-space picture, and the whole of
+\S\ref{sec:unconditional}.  (The last row says nothing about the form: it
 records that two computations agree and that two printed expressions do not,
 which no involution of $\QW_\lambda$ can touch.)
+
+\emph{Five of the rows above are new since the first draft, and every one of them
+is sign-blind.}  That is the strongest form of the thesis available: an entire
+chain of theorems was added, it turned a conditional result into an
+unconditional one, and it moved not a single row into the ``false for $-W$''
+column.  The sign-bearing rows are exactly the ones they were.
 \emph{Every sign-bearing row is an inequality about $\lambda_{\min}$ of the
 actual form}, or the one proved square at the archimedean place.  There is no row
 in which the prolate mechanism produces a direction, and this is not for want of
@@ -1501,7 +2357,14 @@ archimedean half is the positive one''.
 % ==========================================================================
 
 Recorded rather than filled; several were discovered while assembling this paper
-and are not closed by it.
+and are not closed by it.  The list is in three blocks: what is open, what was
+open in the first draft and is now closed (kept, with what was actually proved
+spelled out, so that neither the closure nor its caveats can be lost), and the
+one row that is not open because it is RH.  Numbering is stable across the two
+drafts: G5 and G6 kept their numbers when they closed, and the items the closure
+threw off are G11--G14.
+
+\paragraph{Open.}
 
 \begin{center}\small
 \begin{tabular}{@{}lp{0.72\textwidth}@{}}
@@ -1521,14 +2384,6 @@ Verified only for $5\le\mu\le12$.  It is the load-bearing structural claim of
 \textbf{G4} & Is $\kappa(\mu)=s/(1-\chi_2)$ a constant, and is it about $9$?
 Extrapolated values are $7.1$--$9.9$ with no trend, but a three-point model over
 eight points cannot separate a constant from $\log\mu$. \\
-\textbf{G5} & Prove $\|r\|^2=C_1(\lambda)(1-\chi_2)$ with $C_1=O(\log\mu)$:
-the $n\ge2$ terms and cross terms in \S\ref{sec:identity} need the oscillation of
-$\widehat\phi$, since Cauchy--Schwarz alone diverges logarithmically. \\
-\textbf{G6} & Prove \eqref{H1} --- the Plancherel--P\'olya-type mean-value bound
-over the zeros for the spill $r$ --- and \eqref{H0}.  Together with G5 these give
-$\limsup\mu^{-1}\log s\le-4\pi$ unconditionally.  \emph{This is the one genuinely
-open analytic problem this paper produces}, and it is the whole remaining content
-of the upper bound. \\
 \textbf{G7} & The odd sector.  Connes--Consani's
 $\phi_3=\psi_3\psi_1(0)-\psi_1\psi_3(0)$ is built from $\PS_{6,0}$ and
 $\PS_{2,0}$, so the odd smallest eigenvalue should be governed by prolate index
@@ -1543,8 +2398,79 @@ $10^{-54}$ it is trying to measure.  Wants panel quadrature at the breakpoints. 
 \textbf{G9} & Does the corpus's commutator localisation have a semilocal
 analogue, i.e.\ does $[\mathbf W_{\lambda,S},P^S]=0$ for either CCM candidate?
 Answering it needs the deferred Jacobi coefficients. \\
+\textbf{G11} & The sharp constant in Theorem~\ref{thm:q1} (``Q1$'$'').  The
+proof buys its starting amplitude from Lemma~\ref{lem:amplitude} at
+$2^{1/4}\sqrt c$ where the true amplitude away from the edge is
+$\sqrt{2/\pi}=0.797885\ldots$, $c$-free: a $\sqrt c$ of slack, so $K=O(1)$ where
+the truth is $O(c^{-1/2})$.  Closing it needs the $J_0$ matching at $x=1$ --- a
+genuine band-edge connection problem, and the one place that description was
+correct.  \observed{} only.  \emph{Nothing downstream needs it.} \\
+\textbf{G12} & Prove the endpoint identity
+$\Phi_n(1)^2=c(1-\Lambda_n)\big(1-\frac{2n+1}{4c}+O(c^{-2})\big)$, including the
+constant $c$ (not $\pi c/2$; the naive off-band form over-counts by exactly
+$\pi/2$).  \observed{} at $n=0,2,4$ over $c=75$--$320$, residual column
+converging to $(2n+1)/4$.  It is the only thing separating the two columns of
+Theorem~\ref{thm:q3}: proving it takes $\Xi$ from $O(\mu^6\log^3\mu)$ back to
+$O(\mu^{9/2}\log^3\mu)$.  Dunster's \S\S3--4 (Bessel approximations, valid at
+the band edge) is the obvious place to look and was not pursued. \\
+\textbf{G13} & \textbf{The one imported input.}  \cite{Dunster2017} eq.\
+(124)+(107) is used in Theorem~\ref{thm:h0} and proved by nobody here: its
+statement and its hypotheses were read in the source, its error bounds rest on a
+coalescing-turning-point theory that was not opened, and no part of it is
+re-derived.  It is the natural first target for a second reader, or for
+formalisation.  Writing (124) out with the constants tracked, rather than as
+$O(\gamma^{-1}\log\gamma)$, is the concrete form of this gap. \\
+\textbf{G14} & The effective range of Theorem~\ref{thm:h0}.  It is a limit
+statement; the finite-$\mu$ table covers $\mu\le20$, where $\|g\|^2$ is
+monotone.  An explicit $\lambda_0$ beyond which $\|g\|^2\ge\tfrac15$
+\emph{provably} is not written out.  This costs nothing in
+Theorem~\ref{thm:main}, which is a $\limsup$, and would be needed for any
+statement at a finite $\mu$. \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Closed since the first draft, with what was actually proved.}
+
+\begin{center}\small
+\begin{tabular}{@{}lp{0.72\textwidth}@{}}
+\hline
+\textbf{G5} & \emph{Was:} prove $\|r\|^2=C_1(\lambda)(1-\chi_2)$ with
+$C_1=O(\log\mu)$, the $n\ge2$ and cross terms needing the oscillation of
+$\widehat\phi$ that Cauchy--Schwarz will not supply.  \textbf{Closed}: it is not
+independent of G6 --- both follow from the single dilate-sum hypothesis (P) ---
+and (P) is Theorems \ref{thm:q1} and \ref{thm:q2}.  Note that $\|r\|^2$ does not
+appear in the final estimate at all (\S\ref{sec:notH1}), which is why this gap
+came along for free rather than being solved. \\
+\textbf{G6} & \emph{Was:} prove \eqref{H1} --- described there as ``the
+Plancherel--P\'olya-type mean-value bound over the zeros'' --- and \eqref{H0};
+called ``the one genuinely open analytic problem this paper produces''.
+\textbf{Closed, and the description was wrong twice.}  (i)~No
+Plancherel--P\'olya theorem can apply, and no Carleson replacement either: the
+hypotheses fail structurally, not technically (\S\ref{sec:notH1}).  (ii)~The
+zeros are not the obstruction; the zeta side discharges with classical
+unconditional inputs alone (\S\ref{sec:zetaside}).  (iii)~\eqref{H1} \emph{as
+printed} is not a possible target of proof, so what holds is the estimate of
+Theorem~\ref{thm:q3} and not \eqref{H1}; \textbf{``H1 is proved'' is the
+convenient sentence and it is wrong}.  (iv)~\eqref{H0} is proved
+(Theorem~\ref{thm:h0}) and contains no $\zeta$.  What the closure leaves behind
+is G11--G14, of which G13 is the only one that could withdraw the word
+\emph{unconditional}. \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Not open.}
+
+\begin{center}\small
+\begin{tabular}{@{}lp{0.72\textwidth}@{}}
+\hline
 \textbf{G10} & Not open, and recorded so it is not reopened: the matching
-\emph{lower} bound on $s(\mu)$.  That is RH (Theorem~\ref{thm:boundary}). \\
+\emph{lower} bound on $s(\mu)$.  That is RH (Theorem~\ref{thm:boundary}).
+\emph{Nothing in \S\ref{sec:unconditional} moved it, and nothing of that shape
+can}: every theorem there is sign-blind (\S\ref{sec:chainsignblind}).  If an
+argument in this direction ever appears to yield a lower bound on $s(\mu)$, it
+is wrong. \\
 \hline
 \end{tabular}
 \end{center}
@@ -1566,6 +2492,21 @@ and are stable for that snapshot.  Specifically:
 \file{scatteringV2.tex} (arXiv:math/9901051).  Where only a statement was read
 and not its proof, the underlying notes say so section by section.
 
+For \S\ref{sec:unconditional} two further sources were read the same way.
+Osipov--Rokhlin \cite{OsipovRokhlin2013} (\file{test12_arxiv.tex},
+arXiv:1208.4816) --- the sharpest published treatment of prolate functions off
+$[-1,1]$: its two relevant theorems (\file{:2485}, \file{:2497}) and its exact
+off-band expansion (\file{:4350}) were read, and the hypothesis
+$\chi_n>c^2$ is printed there, which is what puts them in the complementary
+regime to ours (\S\ref{sec:lemma51}).  Its own second-hand items --- Rokhlin--Xiao
+and the Yale technical reports where several of its statements are proved ---
+were \emph{not} opened; nothing here rests on them, since they are quoted only
+to be ruled out by hypotheses printed in the paper we did read.  And Dunster
+\cite{Dunster2017} (arXiv:1601.00699), where eq.\ (124), eq.\ (107) and the
+standing hypothesis $\lambda_{\mathrm D}<0$ were read in the source, and the
+coalescing-turning-point theory underlying his error bounds was not
+(\textbf{G13}).
+
 \paragraph{Not read.}  Fuchs \cite{Fuchs1964} --- its statement is taken in the
 form Connes cites and then checked against independent arbitrary-precision
 computation of $\Lambda_0,\Lambda_2,\Lambda_4$ (\S\ref{sec:fuchs}); if the
@@ -1574,7 +2515,10 @@ general-$n$ constant were wrong, the $B$ and $D$ predictions of
 \cite{Yoshida1992} --- not on arXiv and not reachable; it is the one place a
 sharpness statement could hide (\S\ref{sec:notheorem}).  Slepian's tabulated
 $\Lambda_0(1)=0.57258$ is quoted from the standard literature and used only as a
-five-digit sanity check.
+five-digit sanity check.  Plancherel--P\'olya (1937), Riemann--von Mangoldt, the
+de la Vall\'ee Poussin zero-free region, Plancherel and subharmonicity are
+classical, quoted and used but not re-derived; the first is quoted only in order
+to show that it does not apply (\S\ref{sec:notH1}).
 
 \subsection{Scripts}
 
@@ -1609,9 +2553,45 @@ definitions on the Python standard library alone; the (\texttt{thetaprime})
 normalisation test of \S\ref{sec:bound}; the erratum of \S\ref{sec:erratum}
 (\texttt{-{}-quick} drops to $N=60$ and loosens the bounds, which is the
 variational point of \S\ref{sec:confront} showing up as a caveat) \\
+\file{verify_h1.py} & mpmath &
+\S\ref{sec:lemma51}: the entire extension itself (spherical-Bessel against
+Legendre at $x=1$, agreeing to $10^{-41}$--$10^{-59}$); the regime table
+$\chi_n/c^2$; the observed endpoint identity of \textbf{G12} \\
+\file{verify_q1.py} & mpmath &
+\S\ref{sec:q1}: the entire extension cross-validated against ODE integration to
+$10^{-41}$--$10^{-43}$; the measured amplitude $\sqrt{2/\pi}$ of \textbf{G11};
+the failing hypothesis cell $\chi_8/c^2=1.040$ at $c=4\pi$ \\
+\file{verify_q2.py} & mpmath &
+\S\ref{sec:q2}: the dilate sum via the Poisson identity, giving
+$\sup_t t|G|/|\Phi(1)|=0.94$--$1.05$ against the proved $K_P\approx18$--$27$;
+$C_*\to1$ for the mode combination.  Carries the fixed copy of the shared
+spherical-Bessel routine (below) \\
+\file{verify_q3.py} & mpmath &
+\S\ref{sec:q3}: that the spill jumps at $u=\lambda/N$ for \emph{every} integer
+$N>\mu$, ratio $1.0$ against one-sided limits at $24$ cells --- i.e.\ the
+measurement that falsified the premise; $V_*$ bounded over $\mu=2,\dots,8$ \\
+\file{verify_h0.py} & mpmath &
+\S\ref{sec:h0}: $\|g\|^2$ at $\mu=3,5,8,12,20$, and the limit
+$0.219247199549\ldots$ two independent ways to $22$ digits \\
 \hline
 \end{tabular}
 \end{center}
+
+\paragraph{A defect found in our own apparatus, and scoped.}
+\file{verify_h1.sph_j_all} --- the shared routine evaluating the entire
+extension, used by \S\ref{sec:lemma51} and \S\ref{sec:q1} --- normalises on the
+prolate sum rule, correctly, and then fixes the remaining \emph{global sign} by
+the sign of $\sin(z)/z$, which is the one quantity its own docstring says must
+not be used, since $z=cx$ is a multiple of $\pi$ exactly when $x$ is an integer.
+At $c=6\pi$, $x=200$ it compares against $\sin z=10^{-118}$, i.e.\ rounding
+noise, and returns the wrong sign.  \emph{It invalidates nothing reported here},
+because every quantity those two sections report is a modulus and a global sign
+flip is invisible in a modulus; it was fatal only where an explicit leading term
+is subtracted, which is \S\ref{sec:q2}.  The fixed copy is in
+\file{verify_q2.py} and agrees with the original to $0$~ulp at every index for
+generic $z$.  It is recorded because finding it required using the code for
+something new, which is an argument for continuing to build on these tools
+rather than freezing them.
 
 \paragraph{What was re-run while assembling this paper, and what was not.}
 Two scripts were re-run on 12 August 2026 (python 3.11, numpy 1.25.2, mpmath
@@ -1632,6 +2612,19 @@ the notes named below, which each report their own script's output, and was
 \emph{not} re-run on this pass.  That is the honest status of those numbers:
 computed once, by the note that owns it, at the stated precision and truncation,
 and reproducible by the command above.
+
+\paragraph{And the same, for \S\ref{sec:unconditional}.}  Nothing in that
+section was re-run while writing it.  Every number in it --- the $K(c)$ and
+$K_P(c)$ tables, the failing cell $\chi_8/c^2=1.040$, the measured
+$\sqrt{2/\pi}$ and $0.94$--$1.05$, the jump ratio $1.0$ at $24$ cells, the
+constant $0.219247199549$ and the window value $0.219246959898$ --- is
+transcribed from the note that owns it, with the script named in the table
+above.  \emph{The theorems are a different matter and do not have this status}:
+they are proofs, not measurements, and the numbers accompanying them are
+illustrations of constants rather than evidence for statements.  Theorem
+\ref{thm:q1}, Theorem~\ref{thm:q2} and Lemma~\ref{lem:amplitude} in particular
+are quantified over all $x\ge1$, all $c>\sqrt2$ and all $\chi\in[0,c^2)$, which
+is what no computation could have supplied.
 
 One transcription error was found this way and is corrected here: the predicted
 intercept $\log_{10}(2^{14}\sqrt2\pi^5/3)$ is $6.373563\ldots$, and one table in
@@ -1742,6 +2735,15 @@ ratios of \S\ref{sec:fuchs}; the one-bit discriminator of
 \S\ref{sec:noplacewise}, which belong to a different note and a different
 script.  Those stand where \S\ref{sec:provenance} leaves them --- computed once,
 by the note that owns them.
+\item \textbf{Not covered, and the whole of it postdates the recheck}: every
+number in \S\ref{sec:unconditional}.  The second implementation was written
+before that chain existed and does not touch it.  What partially substitutes is
+that the chain's numbers are mostly \emph{constants in theorems} rather than
+inputs to conclusions --- and one genuine cross-check exists inside it, in the
+opposite direction from the usual one: Theorem~\ref{thm:q1}'s measured amplitude
+$\sqrt{2/\pi}=0.797885$ is exactly the constant in Osipov--Rokhlin's published
+off-band leading term, arrived at here from an unrelated computation, so each
+confirms the other.
 \end{itemize}
 
 \noindent And one thing the agreement is not, in this paper's own vocabulary
@@ -1817,7 +2819,18 @@ including the Burnol appendix and the archimedean-failure appendix);
 \file{deficit-repair.md} (\S\ref{sec:deficit} and \S\ref{sec:sharpening});
 \file{prolate-rate.md} (\S\ref{sec:scale} and \S\ref{sec:boundary});
 \file{independent-recheck.md}, which depends on the last two and on nothing else
-of ours (\S\ref{sec:recheck} and \S\ref{sec:erratum}).  Two earlier
+of ours (\S\ref{sec:recheck} and \S\ref{sec:erratum}).  Then, for
+\S\ref{sec:unconditional}, in dependency order:
+\file{h1-mean-value.md} (the relocation of \eqref{H1}, \S\ref{sec:notH1} and
+\S\ref{sec:zetaside}, and Lemma~\ref{lem:amplitude});
+\file{band-edge-connection.md} (Theorem~\ref{thm:q1});
+\file{dilate-sum.md} (Theorem~\ref{thm:q2} and
+Corollary~\ref{cor:quantisation}); \file{q3-log-weight-and-edge.md}
+(Theorem~\ref{thm:q3}); \file{h0-lower-bound.md} (Theorem~\ref{thm:h0}, and its
+appendix~A, which supplies the $\Phi(1)^2\to(1-\Lambda_4)$ conversion that the
+\proved{} column of Theorem~\ref{thm:q3} needs).  Each of the last four
+annotates its predecessor in place and appends rather than rewriting, so the
+chain can be read either as it now stands or in the order it was found.  Two earlier
 notes --- \file{s3-reduction-audit.md} and \file{s3-sign-blindness.md} --- are
 where the house rule of \S\ref{sec:houserule} was first stated and first used to
 kill a chain of the project's own proposals; \file{signed-geometry-proposals.md}
@@ -1849,6 +2862,31 @@ provenance was our own.
 $0.12\sigma$ agreement of the fitted rate with $4\pi$ was treated as evidence for
 the index.  It is not: $e^{-2c}$ has no index dependence, so every candidate
 passes.  \S\ref{sec:fuchs}.
+\item \textbf{A working note's account of its own obstacle, wrong four times
+running.}  This is the pattern the chain of \S\ref{sec:unconditional} produced,
+and it is recorded as one item because it happened once per step and always the
+same way.  The note that reduced \eqref{H1} to a prolate tail bound also
+diagnosed what stood in the way at each stage, and each diagnosis was wrong.
+\emph{Q1} was called ``a Bessel-type connection problem at the regular singular
+point $x=1$''; it is not, and the singular point is never crossed
+(\S\ref{sec:lemma51}).  \emph{Q2}'s obstacle was said to be the exponential size
+of an off-band remainder; the real one was an exponent in $x$, and the size was
+irrelevant (\S\ref{sec:q2}).  \emph{Q3} was called routine on both its steps;
+one step's premise was false and contradicted another section of the same note,
+and the two steps were not independent (\S\ref{sec:q3}).  \emph{\eqref{H0}} was
+called a mean value of $|\zeta(\tfrac12+it)|^2$; there is no $\zeta$ in it at
+all (\S\ref{sec:h0}).  The first three mispriced a difficulty; the fourth named
+the wrong object.  \textbf{The methodological conclusion, since four for four is
+not a coincidence: a post-mortem written by whoever hit a wall is evidence about
+that person's attempt and not about the wall.}  Every one of the four closures
+came from refusing the inherited diagnosis rather than from working on it.
+\item \textbf{A grid that excluded the point where the supremum lives, twice.}
+A measured constant $\sup_{x>1}x|\Phi(x)|/|\Phi(1)|\le0.79$ was reported and
+then quoted downstream as though it were Theorem~\ref{thm:q1}'s constant; the
+grid started $0.008$ \emph{above} $x=1$ and the supremum over $x\ge1$ is $1$,
+attained at $x=1$.  The same exclusion was then committed one note later, on a
+different variable, under-reporting by a factor of two.  Both are corrected;
+neither changes a conclusion; the pattern is worth more than either incident.
 \end{enumerate}
 
 \noindent Three further corrections, all cosmetic and none of them of this kind,
@@ -1876,6 +2914,23 @@ the residual is measurably the cutoff rather than a constant
 (\S\ref{sec:bound}).  There is no extra factor of $2$.  What is still taken on
 trust, and marked as such, is Proposition \texttt{Hilbert} itself: its
 normalisation has been tested, its proof has not been re-proved by anyone here.
+
+\paragraph{And the claim in \S\ref{sec:unconditional} that would do the most
+damage if wrong} is not one of its theorems --- those are self-contained, and
+between them they contain no zeta function, no numerical input and no sign --- but
+the import of \cite{Dunster2017} eq.\ (124)+(107) at
+Theorem~\ref{thm:h0}(i), \textbf{G13}.  If that asymptotic or its regime were
+misread, \eqref{H0} would revert to a hypothesis and Theorem~\ref{thm:main}
+would revert to conditional; nothing else in the paper would move, since no
+other section uses it.  Its guard is that the hypothesis was checked in the
+source and converted into our symbols
+($\lambda_{\mathrm D}=\chi-c^2<0\Leftrightarrow\chi_n<c^2$), that the author
+states on his second page that his earlier paper assumed the opposite sign, and
+that the limit it predicts is confirmed numerically to $22$ digits by
+\file{verify_h0.py} --- which is corroboration of the \emph{conclusion} and not
+of the theorem.  The second-most exposed is the \observed{} column of
+Theorem~\ref{thm:q3}, and it is guarded by not being used: the \proved{} column
+is what Theorem~\ref{thm:main} quotes.
 
 % ==========================================================================
 \begin{thebibliography}{99}
@@ -1922,6 +2977,15 @@ A. Connes, C. Consani, H. Moscovici,
 \emph{Zeta spectral triples},
 arXiv:2511.22755 (Nov 2025).
 
+\bibitem{Dunster2017}
+T. M. Dunster,
+\emph{Asymptotics of prolate spheroidal wave functions},
+J. Classical Anal. \textbf{11} (2017), no.~1, 1--21; doi:10.7153/jca-11-01,
+arXiv:1601.00699.
+\emph{(Eq.\ (124)+(107) is imported at Theorem~\ref{thm:h0} and proved by nobody
+here; statement and hypotheses read in the source, error-bound theory not
+opened --- \textbf{G13}.)}
+
 \bibitem{Fuchs1964}
 W. H. J. Fuchs,
 \emph{On the eigenvalues of an integral equation arising in the theory of
@@ -1935,6 +2999,14 @@ A. Groskin,
 \emph{A finite Guinand--Weil dictionary and archimedean tail order for the
 truncated Weil quadratic form},
 arXiv:2607.02828 (Jul 2026); and arXiv:2605.20224 (May 2026).
+
+\bibitem{OsipovRokhlin2013}
+A. Osipov, V. Rokhlin,
+\emph{Detailed analysis of prolate quadratures and interpolation formulas},
+arXiv:1208.4816 (2012).
+\emph{(Read in the source for its hypotheses, which are the negation of ours ---
+\S\ref{sec:lemma51}.  The Yale technical reports where several of its statements
+are proved were not opened, and nothing here rests on them.)}
 
 \bibitem{SlepianPollak1961}
 D. Slepian, H. O. Pollak,

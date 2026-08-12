@@ -4,7 +4,7 @@ Work item mg-8462. Companion script: [`verify_h1.py`](verify_h1.py) (needs `mpma
 no `numpy`; imports the prolate apparatus of [`verify_prolate_rate.py`](verify_prolate_rate.py)).
 Attacks **H1**, the one named open analytic problem in
 [`../paper/positivity-obstruction.tex`](../paper/positivity-obstruction.tex) — Hypothesis
-H1 at `:1242`, gap **G6** at `:1527`, and item **P1** of
+H1 at `:1242`, gap **G6** at `:1527`, and item **P1** of <!-- mg-6467: those line numbers are the pre-mg-6467 draft. Now: (H1) at `:1421`, and G6 in the "closed since the first draft" block at `:2423`. -->
 [`prolate-rate.md`](prolate-rate.md) §11.
 
 Nothing in `start.tex`, `s3.tex` or the paper was edited. `prolate-rate.md` is
@@ -24,7 +24,7 @@ correct here rather than a defect.
 ## Bottom line
 
 **1. The name is wrong, and the name is what has been hiding the difficulty.**
-H1 is labelled "of Plancherel–Pólya type" (paper `:1248`, `prolate-rate.md` §6(c)).
+H1 is labelled "of Plancherel–Pólya type" (paper `:1248`, `prolate-rate.md` §6(c)). <!-- mg-6467: that label is gone from the paper. §1 and §2 of this note are now the paper's §7.1, `:1504`, where the phrase survives only as a quotation of the first draft. -->
 Plancherel–Pólya requires two hypotheses and **our configuration satisfies
 neither**: the function must be entire of exponential type (equivalently, its
 Fourier transform compactly supported), and the sampling points must be
@@ -611,12 +611,12 @@ this note supports are:
 
 1. **G5 and G6 are not independent.** Both follow from (P). The gap list should
    say so.
-2. **"of Plancherel–Pólya type" should go** (paper `:1248`). It names a theorem
+2. **"of Plancherel–Pólya type" should go** (paper `:1248`). It names a theorem <!-- mg-6467: DONE. Paper §7.1 `:1504`; the correct one-line description is in the paper's §7.2 lead. -->
    that cannot apply and points at the zeros, which are not the obstruction. A
    correct one-line description is: *a weighted-$L^2$ tail bound for the entire
    extension of a prolate function outside its interval.*
 3. **The sentence "the sum converges only because the zero density is
-   logarithmic"** (paper `:1252`) is right, and Prop. 3.1 makes it the actual
+   logarithmic"** (paper `:1252`) is right, and Prop. 3.1 makes it the actual <!-- mg-6467: DONE. Prop. 3.1 is the paper's Prop. 7.3 at `:1605`, and the density-is-the-mechanism reading is the bullet after it. -->
    mechanism rather than an aside.
 4. Neither change touches G10, Theorem `thm:boundary`, or anything about the sign.
 
@@ -770,7 +770,7 @@ matching lower bound is still RH.
 bound of the form $\Theta(\lambda)\|r\|^2$ can exist, so (H1) *as printed* is not what
 was closed and never could be; (4.3) is the estimate that replaced it and the one
 Cor. `cor:upper` consumes. **H1's role is discharged; H1 as literally written is
-bypassed.** Anyone quoting this should quote (4.3), and the paper's `:1242` should be
+bypassed.** Anyone quoting this should quote (4.3), and the paper's `:1242` should be <!-- mg-6467: DONE. (H1) is now stated at `:1421` and disposed of in §7.1, `:1504`. -->
 restated the same way.
 
 **But "routine" was wrong, and it was wrong differently on each step.**
@@ -852,7 +852,7 @@ observed. **Anyone printing "unconditional" is quoting §A as well as Q4.**
 
 **Say it in the true sentence, not the convenient one.** §14 already made this point and it
 matters more now that nothing is left conditional: **do not write "H1 is proved".** §1 above
-proves that no bound of the form $\Theta(\lambda)\|r\|^2$ exists, so (H1) *as printed at* `:1242`
+proves that no bound of the form $\Theta(\lambda)\|r\|^2$ exists, so (H1) *as printed at* `:1242` <!-- mg-6467: now `:1421`. -->
 is false in that form and was bypassed, not proved. What holds is **(4.3)** plus **(H0)**.
 
 **§9's Q4 row was wrong about what (H0) is, and the error is the same shape as the previous
@@ -871,7 +871,7 @@ and it is one route to the *whole* norm when only a *lower bound* is wanted.
    limit. So no uniformity in $\lambda$ over a growing region is at stake either.
 3. **The content is that $\phi_\lambda$ does not degenerate.** Seen from the mean-value side the
    same thing: the weight $|P_{\phi_\lambda}|^2$ moves with $\lambda$ and $\zeta$ does not, so it
-   is the weight's convergence that decides it. The paper's `:1234` names the difficulty
+   is the weight's convergence that decides it. The paper's `:1234` names the difficulty <!-- mg-6467: that gloss is removed; the paper now says this in its own §7.7, `:1950`. -->
    correctly — "$P_\phi$ depends on $\lambda$ and the bound must be uniform" — and then attaches
    it to $\zeta$.
 4. **And the corollary never needed "bounded below".** It consumes $\mu^{-1}\log\|g\|^2\to0$;

@@ -13,8 +13,17 @@ sharpening of the positivity obstruction that stands on its own.
 `paper/positivity-obstruction.tex` is a **draft** assembling the notes below into
 one standalone document: *The prolate mechanism is sign-blind — a sharpening of
 the positivity obstruction*. It is not a submission and nothing has been sent
-anywhere. Build with `pdflatex positivity-obstruction.tex` (three passes; 27
-pages). Its thesis is that the whole prolate mechanism is invariant under
+anywhere. Build with `pdflatex positivity-obstruction.tex` (three passes). It
+now proves, unconditionally, that
+\(\limsup_{\mu\to\infty}\mu^{-1}\log s(\mu)\le-4\pi\), quantitatively
+\(s(\mu)=O(\mu^{21/2}\log^3\mu\,e^{-4\pi\mu})\) — the first six notes assemble
+the picture and the last five are the chain that closes it. The one ingredient
+proved by nobody here is Dunster 2017 eq. (124)+(107), whose standing hypothesis
+is exactly our regime; it is named in the paper's own voice at the point of use
+and is gap **G13**. Note also what is *not* claimed: hypothesis (H1) as printed
+in the first draft was **bypassed rather than proved** — its \(\|r\|^2\)
+normalisation is ruled out as a target of proof — so "H1 is proved" is the
+convenient sentence and it is wrong. Its thesis is that the whole prolate mechanism is invariant under
 \(QW_\lambda \mapsto -QW_\lambda\), so it explains why the smallest eigenvalue is
 minuscule and says nothing about why it is positive — which is what forces the
 missing lower bound to carry the arithmetic content, and that content is RH. It
@@ -172,11 +181,41 @@ cite them by line.
   defect found in the shared Bessel routine, which is invisible in the moduli the
   earlier notes report and fatal here. Does **not** prove H1: the two flagged steps
   and H0 remain. Sign-blind throughout.
+- `q3-log-weight-and-edge.md` — writes out the two steps the first of these notes
+  calls routine, and finds that **neither is what that note says it is**. The
+  \(\log^3\)-weight step rests on a false premise: the spill is not smooth to the
+  right of one jump, it jumps at \(u=\lambda/N\) for *every* integer \(N>\mu\) — the
+  same sawtooth that makes `dilate-sum.md` work, so **two sections of one note
+  contradict each other**. The edge is one-sided, and does not converge in the order
+  proposed, because the zero-free region puts it where the \(\log^3\) weight is
+  already large; the two steps are not independent and cannot be costed separately.
+  Closes both anyway, by a different route: truncate the zero sum at \(e^{4\pi\mu}\),
+  freeze the weight below it, and use a **proved** lower bound on \(\Phi(1)^2\) that
+  follows from the single-term bound. No fractional Sobolev theory anywhere,
+  \(\Xi=O(\mu^{9/2}\log^3\mu)\). Insists on the precise statement: it is estimate
+  (4.3) that is proved, **not (H1) as written**. Sign-blind throughout.
+- `h0-lower-bound.md` — closes the last condition, and the note it inherits named
+  the wrong object: (H0) is **not** a mean value of \(|\zeta(1/2+it)|^2\) — *there
+  is no zeta in it at all*. \(\|g\|^2\) is its own integral over its own range, and
+  is bounded below by the integral over any fixed compact window, on which
+  \(\mathcal E\phi\) is a finite sum of **on-band** prolate values. What (H0)
+  requires is that the prolate vector does not degenerate, and it does not:
+  \(\|g\|^2\to\|\mathcal E\phi_\infty\|^2=0.219247199549\ldots\) with
+  \(\phi_\infty=\sqrt{8/11}(h_4-\sqrt{3/8}h_0)\), which is `start.tex:39`'s own
+  vector in its Hermite limit. So **the \(-4\pi\) upper bound is unconditional**.
+  One input is imported and proved by nobody here — Dunster 2017
+  (arXiv:1601.00699) eq. (124)+(107), whose standing hypothesis \(\lambda<0\) is
+  exactly our \(\chi<c^2\), the regime this chain has needed throughout and the
+  negation of the one the neighbouring literature works in. Its appendix supplies
+  the conversion the previous note had left sketched, at a cost of \(\mu^{3/2}\);
+  anyone printing "unconditional" is quoting that appendix too. Sign-blind
+  throughout, and the matching lower bound is still RH.
 
 `s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
 `verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md`,
 `deficit-repair.md`, `prolate-rate.md`, `h1-mean-value.md`,
-`band-edge-connection.md` and `dilate-sum.md` have ones using
+`band-edge-connection.md`, `dilate-sum.md`, `q3-log-weight-and-edge.md` and
+`h0-lower-bound.md` have ones using
 `mpmath` in arbitrary precision and no numpy; `independent-recheck.md`'s uses the Python standard
 library alone, which is the point of it;
 `signed-geometry-proposals.md` and `citation-audit.md` are

@@ -655,7 +655,7 @@ supports are:
 1. **The estimate H1 was introduced to supply can be stated as a theorem** — (4.3),
    with $\Xi=O(\mu^{9/2}\log^3\mu)$ (Cor. 4.5) — leaving the $-4\pi$ upper bound
    conditional on (H0) alone. G5 and G6's first half go with it; G6's second half,
-   (H0), does not. The hypothesis **as printed** (`:1242`), with its $\|r\|^2$, should
+   (H0), does not. The hypothesis **as printed** (`:1242`), with its $\|r\|^2$, should <!-- mg-6467: now `:1421`, and the paper carries (4.3) in its place — Thm 7.8, §7.6. -->
    not be called proved: §1 of `h1-mean-value.md` shows that form is unattainable, and
    the paper should carry (4.3) in its place.
 2. **The $-4\pi$ upper bound becomes conditional on (H0) alone.** It does not become

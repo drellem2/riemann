@@ -7,7 +7,7 @@ the Legendre machinery of [`verify_h1.py`](verify_h1.py), the mode builder of
 three-mode near-radical vector `Comb` of [`verify_q3.py`](verify_q3.py)). Attacks **Q4**,
 i.e. hypothesis **(H0)**, of [`h1-mean-value.md`](h1-mean-value.md) §9 — the last open item
 between this project and an unconditional $-4\pi$ upper bound. (H0) is Hypothesis `H0` at
-`../paper/positivity-obstruction.tex:1234`, and the second half of the paper's gap **G6**.
+`../paper/positivity-obstruction.tex:1234`, and the second half of the paper's gap **G6**. <!-- mg-6467: the paper is revised; (H0) is now at `:1417` and G6 is recorded closed at `:2423`. -->
 
 Nothing in `start.tex`, `s3.tex` or the paper was edited. `h1-mean-value.md` and
 `prolate-rate.md` are annotated in place (HTML comments, no line-count change) and appended to.
@@ -39,7 +39,7 @@ function. That is the whole content, and it is visible from the mean-value route
 weight there is $|P_{\phi_\lambda}|^2$, it depends on $\lambda$, and it is the weight's
 convergence and not any property of $\zeta$ that decides the question. The paper's own
 sentence — "routine in shape, but $P_\phi$ depends on $\lambda$ and the bound must be
-uniform" (`:1234`) — names the difficulty correctly and then attaches it to the wrong object.
+uniform" (`:1234`) — names the difficulty correctly and then attaches it to the wrong object. <!-- mg-6467: corrected in the paper, §7.7 at `:1950`. -->
 §4.
 
 **3. The limit is the corpus's own vector, and the constant is explicit.**
@@ -580,7 +580,7 @@ conversion out, at a cost of $\mu^{3/2}$ over the observed truth. **Anyone who p
 
 **The sentence to use, and the one not to.** **Do not write "H1 is proved."**
 `h1-mean-value.md` §1 proves that no bound of the form $\Theta(\lambda)\|r\|^2$ can exist, so
-(H1) *as printed at* `:1242` is not what was closed and never could be. What is proved is
+(H1) *as printed at* `:1242` is not what was closed and never could be. What is proved is <!-- mg-6467: now `:1421`; the paper says so itself in §7.1, `:1504`. -->
 **(4.3)** — `h1-mean-value.md` §4, established by mg-731c — together with (H0). The correct
 sentence is:
 
@@ -601,7 +601,7 @@ sign. The odd sector. Remark 6.4's reading of $\epsilon(\lambda)$ versus $s^\pm$
 | **H0-2** | The effective range. Thm 6.1 is a limit statement; the finite-$\mu$ table in §7 covers $\mu\le20$ and $\|g\|^2$ is monotone there. A $\lambda_0$ beyond which $\|g\|^2\ge\tfrac15$ provably is not written out | **measured, not proved, for $\mu\le20$** |
 | **H0-2b** | §A is loose by $\mu^{3/2}$. Replacing it by the observed truth $\Phi(1)^2\asymp c(1-\Lambda_4)$ — i.e. proving Q5's constant — would take $\Xi$ back to $O(\mu^{9/2}\log^3\mu)$ | **proved but loose; sharpening is Q5** |
 | **H0-3** | Q5 of `h1-mean-value.md` — the endpoint identity $\Phi_n(1)^2=c(1-\Lambda_n)(1-\frac{2n+1}{4c}+\ldots)$ — is still **observed only** in its constant. Dunster's §§3–4 (Bessel-function approximations, radial case, valid at the band edge) is the obvious place to look next, and was **not** pursued here | **open, and now with a candidate source** |
-| **H0-4** | The paper edits. Ten are batched in vision amendments 11 §5, 12 §5, 13 §6, 14 §5; this note adds: `H0` at `:1234` should say *"the non-degeneracy of the prolate vector in the Hermite limit"*, not *"a mean-value statement about $|\zeta(\tfrac12+it)|^2$"*; and G6 is closed | **not done here, by instruction** |
+| **H0-4** | The paper edits. Ten are batched in vision amendments 11 §5, 12 §5, 13 §6, 14 §5; this note adds: `H0` at `:1234` should say *"the non-degeneracy of the prolate vector in the Hermite limit"*, not *"a mean-value statement about $|\zeta(\tfrac12+it)|^2$"*; and G6 is closed | **DONE by mg-6467** — all eleven folded in; see the paper's §7 and its restructured gap list |
 
 ---
 
