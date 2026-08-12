@@ -7,7 +7,7 @@ the Legendre machinery of [`verify_h1.py`](verify_h1.py), the mode builder of
 three-mode near-radical vector `Comb` of [`verify_q3.py`](verify_q3.py)). Attacks **Q4**,
 i.e. hypothesis **(H0)**, of [`h1-mean-value.md`](h1-mean-value.md) §9 — the last open item
 between this project and an unconditional $-4\pi$ upper bound. (H0) is Hypothesis `H0` at
-`../paper/positivity-obstruction.tex:1234`, and the second half of the paper's gap **G6**. <!-- mg-6467: the paper is revised; (H0) is now at `:1417` and G6 is recorded closed at `:2423`. -->
+`../paper/positivity-obstruction.tex:1234`, and the second half of the paper's gap **G6**. <!-- mg-6467: the paper is revised; (H0) is now at `:1417` and G6 is recorded closed at `:2423`. --> <!-- mg-fc1c: both of those anchors had drifted and are re-measured against the content they name: `\begin{hypothesis}\label{H0}` is at `:1544` and G6's closed row at `:2712`. Same pass corrects the paper's statement of Dunster's hypothesis at its §§1.4, 1.6, 7.7 and G13 -- see §5's own annotations below and `dunster-check.md`. -->
 
 Nothing in `start.tex`, `s3.tex` or the paper was edited. `h1-mean-value.md` and
 `prolate-rate.md` are annotated in place (HTML comments, no line-count change) and appended to.

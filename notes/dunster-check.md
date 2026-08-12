@@ -473,6 +473,12 @@ and no step of Thm 6.1 evaluates (E) there.
 **The paper.** Per this ticket's constraints nothing in `start.tex`, `s3.tex` or `paper/` was
 touched. If §§1.4, 1.6, 7.7 or G13 print "$\lambda<0$" as the hypothesis, the same correction
 applies there, and it is a separate pass.
+<!-- mg-fc1c: they did, all four, and the separate pass has run. `paper/positivity-obstruction.tex`
+now states (29) at each site with the covered region and mu*_8 = 2.1169; the two-deep chain
+(Arscott via (27)) is in G13, §1.6, §7.7 and the bibliography; the import is labelled *tested*,
+with "a numerical check is not a proof" kept at every point of use. `start.tex` and `s3.tex` were
+not touched by that pass either. See D-5 below. -->
+
 
 ---
 
@@ -502,4 +508,4 @@ being checked is a prolate spheroidal wave function.
 | **D-2** | Arscott [1, p. 186], (27)'s source and hence (107)'s. §4 tests the conclusion to its next coefficient; the source is not read | **unopened, newly flagged** |
 | **D-3** | $Dc$ vs $Dc/\log c$: over $c\le24\pi$ the data cannot decide whether the $\log c$ in (124) is real. Deciding it needs $c$ an order of magnitude larger, which the $K=\lfloor c\rfloor+90$ eigensolver will reach but slowly | **open, and cheap** |
 | **D-4** | $n=6,8$ are pre-asymptotic on the whole range ($\sigma\ge0.41$ at $\mu=12$). `h0-lower-bound.md` Remark 6.3 says the theorem does not depend on the index-8 mode, which is why this is a remark and not a defect — but any *quantitative* use of (E) at index 8 below $\mu\approx20$ would be resting on a 56% approximation | **measured; not a defect of the chain as written** |
-| **D-5** | The paper's §§1.4, 1.6, 7.7 and G13 wording, per §7. Not touched here | **for a separate pass** |
+| **D-5** | The paper's §§1.4, 1.6, 7.7 and G13 wording, per §7. Not touched here | ~~**for a separate pass**~~ **DONE (mg-fc1c)** — the pass ran. All four sites now state (29) with $\sigma_0$ fixed instead of $\lambda<0$, give the covered region and $\mu^*_8=2.1169$, record the chain as two citations deep, and say the import is *tested* and not proved. §1.5's imported-theorem standard gains "tested" as a third option between recomputing and re-proving; §9's house-rule table gains a row for this audit (sign-blind); §11.5 records it as correction 7. The coincidence with Q1's failing cell is stated at §7.4 with the reason the two thresholds are one number. |

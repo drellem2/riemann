@@ -93,8 +93,10 @@ quantitatively $s(\mu)=O(\mu^{21/2}\log^3\!\mu\;e^{-4\pi\mu})$.  The chain that
 gets there is four theorems about prolate spheroidal wave functions off their
 interval and one about the summation map; no hypothesis about the zeros of
 $\zeta$ survives it, and its one imported ingredient is Dunster's 2017
-parabolic-cylinder asymptotic, whose standing hypothesis is exactly the regime
-we are in.  Fourth, and this is the point, the entire mechanism is
+parabolic-cylinder asymptotic, whose standing hypothesis
+$\sqrt{\chi_n}/c\le\sigma_0<1$ holds where the chain uses it and fails at
+prolate index~$8$ below $\mu=2.1169$; that import has since been tested
+numerically against our own eigenfunctions, and holds.  Fourth, and this is the point, the entire mechanism is
 invariant under $\QW_\lambda\mapsto-\QW_\lambda$.  A kernel is a kernel either
 way; a concentration defect is a magnitude.  So the mechanism explains why
 $|s(\mu)|$ is minuscule and says nothing whatever about why $s(\mu)>0$ --- and
@@ -138,6 +140,24 @@ the two places where the convenient sentence is the wrong one: hypothesis
 \eqref{H1} \emph{as it was printed} was bypassed rather than proved, and the
 chain imports one theorem (Dunster \cite{Dunster2017}) that nobody here has
 proved.  Both are stated where the result is stated, not in a footnote.
+
+\medskip\noindent
+\textbf{And what changed in this one.}  Four things, three of them about that
+import.  (i)~Its standing hypothesis was printed here as
+$\lambda_{\mathrm D}<0$, i.e.\ ``exactly our $\chi_n<c^2$''.  \emph{That is not
+Dunster's hypothesis.}  His is eq.~(29), $\sqrt{\chi_n}/c\le\sigma_0<1$ with
+$\sigma_0$ \emph{fixed}, which is strictly stronger, and it fails outright at
+prolate index~$8$ for $\mu\le2.1169$.  The paper now states the region the
+import covers instead of implying it covers everything.  (ii)~The import has
+since been evaluated numerically against our own eigenfunctions over
+$c=4\pi,\dots,24\pi$ and $n=0,\dots,8$, and \emph{both equations hold}; it is
+now a \emph{tested} external dependency, which is not the same as a proved one.
+(iii)~The external chain is two citations deep and not one: (107) is itself a
+citation.  (iv)~Lemma~\ref{lem:amplitude}'s hypothesis ``analytic at $x=1$''
+was doing two jobs and is now split into the two it was doing --- a repair
+found by machine-checking the lemma in Lean, which also machine-checks the
+elementary layer beneath Theorem~\ref{thm:q1}.  All four are recorded in
+\S\ref{sec:corrections}.
 
 \tableofcontents
 
@@ -335,8 +355,9 @@ The sum over zeros reduces to weighted $L^2$ norms of the spill alone, using
 only Riemann--von Mangoldt and a classical zero-free region; \emph{no hypothesis
 about the zeros remains}
 & proved & \emph{ours} (\S\ref{sec:zetaside}) \\
-$|\Phi_n(x)|\le|\Phi_n(1)|$ for $x\ge1$ when $0\le\chi_n<c^2$ (Sturm amplitude)
-& proved & \emph{ours} (\S\ref{sec:lemma51}) \\
+$|\Phi_n(x)|\le|\Phi_n(1)|$ for $x\ge1$ when $0\le\chi_n<c^2$ (Sturm amplitude),
+for $\Phi'$ bounded near $1^+$ and $\Phi$ right-continuous at $1$
+& proved; machine-checked & \emph{ours} (\S\ref{sec:lemma51}) \\
 $x|\Phi_{n,c}(x)|\le K(c)|\Phi_{n,c}(1)|$ for $x\ge1$, $0\le\chi_n<c^2$, with
 $K(c)=2^{3/4}e^{E(c)}$ \emph{bounded} and independent of the index
 & proved & \emph{ours} (\S\ref{sec:q1}) \\
@@ -348,8 +369,22 @@ truncating the zero sum at height $e^{4\pi\mu}$
 & proved & \emph{ours} (\S\ref{sec:q3}) \\
 $\|g\|^2\to\|\E\varphi_\infty\|^2=0.219247199549\ldots$, so \eqref{H0} holds ---
 and there is no $\zeta$ in it
-& proved, on \cite{Dunster2017} & \emph{ours}; the Hermite limit is Dunster's
+& proved, on \cite{Dunster2017} --- tested, not re-proved
+& \emph{ours}; the Hermite limit is Dunster's
 (\S\ref{sec:h0}) \\
+\cite{Dunster2017} eq.\ (124) and eq.\ (107) hold in our regime at every index
+and bandwidth used here ($c=4\pi..24\pi$, $n\le8$), and (107) holds with its
+next coefficient, $\chi_n=(2n+1)c-\frac{(2n+1)^2+5}{8}+O(c^{-1})$; his
+hypothesis (29) fails at index~$8$ below $\mu^*_8=2.1169$
+& verified numerically --- \emph{which is not a proof, and the import is not
+re-derived}; the next coefficient \observed{} & the equations are Dunster's;
+the check and the coefficient are \emph{ours} (\S\ref{sec:h0}) \\
+The elementary layer beneath Theorem~\ref{thm:q1} --- Lemma~\ref{lem:amplitude}
+and the coefficient bounds --- is machine-checked: $26$ results, no
+\texttt{sorry}, standard axioms only.  The formalisation stops below
+Theorem~\ref{thm:q1} itself
+& proved and machine-checked & \emph{ours} (\S\ref{sec:standards},
+\file{lean/README.md}) \\
 $\limsup\mu^{-1}\log s(\mu)\le-4\pi$, and
 $s(\mu)=O(\mu^{21/2}\log^3\!\mu\,e^{-4\pi\mu})$
 & \textbf{proved, unconditionally}, modulo the one import above
@@ -399,13 +434,65 @@ for fixed $m,n$ and $\gamma\to\infty$, $\mathrm{Ps}^m_n$ is a parabolic cylinder
 function of argument $\hat\rho\sqrt{2\gamma}$ to relative accuracy
 $O(\gamma^{-1}\log\gamma)$, uniformly on $0\le x\le1-\delta_0$.
 \end{quote}
-His separation constant is $\lambda_{\mathrm D}=\chi-c^2$, so \emph{his standing
-hypothesis $\lambda_{\mathrm D}<0$ is exactly our $\chi_n<c^2$} --- the same
-regime hypothesis that Theorem~\ref{thm:q1} and Theorem~\ref{thm:q2} are built
-on, and the negation of the one under which the neighbouring literature works
-(\S\ref{sec:q1}).  We read the statement and its hypotheses in the source; we
-did \emph{not} read the coalescing-turning-point theory his error bounds rest
-on, and we have not re-proved any of it.  Everything else in
+His separation constant is $\lambda_{\mathrm D}=\chi-c^2$, so
+$\lambda_{\mathrm D}<0$, $\chi_n<c^2$ and $\sigma:=\sqrt{1+\gamma^{-2}
+\lambda_{\mathrm D}}=\sqrt{\chi_n}/c<1$ are one condition written three ways.
+\emph{But that condition is not his standing hypothesis, and an earlier draft
+of this paper said it was.}  His hypothesis is eq.~(29)
+(\file{PSWF_JCA.tex:466}),
+\[
+  0\;\le\;\sigma\;=\;\sqrt{\chi_n}/c\;\le\;\sigma_0\;<\;1 ,
+\]
+with $\sigma_0$ a \emph{fixed} constant --- $\sigma$ bounded away from $1$,
+uniformly over whatever family of $(c,n)$ the theorem is applied to.  That is
+strictly stronger than $\chi_n<c^2$, and the difference is not decorative:
+$\pm\sigma$ are the turning points (\file{PSWF_JCA.tex:483}), his \S5 is built
+for a pair of them almost coalescing near $x=0$, and (124) degrades as
+$\sigma\uparrow1$ even where it formally applies.
+
+\emph{Where it holds, and where it does not.}  Measured, $\sigma=\sqrt{\chi_n}/c$
+at $c=2\pi\mu$:
+\begin{center}\small
+\begin{tabular}{@{}rrrrrr@{}}
+\hline
+$\mu$ & $n=0$ & $n=2$ & $n=4$ & $n=6$ & $n=8$ \\
+\hline
+$2$ & $0.27335$ & $0.61022$ & $0.79917$ & $0.92881$ & $\mathbf{1.01988}$ \\
+$3$ & $0.22563$ & $0.50421$ & $0.66695$ & $0.78806$ & $0.88318$ \\
+$8$ & $0.13999$ & $0.31299$ & $0.41795$ & $0.49970$ & $0.56829$ \\
+$12$ & $0.11459$ & $0.25622$ & $0.34270$ & $0.41049$ & $0.46777$ \\
+\hline
+\end{tabular}
+\end{center}
+\noindent so at index~$8$ the hypothesis \textbf{fails outright at $\mu=2$}, and
+holds only above $\mu^*_8=c^*_8/2\pi=2.1168720\ldots$; at indices $0,2,4,6$ it
+holds throughout our range, with $\sigma\le0.92881$.  \observed{} \ours{}
+(\S\ref{sec:h0}).  What consumes the import --- step (i) of
+Theorem~\ref{thm:h0} --- is a $\lambda\to\infty$ limit at fixed $n$, and
+$\sigma_n(c)\to0$ for fixed $n$, so the limit is taken well inside the
+hypothesis and \emph{no step of the chain evaluates (124) at a cell where (29)
+fails}.  The covered region is stated rather than the hypothesis being
+paraphrased away.
+
+\emph{And the chain is two deep, not one.}  (124)'s error bounds are Dunster's
+own coalescing-turning-point paper, which we did not open; (107)'s
+$O(\gamma^{-1})$ comes from his eq.~(27) (\file{PSWF_JCA.tex:455}), which he
+attributes to Arscott 1964 (his reference~[1], p.~186), which we did not open
+either and which appears nowhere in this corpus.
+
+\emph{It is tested, and it is not broken.}  Both equations have since been
+evaluated numerically over $c=4\pi,\dots,24\pi$ and $n=0,2,4,6,8$ against
+prolate eigenfunctions built by machinery that has never seen Dunster, and both
+hold at every index and bandwidth: (124)'s error, normalised by the envelope it
+is stated against, has $Dc/\log c$ bounded at every index and monotone
+decreasing at $n=0,2$ ($0.5997\to0.3900$ at $n=0$); and (107) holds \emph{with
+its next coefficient pinned}, one formula with no free parameter fitting five
+indices at once.  So the import is now a \emph{tested} external dependency
+rather than an untested one.  \textbf{A numerical check is not a proof and this
+one does not make Dunster's theorem ours}: we read the statement and its
+hypotheses in the source; we did \emph{not} read the coalescing-turning-point
+theory his error bounds rest on, nor Arscott; and we have not re-proved any of
+it.  Everything else in
 \S\ref{sec:unconditional} --- the reduction, the two ODE theorems, the
 truncation, the window identity and the tightness bound --- is proved here.  If
 one thing in this paper is to be checked by a second reader, or formalised, it
@@ -531,6 +618,42 @@ exact prolate eigenvalues (\S\ref{sec:fuchs}).  And Dunster
 \S\ref{sec:h0}.  Everything else asserted as \proved{} here is either proved
 here or proved in a cited paper whose statement \emph{and} whose relevant
 hypotheses were read in the source.
+
+\emph{Two things this accounting had wrong about the third of them, and both are
+the reason the paragraph exists.}  A theorem's hypotheses have to be stated in
+\emph{its} strength and not in the strength convenient here: an earlier draft
+gave Dunster's as $\lambda_{\mathrm D}<0$, which is his hypothesis relaxed to
+its boundary case and not his hypothesis (\S\ref{sec:whose}).  And ``how far into it we read'' has to
+count the citations \emph{it} makes: (107) rests on Arscott 1964 through
+Dunster's (27), so the chain is two deep.  A third option sits between
+recomputing and re-proving and is now exercised on this import: an imported
+theorem can be \emph{tested} --- evaluated numerically in the regime it is used
+in, against objects built without it.  A test can catch a misread equation and
+a hypothesis applied outside its range; it found one of each here
+(\S\ref{sec:h0}).  It cannot upgrade \emph{imported} to \proved{} and is not
+recorded as doing so.
+
+\paragraph{Machine-checked statements.}  A fourth status, narrower than
+\proved{} and different in kind from a second reader: a statement whose proof
+has been formalised and compiles.  The elementary layer beneath
+Theorem~\ref{thm:q1} --- Lemma~\ref{lem:amplitude} and the coefficient bounds
+it is built on --- has been formalised in Lean~4 against mathlib: $26$ results,
+no \texttt{sorry} anywhere in the sources, \texttt{\#print axioms} reporting
+\texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} for all of
+them and \texttt{sorryAx} for none, with the toolchain and the mathlib revision
+pinned in \file{lean/README.md} and the whole development rebuilt and audited
+by \file{lean/scripts/check.sh}, which exits non-zero on any of the three
+failures.  \emph{The coverage stops below the oscillatory-integral proposition
+and below Theorem~\ref{thm:q1} itself} --- Proposition~4.2 and Theorem~5.2 in
+the numbering of \file{band-edge-connection.md}, neither attempted: both need a
+continuous branch of the Pr\"ufer angle along an ODE-defined curve, which
+mathlib does not supply and which is a piece of work in its own right rather
+than a translation of the note.  So the machine-checked layer is the bottom of
+\S\ref{sec:q1}, not \S\ref{sec:q1}.  It gates nothing here, and it has already
+paid for itself once: it is where Lemma~\ref{lem:amplitude}'s hypothesis was
+found to be two hypotheses (\S\ref{sec:lemma51}).  \emph{Nothing in it
+approaches a sign}, which \S\ref{sec:houserule} records as a row rather than as
+a disappointment.
 
 \paragraph{The standing test (``the house rule'').}  \emph{Is the statement
 false for $-\QW_\lambda$?}  If not, it is sign-blind, and it cannot be evidence
@@ -1503,7 +1626,7 @@ applied, and \S\ref{sec:boundary} is unmoved.
 1 & the sum over zeros reduces to weighted $L^2$ of the spill
   & proved & \S\ref{sec:zetaside} \\
 2 & $|\Phi_n(x)|\le|\Phi_n(1)|$ on $x\ge1$ (amplitude)
-  & proved & \S\ref{sec:lemma51} \\
+  & proved; machine-checked & \S\ref{sec:lemma51} \\
 3 & $x|\Phi_n(x)|\le K(c)|\Phi_n(1)|$, $K$ bounded (Q1)
   & proved & \S\ref{sec:q1} \\
 4 & $\sup_{t>1}t|\sum_m\Phi_n(mt)|\le K_P(c)|\Phi_n(1)|$, $K_P=O(\log c)$ (Q2)
@@ -1511,7 +1634,7 @@ applied, and \S\ref{sec:boundary} is unmoved.
 5 & the truncated zero sum: $\Xi$ polynomial (Q3)
   & proved & \S\ref{sec:q3} \\
 6 & $\|g\|^2\to0.219247199549\ldots$ \eqref{H0}
-  & proved, on \cite{Dunster2017} & \S\ref{sec:h0} \\
+  & proved, on \cite{Dunster2017} (tested, not re-proved) & \S\ref{sec:h0} \\
 \hline
 \end{tabular}
 \end{center}
@@ -1684,10 +1807,20 @@ $\Lambda_n=\frac{c}{2\pi}\mu_\Phi^2$, so by Plancherel
 entire extension outside the interval} --- so the small quantity $1-\Lambda_n$
 and the pointwise size of $\Phi$ off the interval are the same object. \proved
 
-\begin{lemma}[\ours, elementary]\label{lem:amplitude}
-Let $\Phi$ satisfy $\big((1-x^2)\Phi'\big)'+(\chi_n-c^2x^2)\Phi=0$ and suppose
-$\chi_n<c^2$.  Then $|\Phi(x)|\le|\Phi(1)|$ for all $x\ge1$.
+\begin{lemma}[\ours, elementary; machine-checked]\label{lem:amplitude}
+Let $\Phi$ satisfy $\big((1-x^2)\Phi'\big)'+(\chi_n-c^2x^2)\Phi=0$ on
+$(1,\infty)$ and suppose $\chi_n<c^2$.  Suppose further that
+\emph{(a)} $\Phi'$ is bounded on some right-neighbourhood of $1$, and
+\emph{(b)} $\Phi$ is right-continuous at $1$.
+Then $|\Phi(x)|\le|\Phi(1)|$ for all $x\ge1$.
 \end{lemma}
+
+\noindent \emph{(a) and (b) are two hypotheses and not one.}  Both hold for
+$\Phi$ entire, which is the only case used here; they are separated because the
+proof uses them at two different points and only one of them is what
+``boundedness near $x=1$'' names.  The separation is not a stylistic
+preference --- it is what formalising the lemma forced (\S\ref{sec:standards}),
+and the half a reader skips is (b).
 
 \begin{proof}
 For $x>1$ put $p:=(x^2-1)\Phi'$, $q:=c^2x^2-\chi_n$ and $D:=(x^2-1)q$, so the
@@ -1700,9 +1833,11 @@ $\Phi'=p/(x^2-1)$,
    =-\frac{2pq\Phi}{D}-\frac{p^2D'}{D^2}+\frac{2\Phi p}{x^2-1}
    =-\,p^2\frac{D'}{D^2}\;\le\;0 ,
 \]
-the first and third terms cancelling identically because $D=(x^2-1)q$.  $\Phi$
-is entire, so $p\to0$ at $x=1$ while $D\to0$ linearly, whence $p^2/D\to0$ and
-$V(1^+)=\Phi(1)^2$.  Finally $\Phi^2\le V\le V(1^+)$.
+the first and third terms cancelling identically because $D=(x^2-1)q$.  For the
+endpoint value, $p^2/D=(x^2-1)(\Phi')^2/q$ with $q(1)=c^2-\chi_n>0$, so
+\emph{(a)} alone gives $p^2/D\to0$ as $x\to1^+$; and $\Phi(x)^2\to\Phi(1)^2$ is
+\emph{(b)}.  Together $V(1^+)=\Phi(1)^2$ --- and $p^2/D\to0$ by itself does not
+give it.  Finally $\Phi^2\le V\le V(1^+)$.
 \end{proof}
 
 Two remarks, the second of which is why this lemma is in the body rather than
@@ -1725,6 +1860,17 @@ what lets the asymptotic argument of \S\ref{sec:q1} start at $x=\sqrt2$ and
 never cross $x=1$.  The first draft of the underlying note called the missing
 step ``a Bessel-type connection problem at the regular singular point''; that
 diagnosis was wrong, and this lemma is why.
+\item \textbf{It is machine-checked, and that is where hypothesis (b) came
+from.}  This lemma, and the coefficient bounds \S\ref{sec:q1} runs on, are
+formalised in Lean~4 against mathlib (\S\ref{sec:standards}).  The informal
+statement carried ``$\Phi$ analytic at $x=1$'' with the remark that
+``boundedness near $x=1$ would do''; the remark names (a) and not (b), and
+without (b) the endpoint value $V(1^+)=\Phi(1)^2$ does not follow.  \emph{The
+informal proof was not wrong} --- analyticity supplies both --- but its stated
+weakening was, and a machine found it on the first attempt at the first
+lemma.  The formalisation also localises what each bound rests on: $\chi\ge0$
+is used at exactly one step of \S\ref{sec:q1}, confirming by a second method
+the hypothesis tightening from $\chi<c^2$ to $0\le\chi<c^2$.
 \end{itemize}
 
 \subsection{Q1: the single-term bound, with a bounded constant}
@@ -1787,9 +1933,14 @@ $\to\infty$ & & $\to0$ & $\to1.68179$ \\
 \paragraph{The hypotheses, including the one cell where they fail.}  $\chi<c^2$
 is used three times; $\chi\ge0$ once, and it is free for prolate functions since
 $\chi_n\ge n(n+1)$; $c>\sqrt2$ (our range starts at $c=4\pi$); $\Phi$ real, and
-analytic at $x=1$ --- the last only for $V(1^+)=\Phi(1)^2$, and boundedness near
-$x=1$ would do, since by Frobenius the exponents there are $0,0$ and the second
-solution carries a logarithm.  The hypotheses were tightened after the theorem
+analytic at $x=1$ --- the last only for $V(1^+)=\Phi(1)^2$, where what is
+actually needed is the \emph{pair} \emph{(a)} $\Phi'$ bounded near $1^+$ and
+\emph{(b)} $\Phi$ right-continuous at $1$ (Lemma~\ref{lem:amplitude});
+analyticity gives both, and by Frobenius the exponents there are $0,0$ with the
+second solution carrying a logarithm.  \emph{An earlier form of this paragraph
+said ``boundedness near $x=1$ would do'', which names (a) only}; the correction
+is \S\ref{sec:lemma51}'s and came from the formalisation.  The hypotheses were
+tightened after the theorem
 was first stated: it is $0\le\chi<c^2$ and not $\chi<c^2$.
 \emph{Uniformity in the index is real but conditional, and at one corner it
 fails}: since $\chi_n\sim(2n+1)c$, the hypothesis fails for $n\gtrsim c/2$, and
@@ -1807,6 +1958,23 @@ notices --- Theorem~\ref{thm:main} is a $\limsup$ --- and the third mode carries
 relative weight $1.3\times10^{-8}$ at $\mu=12$ in any case.  The cell is
 reported rather than rounded away, and it is reported here because the
 underlying note's own table stopped at index $4$ and would not have shown it.
+
+\paragraph{And it is the same cell as the import's, which is worth saying
+before a reader meets the two separately.}  The one cell where Dunster's
+hypothesis (29) fails is also $(\mu,n)=(2,8)$, with the same threshold
+$\mu^*_8=2.1169$ (\S\ref{sec:whose}, \S\ref{sec:h0}).  \emph{That is not a
+coincidence and should not be read as two problems.}  (29) is
+$\sigma=\sqrt{\chi_n}/c\le\sigma_0<1$; this theorem's hypothesis is
+$\chi_n<c^2$, i.e.\ $\sigma<1$, which is (29) with $\sigma_0$ relaxed to its
+boundary.  So the two coverage conditions are the same inequality
+$\chi_8(c)<c^2$ at their edge, and the two thresholds are one number: the
+$\chi_8/c^2=1.040$ above and the $\sigma=1.01988$ of \S\ref{sec:whose} are the
+same measurement, squared.  \emph{Dunster asks for strictly more than we do}
+--- $\sigma$ bounded away from $1$ by a fixed constant, not merely below it ---
+so his condition is the binding one wherever both are in play, and the region
+\S\ref{sec:whose} states is his and not this theorem's.  What coincides at
+index~$8$, $\mu=2$ is the point at which each fails; a reader who meets the two
+separately is looking at one inequality twice, not at two defects.
 
 \paragraph{Q1$'$: the constant is honest and not sharp, and the slack is a
 $\sqrt c$.}  The truth is $\sup_{x\ge1}x|\Phi(x)|/|\Phi(1)|=1$, attained at
@@ -2024,16 +2192,79 @@ statement, and the finite-$\mu$ values are measured rather than proved
 one.
 
 \paragraph{The import, said once more where it is used.}  Only step (i)'s
-Hermite limit is imported: \cite{Dunster2017} eq.\ (124) with (107), whose
-standing hypothesis $\lambda_{\mathrm D}=\chi-c^2<0$ is exactly $\chi_n<c^2$ ---
-the same hypothesis as Theorems \ref{thm:q1} and \ref{thm:q2}, and the negation
-of Osipov--Rokhlin's.  Via DLMF 12.7.2,
-$U(-n-\tfrac12,z)=e^{-z^2/4}\mathit{He}_n(z)$, his (124) at $x=X/\lambda$ is the
-Hermite limit.  His statement and hypotheses were read in the source; the
-coalescing-turning-point theory his error bounds rest on was not opened.
-\textbf{Gap G13.}  Everything else in the proof --- the window identity, the
+Hermite limit is imported: \cite{Dunster2017} eq.\ (124) with (107).  Via DLMF
+12.7.2, $U(-n-\tfrac12,z)=e^{-z^2/4}\mathit{He}_n(z)$, his (124) at
+$x=X/\lambda$ is the Hermite limit.  His statement and hypotheses were read in
+the source; the coalescing-turning-point theory his error bounds rest on was
+not opened, and neither was Arscott~1964 (his~[1], p.~186), which is what
+(107)'s $O(\gamma^{-1})$ rests on through his eq.~(27) --- so the external
+chain here is \textbf{two citations deep, not one}.  \textbf{Gap G13.}
+Everything else in the proof --- the window identity, the
 localisation, the continuity of $\E$ on a compact window, the tightness bound,
 and the non-vanishing of $\E\varphi_\infty$ --- is proved here.
+
+\paragraph{His hypothesis, in his strength, and the region it covers.}  It is
+\emph{not} $\lambda_{\mathrm D}=\chi-c^2<0$, which an earlier draft of this
+paper printed as ``exactly $\chi_n<c^2$''.  It is eq.~(29),
+$0\le\sigma=\sqrt{\chi_n}/c\le\sigma_0<1$ with $\sigma_0$ fixed
+(\S\ref{sec:whose} tabulates $\sigma$).  It holds at indices $0,2,4,6$
+throughout our range and at index~$8$ only above $\mu^*_8=2.1168720\ldots$,
+where it fails outright: $\sigma=1.01988$ at $\mu=2$, and $\sigma=0.883$
+already at $\mu=3$.  \emph{Step (i) is untouched by this}, and the reason is
+structural rather than lucky: it is a $\lambda\to\infty$ limit at \emph{fixed}
+$n$, and $\sigma_n(c)\to0$ for fixed $n$, so (29) holds for every $c>c^*_n$ and
+the limit is taken well inside it.  No step of Theorem~\ref{thm:h0} evaluates
+(124) at $(\mu,n)=(2,8)$.  The finite-$\mu$ values of \textbf{G14} are
+measurements and not applications of (124), which is why the failure of (29)
+does not reach them either.  \emph{The one cell where (29) fails is the one
+cell where Theorem~\ref{thm:q1}'s hypothesis fails, for the reason given at
+\S\ref{sec:q1}: it is the same inequality at its boundary.}
+
+\paragraph{The import is tested, and it is not broken.}  Both equations have
+been evaluated in our regime against prolate eigenfunctions built by an
+eigensolver that has never seen Dunster, at $40$ working digits, over
+$c=4\pi,\dots,24\pi$ and $n=0,2,4,6,8$.  \emph{Both hold.}  (124): the quantity
+it bounds --- the discrepancy measured against the envelope of
+$U(-\tfrac12a,\hat\rho\sqrt{2c})$, which is the form in which the error is
+stated --- has $Dc/\log c$ bounded at every index, monotone decreasing at
+$n=0,2$ ($0.5997\to0.3900$ at $n=0$ over the range), peaking and falling at
+$n=4$, still rising but decelerating at $n=6,8$.  Over $c\le24\pi$ the data
+cannot separate $c^{-1}$ from $c^{-1}\log c$ and no claim is made that it can.
+(107): $a=\chi_n/c=2n+1+O(\gamma^{-1})$ holds at every cell, and the
+$O(\gamma^{-1})$ is \emph{pinned},
+$\chi_n=(2n+1)c-\frac{(2n+1)^2+5}{8}+O(c^{-1})$, one formula with no free
+parameter fitting five indices at once with its own residual converging ---
+which puts the $\chi_n=(2n+1)c+O(1)$ that step (i) consumes beyond plausible.
+That next coefficient is identified here \emph{by measurement}: Dunster's (27)
+states only $O(1)$ for it and defers the constant to Arscott, and it appears
+nowhere in this corpus.  \observed{} \ours{}  Two further outcomes of the test
+are recorded because a check that found nothing would be worth less: two
+typographical $\zeta$-for-$\rho$ slips in his (110)--(111) have a forced
+reading, confirmed by measurement --- dropping the variable perturbation they
+belong to stops the error decaying altogether; and our own passage from (124)
+to the Hermite form of step (i) turns out to have its two error terms largely
+cancelling, so the clean $O(c^{-1})$ observed at the endpoint was \emph{not}
+evidence that (124) itself is accurate at these bandwidths, and should not have
+been read as such.  The endpoint conclusion is unchanged; what it is evidence
+\emph{for} is narrower than it looked.
+
+\emph{What the test does and does not change.}  \textbf{A numerical check is not
+a proof.}  G13 remains an external dependency, imported and not re-derived, and
+nothing above upgrades \proved{}: what changes is that it is now a
+\emph{tested} dependency, with the two failure modes a test can catch ---
+misreading the equation, and applying it outside its hypotheses --- looked for
+rather than assumed absent.  It found one of each.  \emph{And the agreement is
+not uniform in the index}: at $c=24\pi$ and $x=0.95$, where the parabolic
+cylinder function is monotone and the comparison is a fair one,
+$\big(\Phi_n(x)/\Phi_n(0)\big)$ divided by Dunster's right-hand side is
+$1.0225$ at $n=0$ and $1.5648$ at $n=8$ --- $2.2\%$ against $56\%$.  That is
+consistent with (124) rather than against it, since its constant grows with $n$
+and index~$8$ at these bandwidths is nowhere near asymptotic ($\sigma$ is still
+$0.468$ at $\mu=12$); but it means any \emph{quantitative} use of the Hermite
+form at index~$8$ below $\mu\approx20$ would rest on a $56\%$ approximation.
+No such use is made --- step (i) is a limit and
+Theorem~\ref{thm:h0}'s conclusion does not depend on the index-8 mode
+(\S\ref{sec:gaps}, \textbf{G13}).  \file{verify_dunster.py}, \file{dunster-check.md}.
 
 \paragraph{And note that the limit vector is the corpus's own.}
 $\varphi_\infty$ is $h_4-\sqrt{3/8}\,h_0$ normalised, with the weight
@@ -2294,6 +2525,19 @@ Thm.~\ref{thm:h0}: $\|g\|^2\to0.219247\ldots>0$
 & a norm is a magnitude; the statement is that a prolate vector does not
 degenerate
 & \textbf{sign-blind} \\
+\S\ref{sec:h0}: the audit of the import --- (124) and (107) hold in our regime;
+(107)'s next coefficient is $-\frac{(2n+1)^2+5}{8}$; hypothesis (29) fails at
+index~$8$ below $\mu=2.1169$
+& a transcription from a 2017 paper on special functions, an eigenvalue
+asymptotic, and an inequality between $\chi_n$ and $c^2$; $\QW_\lambda$ does
+not occur in any of them
+& \textbf{sign-blind} \\
+\S\ref{sec:standards}, \S\ref{sec:lemma51}: the elementary layer is
+machine-checked; Lemma~\ref{lem:amplitude}'s hypothesis splits in two
+& a compiled proof about an ODE, and a statement about which hypotheses that
+proof consumes.  \emph{Formalisation raises confidence in magnitude results and
+supplies no direction} --- no sign occurs anywhere in the development
+& \textbf{sign-blind} \\
 Thm.~\ref{thm:main} / Cor.~\ref{cor:upper}:
 $\limsup\mu^{-1}\log s\le-4\pi$, and the rate $4\pi$
 & magnitude only --- except for the left half of $0<s\le\cdots$, which fails
@@ -2327,11 +2571,16 @@ place, the identity, the rate, the phase-space picture, and the whole of
 records that two computations agree and that two printed expressions do not,
 which no involution of $\QW_\lambda$ can touch.)
 
-\emph{Five of the rows above are new since the first draft, and every one of them
-is sign-blind.}  That is the strongest form of the thesis available: an entire
+\emph{Seven of the rows above are new since the first draft --- five with the
+chain of \S\ref{sec:unconditional}, two with the audit and the formalisation of
+this revision --- and every one of them is sign-blind.}  That is the strongest
+form of the thesis available: an entire
 chain of theorems was added, it turned a conditional result into an
 unconditional one, and it moved not a single row into the ``false for $-W$''
-column.  The sign-bearing rows are exactly the ones they were.
+column.  Then the one external input was tested and the elementary layer was
+machine-checked, and \emph{that} moved no row either, which is the expected
+answer twice over: a test of an asymptotic and a compiled proof are both
+confidence in a magnitude.  The sign-bearing rows are exactly the ones they were.
 \emph{Every sign-bearing row is an inequality about $\lambda_{\min}$ of the
 actual form}, or the one proved square at the archimedean place.  There is no row
 in which the prolate mechanism produces a direction, and this is not for want of
@@ -2413,13 +2662,31 @@ converging to $(2n+1)/4$.  It is the only thing separating the two columns of
 Theorem~\ref{thm:q3}: proving it takes $\Xi$ from $O(\mu^6\log^3\mu)$ back to
 $O(\mu^{9/2}\log^3\mu)$.  Dunster's \S\S3--4 (Bessel approximations, valid at
 the band edge) is the obvious place to look and was not pursued. \\
-\textbf{G13} & \textbf{The one imported input.}  \cite{Dunster2017} eq.\
-(124)+(107) is used in Theorem~\ref{thm:h0} and proved by nobody here: its
-statement and its hypotheses were read in the source, its error bounds rest on a
-coalescing-turning-point theory that was not opened, and no part of it is
-re-derived.  It is the natural first target for a second reader, or for
+\textbf{G13} & \textbf{The one imported input, and it is two citations deep.}
+\cite{Dunster2017} eq.\ (124)+(107) is used in Theorem~\ref{thm:h0} and proved
+by nobody here: its statement and its hypotheses were read in the source and no
+part of it is re-derived.  \emph{Two} sources under it were not opened, not one
+--- the coalescing-turning-point theory carrying (124)'s error bounds, and
+Arscott~1964 (\cite{Dunster2017}'s~[1], p.~186), which carries (107)'s through
+his eq.~(27).  \emph{Since the first draft it has been tested rather than
+merely asserted}: both equations were evaluated numerically over
+$c=4\pi,\dots,24\pi$ and $n=0,\dots,8$ against eigenfunctions built without
+them, and both hold, with (107) pinned to its next coefficient
+(\S\ref{sec:h0}).  That makes it a tested import and not a proved one, and the
+gap is unchanged in kind.  Two things the test sharpened.  \emph{(a)}~The
+standing hypothesis is eq.~(29), $\sqrt{\chi_n}/c\le\sigma_0<1$ with $\sigma_0$
+fixed --- not $\lambda_{\mathrm D}<0$, which this paper printed --- and it
+\textbf{fails at prolate index~$8$ for $\mu\le2.1169$}, the same cell where
+Theorem~\ref{thm:q1}'s hypothesis fails and for the same reason
+(\S\ref{sec:q1}).  Theorem~\ref{thm:h0} is a limit at fixed $n$ and is
+untouched; the covered region is now stated at every point of use.
+\emph{(b)}~Index~$8$ is pre-asymptotic on the whole range ($56\%$ at $c=24\pi$),
+so no quantitative use of (E) may be made there below $\mu\approx20$; none is.
+It remains the natural first target for a second reader, or for
 formalisation.  Writing (124) out with the constants tracked, rather than as
-$O(\gamma^{-1}\log\gamma)$, is the concrete form of this gap. \\
+$O(\gamma^{-1}\log\gamma)$, is the concrete form of this gap; opening Arscott,
+or deciding from $c$ an order of magnitude larger whether the $\log\gamma$ is
+real, are the two cheap parts of it. \\
 \textbf{G14} & The effective range of Theorem~\ref{thm:h0}.  It is a limit
 statement; the finite-$\mu$ table covers $\mu\le20$, where $\|g\|^2$ is
 monotone.  An explicit $\lambda_0$ beyond which $\|g\|^2\ge\tfrac15$
@@ -2502,10 +2769,25 @@ regime to ours (\S\ref{sec:lemma51}).  Its own second-hand items --- Rokhlin--Xi
 and the Yale technical reports where several of its statements are proved ---
 were \emph{not} opened; nothing here rests on them, since they are quoted only
 to be ruled out by hypotheses printed in the paper we did read.  And Dunster
-\cite{Dunster2017} (arXiv:1601.00699), where eq.\ (124), eq.\ (107) and the
-standing hypothesis $\lambda_{\mathrm D}<0$ were read in the source, and the
-coalescing-turning-point theory underlying his error bounds was not
-(\textbf{G13}).
+\cite{Dunster2017} (arXiv:1601.00699), single \LaTeX{} file
+\file{PSWF_JCA.tex}, $1858$ lines, md5
+\texttt{667bb99e219c21468128dcbc222228fb}, where eq.~(124) (\file{:1426}),
+eq.~(107) (\file{:1296}), the standing hypothesis eq.~(29) (\file{:466}) and
+the auxiliary quantities (108), (111), (116), (117), (120) were read in the
+source, together with the local hypotheses of his \S5 one at a time.  Note for
+anyone re-checking his line numbers: the arXiv source labels equations
+\texttt{eq1}--\texttt{eq134} sequentially while the printed numbering is
+sectional, so ``(124)'' is the journal's number and the label to search is
+\verb|\label{eq124}|.  Two things under it were \emph{not} opened: the
+coalescing-turning-point theory underlying (124)'s error bounds, and
+Arscott~1964 (his~[1], p.~186), which underlies (107)'s through his eq.~(27)
+(\file{:455}).  \emph{That is two, and this paper previously recorded one}
+(\textbf{G13}).  One item inside our own check is likewise second-hand and
+marked: DLMF~14.15.23, the definition of the envelope function, reached us
+through a fetch rather than its own rendering; it is guarded internally (the
+two-branch shape forces a $\sqrt2$ jump, measured to $5\times10^{-13}$) and the
+conclusion does not depend on it (either branch alone moves the error by at
+most $\sqrt2$ and does not touch its decay rate).
 
 \paragraph{Not read.}  Fuchs \cite{Fuchs1964} --- its statement is taken in the
 form Connes cites and then checked against independent arbitrary-precision
@@ -2573,9 +2855,38 @@ measurement that falsified the premise; $V_*$ bounded over $\mu=2,\dots,8$ \\
 \file{verify_h0.py} & mpmath &
 \S\ref{sec:h0}: $\|g\|^2$ at $\mu=3,5,8,12,20$, and the limit
 $0.219247199549\ldots$ two independent ways to $22$ digits \\
+\file{verify_dunster.py} & mpmath &
+\S\ref{sec:h0}: the audit of the import.  Both sides of (124) evaluated
+independently --- left from the Legendre-coefficient eigensolver, right from
+mpmath's parabolic cylinder function --- over $c=4\pi..24\pi$, $n=0..8$, at
+$40$ digits with the whole computation repeated at $25$ and $60$ digits and at
+two Legendre truncations; (107) against $2n+1$ and against its next
+coefficient; the $\sigma=\sqrt{\chi_n}/c$ table and the thresholds $c^*_n$; the
+split of the corpus's own step from (124) to (E).  Imports only
+\texttt{prolate\_even} from \file{verify_prolate_rate.py}, so the left-hand
+sides are built by machinery that has never seen Dunster \\
 \hline
 \end{tabular}
 \end{center}
+
+\paragraph{And one artefact that is not a script.}  The Lean development in
+\file{lean/} is checked rather than run: \file{lean/scripts/check.sh} builds it,
+refuses a \texttt{sorry} anywhere in the sources, and audits the axioms of every
+result, exiting non-zero on any of the three.  The toolchain
+(\texttt{leanprover/lean4:v4.29.1}) and the mathlib revision are pinned in
+\file{lean-toolchain} and \file{lake-manifest.json} and named in
+\file{lean/README.md}; that file also gives the per-target status, including
+what was \emph{not} attempted.  The development is conditional on the solution
+predicate being inhabited --- mathlib's ODE existence theory is not wired up
+here, so no witness is exhibited --- and what it does check is that the
+first-order system really is the second-order equation, sign for sign, which is
+the check whose failure would have made the rest vacuous.  \S\ref{sec:standards}.
+\emph{And the same honesty applies to it as to the scripts}: the build was not
+re-run on this editing pass, and the counts above are transcribed from the note
+that owns it.  What \emph{was} checked here, because it is free, is that no
+\texttt{sorry} occurs in any source file and that the axiom audit lists $26$
+results; the compilation itself is reproducible by the command above and was
+last run by the ticket that produced it.
 
 \paragraph{A defect found in our own apparatus, and scoped.}
 \file{verify_h1.sph_j_all} --- the shared routine evaluating the entire
@@ -2617,9 +2928,11 @@ and reproducible by the command above.
 section was re-run while writing it.  Every number in it --- the $K(c)$ and
 $K_P(c)$ tables, the failing cell $\chi_8/c^2=1.040$, the measured
 $\sqrt{2/\pi}$ and $0.94$--$1.05$, the jump ratio $1.0$ at $24$ cells, the
-constant $0.219247199549$ and the window value $0.219246959898$ --- is
+constant $0.219247199549$ and the window value $0.219246959898$, and now the
+$\sigma$ table, the thresholds $\mu^*_n$, the $Dc/\log c$ figures and the
+coefficient $-\frac{(2n+1)^2+5}{8}$ --- is
 transcribed from the note that owns it, with the script named in the table
-above.  \emph{The theorems are a different matter and do not have this status}:
+above.  Nothing in it was re-run on this editing pass either.  \emph{The theorems are a different matter and do not have this status}:
 they are proofs, not measurements, and the numbers accompanying them are
 illustrations of constants rather than evidence for statements.  Theorem
 \ref{thm:q1}, Theorem~\ref{thm:q2} and Lemma~\ref{lem:amplitude} in particular
@@ -2830,7 +3143,14 @@ Corollary~\ref{cor:quantisation}); \file{q3-log-weight-and-edge.md}
 appendix~A, which supplies the $\Phi(1)^2\to(1-\Lambda_4)$ conversion that the
 \proved{} column of Theorem~\ref{thm:q3} needs).  Each of the last four
 annotates its predecessor in place and appends rather than rewriting, so the
-chain can be read either as it now stands or in the order it was found.  Two earlier
+chain can be read either as it now stands or in the order it was found.  Then
+two artefacts that audit that chain rather than extending it:
+\file{dunster-check.md}, which reads \cite{Dunster2017} as primary source and
+tests (124)+(107) in our regime (\S\ref{sec:h0}, \textbf{G13}) --- it is where
+the hypothesis correction of this revision comes from, and it annotates
+\file{h0-lower-bound.md} in place; and \file{lean/README.md} with the
+development beneath it (\S\ref{sec:standards}, \S\ref{sec:lemma51}), which is
+where Lemma~\ref{lem:amplitude}'s hypothesis split comes from.  Two earlier
 notes --- \file{s3-reduction-audit.md} and \file{s3-sign-blindness.md} --- are
 where the house rule of \S\ref{sec:houserule} was first stated and first used to
 kill a chain of the project's own proposals; \file{signed-geometry-proposals.md}
@@ -2839,9 +3159,12 @@ is where it was sharpened to ``an involution and a square''.
 \subsection{Corrections, recorded rather than absorbed}
 \label{sec:corrections}
 
-Four corrections of ours are folded into the text above.  They are listed here
+Eight corrections of ours are folded into the text above.  They are listed here
 because a reader weighing the tables should know which way the errors ran, and
-because the pattern in them is itself a finding.
+because the pattern in them is itself a finding.  The last two are new in this
+revision, and they are the only two so far that were found by something other
+than a person re-reading their own work: one by a machine, one by opening a
+source that had been quoted rather than read.
 
 \begin{enumerate}\itemsep3pt
 \item \textbf{A stated strategy read as a companion theorem.}  An early note
@@ -2887,6 +3210,38 @@ grid started $0.008$ \emph{above} $x=1$ and the supremum over $x\ge1$ is $1$,
 attained at $x=1$.  The same exclusion was then committed one note later, on a
 different variable, under-reporting by a factor of two.  Both are corrected;
 neither changes a conclusion; the pattern is worth more than either incident.
+\item \textbf{An imported theorem's hypothesis restated in the strength that
+suited us.}  This paper printed Dunster's standing hypothesis as
+$\lambda_{\mathrm D}<0$ and drew the conclusion that it is ``exactly our
+$\chi_n<c^2$'' --- at \S\ref{sec:whose}, \S\ref{sec:standards},
+\S\ref{sec:h0} and \textbf{G13}, i.e.\ everywhere the import is named.  His
+hypothesis is eq.~(29), $\sqrt{\chi_n}/c\le\sigma_0<1$ with $\sigma_0$ fixed,
+which is strictly stronger and \emph{fails at one cell of the grid this project
+computes on}, index~$8$ below $\mu=2.1169$.  \emph{This is the only correction
+in this list that was a false statement about someone else's paper rather than
+a misdescription of our own work}, which is why it went out on its own.  Three
+things about how it survived.  It was not a failure to read the source: the
+underlying note \emph{does} quote (29) correctly further down, and it was the
+summary line at the top --- the one a reader carries away --- that had the
+weaker form.  The numeric check attached to it, ``$\chi_n/c^2\le0.64$, so
+$\sigma\le0.8$ with room'', was quoted from a table measured at $n\le4$ and
+applied to a chain that uses index~$8$; both its endpoints are identifiable
+$n\le4$ cells.  And the failing cell was \emph{already printed in this
+repository}, by \file{verify_q1.py}, as a failure of our own
+Theorem~\ref{thm:q1}'s hypothesis --- the same cell, the same inequality
+(\S\ref{sec:q1}).  Nothing downstream moves: Theorem~\ref{thm:h0} consumes the
+import only in a limit at fixed $n$ (\S\ref{sec:h0}).
+\item \textbf{One hypothesis doing two jobs, found by a machine.}
+Lemma~\ref{lem:amplitude} was stated with ``$\Phi$ analytic at $x=1$'' and
+remarked to need only ``boundedness near $x=1$''.  Formalising it showed the
+remark names one of the two things analyticity was supplying: the proof needs
+$\Phi'$ bounded near $1^+$ \emph{and} $\Phi$ right-continuous at $1$, the
+second for the endpoint value itself.  \emph{The proof was not wrong and no
+result moves} --- the application is to an entire function --- but the stated
+weakening was, and \S\ref{sec:q1}'s hypothesis paragraph had inherited it.  It
+is worth its place in this list for how it was found rather than for what it
+cost: the first lemma formalised, on the first ticket, and by an artefact that
+cannot be persuaded that a hypothesis is obviously enough.
 \end{enumerate}
 
 \noindent Three further corrections, all cosmetic and none of them of this kind,
@@ -2922,13 +3277,24 @@ the import of \cite{Dunster2017} eq.\ (124)+(107) at
 Theorem~\ref{thm:h0}(i), \textbf{G13}.  If that asymptotic or its regime were
 misread, \eqref{H0} would revert to a hypothesis and Theorem~\ref{thm:main}
 would revert to conditional; nothing else in the paper would move, since no
-other section uses it.  Its guard is that the hypothesis was checked in the
-source and converted into our symbols
-($\lambda_{\mathrm D}=\chi-c^2<0\Leftrightarrow\chi_n<c^2$), that the author
-states on his second page that his earlier paper assumed the opposite sign, and
-that the limit it predicts is confirmed numerically to $22$ digits by
-\file{verify_h0.py} --- which is corroboration of the \emph{conclusion} and not
-of the theorem.  The second-most exposed is the \observed{} column of
+other section uses it.  \emph{It was misread once, in exactly the way this
+paragraph is about}: the hypothesis was converted into our symbols as
+$\lambda_{\mathrm D}=\chi-c^2<0\Leftrightarrow\chi_n<c^2$, and that
+equivalence is true but is not his hypothesis, which is eq.~(29)
+(\S\ref{sec:corrections}, item~7).  Its guards are now four, and they are of
+different kinds.  The statement and hypotheses were read in the source, with
+the equation located by \LaTeX{} label rather than by printed number.  The
+hypothesis is checked \emph{cell by cell} against the grid this project
+computes on, rather than against a quoted range, which is what turned up the
+failure at index~$8$.  Both equations are evaluated numerically in our regime
+against eigenfunctions built without them, and hold (\S\ref{sec:h0}) --- a test
+of the \emph{theorem}, where the $22$-digit agreement from \file{verify_h0.py}
+is corroboration of the \emph{conclusion} only.  And the author states on his
+second page that his earlier paper assumed the opposite sign.  \emph{None of
+these is a proof and the exposure is unchanged in kind}; what changed is that a
+misreading of the equation or a use outside its hypotheses would now have to
+survive a measurement, and the first attempt at that measurement found
+something.  The second-most exposed is the \observed{} column of
 Theorem~\ref{thm:q3}, and it is guarded by not being used: the \proved{} column
 is what Theorem~\ref{thm:main} quotes.
 
@@ -2983,8 +3349,11 @@ T. M. Dunster,
 J. Classical Anal. \textbf{11} (2017), no.~1, 1--21; doi:10.7153/jca-11-01,
 arXiv:1601.00699.
 \emph{(Eq.\ (124)+(107) is imported at Theorem~\ref{thm:h0} and proved by nobody
-here; statement and hypotheses read in the source, error-bound theory not
-opened --- \textbf{G13}.)}
+here; statement and hypotheses --- including the standing hypothesis (29) ---
+read in the source, error-bound theory not opened, and both equations tested
+numerically in our regime --- \textbf{G13}.  His reference~[1], Arscott 1964,
+p.~186, carries (107)'s error term through his eq.~(27) and was not opened
+either; it is cited here only as his, and appears nowhere else in this paper.)}
 
 \bibitem{Fuchs1964}
 W. H. J. Fuchs,

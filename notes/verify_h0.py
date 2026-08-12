@@ -8,7 +8,7 @@ mg-9d43; nothing here uses an off-band value in any case), and the three-mode
 near-radical vector `Comb` of `verify_q3.py`.
 
 WHAT IS BEING TESTED.  `h1-mean-value.md` §9 row Q4 and the paper's Hypothesis
-H0 (`paper/positivity-obstruction.tex:1234`) describe H0 as "a mean value of
+H0 (`paper/positivity-obstruction.tex:1544`) describe H0 as "a mean value of
 |zeta(1/2+it)|^2 against an explicit weight".  The claim under test here is that
 this is the wrong description: the mean-value identity is one ROUTE to ||g||^2
 and not the requirement, and along that route the only thing that matters is
