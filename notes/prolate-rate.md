@@ -505,7 +505,7 @@ $\|r\|^2=C_1(\lambda)(1-\chi_2)$ with $C_1$ conjecturally $O(\log\mu)$.
 This is a mean-value estimate for the zeta zeros as a sampling set, of
 Plancherel–Pólya type. <!-- mg-8462: the LABEL is wrong — neither hypothesis of Plancherel–Pólya holds here, and the zeros are not the obstruction. The rest of this paragraph stands. See h1-mean-value.md and §13 below. --> It is not automatic: $QW_\lambda$ takes values in
 $(-\infty,+\infty]$ (`:289`) and is **unbounded above**, so no uniform $\Theta$
-exists on $L^2$; (H1) must use the specific $r$, which is smooth on
+exists on $L^2$; (H1) must use the specific $r$, which is smooth on <!-- mg-731c: r is NOT smooth on (0,1/lambda) -- it jumps at u = lambda/N for every integer N > mu, of size |Phi(1)| N^{-1/2}. q3-log-weight-and-edge.md Cor. 1.2. The rest of the sentence stands and §4 there makes it precise. -->
 $(0,\lambda^{-1})$ but has a jump at the endpoint, so $\mathcal F_\mu r$ decays
 only like $|s|^{-1}$ and the sum converges only because the zero density is
 logarithmic. The expected size of $\Theta$ is $O(\log\mu)$, which is what §5

@@ -263,19 +263,19 @@ remain**. Two pieces of bookkeeping, and I flag both rather than claim them:
 
 - **The $\log^3$ weight.** $\log^3(3+|t|)\le C_\delta(1+|t|)^{2\delta}$ for any
   $\delta>0$, so the weighted integral is $\ll_\delta\|R\,e^{-\sigma\cdot}\|^2_{H^{\delta}}$.
-  $R$ is bounded with a single jump at $v=\log\lambda$ and is smooth to the right
-  of it, so $R\in H^{\delta}$ for every $\delta<\tfrac12$ and $\delta=\tfrac14$ is
+  $R$ is bounded with a single jump at $v=\log\lambda$ and is smooth to the right <!-- mg-731c: FALSE. R has a jump at u = lambda/N for EVERY integer N > mu, of size |Phi(1)| N^{-1/2} -- they are §4's own sawtooth. q3-log-weight-and-edge.md Cor. 1.2. -->
+  of it, so $R\in H^{\delta}$ for every $\delta<\tfrac12$ and $\delta=\tfrac14$ is <!-- mg-731c: only for delta < 1/2 - alpha, and with a constant mu^{2 delta}. Prop. 2.2 there. -->
   comfortable. **This step needs a bound on $\|R'\|$ of the same character as (D),
-  and I have not written it out.** It costs a factor $c$, i.e. poly.
-- **The edges $\sigma\to\pm\tfrac12$.** $N(\alpha)$ diverges as
+  and I have not written it out.** It costs a factor $c$, i.e. poly. <!-- mg-731c: R' is not a function, and between jumps |R'| ~ mu t |R|, GROWING. §2.1 there. The step is not needed: §4 there freezes the weight instead. -->
+- **The edges $\sigma\to\pm\tfrac12$.** $N(\alpha)$ diverges as <!-- mg-731c: ONE edge. sigma -> -1/2 (beta -> 0) only; sigma -> +1/2 is harmless. §3.1 there. -->
   $\alpha\uparrow\tfrac12$ under (D) alone, like $(1-2\alpha)^{-1}$. The discs are
   cut off at $\epsilon_\rho\gtrsim1/\log(3+|t|)$ by (ZFR), so the divergence is
-  integrated only up to $\tfrac12-\tfrac{c_0}{2\log}$ and contributes a further
+  integrated only up to $\tfrac12-\tfrac{c_0}{2\log}$ and contributes a further <!-- mg-731c: NOT a further logarithm in this ordering: (ZFR) puts the edge at height e^{c_0/eta}, where the log^3 above is already (c_0/eta)^3, so int d(eta)/eta is really int d(eta)/eta^4 and DIVERGES. Obs. 3.1 there. -->
   logarithm. **This is the one place a zero-free region is used, and it is used
   only qualitatively.** I have checked the exponents, not written the estimate
   out in full.
 
-Neither flagged step can cost more than a power of $\mu$ and a power of $\log$,
+Neither flagged step can cost more than a power of $\mu$ and a power of $\log$, <!-- mg-731c: right in conclusion, wrong in route. Xi = O(mu^{9/2} log^3 mu), by truncating the ZERO SUM at height e^{4 pi mu}: see §14. -->
 which is all H1 can afford to give away — but "cannot cost more" is my reading of
 the exponents, not a completed proof, and it is recorded here as such.
 
@@ -540,7 +540,7 @@ that and this note found nothing that disturbs it.
 |---|---|---|
 | **Q1** | Prove $x|\Phi_{n,c}(x)|\le K|\Phi_{n,c}(1)|$ for $x\ge1$ with $K$ subexponential, in the regime $\chi_n<c^2$. Lemma 5.1 gives the amplitude; what is missing is the WKB decay ~~which must be connected through the **regular singular point $x=1$**~~ (mg-6851: it need not be — the row's diagnosis was wrong) | **PROVED (mg-6851), [`band-edge-connection.md`](band-edge-connection.md) Thm 5.2, with $K(c)=2^{3/4}e^{E(c)}$ *bounded*, $\downarrow2^{3/4}$. Q2 now carries the weight** |
 | **Q2** | Pass from the single-term bound (Q1) to (P) for $G=\sum_{n\ge1}\Phi(n\,\cdot)$. The mechanism is the sawtooth $\sum_n n^{-1}\sin(cnt)$ (§4) — right; ~~what must be controlled is the sum of the *remainders* in Osipov–Rokhlin's exact expansion, which is the off-band leakage of $t\Phi(t)$ (§6)~~ (mg-9d43: wrong variable — what is needed is one more power of $x$, not one less power of $e^{c}$) | **PROVED (mg-9d43), [`dilate-sum.md`](dilate-sum.md) Thm 5.1, with $K_P(c)=O(\log c)$. The evaluation cost was on the wrong side of a Poisson summation: `dilate-sum.md` Prop. 6.1 makes $tG(t)$ a sum of $\lfloor\mu t\rfloor+1$ *on-band* values. Q3 now carries the weight** |
-| **Q3** | Write out the two flagged steps of §3: the fractional-Sobolev handling of the $\log^3$ weight, and the $\sigma\to\pm\tfrac12$ edge. Both are exponent-checked, neither is written | **open, but routine; poly cost at worst** |
+| **Q3** | Write out the two flagged steps of §3: ~~the fractional-Sobolev handling of the $\log^3$ weight~~ (mg-731c: its premise is false and the step is not needed), and the $\sigma\to\pm\tfrac12$ edge ~~$\pm$~~ (mg-731c: one edge, and it does not converge in this ordering) | **CLOSED (mg-731c), [`q3-log-weight-and-edge.md`](q3-log-weight-and-edge.md) Thm 4.4, $\Xi=O(\mu^{9/2}\log^3\mu)$ — but NOT routine: one premise false, one ordering divergent, and the repair uses §6(a) of `prolate-rate.md`, which §3 does not name. the $-4\pi$ upper bound now rests on (H0)/Q4 alone. It is (4.3) that is proved, not (H1) as §0 writes it — §1 rules that form out** |
 | **Q4** | (H0), $\|g\|^2$ bounded below — untouched here. It is the paper's other half of G6 and is a mean value of $|\zeta(\tfrac12+it)|^2$ against an explicit weight | **open, unchanged by this note** |
 | **Q5** | Prove the endpoint identity §7, including the constant $c$ (not $\pi c/2$) and the $-(2n+1)/(4c)$ correction. It may well be in Slepian's or Fuchs' asymptotics in some normalisation; I did not find it | **observed only** |
 
@@ -747,3 +747,79 @@ every index for generic $z$.
 `dilate-sum.md` quotes and does **not** re-verify; every sign-blindness verdict in
 §8. **H1 is still not proved** — Q3 is unwritten — but the two substantive items are
 now closed and what remains is described in this note's own §9 as routine.
+
+---
+
+## 14. Appended by mg-731c — Q3 is closed, and neither flagged step was what §3 says
+
+*Append-only. Nothing above is rewritten; the in-place annotations are HTML comments
+and change no line count. Companion note:
+[`q3-log-weight-and-edge.md`](q3-log-weight-and-edge.md), script
+[`verify_q3.py`](verify_q3.py).*
+
+**Q3 is closed.** Assuming (P) — proved, Q1+Q2 —
+$$\sum_\rho|\mathcal F_\mu r(s_\rho)|^2\le\Xi(\mu)\,(1-\chi_2(\lambda)),\qquad
+\Xi(\mu)=O\big(\mu^{9/2}\log^3\mu\big),$$
+polynomial, so Prop. 4.1 above consumes it and the paper's
+$\limsup\mu^{-1}\log s(\mu)\le-4\pi$ is now conditional on **(H0)/Q4 alone**. That is a
+real improvement to a result this project already has and it is **not** progress toward
+RH: §8's verdicts are unchanged, every line of the new note is sign-blind, and the
+matching lower bound is still RH.
+
+**Said precisely: this is (4.3), not (H1) as §0 writes it.** §1 above proves that no
+bound of the form $\Theta(\lambda)\|r\|^2$ can exist, so (H1) *as printed* is not what
+was closed and never could be; (4.3) is the estimate that replaced it and the one
+Cor. `cor:upper` consumes. **H1's role is discharged; H1 as literally written is
+bypassed.** Anyone quoting this should quote (4.3), and the paper's `:1242` should be
+restated the same way.
+
+**But "routine" was wrong, and it was wrong differently on each step.**
+
+1. **§3's first bullet is FALSE where it is most specific.** "$R$ is bounded with a
+   single jump at $v=\log\lambda$ and is smooth to the right of it" — $R$ has a jump at
+   $u=\lambda/N$ for **every** integer $N>\mu$, of size exactly $|\Phi(1)|N^{-1/2}$,
+   because $\mathcal E\phi(u)=u^{1/2}\sum_{n\le\lambda/u}\phi(nu)$ is a finite sum whose
+   terms switch on one at a time and $\phi(\lambda)=\lambda^{-1/2}\Phi(1)\ne0$. Measured
+   against one-sided limits at 24 cells, ratio $1.0$ to every printed digit.
+   **Those jumps are §4's own sawtooth** $\tfrac12-\{ct/2\pi\}$: §3 and §4 of this note
+   contradict each other, and §4 is right. `prolate-rate.md` §6(c) carries the same
+   error and is annotated too.
+2. **The input the first bullet asks for does not exist.** "A bound on $\|R'\|$ of the
+   same character as (D)": $R'$ is not a function (it carries a delta at every jump),
+   and between jumps $|R'|\asymp\mu t|R|$ — growing, where (D) decays. What a Sobolev
+   route would need is a *derivative* dilate-sum bound, of exactly Q2's type, named (P′)
+   in the new note and **not proved anywhere**; the only substitute available today
+   costs $\|\Phi'\|_\infty/|\Phi(1)|\asymp e^{c}$, measured $1.3\times10^2$ at $c=4\pi$
+   rising to $1.3\times10^{17}$ at $c=16\pi$.
+3. **§3's second bullet has one edge, not two.** $N(\alpha)$ diverges only as
+   $\alpha\uparrow\tfrac12$, i.e. only as $\sigma\to-\tfrac12$, i.e. only as
+   $\beta_\rho\to0$. The $+$ side is harmless, and the pairing $\rho\leftrightarrow1-\bar\rho$
+   means the $-$ side cannot be avoided.
+4. **The second bullet does not converge in the order it proposes, and the reason is
+   the first bullet.** (ZFR) makes the edge at $\eta=\tfrac12-|\sigma|$ draw only on
+   $|t|\ge e^{c_0/\eta}$, where the $\log^3(3+|t|)$ weight is *already* $(c_0/\eta)^3$.
+   So "a further logarithm", $\int d\eta/\eta$, is really $\int d\eta/\eta^4$, and it has
+   no cutoff. **The two flagged steps are not independent and cannot be costed
+   separately** — which is exactly how this note costs them.
+
+**What closes it is a truncation, and it uses an input §3 never mentions.** Split the
+zero sum at $T_*=\exp(4\pi\mu+O(\log\mu))$. Above $T_*$, use §6(a) of `prolate-rate.md`
+— $\mathcal F_\mu r=-\mathcal F_\mu g$ on $Z$ — and the bounded variation of $g$ on a
+compact interval in $\log u$; those zeros contribute below the target because
+$\Phi(1)^2\ge(1-\Lambda_4)/(2K_1^2C_*^2)$, a **proved** lower bound obtained here from
+Q1 and the exact identity (4.1) above, together with Fuchs. Below $T_*$ the $\log^3$
+weight is a constant, $O(\mu^3)$, so **no fractional Sobolev theory is needed at all**,
+and the same truncation caps the edge at $\eta_*\asymp c_0/\mu$, which is what makes the
+"further logarithm" true after all. The whole cost is the $\mu^3$, and it is forced by
+the size of the target rather than by any analysis.
+
+**Also closed, in passing: half of Q5.** $\Phi_n(1)^2\ge(1-\Lambda_n)/(2K_1^2\Lambda_n)$
+is now proved (Q1 plus (4.1)); the reverse inequality follows from `dilate-sum.md`
+Prop. 4.1(ii) and is sketched but not written out. The *constant* $c$ and the
+$-(2n+1)/(4c)$ correction remain **observed only**.
+
+**Unchanged:** Q4/(H0), which is untouched by design; §§1–2; the reduction of H1 and G5
+to (P); Prop. 3.1 and Prop. 3.2 themselves, which are correct as stated — it is the two
+bookkeeping bullets after them that were not. **This is the third inherited misdiagnosis
+on this chain** (mg-6851 on §5, mg-9d43 on §§4/6, this on §3), and the pattern is now
+three for three: the note was right that something was missing and wrong about what.
