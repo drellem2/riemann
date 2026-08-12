@@ -7,10 +7,10 @@ Nothing in `start.tex` or `s3.tex` was edited. References are by line.
 
 **Citations checked (added 2026-08-12).** [`citation-audit.md`](citation-audit.md)
 (mg-3a9c) verified this note's attributions against the sources: **B1–B4 hold as
-stated**, and the references are recorded at the four sites below. Three items remain
-**open**, and are marked open rather than dropped — **U3** (the uniform-error form of
-the Hermite limit, §2), **U4** (Fuchs' exact constant, §2), **U6** (the prolate-index
-ambiguity, §0). One substantive narrowing, at §3: the finite-Fourier phase fact **is**
+stated**, and the references are recorded at the four sites below. ~~Three items remain
+**open**~~ **— all three are now closed: U6 by mg-9433 (prolate index 4), U4 by mg-03f0
+(the Fuchs constant is right), and U3 by mg-882b as a NEGATIVE — the uniform-error
+statement is not in Slepian 1965 (`citation-audit.md` §12.4).** One substantive narrowing, at §3: the finite-Fourier phase fact **is**
 in Connes–Consani; the mode-4 *selection* built on it is not. Annotated in place, not
 rewritten — what this note concluded on its own evidence is part of the record.
 
@@ -166,11 +166,11 @@ bookkeeping over a known asymptotic.**
 > *Prolate Spheroidal Wave Functions of Order Zero*, Applied Math. Sciences **187**,
 > Springer 2013 (**B3**) — the latter being reference [16] of Connes–Consani–Moscovici
 > arXiv:2310.18423, i.e. the same source the principals use.
-> **Still open — audit U3.** The *uniform-error* statement this paragraph attributes to
-> Slepian 1965 was not checked against the paper (paywalled). So "has rigorous
-> uniform-error versions in the literature" is an attribution to a confirmed source, not
-> a verification of the statement, and the verdict that U1 is "bookkeeping over a known
-> asymptotic" rests on it.
+> ~~**Still open — audit U3.**~~ **CLOSED 2026-08-12 (mg-882b) as a NEGATIVE: the uniform-error statement is *not* in Slepian 1965** — Dunster (arXiv:1601.00699, `PSWF_JCA.tex:175-181`) lists it, as his **[31]**, among expansions that are *"heuristic, all parameters fixed except $\gamma$, and with little or no error analysis"*, and Bonami–Karoui were still *"push[ing] forward the uniform approximation error bounds"* in 2014 while citing Slepian 1965 nowhere in their body. Slepian 1965 itself is paywalled and was **not** read; the negative is documented second-hand and marked as such.
+> **Read strictly, the sentence above survives**: it assigns the *asymptotic* to Slepian and the *rigorous bounds* to Bonami–Karoui and Osipov–Rokhlin–Xiao, which is right. Wrong is only the reading that Slepian supplies the uniformity — the sources that do are those two plus Dunster 2017.
+> The verdict that U1 is "bookkeeping over a known asymptotic" is **unaffected**: it needs a *limit*, and the fixed-index Hermite limit gives one. A rate is what uniformity would buy, and no rate is quoted anywhere in this note.
+> Separately, and from this note's own numbers: test H measures $\psi_0(0)\sim(c/\pi)^{1/4}$, so the constant in `start.tex:189-196`'s $O(1-\chi_4)$ grows like $c^{1/4}$ and is not uniform **whatever anyone's error bound says**. Uniformity of the expansion and uniformity of that constant are different questions.
+> Full account: `citation-audit.md` §12.4.
 
 ### U2 — "leakage associated to lower modes is smaller"
 
@@ -187,10 +187,10 @@ the $c^{-4}$ rate is right and the constant is converging (slow, as Fuchs asympt
 > **Checked, 2026-08-12 — B4 (`citation-audit.md` §3).** Source confirmed: W.H.J.
 > Fuchs, *On the eigenvalues of an integral equation arising in the theory of
 > band-limited signals*, J. Math. Anal. Appl. **9** (1964) 317–330.
-> **Still open — audit U4.** The exact constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$ was
-> not checked against the paper. The numerical evidence just above is *consistent with*
-> it and no more: a slowly converging ratio is not a check of the formula, and the
-> $3/512$ derived from it inherits that status.
+> ~~**Still open — audit U4.** The exact constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$ was not checked against the paper.~~ **CLOSED 2026-08-12, mg-03f0 — the constant is right** (annotated here 2026-08-12, mg-882b; the closure was recorded in `citation-audit.md` and `semilocal-gap.md` but never here, the same drift as U4's own row in that note's §7 table).
+> Connes states the asymptotic for the same quantity independently (arXiv:2602.04022, `rhready.tex:1149`): $1-\chi_2\sim\frac{2^{14}}3\sqrt2\,\pi^5e^{-4\pi e^L+9L/2}$, which with $c=2\pi e^L$ and $1-\chi_2=(1-\Lambda_4)/2$ is the *same expression* — ratio $1.000000000000$ at $L=1.0,\dots,3.0$ (`verify_semilocal_gap.py` check 2, re-run under mg-882b). So the slowly converging ratio just above was consistent with the formula because the formula is correct, and the
+> $3/512$ derived from it inherits **that** status. Still not a reading of Fuchs' paper: this is documentary corroboration by a third party, which is why it also independently corroborates the index convention (two constants written down by different people for two quantities agree exactly only if the quantities are the same one).
+> See `semilocal-gap.md` §5.3 and `citation-audit.md` §11, §12.1.
 
 The quantitative consequence matters and is not stated in either document: because the
 suppression is only **polynomial** ($c^{-4}$), not exponential, U2 is not free — it is a

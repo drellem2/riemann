@@ -21,7 +21,7 @@ than our text claims, one is not supported by the cited object.** (13 rows in §
 §3, plus `start.tex:88-91`'s "Figure 4" in §4.6, which is the unsupported one.) The five
 narrowings are all in §2; none of them touches the internal mathematics, all of them touch
 what may be written down. Nine further items could not be settled and are listed in §7 —
-they are results too.
+they are results too. **As of 2026-08-12 eight of those nine are closed** (U6 mg-9433; U4, and §4.2 row 14, mg-03f0; U7 mg-555b; U1, U2, U3, U8, U9 mg-882b — §12). **U5 alone is open, and it is Daniel's**: it asks what the corpus meant, not what a source says.
 
 **2. Part B. Yes — and considerably more strongly than
 `signed-geometry-proposals.md` §4 guessed.** §4 argued that the corpus's $\widehat P$,
@@ -465,8 +465,8 @@ $$c_{\text{Groskin}} \;\longleftrightarrow\; \mu=\lambda^2, \qquad
 c_{\text{ours}}=\gamma=2\pi\lambda^2=2\pi\,c_{\text{Groskin}} ,$$
 
 the last equality because Connes–Consani's prolate parameter is $\gamma=2\pi\lambda^2$ and
-that is what `verify_prolate_claims.py` calls $c$. *(This dictionary is argued here from
-the two definitions; neither paper states it. It is cheap to check and worth checking.)*
+that is what `verify_prolate_claims.py` calls $c$. *(~~This dictionary is argued here from
+the two definitions; neither paper states it.~~ **CORRECTED 2026-08-12, mg-882b: Groskin does state $\lambda^2=c$ — `main.tex:433`, `:1095` of arXiv:2605.20224 — and the remaining factor $2\pi$ is now measured. §7 U8, §12.**)*
 
 Two consequences:
 
@@ -520,15 +520,15 @@ Two facts from this sweep are directly actionable:
 
 | # | item | why unresolved |
 |---|---|---|
-| U1 | Bochner–Schwartz on a general LCA group | I verified the theorem on $\mathbb R^n$ (tempered distribution of positive type $\Leftrightarrow$ Fourier transform of a positive tempered measure) and Bochner on LCA groups for *continuous functions* of positive type. I could not find a reference for the *distributional* version on a general LCA group, which is what `signed-geometry-proposals.md:484-497` applies to $C_{\mathbb Q}$. Likely fine (Weil's own framework), but not checked. Nothing downstream depends on it: that passage is diagnostic by its own statement |
-| U2 | Deninger ICM 1998 at page level | The programme statement (foliated 3-space, 2-dimensional leaves, flow, leafwise cohomology carrying the zeros, Lefschetz formula, closed orbits $\leftrightarrow$ primes) is confirmed from the abstract and from the substantial secondary literature. The specific pairing $H^0,H^2\leftrightarrow\hat f(0),\hat f(1)$ at `signed-geometry-proposals.md:435-436` I did not confirm against the text. It is stated in the secondary literature; I did not open Doc. Math. Extra Vol. ICM I pp. 163–186 |
-| U3 | Slepian 1965 uniform-error version of the Hermite limit | Source confirmed (J. Math. and Phys. **44** (1965) 99–140); the *uniform* error statement mg-aedf attributes to it (`s3-reduction-audit.md:155-156`) not checked — paywalled |
-| U4 | Fuchs 1964, the exact constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$ | Source confirmed (JMAA **9** (1964) 317–330); the constant not checked against the paper. mg-aedf verified the $c^{-4}$ *ratio* numerically at $c=8\ldots14$ and reported the constant "converging (slow)" (`s3-reduction-audit.md:183-185`), which is consistent with but not a check of the formula **CLOSED 2026-08-12, mg-03f0 — the constant is right.** Connes states the asymptotic for the same quantity independently (arXiv:2602.04022, `rhready.tex:1149-1150`); with $\chi=\sqrt\Lambda$ the two expressions agree to twelve decimals at every $L$. See [`semilocal-gap.md`](semilocal-gap.md) §5.3 and check 2 of `verify_semilocal_gap.py`. |
-| U5 | "the 2023 trace formula" (`start.tex:46,242,425`) | Two candidates (§4.1), and the phrase is used for the thing to be *specialised to $h_\lambda$* at `start.tex:244-246,425`. Which paper is meant determines whether step 1 of `start.tex:348-356` is a computation in Connes–Consani 2023 or in CCM 2310.18423. Only Daniel can say |
+| U1 | ~~Bochner–Schwartz on a general LCA group~~ **CLOSED 2026-08-12, mg-882b — the theorem exists, at exactly that generality** | A. Wawrzyńczyk, *On tempered distributions and Bochner–Schwartz theorem on arbitrary locally compact Abelian groups*, Colloq. Math. **19** (1968) no. 2, 305–318. Theorem 4.2 (p. 315): *"Let $G$ be a separable group. Every positive-definite element $T\in\mathbf D'(G)$ is represented by a positive Borel measure $m$"*, $T(\varphi)=\int\hat\varphi\,dm$ — with the **Remark**, same page, *"The assumption of separability can be removed."* Theorem 4.3 (p. 316): *"The measure $m$ can be extended in a unique way to a tempered distribution on $\Gamma$"*, i.e. $m$ is tempered. Together these are Bochner–Schwartz on an arbitrary LCA group, and they are **stronger** than our use needs: the hypothesis is a positive-definite $T\in\mathbf D'(G)$, not a tempered one. $C_{\mathbb Q}$ is second countable, so the separability caveat does not bite either way. Read from the scanned journal PDF. §12 |
+| U2 | ~~Deninger ICM 1998 at page level~~ **CLOSED 2026-08-12, mg-882b — confirmed against the text, page by page** | Read from the Documenta Mathematica PostScript of the article itself (`Deninger.MAN.ps`, dated 1998-11-10). **p. 168:** $H^0(\text{"Spec }\mathbb Z\text{"},\mathbb R)=\mathbb R$ with $\Theta=0$; $H^1$ infinite-dimensional, spectrum of $\Theta$ = the non-trivial zeros; $H^2=\mathbb R$ with $\Theta=\mathrm{id}$. **p. 170,** Proposition 3.2 and eq. (5): $\Phi(0)-\sum_{\hat\xi(\rho)=0}\Phi(\rho)+\Phi(1)=\sum_p\log p\sum_k\varphi(k\log p)+\int_0^\infty\varphi(t)(1-e^{-2t})^{-1}dt$, reformulated as $\sum_i(-1)^i\operatorname{Tr}(\Theta\mid H^i)_{\text{dis}}$; **p. 171** eq. (6) is the sheaf-theoretic Lefschetz form. **p. 181:** closed orbits $\leftrightarrow$ primes with $l(\gamma)=\log p$; leaves two-dimensional; *"Thus 'Spec Z' … should have dimension three"*. One notation caveat: Deninger's $\Phi(s)=\int\varphi(t)e^{ts}dt$, not a Fourier hat. §12 |
+| U3 | ~~Slepian 1965 uniform-error version of the Hermite limit~~ **CLOSED 2026-08-12, mg-882b, as a NEGATIVE — it is not there, and the literature says so** | I could not open Slepian 1965 (Wiley, DOI 10.1002/sapm196544199, HTTP 403; no other copy found — the search is described in §12). What settles it is a specialist's characterisation in print, from a paper this corpus has **already** imported and read at source level: Dunster, arXiv:1601.00699 = J. Classical Anal., `PSWF_JCA.tex:175-181`, *"The literature contains many asymptotic approximations and expansions (see [2], [7], [14], [21], [23], **[31]**, [35], [40]), but most are heuristic, all parameters fixed except $\gamma$, and with little or no error analysis"* — and **[31] is Slepian 1965** (31st `\bibitem`, verified by count). "All parameters fixed except $\gamma$" is the fixed-index regime; "little or no error analysis" is the negation of a uniform-error statement. Concurring: Bonami–Karoui (2016) is still *"push[ing] forward the uniform approximation error bounds"* in 2014, and cites Slepian 1965 in its bibliography but **nowhere in its body**. §12 |
+| U4 | ~~Fuchs 1964, the exact constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$~~ **CLOSED 2026-08-12, mg-03f0** *(struck here 2026-08-12, mg-882b: the closure was recorded only in the right-hand cell, so this table read open while the record said closed — see §12)* | Source confirmed (JMAA **9** (1964) 317–330); the constant not checked against the paper. mg-aedf verified the $c^{-4}$ *ratio* numerically at $c=8\ldots14$ and reported the constant "converging (slow)" (`s3-reduction-audit.md:183-185`), which is consistent with but not a check of the formula **CLOSED 2026-08-12, mg-03f0 — the constant is right.** Connes states the asymptotic for the same quantity independently (arXiv:2602.04022, `rhready.tex:1149-1150`); with $\chi=\sqrt\Lambda$ the two expressions agree to twelve decimals at every $L$. See [`semilocal-gap.md`](semilocal-gap.md) §5.3 and check 2 of `verify_semilocal_gap.py`. |
+| U5 | "the 2023 trace formula" (`start.tex:46,242,425`) — **OPEN, and Daniel's** | Two candidates (§4.1), and the phrase is used for the thing to be *specialised to $h_\lambda$* at `start.tex:244-246,425`. Which paper is meant determines whether step 1 of `start.tex:348-356` is a computation in Connes–Consani 2023 or in CCM 2310.18423. Only Daniel can say. **Deliberately left open by mg-882b**, which closed every other row: this one asks what the corpus's author intended, not what a source says, and no amount of reading settles it. It is the only row in this table that is not a question about the literature |
 | U6 | ~~whether the corpus's $h_{4,\lambda}$ means prolate index 4 or Connes–Consani's index $m=4$~~ **CLOSED 2026-08-12, mg-9433 — prolate index 4** | Their $\psi_{m,\lambda}:=\mathrm{PS}_{2m,0}$, so their $m$ is half the prolate index, and the collision was real. But `start.tex:138-145` transcribes **Connes–Consani–Moscovici's** $\psi^+_\ell:=h_{4\ell}-\frac{h_{4\ell}(0)}{h_0(0)}h_0$ at $\ell=1$ (arXiv:2310.18423 source line 624), in Hermite functions indexed in full — same letter $h$, both subscripts, and "the CCM choice of coefficients" is that formula. mg-aedf's constants stand. Note the method: `start.tex:180-181` **cannot** discriminate — it holds exactly for every $m\equiv0\bmod4$ — so this was settled from the sources, not numerically. See §10 and [`index-convention.md`](index-convention.md) |
 | U7 | whether Connes–Consani anywhere size the residual $\hat\varphi(0)$ | ~~I read §3 and §2.5 and the abstract … absence of evidence over ~40 pages skimmed, not a proof of absence.~~ **CLOSED 2026-08-12 (mg-555b): they do not, and it is now a sourced negative rather than a skim.** The construction is `Spectraltriples.tex:744` ($\phi_{2n}:=\psi_{2n}\psi_0(0)-\psi_0\psi_{2n}(0)$, imposing $\phi_{2n}(0)=0$ exactly) and the other condition is disposed of at `:746` in their own words — *"one may **approximate** $\mathcal F(\phi_n)$ by $(-1)^n\phi_n$ and … **act as if**"* — with no error term there or where the construction is used. The two places whose titles promise a sizing do not contain one: the appendix *"Size of $\mathcal F_\mu\circ w$(Prolate)"* (`:1547`) is the $\lambda\to\infty$ **Hermite** limit, where both conditions hold *exactly* (`:1563`); and the survey's $c\lambda^{-1/2-\alpha}(1-2\alpha)^{-1}$ (`rhready.tex:1172`) bounds $\hat k_\lambda\to\hat k$, a different quantity. §4.4 item 1 still rests on this and is now on firmer ground. Full account, with a closed-form lead marked *ours*: [`semilocal-gap.md`](semilocal-gap.md) §10.5 |
-| U8 | the $c_{\text{ours}}=2\pi c_{\text{Groskin}}$ dictionary | Argued in §5 from the two definitions ($\gamma=2\pi\lambda^2$; $L=\log c$ vs $L=2\log\lambda$). Neither paper states it. One numerical check would settle it |
-| U9 | Bonami–Karoui volume/pages | Constr. Approx. **43** (2016), Springer; exact page range not confirmed |
+| U8 | ~~the $c_{\text{ours}}=2\pi c_{\text{Groskin}}$ dictionary~~ **CLOSED 2026-08-12, mg-882b — the dictionary is right, and "neither paper states it" was wrong** | Two halves. **(a) $c_{\text{Groskin}}=\lambda^2=\mu$ is stated by Groskin**, arXiv:2605.20224 `main.tex:433` (*"adopt the convention $\lambda^2=c$ from CCM throughout"*), `:1095` (*"With $\lambda^2=c$, this is $L=\log c$, so $e^L=c$"*), and `:284-287` (*"For a cutoff parameter $c$ (controlling the primes $p\le c$ …), set $L=\log c$. The quadratic form acts on $L^2([0,L])$"*) — so §5's parenthetical is corrected in place. **(b) the factor $2\pi$ is measured**, [`verify_citation_u8.py`](verify_citation_u8.py): the corpus's own arbitrary-precision eigensolver gives $1-\sqrt{\Lambda_4(\kappa\mu)}$ agreeing with Connes' asymptotic (a function of $\mu$ alone) only at $\kappa=2\pi$ — the neighbours $2,\pi,4\pi$ are wrong by $10^{9}$ to $10^{53}$ across $\mu=4\ldots10$. Corroborated after the fact by Connes' own footnote at `rhready.tex:1149`: *"$\chi_k(\lambda)^2=\lambda_{2k}(a)$ with $a=\sqrt{2\pi}\lambda$"*, i.e. $a^2=2\pi\lambda^2$. §12 |
+| U9 | ~~Bonami–Karoui volume/pages~~ **CLOSED 2026-08-12, mg-882b — 15–45** | Constr. Approx. **43** (2016), no. 1, **15–45**; DOI [10.1007/s00365-015-9295-1](https://doi.org/10.1007/s00365-015-9295-1); published online 17 Jun 2015, in print Feb 2016. From the publisher's own Crossref deposit (`api.crossref.org/works/10.1007/s00365-015-9295-1`), not from a search-result summary; the Springer article page itself refuses unauthenticated fetches. Preprint arXiv:1405.3676. §12 |
 
 ---
 
@@ -550,8 +550,8 @@ Not edits — a list for whoever writes next. `start.tex` and `s3.tex` are not t
 - `:55-78` is Slepian–Pollak double orthogonality, as mg-aedf already found
   (`s3-reduction-audit.md:98`); Connes–Consani cite the same source (their §3).
 
-**`s3-reduction-audit.md`.** B1–B4 hold; U3, U4, U6 open. §3's note on B1: the phase fact
-is in Connes–Consani; the mode-4 *selection* is not.
+**`s3-reduction-audit.md`.** B1–B4 hold; ~~U3, U4, U6 open~~ **all three now closed — U6 by
+mg-9433, U4 by mg-03f0, U3 by mg-882b as a negative (§12); annotated there in place.** §3's note on B1: the phase fact is in Connes–Consani; the mode-4 *selection* is not.
 
 **`s3-sign-blindness.md`.** B5–B11 all hold, including the round-$S^3$ falsifier. The
 "citations unverified" caveat at `:421-424` can be replaced by a pointer to this note.
@@ -720,3 +720,363 @@ third party rather than a reading of Fuchs' paper, which is why it also
 independently corroborates the index convention: two constants written down by
 different people for two quantities agree exactly only if the quantities are the
 same one.
+
+---
+
+## 12. Appendix — §7 closed out: U1, U2, U3, U8, U9, and U4's row (added 2026-08-12, mg-882b)
+
+*Appended. Nothing above is deleted; the six §7 rows affected are annotated in place,
+line-count-preserving, and each points here. Companion script for U8:
+[`verify_citation_u8.py`](verify_citation_u8.py).*
+
+**Every remaining bibliographic row in §7 is now closed.** U1 and U2 close as
+confirmations, U3 as a negative, U8 as a confirmation that also corrects §5, U9 as a
+page range. **U5 is left open and is Daniel's** — it asks what `start.tex` meant, not
+what a source says, and §7's row now says so.
+
+Three of the five went the way the row expected. Two did not, and they are the ones
+worth reading: **U3 is a clean negative** — the uniform-error statement is not in
+Slepian 1965, and a specialist says so in print — and **U8's row contained a false
+premise**, since one of the two papers it says states nothing does state half the
+dictionary.
+
+---
+
+### 12.1 The bookkeeping defect, and the converse check
+
+**The defect.** mg-03f0 closed U4 — mg-aedf's Fuchs constant agrees with Connes'
+independently stated asymptotic to twelve decimals — and recorded the closure in the
+row's *right-hand* cell only. The item cell was never struck through the way U6's and
+U7's were, so §7's table read `U4 … open` while §11 and
+[`semilocal-gap.md`](semilocal-gap.md) §5.3 read `U4 … closed`. Struck here.
+
+Nothing about the mathematics changed; what was wrong was the thing a reader scans
+first. That is the whole reason it mattered.
+
+**The converse: is anything marked closed that was not?** No. All three prior closures
+re-verified, from the arXiv LaTeX sources downloaded fresh for this pass:
+
+| row | closed by | re-verified how | verdict |
+|---|---|---|---|
+| U4 | mg-03f0 | `rhready.tex:1149` read verbatim — the footnote and the displayed asymptotic $1-\chi_2\sim\frac{2^{14}}3\sqrt2\,\pi^5e^{-4\pi e^L+9L/2}$ are both on that line; and `verify_semilocal_gap.py` check 2 re-run here, ratio `1.000000000000` at $L=1.0,1.5,2.0,2.5,3.0$ | **genuinely closed** |
+| U6 | mg-9433 | `mainc2m24fine.tex` **99,875 bytes, dated 2024-05-04** — exactly what §10 records — lines 616 (*"the eigenfunctions … are approximated by … the Hermite functions $\{h_{2n}\}$"*), 622 (*"$\fourier_{e_\R}(h_{2m})$ is $(-1)^mh_{2m}$"*), 624 ($\psi^+_\ell:=h_{4\ell}-\frac{h_{4\ell}(0)}{h_0(0)}h_0$) all read verbatim | **genuinely closed** |
+| U7 | mg-555b | `Spectraltriples.tex:744` ($\phi_{2n}:=\psi_{2n}\psi_0(0)-\psi_0\psi_{2n}(0)$), `:746` (*"one may approximate … and … act as if"*), `:1547` (`\section{Size of $\fourier_\mu\circ w$(Prolate)}`), `:1563`, and `rhready.tex:1172` — all read verbatim | **genuinely closed** |
+
+§10's own anchors were checked at the same time and also hold: `Spectraltriples.tex:169`
+carries *both* sentences §10 quotes from it (*"…it only involves primes less than, say,
+$\lambda^2$. By semi-local Weil quadratic form we mean the restriction $QW_\lambda$ of
+the sesquilinear form"* — one long source line), `:713` and `:717` are the prolate
+operator, and §10's font argument is exact: `QW_\lambda` occurs **41** times in that file
+and `{\bf W}_{\lambda}` **4**, the counts §10 states.
+
+One further page range checked while the tooling was up, because §3 marks it as taken
+second-hand: **B1's Slepian–Pollak I is 43–63**, per the publisher's Crossref deposit for
+DOI 10.1002/j.1538-7305.1961.tb03976.x. (Bonami–Karoui's own bibliography prints 43–64.
+Ours is right and theirs is a typo.)
+
+So the table had drifted once, in presentation, and not twice.
+
+---
+
+### 12.2 U1 — Bochner–Schwartz on a general LCA group: the theorem exists
+
+§2.5 could find no reference for the *distributional* Bochner–Schwartz theorem on a
+general LCA group, which is what `signed-geometry-proposals.md:484-497` applies to
+$C_{\mathbb Q}$. There is one, and it is a paper whose title is the question:
+
+> **A. Wawrzyńczyk**, *On tempered distributions and Bochner–Schwartz theorem on
+> arbitrary locally compact Abelian groups*, **Colloq. Math. 19** (1968), no. 2,
+> **305–318**.
+
+Read from the scanned journal PDF (Polish Digital Mathematics Library, `cm19222.pdf`,
+14 pages, pp. 305–318), not from a review. Its §4:
+
+- **Definition 4.1** (p. 315) defines $\mathbf S'(G)$, the tempered distributions on an
+  arbitrary LCA $G$, as the continuous linear functionals on the space $\mathbf S(G)$
+  built in §3. Its abstract (p. 305): *"Our definition of the space $\mathbf S(G)$ is
+  equivalent to the one given by Bruhat [1]. Theorems announced by him, the proofs of
+  which have never been published in details, are formulated and proved in part 3 of the
+  present paper."* Positive-definiteness is $T(\varphi^**\varphi)\ge0$,
+  $\varphi\in\mathbf D(G)$.
+- **Theorem 4.2** (p. 315), attributed there to Maurin: *"Let $G$ be a separable group.
+  Every positive-definite element $T\in\mathbf D'(G)$ is represented by a positive Borel
+  measure $m$ as follows: $T(\varphi)=\int\hat\varphi(\gamma)\,dm(\gamma)$."* Followed
+  immediately by: *"**Remark.** The assumption of separability can be removed."*
+- **Theorem 4.3** (p. 316): *"The measure $m$ can be extended in a unique way to a
+  tempered distribution on $\Gamma$."*
+
+4.2 and 4.3 together are exactly the statement §2.5 wanted: a positive-definite
+distribution on an LCA group is the Fourier transform of a positive **tempered** measure
+on the dual. Two things are worth stating precisely, because both cut in our favour:
+
+1. **The hypothesis is weaker than our use needs.** 4.2 takes $T\in\mathbf D'(G)$ — a
+   distribution, not assumed tempered. Positive-definiteness itself buys the
+   temperedness of the representing measure. So the sentence at
+   `signed-geometry-proposals.md:484-486` does not need to be hedged at all on this
+   point.
+2. **The separability caveat does not bite.** $\mathbb A_{\mathbb Q}$ is second
+   countable ($\mathbb Q$ is countable), hence so are $\mathbb A^\times_{\mathbb Q}$ and
+   the quotient $C_{\mathbb Q}$ — and the Remark removes the hypothesis anyway.
+
+**What this changes.** §2.5's second bullet, and the U1 half of the annotation at
+`signed-geometry-proposals.md:508-514`, should now read *holds*, with this citation. It
+changes nothing downstream — that passage is diagnostic by its own statement — which is
+the same thing §2.5 said, and remains the honest weight to give it. What it removes is a
+hedge: "likely fine (Weil's own framework), but not checked" was the right thing to write
+in ignorance and is now simply superseded.
+
+---
+
+### 12.3 U2 — Deninger ICM 1998, confirmed against the text
+
+Obtained as the Documenta Mathematica article file itself — `Deninger.MAN.ps` (471,866
+bytes uncompressed, internal timestamp 1998-11-10), from an EMIS mirror, converted to
+text locally. Every page number below is the article's own running head; the footer on
+every page reads *"Documenta Mathematica · Extra Volume ICM 1998 · I · 163–186"*, which
+confirms the page range as well.
+
+What §5(1) of `signed-geometry-proposals.md` asserts, item by item:
+
+| claim at `signed-geometry-proposals.md:429-436` | where it is | verdict |
+|---|---|---|
+| 3-dimensional space, 2-dimensional leaves | **p. 181**: *"The leaves on 'Spec Z' … should be two … dimensional in a suitable sense … Thus 'Spec Z' … should have dimension three"*, and *"There are to be one-codimensional foliations"* | **holds** |
+| leafwise $H^1$ carries the zeros as the spectrum of the infinitesimal generator | **p. 168**: *"$H^1(\text{"Spec }\mathbb Z\text{"};\mathbb R)$ is infinite dimensional, the spectrum of $\Theta$ consisting of the non-trivial zeroes $\rho$ of $\zeta(s)$ with their multiplicities"* | **holds** |
+| Lefschetz trace formula reproducing the explicit formula | **p. 170** eq. (5) and **p. 171** eq. (6): $\sum_i(-1)^i\operatorname{Tr}(\Theta\mid H^i)_{\text{dis}}=\sum_{p\le\infty}\operatorname{Tr}(\Theta\mid R_p)_{\text{dis}}$, *"a sheaf theoretic Lefschetz trace formula"* | **holds** |
+| closed orbits $\leftrightarrow$ primes | **p. 181**: *"The closed orbits should correspond to the prime numbers such that $l(\gamma)=\log p$"* | **holds** |
+| $H^0$ and $H^2$ $\leftrightarrow$ the two pole terms | **p. 168**: $H^0=\mathbb R$ with $\Theta=0$, $H^2=\mathbb R$ with $\Theta=\mathrm{id}$; **p. 170**, Proposition 3.2: $\Phi(0)-\sum_{\hat\xi(\rho)=0}\Phi(\rho)+\Phi(1)=\sum_p\log p\sum_{k\ge1}\varphi(k\log p)+\int_0^\infty\frac{\varphi(t)}{1-e^{-2t}}dt$. Since $\langle\operatorname{Tr}(\Theta\mid H)_{\text{dis}},\varphi\rangle=\sum_{\theta\in\operatorname{sp}\Theta}\Phi(\theta)$, the eigenvalue $0$ on $H^0$ contributes $\Phi(0)$ and the eigenvalue $1$ on $H^2$ contributes $\Phi(1)$, both with sign $+$ | **holds** |
+
+**One notation caveat, and it is ours not his.** Our text writes the two pole terms as
+$\hat f(0)+\hat f(1)$. Deninger's transform is $\Phi(s)=\int_{\mathbb R}\varphi(t)e^{ts}\,dt$
+— a two-sided Laplace transform of the test function, evaluated at the *poles* $s=0,1$ of
+$\hat\zeta$. The pairing our text describes is exactly right; the hat is a convention
+imported from the explicit-formula literature and is not Deninger's. Worth one word if
+that sentence is ever written up.
+
+**What this changes.** The U2 half of the "Still open" bullet at
+`signed-geometry-proposals.md:680-683` is discharged, and §9's placement of A8 moves: the
+Deninger content is now *checked against the actual text of the paper*, not resting on
+secondary literature. The A8 **bibliographic** entry (Doc. Math. Extra Vol. ICM I,
+163–186) is now also primary — read off the article's own running footer.
+
+---
+
+### 12.4 U3 — the uniform-error version is not in Slepian 1965
+
+**This is the negative, and it is stated plainly per the work item.**
+
+**The search, described so it can be told apart from nobody having looked.** Slepian,
+*Some asymptotic expansions for prolate spheroidal wave functions*, J. Math. and Phys.
+**44** (1965) 99–140, is Wiley, DOI `10.1002/sapm196544199`. Both the DOI and the direct
+`onlinelibrary.wiley.com` URL return **HTTP 403** unauthenticated. No preprint exists (the
+paper predates arXiv by 26 years); it is not in the Internet Archive's Bell System
+Technical Journal collection, which covers BSTJ and not J. Math. and Phys.; and searches
+for a full-text copy returned only the paywall. **I did not read Slepian 1965.**
+
+**What settles it anyway** is that a specialist has characterised that literature in
+print, in a paper *this corpus has already downloaded, read at LaTeX-source level, and
+depends on* — Dunster, arXiv:1601.00699 (J. Classical Anal.), the source of the G13 import
+audited in [`dunster-check.md`](dunster-check.md). `PSWF_JCA.tex:175-181`:
+
+> *"Despite being studied extensively over the decades there are significant gaps in the
+> literature on the rigorous analysis of their asymptotic behavior… The literature
+> contains many asymptotic approximations and expansions (see [2], [7], [14], [21], [23],
+> **[31]**, [35], [40]), but most are heuristic, all parameters fixed except $\gamma$, and
+> with little or no error analysis."*
+
+**[31] is Slepian 1965** — verified by counting `\bibitem`s in the source, the 31st, and
+by reading the entry: *"D. Slepian, Some asymptotic expansions for prolate spheroidal wave
+functions, J. Math. Phys., 44 (1965), 99–140."* The two clauses are exactly the two things
+mg-aedf's sentence needed and did not have: *"all parameters fixed except $\gamma$"* is
+the fixed-index regime with no uniformity in the index, and *"little or no error
+analysis"* is the negation of an error bound. Dunster's own contribution is billed against
+precisely that gap — *"error bounds are available for all approximations"*, uniformly for
+$0\le m\le n\le 2\pi^{-1}\gamma(1-\delta)$.
+
+Concurring, from a second primary source: Bonami–Karoui (arXiv:1405.3676 = Constr. Approx.
+**43** (2016) 15–45) open by saying *"In several applications, uniform estimates of the
+$\psi_{n,c}$ in $n$ and $c$, are needed. **To progress in this direction**, we push forward
+the uniform approximation error bounds"* — in 2014. And they cite Slepian 1965 in their
+bibliography and **nowhere in their body**: it is not the source they build the uniform
+bounds on.
+
+**So `s3-reduction-audit.md:155-158` is narrower than written.** *"has rigorous
+uniform-error versions in the literature (Slepian 1965 for the asymptotic; Bonami–Karoui
+and Osipov–Rokhlin–Xiao for rigorous bounds)"* — read strictly, that sentence already
+assigns the *asymptotic* to Slepian and the *rigorous bounds* to the other two, and in that
+reading it survives. Read as the U3 row read it — that the uniform-error version is
+Slepian's — it does not. B2 stays **holds (source), narrower (uniformity)**: Slepian 1965
+is the right citation for the fixed-index Hermite limit and the wrong one for uniformity in
+it, and the right ones for uniformity are Bonami–Karoui 2016, Osipov–Rokhlin–Xiao 2013, and
+Dunster 2017.
+
+**And there is a separate reason not to lean on uniformity here, which mg-aedf found and
+this pass did not have to.** `verify_prolate_claims.py` test H measures
+$\psi_0(0)\sim(c/\pi)^{1/4}$: measured $\psi_0(0)/c^{1/4}=0.7434,\,0.7474,\,0.7497,\,0.7504,\,0.7508,\,0.7509$
+at $c=10,20,50,100,200,400$, against $\pi^{-1/4}=0.7511$. So the constant in
+`start.tex:189-196`'s $h_\lambda(0)=O(1-\chi_4)$ **grows like $c^{1/4}$** and is not
+uniform — and that is a property of the prolate functions themselves, not of the quality of
+anyone's error bound. A fully uniform Slepian would not have supplied a uniform constant
+there. The two questions look like one question and are not.
+
+**What this changes for the paper: nothing, and check that this is right.** §4.4 item 2 —
+$|\beta|^2\to8/11$ — is a *limit*, and the fixed-index Hermite limit is enough to establish
+a limit; what a uniform-error version would buy is a *rate*, which nothing in the corpus
+currently quotes. The place uniformity is load-bearing is `s3.tex:75-77`'s lower bound,
+which needs $|b_\lambda|$ bounded below — and `verify_prolate_claims.py` block A already
+notes that only the lower half needs a uniformity claim. That claim now has Bonami–Karoui
+and Osipov–Rokhlin–Xiao behind it and not Slepian. Reported; `s3.tex` not edited.
+
+---
+
+### 12.5 U8 — the dictionary holds, and the row's premise did not
+
+U8 records *"Neither paper states it. One numerical check would settle it."* The second
+sentence was right. The first was not.
+
+**(a) Groskin states the $c\leftrightarrow\lambda^2$ half, in his own words.** Read from
+the arXiv LaTeX source of arXiv:2605.20224 (`main.tex`), which is a stronger provenance
+than §9 records for §5 — that section rested on abstracts and metadata:
+
+- **`:284-287`** — *"For a cutoff parameter $c$ (controlling the primes $p\le c$ in the
+  prime-sum piece below; $c$ itself need not be prime …), set $L=\log c$. The quadratic
+  form acts on $L^2([0,L])$."* This is §5's reading of Groskin's cutoff, verbatim.
+- **`:433`** — *"We identify the two via this construction and adopt the convention
+  $\lambda^2=c$ from CCM throughout."*
+- **`:1095`** — *"where, as defined in [Connes 2026] §6.4, $L=2\log\lambda$ is the length
+  of the support interval $[\lambda^{-1},\lambda]$… **With $\lambda^2=c$, this is
+  $L=\log c$, so $e^L=c$.**"*
+- **`:2263`** — *"Euler products over primes $p\le\lambda^2=c$."*
+
+So $c_{\text{Groskin}}=\lambda^2=\mu$ is not an inference from two definitions; it is
+Groskin's stated convention, attributed by him to CCM. §5's parenthetical is corrected in
+place.
+
+The companion paper agrees: arXiv:2607.02828 `main.tex:199-202`, *"Fix $c>1$, put
+$L=\log c$, $\Delta=L/2\pi$, $\rho=2\pi/L$"*, with `:63` and `:103` calling $c$ the prime
+cutoff.
+
+**(b) The factor $2\pi$ is what was left, and it is now measured.**
+[`verify_citation_u8.py`](verify_citation_u8.py) takes the corpus's own arbitrary-precision
+Legendre eigensolver (imported from [`verify_prolate_rate.py`](verify_prolate_rate.py), so
+it has never seen this dictionary), computes $1-\sqrt{\Lambda_4(\kappa\mu)}$ for candidate
+scale factors $\kappa$, and compares against Connes' asymptotic — which is a function of
+$\mu$ alone and has no free scale in it. Working precision **`mp.dps = 320`**, Legendre
+truncation $K=\lceil c\rceil+90$.
+
+$\log_{10}$ of measured $/$ predicted:
+
+| $\kappa$ | $\mu=4$ | $\mu=6$ | $\mu=8$ | $\mu=10$ |
+|---|---|---|---|---|
+| $1$ | $+12.70$ | $+22.61$ | $+32.35$ | $+41.81$ |
+| $2$ | $+11.88$ | $+19.72$ | $+27.27$ | $+34.77$ |
+| $\pi$ | $+9.22$ | $+14.81$ | $+20.32$ | $+25.81$ |
+| $\mathbf{2\pi}$ | $\mathbf{-0.151}$ | $\mathbf{-0.097}$ | $\mathbf{-0.072}$ | $\mathbf{-0.057}$ |
+| $4\pi$ | $-20.55$ | $-31.44$ | $-42.34$ | $-53.25$ |
+
+The check is decisive rather than merely consistent: a wrong $\kappa$ is wrong by
+$e^{2(2\pi-\kappa)\mu}$, so the nearest neighbours miss by nine to fifty-three orders of
+magnitude and the miss *grows* with $\mu$. At $\kappa=2\pi$ the ratio is
+$0.7070,\,0.7997,\,0.8479,\,0.8774,\,0.8973$ at $\mu=4,6,8,10,12$, rising towards 1 with
+$(1-\text{ratio})\cdot c=7.36,\,7.55,\,7.64,\,7.70,\,7.74$ — an $O(1/c)$ shortfall, which is
+what a leading-order asymptotic should leave and is a shape no wrong $\kappa$ could
+produce. Digits unchanged across `dps` 200/320/420 and $K=c+40/90/160$.
+
+**And then, after the fact, the factor turns out to be printed too.** Connes'
+footnote on the same line that carries the asymptotic (`rhready.tex:1149`) reads
+*"Note that $\chi_k(\lambda)^2=\lambda_{2k}(a)$ **with $a=\sqrt{2\pi}\,\lambda$** in the
+notations of this theorem"* — so the Fuchs-convention bandwidth is
+$a^2=2\pi\lambda^2=2\pi\mu$, which is $c_{\text{ours}}$. The measurement and the footnote
+are independent and agree.
+
+**So the full dictionary $c_{\text{ours}}=2\pi\,c_{\text{Groskin}}$ holds**, and §5's two
+consequences stand unchanged: the corpus's $c\le20$ is $\mu\le3.2$, the very bottom-left of
+Connes–Consani's Figures 18–21; and Groskin's $c=13\ldots100$ is $c_{\text{ours}}=82\ldots628$.
+
+**One thing the check cannot do, stated because the row will be read as if it could.** It
+measures *our* $c$ against *Connes'* $\lambda$. The bridge to *Groskin's* $c$ is (a) and is
+documentary. Nothing computed here touches the CvS Galerkin matrix.
+
+---
+
+### 12.6 U9 — Bonami–Karoui, 15–45
+
+**A. Bonami, A. Karoui**, *Uniform approximation and explicit estimates for the prolate
+spheroidal wave functions*, **Constr. Approx. 43** (2016), no. 1, **15–45**. DOI
+[10.1007/s00365-015-9295-1](https://doi.org/10.1007/s00365-015-9295-1); published online 17
+June 2015, in print February 2016; ISSN 0176-4276 / 1432-0940. Preprint arXiv:1405.3676.
+
+Taken from the **publisher's own Crossref deposit** (`api.crossref.org/works/10.1007/s00365-015-9295-1`),
+which is the metadata Springer registered for the article — not a search-result summary.
+The Springer article page itself returns a `303` to an authentication endpoint for an
+unauthenticated fetch, so this is the best available primary bibliographic record short of
+the printed journal.
+
+---
+
+### 12.7 U5, left open
+
+U5 asks which paper *"the 2023 trace formula"* means at `start.tex:46,242,425`. Every other
+row in §7 was a question about the literature and could be answered by reading it. This one
+is a question about what the corpus's author intended, and the two candidates (§4.1) are
+both real papers that both contain something that could be meant. **Left open, marked as
+Daniel's in the row itself.** Nothing in this pass touched it and nothing should.
+
+---
+
+### 12.8 This appendix under §9's rule
+
+The three-way split, applied to the rows above.
+
+**Content claims checked against the actual text of the source**, read directly and not
+through a review, abstract or summary: **U1** (Wawrzyńczyk 1968, scanned journal PDF,
+§4 read); **U2** (Deninger, the Documenta Mathematica PostScript of the article, all cited
+pages read); **U3**'s positive half (Dunster, `PSWF_JCA.tex` arXiv source; Bonami–Karoui
+arXiv PDF, abstract and bibliography); **U8** (both Groskin arXiv LaTeX sources; Connes
+`rhready.tex`); and the whole of §12.1's converse table (`Spectraltriples.tex`,
+`mainc2m24fine.tex`, `rhready.tex`, all downloaded from `arxiv.org/e-print/` for this pass).
+
+**Bibliographic data taken from a primary record that is not the printed journal**: **U9**
+(Springer's Crossref deposit); B1's page range (Crossref); U1's pp. 305–318 and U2's pp.
+163–186 (the articles' own running heads, which is the printed journal, and so stronger).
+
+**Claims I could not check against the source, and have marked as such**: **U3's subject
+itself** — Slepian 1965 is paywalled and I did not read it. The negative rests on Dunster's
+published characterisation of the literature *including* Slepian 1965 by number, and on
+Bonami–Karoui's framing. That is a documented second-hand negative, not a reading of
+Slepian, and the U3 row says so. **If someone with Wiley access ever opens it, that is the
+one row here worth re-opening.**
+
+**This appendix's provenance is stronger than §9 records for §5**, which rested on the
+Groskin abstracts and metadata; §5's factual content is now read from both papers' LaTeX
+sources. Two §5/§6 claims verified verbatim in passing, though neither is a §7 row:
+`main.tex:284-287` of arXiv:2605.20224 for §5's account of the cutoff, and `:645-648` for
+§6's quoted *"A prolate-basis implementation of the CvS Galerkin would be a genuinely
+distinct path in the literature — potentially valuable as an independent cross-check — but
+is not yet reported by any group."*
+
+**The claim in this appendix that would do the most damage if wrong** is §12.4's negative,
+because it is the only one asserting that something is *absent* from a paper I have not
+read. It is checkable in one minute by anyone with Wiley access, which is the standard the
+rest of this note is written to.
+
+---
+
+### 12.9 What this changes, per document
+
+Not edits to `start.tex`, `s3.tex` or the paper — none were touched.
+
+**`citation-audit.md` (this note).** §7 rows U1, U2, U3, U4, U5, U8, U9 annotated in place;
+§5's parenthetical corrected in place; §8's `s3-reduction-audit.md` line corrected in place.
+Line count unchanged; this appendix appended.
+
+**`s3-reduction-audit.md`.** Its header still listed U3, U4, U6 as open when U4 and U6 had
+been closed by mg-03f0 and mg-9433 — the same drift as U4's row, in the mirror. Corrected in
+place, together with the §2 U3 and U4 blocks.
+
+**`signed-geometry-proposals.md`.** The U1 annotation (§6) and the U2 bullet (§8) are
+discharged; annotated in place.
+
+**`start.tex` / `s3.tex` — reported, not edited.** Nothing here is new work for them beyond
+what §8 already lists. The one addition: if `s3.tex:75-77`'s lower bound is ever written up,
+its uniformity citation is Bonami–Karoui / Osipov–Rokhlin–Xiao / Dunster, **not** Slepian
+1965 (§12.4).

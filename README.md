@@ -232,8 +232,8 @@ cite them by line.
 `h0-lower-bound.md` and `dunster-check.md` have ones using
 `mpmath` in arbitrary precision and no numpy; `independent-recheck.md`'s uses the Python standard
 library alone, which is the point of it;
-`signed-geometry-proposals.md` and `citation-audit.md` are
-structural and have none. The first three notes were written offline and say so;
+`signed-geometry-proposals.md` is structural and has none, and `citation-audit.md` is too
+except for one `mpmath` check (its §7 item U8). The first three notes were written offline and say so;
 `citation-audit.md` is the pass that checks them, `index-convention.md` closes one item
 it left open and `semilocal-gap.md` closes another.
 

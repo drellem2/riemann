@@ -510,8 +510,8 @@ So the repaired candidate (a) reads:
 >   could find no reference for the *distributional* version on a general LCA group, and
 >   the repaired candidate (a) above applies it to
 >   $C_{\mathbb Q}=\mathbb A^\times/\mathbb Q^\times$, which is not $\mathbb R^n$.
->   Recorded **open** (audit U1); likely fine inside Weil's own framework, but not
->   checked.
+>   ~~Recorded **open** (audit U1); likely fine inside Weil's own framework, but not checked.~~ **CLOSED 2026-08-12, mg-882b — the theorem exists at exactly that generality, so this bullet's "only the first holds" is superseded and Bochner–Schwartz holds too.** A. Wawrzyńczyk, *On tempered distributions and Bochner–Schwartz theorem on arbitrary locally compact Abelian groups*, Colloq. Math. **19** (1968) 305–318: Theorem 4.2 (p. 315) represents every positive-definite $T\in\mathbf D'(G)$ on an arbitrary LCA $G$ as $T(\varphi)=\int\hat\varphi\,dm$ with $m\ge0$ — *"the assumption of separability can be removed"* — and Theorem 4.3 (p. 316) makes $m$ tempered. The hypothesis is **weaker** than the use here (a distribution, not a tempered one), and
+>   $C_{\mathbb Q}$ is second countable anyway. `citation-audit.md` §12.2.
 >
 > Nothing downstream depends on this — the passage is diagnostic by its own statement
 > below — but it should not be written as though a single named theorem covered the step.
@@ -677,10 +677,10 @@ none should be cited in writing without a check.
 >   (**A2** → §4); the $W_S=A^*A$ factorisation (**A3** → §4); the arithmetic-topology
 >   dictionary (**A7** → §2.2); Faltings–Hriljac (**A9** → §7); Bochner–Schwartz
 >   (**A10** → §6).
-> - **Still open.** Deninger ICM 1998 at page level (audit **U2**: the programme
->   statement is confirmed, but the specific $H^0,H^2\leftrightarrow\hat f(0),\hat f(1)$
->   pairing asserted at §5(1) above was not confirmed against the text); and
->   Bochner–Schwartz on a general LCA group (**U1**).
+> - ~~**Still open.** Deninger ICM 1998 at page level (audit **U2**) … and Bochner–Schwartz on a general LCA group (**U1**).~~ **BOTH CLOSED 2026-08-12, mg-882b, and both as confirmations** (`citation-audit.md` §12.2, §12.3).
+>   **U2** is now checked against the article's own text: the $H^0,H^2\leftrightarrow$ pole-terms pairing asserted at §5(1) above is **p. 168** ($H^0=\mathbb R$ with $\Theta=0$; $H^2=\mathbb R$ with $\Theta=\mathrm{id}$) together with **p. 170** Proposition 3.2, and the three-dimensional space, two-dimensional leaves and closed-orbits$\leftrightarrow$primes claims are **p. 181**.
+>   *One caveat, ours not his:* Deninger's transform is $\Phi(s)=\int\varphi(t)e^{ts}dt$ evaluated at the **poles** $s=0,1$ of $\hat\zeta$, not a Fourier hat — the pairing is right, the notation $\hat f(0),\hat f(1)$ is imported from the explicit-formula literature.
+>   **U1** is Wawrzyńczyk 1968, as annotated in §6 above: the theorem exists at exactly that generality, and its hypothesis is weaker than the use here needs.
 >
 > So the closing instruction above is discharged for the items marked *hold*, and
 > reinforced for the rest.
