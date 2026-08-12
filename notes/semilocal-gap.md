@@ -413,7 +413,8 @@ principals' current statement of where the programme is.
   and **neither is semilocal positivity**: (i) that the smallest eigenvalue of
   $QW_\lambda$ is simple with even eigenvector; (ii) that $k_\lambda$ is a good
   enough approximation of $\theta_x$.
-- No paper introducing the second candidate had appeared as of this pass; the
+- No paper introducing the second candidate had appeared as of this pass (**re-checked
+  against primary sources 2026-08-12, still not found — §9**); the
   most recent CCM paper, *Zeta Spectral Triples* (arXiv:2511.22755, Nov 2025), is
   on a different construction and mentions neither the Weil representation nor
   semilocal positivity. A further CCM paper, *Riemann Zeros via Weil Forms: From
@@ -637,7 +638,8 @@ for the negative statement in §4.4 that it does not contain the second candidat
 The claim "no paper introducing the second candidate had appeared" is a **search
 result**, not a proof of absence: arXiv full-text search, the math.NT recent
 listing, and Connes' own 2026 bibliography, none of which show one. Weight
-accordingly.
+accordingly. **Upgraded 2026-08-12 (mg-6d7e): still a negative, but no longer a
+search result — §9 gives the sources and the method.**
 
 **Derived here, not taken from any source:** the unitary equivalence
 $V(n)\sim-V(n)$ and the norm formula (§3.2); the condition-budget observation
@@ -670,6 +672,128 @@ to twelve decimals only if the quantities are the same.
 |---|---|---|
 | S1 | Does the semilocal angle operator $P^S\widehat P^SP^S$ have *any* known spectral description, even partial? | I read CCM's semilocal-case section and the survey's *Geometric Perspectives*; neither gives one. Absence over what I read, not proof of absence |
 | S2 | Is the archimedean positivity theorem *known* to be sharp at $\mu=2$, or only numerically observed to fail past it? | §3.3 rests on Connes–Consani's figures `testeven1`/`testeven2`. I found no theorem asserting failure |
-| S3 | Has the second candidate semilocal prolate operator appeared since Feb 2026? | §7: search-result-level evidence only |
+| S3 | ~~Has the second candidate semilocal prolate operator appeared since Feb 2026?~~ **RE-CHECKED against primary sources 2026-08-12 (mg-6d7e): NOT FOUND. A clean negative — §9** | was §7: search-result-level evidence only. Now: author listings for all three principals enumerated, the survey's LaTeX read for the words themselves, version histories checked. §9 says where I looked, so the next person can tell this negative from an unexamined one |
 | S4 | Does the corpus's `start.tex:264-273` commutator localisation have a semilocal analogue — i.e. does $[\mathbf W_{\lambda,S},P^S]=0$ for either CCM candidate? | This is the natural corpus-side question raised by §3.1 and §5.4, and answering it needs the deferred Jacobi coefficients. Recorded, not pursued: it is a proof attempt, and this ticket is not |
-| S5 | `citation-audit.md` §4.2 row 14 and §4.4 need the narrowing of §5.3 applied in place | not done here; the row is annotated by reference from this note, and the audit's appendix §11 points at it |
+| S5 | ~~`citation-audit.md` §4.2 row 14 and §4.4 need the narrowing of §5.3 applied in place~~ **DONE 2026-08-12 (mg-6d7e)** | row 14 now states the narrowing itself rather than pointing here, and §4.4 carries an end note scoping it: one entry joins that section's "removed because published" paragraph, and all five numbered items — item 1 included — stand. One correction to this note's own framing is recorded in §9 |
+
+---
+
+## 9. Appendix — S5 applied, S3 re-checked (added 2026-08-12, mg-6d7e)
+
+*Appended. Nothing above is deleted; the two rows closed are annotated in place in §8,
+and §4.4 and §7 point here. Both items are branch-independent: they are worth having
+whichever of the vision document's (a)/(b)/(c) directions the project takes.*
+
+### 9.1 S5 — the row-14 narrowing, applied in place
+
+`citation-audit.md` §4.2 row 14 now **states** the narrowing instead of pointing at this
+note, and §4.4 carries an end note scoping it. What changed there:
+
+- **Row 14.** The "not used" cell now says *not used in arXiv:2106.01715*, and carries
+  the survey's sentence, the Fuchs asymptotic and the index footnote inline, so a reader
+  who never follows a link is not left with a verdict that reads as current.
+  "corpus-specific" is struck rather than deleted.
+- **§4.4.** One entry — the identification of the controlling scale — joins that
+  section's *"removed from an earlier draft, because they are published"* paragraph.
+  **No numbered item leaves the list**, so the item numbers other notes cite are stable.
+- **§11.** Two sentences corrected; see 9.2.
+
+**The distinction the annotation preserves.** Row 14 was **right about the paper it
+checked** and wrong only as a claim about the literature. Those are different statements
+and only the second is false. This corpus will keep producing findings of that shape —
+a check against a named source, phrased as though it ranged over everything — and the
+repair is to restore the scope, not to strike the finding.
+
+### 9.2 A correction to this note's own framing of that row — *ours*
+
+§5.3 above, and `citation-audit.md` §11's heading, present row 14 as a **correct finding
+that decayed because a new source appeared**. That framing is wrong, and it flatters us.
+
+arXiv:2602.04022 is dated **3 Feb 2026**. `citation-audit.md` was written **2026-08-12**
+and says so at its head. The survey therefore predates the audit by six months — and
+`citation-audit.md` §6 lists it, in its own words, as *"Connes' own current survey — the
+natural place to check positioning before writing"*. The audit named the source, said it
+was the right one to read, and did not open it.
+
+So row 14 is a **scoping defect**, not a decayed finding: a check against one paper
+written as a claim about the literature. §11's heading is corrected in place. §5.3's
+"That was correct for arXiv:2106.01715, the paper it checked" is accurate as it stands
+and is left alone; it is the *decay* reading — which appears in §11's old heading and in
+the vision document's amendment 3 §5 — that is unsupported.
+
+Recording this rather than quietly fixing the heading, because the two failure modes want
+different responses. A decayed finding needs re-checking on a schedule. A source named
+and not opened needs nothing but opening it, and the audit's own §7 discipline of
+recording what was **not** reached would have caught it.
+
+### 9.3 S3 — the second candidate has not appeared
+
+**Answer: not found as of 2026-08-12.** CCM's second candidate semilocal prolate
+operator — the one via *"the Weil representation of the metaplectic cover of the
+algebraic group $SL_2(\mathbb A_S)$"*, deferred at `mainc2m24fine.tex:270` (Oct 2023,
+rev. May 2024) — has not appeared, and is not cited as existing by anything the
+principals have published since.
+
+This is the **expected** outcome and it is a complete answer. What follows is where I
+looked, so that the next person can tell this negative apart from nobody having looked.
+
+**1. arXiv author listings, all three principals, enumerated to the present.**
+
+| author | everything since Connes' survey (arXiv:2602.04022, 3 Feb 2026) |
+|---|---|
+| Connes | arXiv:2602.15941 (17 Feb 2026, w. Consani, *On the Jacobian of $\overline{\mathrm{Spec}\,\mathbb Z}$*); arXiv:2606.06604 (4 Jun 2026, w. Consani, *On the Absolute Geometry of $\mathrm{Spec}\,\mathbb Z$*) |
+| Consani | the same two, and nothing else — checked on her own listing, not inferred from his |
+| Moscovici | **nothing since arXiv:2511.22755** (27 Nov 2025, *Zeta Spectral Triples*) |
+
+Moscovici's silence is the load-bearing row: he is a co-author on **every** paper in the
+prolate-operator line (arXiv:2112.05500, arXiv:2310.18423, arXiv:2403.01247,
+arXiv:2511.22755), and the deferred candidate is an operator-theoretic construction of
+exactly that kind. Both 2026 Connes–Consani papers are the absolute-geometry arc —
+perfectoid fields, the Fargues–Fontaine curve, the arithmetic site. Neither abstract
+contains *prolate*, *semilocal*, *Weil positivity*, *Weil representation* or
+*metaplectic*. Read at **abstract level**, with arXiv:2606.06604's reference list also
+read from its HTML rendering: Scholze, Fargues–Fontaine, Lurie and the arithmetic-site
+papers, no CCM prolate entry, nothing marked *in preparation*. I did not read either body.
+
+**2. The survey's own text, read as primary source — not its abstract.** I downloaded
+`arxiv.org/e-print/2602.04022` and read `rhready.tex` (1861 lines, dated 3 Feb 2026).
+Occurrence counts over the whole file: `metaplectic` **0**, `Metaplectic` **0**,
+`Weil representation` **0**, `SL_2` **0**. `SL(2` occurs once, at `:692`, as
+$H/PSL(2,\mathbb Z)$ in the Selberg-trace-formula discussion — unrelated. So the survey
+does not cite the second candidate as existing; **it does not mention it at all.** That
+is stronger than §4.4's original statement, which rested on the survey's *Remaining
+steps* subsection not listing semilocal positivity.
+
+**3. Version histories, so a silent revision cannot hide one.** arXiv:2602.04022 is
+**v1 only** (3 Feb 2026) — it has not been revised, so it cannot have acquired a citation
+since. arXiv:2511.22755 is likewise **v1 only** (27 Nov 2025).
+
+**4. The survey's bibliography, entry by entry, for forthcoming CCM work.** Exactly one
+CCM item is marked *in preparation*: `\bibitem{c2m2b}` at `rhready.tex:1478-1480`,
+*Riemann Zeros via Weil Forms: From Prolate Functions to Cohomology*. **It is not the
+second candidate.** It is cited once, at `:1145`, for the existence of the operator
+$A_\lambda$ with $QW_\lambda(f,f)=\langle A_\lambda f\mid f\rangle$ — the infrared
+object, archimedean-side. An arXiv title search finds no paper of that title as of
+2026-08-12 either, so *it* has not appeared. The other two CCM entries are
+arXiv:2310.18423 (`c2m`, published Ann. Funct. Anal. **15** (2024) no. 4, Paper 87) and
+arXiv:2511.22755 (`c2mzeta`, to appear, CIRM proceedings).
+
+**5. Metadata search.** arXiv `abs:prolate AND abs:semilocal` returns arXiv:2310.18423
+and nothing else. `all:prolate AND cat:math.NT`, newest first, has nothing by any of the
+three after arXiv:2310.18423.
+
+**What this negative does not cover, stated so it is not over-read.** arXiv and the
+principals' arXiv-posted bibliographies only. A journal-only publication, a seminar
+announcement, or a preprint on a personal page would not show up — I could not reach
+`math.jhu.edu/~kc/Publ2026.pdf` or `alainconnes.org/publications` (both HTTP 403), which
+are the two places such a thing would surface first and are the obvious next check for
+anyone who wants to tighten this. And absence of a *citation* is not absence of a
+*result*: CCM could hold it unpublished.
+
+**Consequence for the direction question: none.** The vision document's amendment 3 §6
+puts (a)/(b)/(c) with Daniel. Had the second candidate appeared it would have changed
+that question and this note would lead with it. It has not. Two years and nine months
+after arXiv:2310.18423 deferred it, and six months after a survey by the senior author
+that does not mention it, **both halves of CCM's "more precise strategy" remain
+deferred** and §4's conclusion stands unchanged: the semilocal case is still
+**announced**.

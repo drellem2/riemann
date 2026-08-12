@@ -52,7 +52,10 @@ cite them by line.
   (Slepian–Pollak) that has no semilocal counterpart. Finds that the prime terms are
   *exactly* indefinite, that place-by-place positivity is false, and that the corpus's
   central unresolved estimate is the bridge quantity across that gap — and is also,
-  in Connes' own 2026 survey, a published observation.
+  in Connes' own 2026 survey, a published observation. Its appendix §9 records the
+  second candidate semilocal prolate operator, deferred by Connes–Consani–Moscovici
+  in 2023, as **not having appeared as of 2026-08-12**, and describes the search that
+  looked, so the negative can be told apart from nobody having checked.
 
 `s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have a companion
 `verify_*.py` (numpy); `index-convention.md` has one using `mpmath` in arbitrary

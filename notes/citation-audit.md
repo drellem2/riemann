@@ -267,7 +267,7 @@ All right-hand entries are from Connes–Consani, arXiv:2106.01715 §3 unless ma
 | 11 | *why* it is nearly null — the corpus gives no reason beyond the two endpoint cancellations | "the radical of $QW$ **contains the range of the map $\mathcal E$**"; hence $\mathcal E$ of anything lands in the "near radical", $QW_\lambda(g)\ll\|g\|^2$ | **published mechanism, and the corpus does not state it.** §4.5 |
 | 12 | $W_\lambda$, "the truncated Weil operator/form", `start.tex:42,208` | $W_\lambda$ = the **prolate operator**, eq. (3.3): $(W_\lambda\psi)(q)=-\partial((\lambda^2-q^2)\partial)\psi+(2\pi\lambda q)^2\psi$. Same symbol in Connes–Consani–Moscovici arXiv:2310.18423 eq. (2),(4),(5) | **notation collision.** §4.3 |
 | 13 | $Q$, "removes the expected low-dimensional exceptional sector", `start.tex:43,210,125` | no such operator. $QW_\lambda$ is one symbol: the **Weil quadratic form** on test functions supported in $[\lambda^{-1},\lambda]$ | **misparse.** §4.3 |
-| 14 | $1-\chi_4$ as the controlling scale, `start.tex:34,39,186` | not used. Connes–Consani report the smallest eigenvalue $s(L)$ decaying **exponentially in $\mu=e^L$** (Figures 18–21, §2.5) with no identification of the rate | **corpus-specific.** §4.4 **NARROWED 2026-08-12, mg-03f0 — the rate *is* identified in the literature, in Connes' 2026 survey arXiv:2602.04022 (`rhready.tex:1149-1150`), as $1-\chi_2$ = the corpus's $1-\chi_4$. "corpus-specific" holds for the 2023 paper this row checked and not beyond it. See [`semilocal-gap.md`](semilocal-gap.md) §5.2–5.3.** |
+| 14 | $1-\chi_4$ as the controlling scale, `start.tex:34,39,186` | not used *in arXiv:2106.01715*: Connes–Consani report the smallest eigenvalue $s(L)$ decaying **exponentially in $\mu=e^L$** (Figures 18–21, §2.5) with no identification of the rate. **But the rate is identified elsewhere in the literature.** Connes, arXiv:2602.04022 (`rhready.tex:1149`), reports *"a striking similarity … between the behavior of $\epsilon(\lambda)$ and of the angular function $1-\chi_2(\lambda)$"*, gives the Fuchs asymptotic $1-\chi_2\sim\frac{2^{14}}3\sqrt2\,\pi^5e^{-4\pi e^L+9L/2}$, and by its own footnote $\chi_k(\lambda)^2=\lambda_{2k}$ its $\chi_2$ is prolate index 4 — the corpus's $\chi_4$ ([`index-convention.md`](index-convention.md)) | ~~**corpus-specific.**~~ **NARROWED 2026-08-12 (mg-03f0), applied in place (mg-6d7e): read the verdict as "not in arXiv:2106.01715", which is all this row checked.** The row is **right about its paper and wrong only as a claim about the literature** — the two are not the same statement, and "corpus-specific" reads as the second. Note what this is *not*: the survey is Feb 2026 and predates this pass, and §6 of this note names it as the place to check. A scoping defect, not a decayed finding. §4.4 (end note) and §11; full account [`semilocal-gap.md`](semilocal-gap.md) §5.2–5.3 |
 | 15 | Sonin space | negative eigenspace of the prolate operator (A5, A6). Absent from `start.tex` and `s3.tex` entirely | **published object the corpus does not use** |
 
 **Verdict.** `signed-geometry-proposals.md:301-302` — "The corpus is already inside C2's
@@ -331,7 +331,7 @@ and remains Daniel's.
 ### 4.4 What in the corpus is NOT accounted for by the published work
 
 This is the only place a new contribution can live, so it is stated conservatively —
-anything I found in the literature has been removed from the list.
+anything I found in the literature has been removed from the list. **Narrowed 2026-08-12; the note after the list scopes it. All five items below stand.**
 
 1. **The mirrored endpoint constraint, and its quantification.** Connes–Consani build
    $\varphi_{2n}$ to satisfy $\varphi(0)=0$ *exactly*, and rely on the prolate
@@ -369,6 +369,30 @@ anything I found in the literature has been removed from the list.
 (§3, note on B1); the codimension-two test space; the identification of the near-null
 direction with $\mathcal E$ of a prolate combination; the exponential decay of the smallest
 eigenvalue.
+
+> **NARROWING APPLIED IN PLACE, 2026-08-12 (mg-03f0, applied mg-6d7e). Scope: one entry
+> joins the "removed because published" paragraph. Nothing leaves the numbered list.**
+>
+> The entry is **the identification of the controlling scale** — §4.2 row 14. Connes,
+> arXiv:2602.04022 (`rhready.tex:1149`), names the rate as $1-\chi_2$ = the corpus's
+> $1-\chi_4$ and gives its asymptotic; the same paragraph (`:1159`) defines
+> $k_\lambda:=\mathcal E(h_\lambda)$ with $h_\lambda$ *"the only linear combination of
+> $h_{0,\lambda},h_{4,\lambda}$ with vanishing integral"*, which is `start.tex:138-153`
+> and `:171` in the same letters. That is the whole of the change.
+>
+> **Item 1 stands, and the reason is worth stating because it is easy to get backwards.**
+> Item 1's claim is the *sizing* of the endpoint residual: imposing $\hat h_\lambda(0)=0$
+> exactly leaves $h_\lambda(0)$, and `start.tex:177-186` sizes it as $O(1-\chi_4)$. The
+> survey states the construction and not the sizing, so the residual is unbounded in the
+> literature — and now for the principals' own $k_\lambda$, since `:1159` shows they make
+> the same endpoint choice the corpus does. Item 1's second half is therefore *sharper*
+> after the narrowing, not weaker. What the narrowing does cost item 1 is the implicit
+> suggestion in its first half that the endpoint *swap* is the corpus's own move: it is
+> not, it is the survey's too. The residue is the quantification, exactly as item 1 says.
+> §7 item U7 — whether anyone sizes the residual — remains **open**, and item 1 rests on
+> it.
+>
+> Items 2–5 are untouched, and this narrowing bears on none of them.
 
 ### 4.5 The one thing the corpus is missing that the published work has
 
@@ -647,7 +671,7 @@ this note left open can be closed here. It is not the published journal text.
 
 ---
 
-## 11. Appendix — two rows revisited from a source published after this pass (added 2026-08-12, mg-03f0)
+## 11. Appendix — two rows revisited from a source this pass named but did not open (added 2026-08-12, mg-03f0; heading corrected mg-6d7e — the survey predates this pass, see §6)
 
 *Appended. Nothing above is deleted; the two rows affected are annotated in place,
 line-count-preserving, and both point here. Full account:
@@ -676,7 +700,9 @@ only linear combination of $h_{0,\lambda},h_{4,\lambda}$ with vanishing integral
 (`:1159`) — which is `start.tex:138-153` and `:171`, same letters, same
 construction. So the corpus is not only inside Connes–Consani 2023; its
 distinguished vector and its controlling scale are both objects of the *current*
-programme. §4.4's residue list is unaffected in its other four items.
+programme. **§4.4's residue list is unaffected — all five items, item 1 included; the
+narrowing adds an entry to that section's "removed because published" paragraph and
+takes nothing out of the list. Applied in place mg-6d7e; see the note at the end of §4.4.**
 
 ### §7 item U4 — closed
 
