@@ -102,7 +102,16 @@ nothing in it has been sent anywhere.  It assembles the working notes produced
 in this project's repository on 12 August 2026 (listed in \S\ref{sec:provenance});
 each section names the note it comes from, so every claim below can be traced to a source or to a script
 without asking the authors anything.  Where a claim is not ours, it is marked so
-at the point of use.
+at the point of use.  The five load-bearing numbers of
+\S\ref{sec:deficit}--\S\ref{sec:scale} --- the archimedean bound and its
+saturation, the deficit against the repair, the reversed signs on the
+near-radical, the fitted rate, and the index-4 ratio table --- have since been
+recomputed by a second implementation of ours, written from the definitions
+without reading the first and sharing with it no arithmetic library, no
+transcendental function and no eigensolver; all five reproduce to every printed
+digit.  What that does and --- as sharply --- does
+\emph{not} establish is set out in \S\ref{sec:recheck}: both implementations
+read the same paper, so a shared misreading of it is invisible to the exercise.
 
 \tableofcontents
 
@@ -233,6 +242,16 @@ rate is therefore unreachable
 & proved & \emph{ours} as an observation, from Weil and \cite{Connes2026} \\
 Three constraints on method (\S\ref{sec:sharpening})
 & proved / observed, per constraint & \emph{ours} \\
+The five load-bearing numbers of \S\ref{sec:deficit}--\S\ref{sec:scale}
+reproduce under a second implementation sharing no arithmetic library, no
+transcendental function and no eigensolver --- but the same reading of
+\cite{CC2023}
+& verified; not the shared reading
+& \emph{ours} (\S\ref{sec:recheck}) \\
+The printed closed form (\texttt{h02ev}) at \file{Spectraltriples.tex:474} is a
+factor $2$ from the table at \file{:444} it is derived from; no result here
+depends on it
+& observed & \emph{ours} (\S\ref{sec:erratum}), on \cite{CC2023} \\
 \hline
 \end{tabular}
 \end{center}
@@ -318,6 +337,14 @@ sign change at $\mu=2.2710$ is a verification (entries $O(1)$, spectrum down to
 $1.3\times10^{-3}$); the match with $2.389\times10^{-48}$ at $\mu=11$ is a
 reproduction whose \emph{exponent} is settled and whose mantissa is not
 converged (\S\ref{sec:theirnumber}).
+
+\paragraph{Corroboration, and what it cannot reach.}  A number recomputed by the
+same code is not checked at all, and a number recomputed by a second
+implementation is checked only against the causes of error the two do not share.
+So a corroboration is worth exactly the list of what is \emph{not} shared, and it
+is worthless against anything that is.  \S\ref{sec:recheck} gives both lists for
+our own recheck of \S\ref{sec:deficit}--\S\ref{sec:scale}, in that order and at
+the same length.
 
 \paragraph{Second-hand numbers.}  A number that reaches us through a summary
 rather than through the source is either re-opened at the source or marked.  One
@@ -770,6 +797,7 @@ $\sim10^{-48}$ at $\mu=11$ against matrix entries of order $1$, so double
 precision cannot represent the answer, let alone resolve it.
 
 \subsection{The bound}
+\label{sec:bound}
 
 \begin{theorem}[\ours, \proved{} given \cite{CC2023} Prop.\ \texttt{Hilbert}]
 \label{thm:deficit}
@@ -802,9 +830,32 @@ by a factor of $2$, so it is \emph{checked and not assumed}: both sides of
 \eqref{eq:hilbert} were evaluated on $f=\xi_1$, where $\widehat f$ is
 closed-form, agreeing to $2\times10^{-8}$ at $\mu=2$ and $1\times10^{-8}$ at
 $\mu=20$ (the residual is the $\log t/t^2$ tail, added from its asymptotic
-form), with Plancherel confirmed at $0.999999998$.  There is no extra factor.
-Their own proof of that proposition says $\vartheta'$ is ``lower bounded'' and
-never extracts the constant.
+form), with Plancherel confirmed at $0.999999998$.
+
+That check is limited by its own test function: $\widehat{\xi_1}$ decays like
+$t^{-1}$, so $|\widehat f|^2\vartheta'$ decays like $\log t/t^2$ and the tail has
+to be supplied rather than measured.  The recheck of \S\ref{sec:recheck} removes
+the difficulty by changing the test function to
+$f=(1+\cos(a_1x))^2=\tfrac32+2\cos(a_1x)+\tfrac12\cos(a_2x)$, which vanishes to
+second order at $\pm L/2$; its transform has both the $t^{-1}$ and the $t^{-3}$
+coefficients cancelling identically, leaving
+$\widehat f\sim12a_1^4\sin(tL/2)/t^5$, so the tail past a cutoff $T$ is
+$O(\log T/T^9)$ and can simply be dropped.  At $\mu=8$, cutting off at $T=200$,
+\[
+  \Big(\int|\widehat f(t)|^2\tfrac{2\vartheta'(t)}{2\pi}\,dt\Big)
+  \Big/\big(-W_\R(f,f)\big)\;=\;1.000000000000000007 ,
+\]
+and the residual is the tail rather than a constant: the same cutoff applied to
+Plancherel --- which is exact in this normalisation --- leaves a residual of the
+same size, raising the working precision from $40$ to $70$ digits moves neither,
+and raising $T$ from $60$ to $200$ improves the ratio by a factor
+$3.1\times10^4$ against the
+$(200/60)^9=2.6\times10^4$ that $O(T^{-9})$ predicts.  \emph{There is no extra
+factor of $2$, to $18$ digits.} \observed{} \ours{} (\S\ref{sec:recheck})
+
+What remains taken on trust is the proposition itself, not its normalisation.
+Their own proof of it says $\vartheta'$ is ``lower bounded'' and never extracts
+the constant.
 
 \subsection{It saturates}
 
@@ -852,7 +903,7 @@ and $s>0$ under RH, positivity forces $R>D$; the question is by how much.
 \hline
 $\mu$ & $D(\mu)$ & $R(\mu)$ & $R-D$ & $R/D$ \\
 \hline
-$3$ & $0.07393778$ & $0.12404900$ & $0.05011122$ & $1.6777$ \\
+$3$ & $0.07393778$ & $0.12404899$ & $0.05011122$ & $1.6777$ \\
 $4$ & $0.23972403$ & $0.26633090$ & $0.02660687$ & $1.1110$ \\
 $5$ & $0.37262595$ & $0.41590755$ & $0.04328161$ & $1.1162$ \\
 $6$ & $0.47506903$ & $0.48993904$ & $0.01487000$ & $1.0313$ \\
@@ -889,7 +940,7 @@ $\log_{10}s$ & digits \\
 $5$ & $+0.03958194$ & $-0.03958194$ & $1.005\times10^{-17}$ & $-16.998$ & $15.60$ \\
 $6$ & $+0.04538231$ & $-0.04538231$ & $8.211\times10^{-23}$ & $-22.086$ & $20.74$ \\
 $7$ & $+0.04959492$ & $-0.04959492$ & $7.731\times10^{-28}$ & $-27.112$ & $25.81$ \\
-$8$ & $+0.05273312$ & $-0.05273312$ & $4.581\times10^{-33}$ & $-32.339$ & $31.02$ \\
+$8$ & $+0.05273312$ & $-0.05273312$ & $4.581\times10^{-33}$ & $-32.339$ & $31.06$ \\
 $9$ & $+0.05520046$ & $-0.05520046$ & $3.135\times10^{-38}$ & $-37.504$ & $36.25$ \\
 $10$ & $+0.05719477$ & $-0.05719477$ & $1.784\times10^{-43}$ & $-42.749$ & $41.51$ \\
 $11$ & $+0.05882638$ & $-0.05882638$ & $1.226\times10^{-48}$ & $-47.912$ & $46.68$ \\
@@ -1086,6 +1137,7 @@ $s(\mu)$ at integer $\mu$ samples a function with arithmetic structure at exactl
 the scale of the sample spacing.
 
 \subsection{The truncation bias, measured rather than asserted}
+\label{sec:truncbias}
 
 Truncation is variational and cuts one way, so every $s$ above is an
 \emph{upper} bound, looser at larger $\mu$ --- which is the direction that
@@ -1407,13 +1459,23 @@ where $\lambda_{\max}=5.4855$
 \S\ref{sec:sharpening} constraints 2 and 3
 & rest on \S\ref{sec:loadbearing} and Thm.~\ref{thm:deficit}, both sign-bearing
 & \textbf{false for $-W$} \\
+\S\ref{sec:recheck}: the numbers reproduce under a second implementation;
+\S\ref{sec:erratum}: (\texttt{h02ev}) is a factor $2$ from the table at
+\file{:444}
+& statements about two computations agreeing and about two printed expressions;
+a corroboration carries no direction of its own and inherits the verdict of
+whatever row it corroborates
+& \textbf{sign-blind} \\
 \hline
 \end{tabular}
 \end{center}
 
-Read the table.  \emph{Every sign-blind row is part of the prolate/magnitude
-machinery} --- the objects, the notation, the index, the indefiniteness of the
-prime terms, the commuting pair at a finite place, the identity, the rate.
+Read the table.  \emph{Every sign-blind row that says anything about the form is
+part of the prolate/magnitude machinery} --- the objects, the notation, the
+index, the indefiniteness of the prime terms, the commuting pair at a finite
+place, the identity, the rate.  (The last row says nothing about the form: it
+records that two computations agree and that two printed expressions do not,
+which no involution of $\QW_\lambda$ can touch.)
 \emph{Every sign-bearing row is an inequality about $\lambda_{\min}$ of the
 actual form}, or the one proved square at the archimedean place.  There is no row
 in which the prolate mechanism produces a direction, and this is not for want of
@@ -1517,7 +1579,8 @@ five-digit sanity check.
 \subsection{Scripts}
 
 Every numerical claim above has a companion script in the project's
-\file{notes/} directory; all are self-contained and take no arguments.
+\file{notes/} directory; all are self-contained, and the longer ones accept
+\texttt{-{}-quick}.
 
 \begin{center}\small
 \begin{tabular}{@{}llp{0.42\textwidth}@{}}
@@ -1540,6 +1603,12 @@ confrontation, the truncation extrapolation ($\approx40$ min;
 \texttt{-{}-quick} $\approx5$) \\
 \file{verify_index_convention.py} & mpmath &
 \S\ref{sec:convention}: that the candidate discriminator carries one bit \\
+\file{verify_independent_recheck.py} & nothing &
+\S\ref{sec:recheck}: the five load-bearing numbers recomputed from the
+definitions on the Python standard library alone; the (\texttt{thetaprime})
+normalisation test of \S\ref{sec:bound}; the erratum of \S\ref{sec:erratum}
+(\texttt{-{}-quick} drops to $N=60$ and loosens the bounds, which is the
+variational point of \S\ref{sec:confront} showing up as a caveat) \\
 \hline
 \end{tabular}
 \end{center}
@@ -1568,7 +1637,175 @@ One transcription error was found this way and is corrected here: the predicted
 intercept $\log_{10}(2^{14}\sqrt2\pi^5/3)$ is $6.373563\ldots$, and one table in
 \file{prolate-rate.md} gave $6.37347$.  The script had it right; the table did
 not.  The $0.49\sigma$ and everything downstream are unchanged.  The note is
-annotated in place.
+annotated in place.  The recheck of \S\ref{sec:recheck} recomputed that constant
+from scratch and agrees with the correction rather than with the slip, which is
+the only useful test a second pair of eyes can apply to a correction.
+
+\subsection{The numerics, rechecked by a second implementation}
+\label{sec:recheck}
+
+Everything in \S\ref{sec:deficit} and \S\ref{sec:scale} was produced by one
+implementation --- \file{verify_deficit_repair.py} and
+\file{verify_prolate_rate.py}, written in one sitting by one author --- and
+running the same code again is not a check of it.  Five of those numbers, the
+load-bearing ones, have since been recomputed from the definitions in
+\cite{CC2023} by a second implementation of ours,
+\file{verify_independent_recheck.py}, written without opening either of the first
+two: they were read only afterwards, once every number had been computed and
+written down, which is the order the exercise depends on --- a reimplementation
+written after reading the original inherits its slips silently and then agrees
+with it.  \file{independent-recheck.md} reports the whole of it.  This subsection
+gives the outcome, then what is independent in it, then what is not, the last of
+these at the same length as the first because it is the part a reader cannot
+reconstruct from the agreement.  Nothing here was re-run on this editing pass.
+
+\paragraph{Outcome.}  All five load-bearing numbers reproduce, to every digit
+printed here: the bound $|2\vartheta'(0)|=5.3721834\ldots$ by two routes and all
+ten rows of the saturation table (\S\ref{sec:deficit}); all nine rows of $D$,
+$R$, $R-D$, $R/D$, including the shape of the oscillation; all eight rows of the
+reversed-sign split, signs and magnitudes (\S\ref{sec:thirddirection}); the
+prime-omission table (\S\ref{sec:loadbearing}); the three fitted parameters,
+their standard errors and all four $\sigma$ comparisons (\S\ref{sec:boundary});
+and the prolate defects with both ratio columns (\S\ref{sec:confront}), giving
+$s/(1-\chi_2)\in[7.6074,12.9609]$ and growth by a factor $56.16$ against
+$1-\Lambda_0$, at $N=100$.  The $N$-convergence of \S\ref{sec:theirnumber}
+reproduces to seven digits at all four truncations.  Two external anchors hold:
+$\lambda_{\min}(\sigma^{\mathrm{arch}})=0.0013310$ at $\mu=2$ against
+Connes--Consani's $\sim0.00133$ (\file{:551}), and Slepian's $\Lambda_0(1)$.
+
+\paragraph{What is independent, stated precisely.}  The precise version is
+checkable and ``independently verified'' is not.  The second implementation
+shares with the first
+\begin{itemize}\itemsep1pt
+\item \textbf{no arithmetic library} --- Python's \texttt{decimal} (libmpdec,
+decimal radix) against mpmath (binary radix over Python ints), so a rounding or
+radix bug in one is not a bug in the other;
+\item \textbf{no transcendental function} --- $\pi$, $\log$, $\exp$,
+$\sin/\cos$, $\gamma$, $\psi$ and $\Re\psi$ of a complex argument are
+implemented there from their series, where the original calls mpmath for every
+one of them;
+\item \textbf{no eigensolver} --- Householder tridiagonalisation and
+Sturm-sequence bisection, which returns a \emph{bracket} whose endpoints are
+separately checkable by an inertia count, against the original's iteration;
+\item and, for the archimedean boundary term, \textbf{no method} --- it is
+derived there in closed form as the rank-one matrix $W_{0,2}(n,m)=2v_nv_m$ with
+$v_n=\int_{-L/2}^{L/2}\xi_n(x)e^{x/2}dx$, where the original computes that block
+by quadrature.  That closed form is also what makes step (ii) of the proof of
+Theorem~\ref{thm:deficit} --- the boundary term is a square --- visible in the
+basis rather than asserted.
+\end{itemize}
+Two checks there have no counterpart in the original: the prolate normalisation
+against the trace sum rule $\sum_n\Lambda_n(c)=2c/\pi$, to $58$ digits at $c=5$,
+which pins the one factor a derivation of $\Lambda_n$ from the finite Fourier
+transform could get wrong; and the convolution table at \file{:444} re-derived
+twice, once symbolically and once by brute-force numerical convolution of the
+basis functions themselves.
+
+\paragraph{What is \emph{not} independent, and is therefore corroborated by none
+of the above.}
+\begin{itemize}\itemsep1pt
+\item \textbf{The definitions.}  Both implementations read the same paper.
+\emph{A shared misreading of \cite{CC2023} is invisible to this exercise}, and
+under one every agreement above is worthless.  That is irreducible rather than a
+defect of effort, and it is why the objects are tabulated by source line, here
+and in the note, so that the reading itself can be disagreed with.  The only fix
+is a third party who reads \cite{CC2023} without reading us; this is not a
+substitute for one.
+\item \textbf{Proposition \texttt{Hilbert} (\file{:289}) and eq.\
+(\texttt{thetaprime}) (\file{:261}).}  Used as theorems by both implementations
+and re-proved by neither.  The \emph{normalisation} of the second is now tested
+numerically and holds to $18$ digits (\S\ref{sec:bound}); the proposition and
+its proof are still taken from the paper by everyone here.
+\item \textbf{The quadrature scheme.}  Composite Gauss--Legendre with
+Newton-refined Legendre roots was chosen independently for the recheck and turned
+out to be the same scheme the original uses.  That is a real limit on what the
+agreement of the two matrices establishes, and \emph{arriving at the same scheme
+independently is not the same thing as being independent of the scheme}.  What
+does differ is the panel count, the node count and the grouping of the singular
+integrand; varying panels and nodes moves $D(8)$ in none of $36$ decimals.
+\item \textbf{The route to the prolate eigenvalues.}  The Legendre (Bouwkamp)
+expansion and the identity $\Lambda_n=c\,d_0^2/(\pi\psi_n(0)^2)$ are the same in
+both --- derived rather than copied, but the natural ones.  This is the weakest
+independence claim of the exercise; the sum rule pins the normalisation and does
+not pin the expansion.
+\item \textbf{Fuchs' asymptotic} is quoted by both and derived by neither, as
+\S\ref{sec:standards} already records.
+\item \textbf{Not attempted at all}: the odd sector (\textbf{G7}); any re-proof
+of Proposition \texttt{Hilbert}; and the mantissa of Connes--Consani's
+$2.389\times10^{-48}$, which \S\ref{sec:theirnumber} leaves unverified and which
+the recheck leaves unverified in exactly the same way.
+\item \textbf{Not covered, of this paper's other numbers}: the geometric
+extrapolation in $N$ of \S\ref{sec:truncbias} and the extrapolated ratios
+$7.1$--$9.9$ that \S\ref{sec:whose} reports; the Fuchs-against-exact accuracy
+ratios of \S\ref{sec:fuchs}; the one-bit discriminator of
+\S\ref{sec:convention}; and everything in \S\ref{sec:onesign} and
+\S\ref{sec:noplacewise}, which belong to a different note and a different
+script.  Those stand where \S\ref{sec:provenance} leaves them --- computed once,
+by the note that owns them.
+\end{itemize}
+
+\noindent And one thing the agreement is not, in this paper's own vocabulary
+(\S\ref{sec:standards}): every $s(\mu)$ in both implementations is an
+$N$-truncated \emph{upper} bound, so their agreement is agreement about a bound
+and not about $s$.  It is a reproduction and not a verification --- the status
+\S\ref{sec:confront} and Corollary~\ref{cor:upper} already give it, unchanged by
+having been reproduced.
+
+\paragraph{Three corrections, all cosmetic, and carried above.}
+\S\ref{sec:deficit}'s $R(3)$ is $0.12404899$ and not $0.12404900$: the converged
+value is $0.124048994835$, and $R-D$ and $R/D$ in that row were already right.
+\S\ref{sec:thirddirection}'s ``digits'' entry at $\mu=8$ is $31.06$ and not
+$31.02$: the row's own two entries give $\log_{10}(0.05273312)+32.33898=31.0611$,
+and every other row of that column was right.  Both are corrected in the tables
+above rather than left to the note.  The third is a definition and not a digit:
+the residual rms of the three-parameter fit, quoted in \file{deficit-repair.md}
+as $0.042$, is the $(n-p)$-normalised one, $0.04150$, the $/n$ one being
+$0.03281$; this paper quotes only the fitted parameters and their standard
+errors (\S\ref{sec:boundary}), which reproduce as
+$A=5.463526\pm0.051591$, $B=5.322229\pm0.956951$, $D=6.588946\pm0.441716$ with
+$A$ at $0.117\sigma$ from $4\pi/\log10$.  No claim in either note or in this
+paper moves on any of the three.
+
+\subsection{An erratum in \texorpdfstring{\cite{CC2023}}{CC2023}, and what does
+not depend on it}
+\label{sec:erratum}
+
+This is here as a courtesy to a reader checking our arithmetic against
+Connes--Consani's, and for nothing else.
+
+Their Lemma \texttt{w02} gives closed forms for
+$\widehat F(i/2)+\widehat F(-i/2)$ with $F(x)=\theta(\log x)$ and
+$\theta=\xi_m\star\xi_n^*$.  The even-sector form as printed
+(\file{Spectraltriples.tex:474}, eq.\ \texttt{h02ev}) is
+\[
+  \frac{8\,e^{-L/2}(e^{L/2}-1)^2L^3}{(L^2+16\pi^2m^2)(L^2+16\pi^2n^2)} .
+\]
+Carrying out the substitution the surrounding proof describes --- integrating
+$(\theta(t)+\theta(-t))(e^{t/2}+e^{-t/2})$ over $[0,L]$ against the convolution
+table at \file{:444}, from which the formula is derived four lines later ---
+gives the same expression with $16$ in place of $8$.  Evaluated at $L=\log5$ for
+$(n,m)=(1,2),(3,3),(4,7)$ the ratio of the two is $2.000000000000000$; the
+odd-sector form at \file{:478} agrees with the same table at ratio
+$1.000000000000000$.  Three routes give the $16$: term-by-term integration of the
+\file{:444} even entry against $2\cosh(y/2)$; the rank-one form
+$W_{0,2}(n,m)=2v_nv_m$ of \S\ref{sec:recheck}, which is the boundary term
+$2\Re(\widehat f(\tfrac i2)\overline{\widehat f(-\tfrac i2)})$ of
+\eqref{eq:hilbert} written in the basis, so that the factor is fixed by
+Proposition \texttt{Hilbert} itself; and the $(0,0)$ entry, where
+$\int_0^L(L-y)2\cosh(y/2)\,dy=4K$ exactly by parts with
+$K=e^{L/2}-2+e^{-L/2}$. \observed{} \ours{} (elementary; the three routes are
+written out in \file{independent-recheck.md})
+
+\paragraph{The dependency, said out loud.}  \emph{Nothing in this paper depends
+on the erratum being right.}  Neither of our implementations uses
+(\texttt{h02ev}): both build $W_{0,2}$ from the table at \file{:444}, one by
+quadrature and one from the closed form above, and the two agree.  What this
+paper does depend on is our reading of that table --- if the table were being
+read wrongly, the block $W_{0,2}$ and with it the whole of
+\S\ref{sec:deficit} would move --- and that dependency is the shared-reading
+exposure of \S\ref{sec:recheck}, not this one.  A reader who checks our
+$\sigma^{\mathrm{arch}}$ against \file{:474} as printed will find it a factor
+of~$2$ away, and that is the only reason this subsection exists.
 
 \subsection{The notes this paper assembles}
 
@@ -1578,13 +1815,16 @@ index is 4, and the numerical route cannot settle it);
 \file{semilocal-gap.md} (\S\ref{sec:onesign} and \S\ref{sec:noplacewise},
 including the Burnol appendix and the archimedean-failure appendix);
 \file{deficit-repair.md} (\S\ref{sec:deficit} and \S\ref{sec:sharpening});
-\file{prolate-rate.md} (\S\ref{sec:scale} and \S\ref{sec:boundary}).  Two earlier
+\file{prolate-rate.md} (\S\ref{sec:scale} and \S\ref{sec:boundary});
+\file{independent-recheck.md}, which depends on the last two and on nothing else
+of ours (\S\ref{sec:recheck} and \S\ref{sec:erratum}).  Two earlier
 notes --- \file{s3-reduction-audit.md} and \file{s3-sign-blindness.md} --- are
 where the house rule of \S\ref{sec:houserule} was first stated and first used to
 kill a chain of the project's own proposals; \file{signed-geometry-proposals.md}
 is where it was sharpened to ``an involution and a square''.
 
 \subsection{Corrections, recorded rather than absorbed}
+\label{sec:corrections}
 
 Four corrections of ours are folded into the text above.  They are listed here
 because a reader weighing the tables should know which way the errors ran, and
@@ -1611,6 +1851,9 @@ the index.  It is not: $e^{-2c}$ has no index dependence, so every candidate
 passes.  \S\ref{sec:fuchs}.
 \end{enumerate}
 
+\noindent Three further corrections, all cosmetic and none of them of this kind,
+came out of the recheck and are recorded with it in \S\ref{sec:recheck}.
+
 \paragraph{The claim in this paper that would do the most damage if wrong} is the
 ratio table of \S\ref{sec:confront}, because \S\ref{sec:index},
 \S\ref{sec:identity} and \S\ref{sec:boundary} are all readings of it.  It has two
@@ -1619,11 +1862,20 @@ precision-stability checks), and the possibility that the near-flatness of
 $s/(1-\chi_2)$ over $\mu=5..12$ is an accident of a short range --- eight integer
 points spanning a factor $2.4$ in $\mu$, on a quantity that varies by $37$ orders
 of magnitude across them.  The second is not guarded and cannot be at this cost.
-The next most exposed is Theorem~\ref{thm:deficit}, whose only soft joint is the
+It is, however, guarded against implementation error in the way described in
+\S\ref{sec:recheck}, and against a shared misreading of \cite{CC2023} not at all.
+
+The next most exposed was Theorem~\ref{thm:deficit}, whose only soft joint is the
 normalisation of Connes--Consani's Proposition \texttt{Hilbert} --- a factor of
-$2$ there doubles the constant, which is why that normalisation is checked
-against the matrix actually built rather than against the formula as printed, and
-why the proposition itself is taken on trust and marked as such.
+$2$ there doubles the constant.  \emph{That exposure is now closed}, and it is
+recorded rather than deleted because a caveat that was real and was then
+discharged is part of the evidence.  It was closed by test and not by argument:
+eq.\ (\texttt{thetaprime}) is confirmed to $18$ digits on a test function whose
+transform decays like $t^{-5}$, so that no asymptotic tail has to be supplied and
+the residual is measurably the cutoff rather than a constant
+(\S\ref{sec:bound}).  There is no extra factor of $2$.  What is still taken on
+trust, and marked as such, is Proposition \texttt{Hilbert} itself: its
+normalisation has been tested, its proof has not been re-proved by anyone here.
 
 % ==========================================================================
 \begin{thebibliography}{99}

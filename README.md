@@ -13,14 +13,17 @@ sharpening of the positivity obstruction that stands on its own.
 `paper/positivity-obstruction.tex` is a **draft** assembling the notes below into
 one standalone document: *The prolate mechanism is sign-blind — a sharpening of
 the positivity obstruction*. It is not a submission and nothing has been sent
-anywhere. Build with `pdflatex positivity-obstruction.tex` (three passes; 23
+anywhere. Build with `pdflatex positivity-obstruction.tex` (three passes; 27
 pages). Its thesis is that the whole prolate mechanism is invariant under
 \(QW_\lambda \mapsto -QW_\lambda\), so it explains why the smallest eigenvalue is
 minuscule and says nothing about why it is positive — which is what forces the
 missing lower bound to carry the arithmetic content, and that content is RH. It
 carries a status word (proved / announced / observed / conjectural) and an
 attribution on every load-bearing claim, a table of routes closed with their
-thresholds, and the house rule applied to itself.
+thresholds, and the house rule applied to itself. It also carries the
+independent recheck below: what the second implementation corroborates, what it
+cannot — both implementations read the same paper — and the erratum in the
+literature that no result here depends on.
 
 Early. The repository also holds two working documents.
 
