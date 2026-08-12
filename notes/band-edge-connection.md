@@ -754,3 +754,90 @@ Q1′, Q3, Q4, Q5; every sign-blindness verdict in §8. **H1 is still not proved
 Q1 and Q2 are the two substantive items and both are now closed, leaving **Q3**,
 which `h1-mean-value.md` §9 calls routine and unwritten, and **Q4 (H0)**, which is
 separate and untouched.
+
+---
+
+## 13. Appended by mg-a087 — the elementary layer is machine-checked, and "analytic at $x=1$" was doing two jobs
+
+Lean sources: `lean/`, run `lean/scripts/check.sh`. **Toolchain
+`leanprover/lean4:v4.29.1`; mathlib revision
+`5e932f97dd25535344f80f9dd8da3aab83df0fe6`** (the `v4.29.1` tag). A proof that
+compiled once against an unnamed mathlib is not reproducible, so the revision is
+recorded here as well as in `lean/README.md`.
+
+**What compiles, with no `sorry`:**
+
+| Result | Lean name |
+|---|---|
+| Lemma 5.1, $\|\Phi(x)\|\le\|\Phi(1)\|$ for $x\ge1$ | `Riemann.Prolate.abs_le_abs_one` |
+| $V$ non-increasing on $(1,\infty)$ | `Riemann.Prolate.antitoneOn_V` |
+| $V'=-p^2D'/D^2$ (the cancellation) | `Riemann.Prolate.hasDerivAt_V` |
+| $V(1^+)=\Phi(1)^2$ | `Riemann.Prolate.tendsto_V` |
+| $\rho(x)^2=V(x)\le\Phi(1)^2$, as §5 quotes it | `Riemann.Prolate.V_le_sq_one` |
+| (1.1), $D'>0$ on $[1,\infty)$ | `Riemann.Prolate.DD'_pos` |
+| Lemma 3.1, $k>c$ | `Riemann.Prolate.lt_kk` |
+| Lemma 4.1, $f\le2/x$ | `Riemann.Prolate.ff_le` |
+| Lemma 4.1, $\|f'\|\le8x^{-2}$ | `Riemann.Prolate.abs_deriv_ff_le'` |
+| Lemma 4.1, $\|k'\|\le4cx^{-3}$ | `Riemann.Prolate.abs_deriv_kk_le'` |
+| Lemma 4.1, $k-f\ge c-2/x\ge c_-$ | `Riemann.Prolate.phase_speed_lower` |
+
+`#print axioms` gives `[propext, Classical.choice, Quot.sound]` for all 26
+results and `sorryAx` for none.
+
+**What was not attempted, and the reason.** **Lemma 2.1 is the wall.** It needs a
+continuous branch $\theta$ with $\Phi=\rho\sin\theta$, $p/\sqrt D=\rho\cos\theta$.
+Constructing a continuous argument along an ODE-defined curve and differentiating
+it is a real piece of work, not a translation of the note; mathlib has no prolate
+functions and no WKB, as this ticket assumed. Without $\theta$ there is no
+Corollary 2.2, no Proposition 4.2 and no Theorem 5.2, and none of those was
+attempted. The one part of Lemma 4.1 that is *not* proved is its first
+inequality $\theta'\ge k-f$, which is a statement about $\theta$; the arithmetic
+$k-f\ge c-2/x\ge c_-$ is proved.
+
+**The repair. "$\Phi$ analytic at $x=1$" was doing two jobs, and §5's parenthesis
+names only one of them.** §5 says analyticity is "used only for $V(1^+)=\Phi(1)^2$
+in Lemma 5.1 — boundedness near $x=1$ would do". Formalising splits that into two
+independent hypotheses, and **both** are needed:
+
+- $\Phi'$ bounded on a right-neighbourhood of $1$. This is what forces
+  $p^2/D\to0$, via $p^2/D=(x^2-1)(\Phi')^2/q$ — the identity that makes the limit
+  work, and the reason the exponents $0,0$ remark is the right diagnosis.
+- $\Phi$ **right-continuous at $1$**. Without it $V(1^+)=\Phi(1)^2$ does not
+  follow *even though* $p^2/D\to0$, because the surviving term is $\Phi(x)^2$ and
+  nothing yet connects it to $\Phi(1)^2$.
+
+In `abs_le_abs_one` these are the separate hypotheses `hM` and `hcont`. Nothing
+in the note is false — analyticity supplies both at once — but "boundedness near
+$x=1$ would do" is **not** sufficient as written, and the missing half is the one
+a reader checking the note would skip, because it looks like bookkeeping. This is
+exactly the class of thing the ticket predicted Lean would find.
+
+**A tightening, not a correction.** §§2–5 fix $c>\sqrt2$ and $0\le\chi<c^2$
+throughout. Three results need strictly less:
+
+- $v\le2x^{-2}$ and $f\le2/x$ need neither $0<c$ nor $0\le\chi$ — only
+  $\chi<c^2$ and $x\ge\sqrt2$;
+- the derivative formula $k'=-x(c^2-\chi)u^2/k$ needs neither.
+
+The blanket hypotheses are true in the intended application, so nothing changes;
+it is recorded because it localises what each bound rests on.
+
+**And a confirmation.** §4 says of $|k'|\le4cx^{-3}$: "This last step is the only
+place $\chi\ge0$ is used, and it is the only place it is needed." That is exactly
+right. That bound — `abs_deriv_kk_le`, and its `deriv`-form restatement
+`abs_deriv_kk_le'` — is the **only** statement in either Lean file carrying
+$0\le\chi$. mg-6851 tightened the theorem's hypothesis from $\chi<c^2$ to
+$0\le\chi<c^2$ after first stating it without; this is independent confirmation
+that the tightening was both necessary and sufficient.
+
+**What this does not do.** The theorems are conditional on the solution class
+being inhabited: Lean does not exhibit a solution of (0.1) on $(1,\infty)$,
+because mathlib's ODE existence theory was not wired up. What *is* checked is
+`isSolution_of_secondOrder` — that the first-order system (2.1) really is (0.1),
+sign for sign, $p=(x^2-1)\Phi'=-(1-x^2)\Phi'$ so $p'=-q\Phi$. That is the check
+whose failure would have made everything else vacuous, and it was the first thing
+written.
+
+**Unchanged:** every mathematical claim in §§0–12. Nothing here is a new result;
+it is the existing elementary layer, checked by machine. No sign and nothing
+approaching RH appears anywhere in it.

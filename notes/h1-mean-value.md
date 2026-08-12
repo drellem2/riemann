@@ -906,3 +906,39 @@ $\epsilon(\lambda)=\min(s^+,s^-)$ is what $QW_\lambda(g,g)/\|g\|^2$ bounds. **Th
 inherited misdiagnosis on this chain** (mg-6851 on §5, mg-9d43 on §§4/6, mg-731c on §3, this on
 §9's Q4 row), and the pattern is now four for four: the note was right that something was
 missing and wrong about what it was.
+## 16. Appended by mg-a087 — §5's Lemma 5.1 is machine-checked, and its analyticity remark needs a second half
+
+Full report: `notes/band-edge-connection.md` §13, and `lean/README.md`. Lean
+sources in `lean/`; **toolchain `leanprover/lean4:v4.29.1`, mathlib revision
+`5e932f97dd25535344f80f9dd8da3aab83df0fe6`**. Run `lean/scripts/check.sh`.
+
+**§5's Lemma 5.1 now has a machine-checked proof with no `sorry`**
+(`Riemann.Prolate.abs_le_abs_one`), together with the three steps it is built
+from: $V'=-p^2D'/D^2$ with the identical cancellation of the first and third
+terms (`hasDerivAt_V`), $V$ non-increasing (`antitoneOn_V`), and
+$V(1^+)=\Phi(1)^2$ (`tendsto_V`). The derivation §5 gives is correct as written;
+formalising it changed nothing in the computation.
+
+**One hypothesis had to be split in two.** §5's proof says "$\Phi$ is entire, so
+$\Phi'$ is bounded near $x=1$ and $p(x)\to0$ there while $D(x)\to0$ linearly;
+hence $p^2/D\to0$ and $V(1^+)=\Phi(1)^2$." The first clause is right and is what
+`tendsto_ratio` proves — via $p^2/D=(x^2-1)(\Phi')^2/q$. But **$p^2/D\to0$ alone
+does not give $V(1^+)=\Phi(1)^2$**: the surviving term is $\Phi(x)^2$, and
+concluding it tends to $\Phi(1)^2$ needs $\Phi$ **right-continuous at $1$**, a
+second consequence of entirety that the sentence uses without naming. In Lean
+these are the separate hypotheses `hM` and `hcont`.
+
+Nothing here is false — entirety supplies both — but `band-edge-connection.md`
+§5's parenthesis "boundedness near $x=1$ would do" is **not** sufficient as
+stated, and that is the weaker hypothesis a reader would take away.
+
+**$0\le\chi$ is still not needed for Lemma 5.1.** The lemma is stated here under
+$\chi_n<c^2$ alone, and that survives formalisation: `abs_le_abs_one` carries
+only `hχ : χ < c ^ 2`. The extra hypothesis $0\le\chi$ that mg-6851 added belongs
+to Lemma 4.1 upstairs, and Lean confirms it is needed at exactly one step there
+and nowhere else.
+
+**Unchanged:** §5 in full, including the per-mode remark and the $\chi_n/c^2$
+table; §§1–4 and 6–15. Nothing above Lemma 5.1 was formalised — the Prüfer
+angle of `band-edge-connection.md` Lemma 2.1 is where it stops, and Theorem 5.2
+was not attempted. See §13 there for why.
