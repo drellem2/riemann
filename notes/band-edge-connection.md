@@ -33,7 +33,13 @@ $K$ depends on $c$ alone — **not on $n$**, beyond the hypothesis $0\le\chi_n<c
 $K(c)$ decreases to $2^{3/4}=1.6818\dots$ as $c\to\infty$. At the bandwidths this
 project computes, $K=3.379$ at $c=4\pi$ and $K=1.965$ at $c=16\pi$. §5.
 
-**2. The obstruction named in the ticket is not real, and naming it is the result.**
+*One cell of the hypothesis fails and is reported rather than rounded away:*
+**$\chi_8/c^2=1.040$ at $c=4\pi$**, so the theorem does not cover prolate index 8
+at $\mu=2$. It covers index 8 from $\mu=3$ on and indices $0,2,4,6$ throughout.
+Whether that matters is `index-convention.md`'s question — mg-9433 put the corpus's
+mode at index 4 — and I did not re-open it. §5, §7.
+
+**2. The obstruction the ticket and the previous note both name is not real.**
 `h1-mean-value.md` §5 and vision amendment 11 §4 both say the missing step is a
 **connection through the regular singular point $x=1$**. It is not. The factor $x$
 is only *needed* where $x$ is large; on $1\le x\le\sqrt2$ the inequality
@@ -287,7 +293,7 @@ at $x=1$. Then $\Phi(1)\ne0$ and*
 $$x\,|\Phi(x)|\;\le\;K(c)\,|\Phi(1)|\qquad\text{for all }x\ge1,$$
 *where $K(c)=2^{3/4}\exp E(c)$ with $E(c)$ as in (4.1). $K$ depends only on $c$;
 in particular it is independent of $\chi$ (hence of the index $n$) throughout the
-region $\chi<c^2$, and $K(c)\downarrow2^{3/4}=1.68179\dots$ as $c\to\infty$.*
+region $0\le\chi<c^2$, and $K(c)\downarrow2^{3/4}=1.68179\dots$ as $c\to\infty$.*
 
 *Proof.* **On $1\le x\le\sqrt2$** there is nothing to do: Lemma 5.1 gives
 $|\Phi(x)|\le|\Phi(1)|$, so $x|\Phi(x)|\le\sqrt2|\Phi(1)|\le2^{3/4}e^{E}|\Phi(1)|$,
@@ -296,12 +302,13 @@ since $2^{3/4}>\sqrt2$ and $E\ge0$.
 **On $X\ge\sqrt2$.** By Corollary 2.2 and Proposition 4.2,
 $$A(X)=A(\sqrt2)\exp\left(-\int_{\sqrt2}^{X}f\cos2\theta\right)\le A(\sqrt2)\,e^{E(c)} .$$
 Lemma 5.1 bounds the starting amplitude: $\rho(\sqrt2)^2=V(\sqrt2)\le\Phi(1)^2$, and
-$D(\sqrt2)=(2-1)(2c^2-\chi)<2c^2$, so
-$$A(\sqrt2)=\rho(\sqrt2)\,D(\sqrt2)^{1/4}\;<\;2^{1/4}c^{1/2}\,|\Phi(1)| .$$
+$D(\sqrt2)=(2-1)(2c^2-\chi)\le2c^2$ (here $\chi\ge0$ is used a second time, though
+only for tidiness — any fixed lower bound on $\chi$ would do), so
+$$A(\sqrt2)=\rho(\sqrt2)\,D(\sqrt2)^{1/4}\;\le\;2^{1/4}c^{1/2}\,|\Phi(1)| .$$
 At the far end, $q>c^2(X^2-1)$ gives $D(X)>c^2(X^2-1)^2$, i.e.
 $D(X)^{1/4}>c^{1/2}(X^2-1)^{1/2}$. Since $|\Phi|\le\rho=A\,D^{-1/4}$,
 $$X\,|\Phi(X)|\;\le\;\frac{X\,A(X)}{D(X)^{1/4}}
-\;<\;e^{E}\,2^{1/4}c^{1/2}|\Phi(1)|\cdot\frac{X}{c^{1/2}\sqrt{X^2-1}}
+\;\le\;e^{E}\,2^{1/4}c^{1/2}|\Phi(1)|\cdot\frac{X}{c^{1/2}\sqrt{X^2-1}}
 \;=\;2^{1/4}e^{E}\,\frac{X}{\sqrt{X^2-1}}\;|\Phi(1)| .$$
 $X/\sqrt{X^2-1}$ is decreasing and equals $\sqrt2$ at $X=\sqrt2$, so the right-hand
 side is at most $2^{1/4}\cdot\sqrt2\cdot e^{E}|\Phi(1)|=2^{3/4}e^{E}|\Phi(1)|$. ∎
@@ -327,16 +334,26 @@ only for $V(1^+)=\Phi(1)^2$ in Lemma 5.1 — boundedness near $x=1$ would do, si
 Frobenius the exponents at $x=1$ are $0,0$ and the second solution carries a
 logarithm, for which $p^2/D\to\infty$). **No zeta zeros appear, no sign appears, and
 no numerical input appears.** The theorem is quantified over all $x\ge1$, all
-$c>\sqrt2$ and all $\chi<c^2$, which is what Q1 asks and what no computation could
-supply.
+$c>\sqrt2$ and all $\chi\in[0,c^2)$, which is what Q1 asks and what no computation
+could supply.
 
-**Uniformity in $n$ is real but conditional.** $K$ does not depend on $\chi$, so the
-same $K(c)$ serves every index simultaneously — but only where $\chi_n<c^2$. Since
-$\chi_n\sim(2n+1)c$ for $n\ll c$, the hypothesis fails for $n\gtrsim c/2$, and it is
-**not** automatic at every index this corpus uses: `h1-mean-value.md` §5 tabulates
-$n=0,2,4$ but its text names the combination $b_0\Phi_0+b_2\Phi_4+b_4\Phi_8$.
-`verify_q1.py` CHECK 5 tabulates $\chi_n/c^2$ for $n=0,\dots,8$ so the hypothesis can
-be checked at the index actually used rather than assumed; §7 reports it.
+**Uniformity in $n$ is real but conditional, and at one corner it fails.** $K$ does
+not depend on $\chi$, so the same $K(c)$ serves every index simultaneously — but only
+where $\chi_n<c^2$. Since $\chi_n\sim(2n+1)c$ for $n\ll c$, the hypothesis fails for
+$n\gtrsim c/2$, and it is **not** automatic at every index this corpus might use.
+`h1-mean-value.md` §5 tabulates $n=0,2,4$, all comfortably inside, but its *text*
+names the combination $b_0\Phi_0+b_2\Phi_4+b_4\Phi_8$. Measured (§7, CHECK 5):
+
+> **$\chi_8/c^2=1.040$ at $c=4\pi$** — the hypothesis **fails** at index 8 at the
+> bottom of this project's range, $\mu=2$. It holds at index 8 for $\mu\ge3$
+> ($0.780$ at $c=6\pi$, falling to $0.084$ at $c=200$), and at indices $0,2,4,6$
+> throughout.
+
+Whether that matters depends on which indices the combination actually uses, which
+is `index-convention.md`'s question and not this note's; mg-9433 settled that the
+corpus's $h_{4,\lambda}$ is prolate index **4**, on documentary grounds, which would
+put index 8 out of the picture. **I have not re-opened that**, and I record the one
+failing cell rather than round it away.
 
 ---
 
@@ -355,10 +372,10 @@ is about the *shape of the inequality* rather than about the ODE:
 > at $x=\sqrt2$ is supplied by Lemma 5.1 — which is a statement *at* the band edge
 > that has already been propagated outward. **Lemma 5.1 is the connection.**
 
-The cost of routing around the singular point is a factor $D(\sqrt2)^{1/4}<2^{1/4}\sqrt c$
-in the starting amplitude, and that factor is exactly what is thrown away, because
-the true $\rho(\sqrt2)$ is smaller than $|\Phi(1)|$ by about $\sqrt{2/(\pi\cdot0.91c)}$
-rather than equal to it. Hence:
+The cost of routing around the singular point is that Lemma 5.1 gives only
+$\rho(\sqrt2)\le|\Phi(1)|$, hence $A(\sqrt2)<2^{1/4}\sqrt c\,|\Phi(1)|$, whereas the
+true $A(\sqrt2)$ is about $\sqrt{2/\pi}\,|\Phi(1)|$ (§7, measured) — **a factor
+$\asymp\sqrt c$ is thrown away, and it is thrown away at the band edge**. Hence:
 
 **What the connection buys: the $c^{-1/2}$.** In the Liouville variable
 $\xi=\int^x\frac{ds}{s^2-1}=\tfrac12\log\frac{x-1}{x+1}\in(-\infty,0)$, equation
@@ -386,7 +403,7 @@ and $\Lambda_n\to1$. Two independent routes to the same constant.
 **This is observed, not proved, and it is a separate item.** (6.1) is a matched
 asymptotic: it needs a uniform error bound for the $J_0$ approximation on
 $c^{-2}\ll x-1\ll1$ and a bound on the drift of $A$ from the matching window out to
-$x=\sqrt2$. Neither is written here. §7 measures (6.1) to three digits at four
+$x=\sqrt2$. Neither is written here. §7 measures (6.1) to about $1\%$ at four
 bandwidths and three indices; that is evidence and not a proof, and it is filed as
 **Q1′** in §9. **Q1 as stated does not need it** — $K=O(1)$ is bounded, hence
 subexponential, hence enough for `h1-mean-value.md` Prop. 4.1.
@@ -447,7 +464,12 @@ in the difference step, as it should be.
 $\log(A(X)/A(\sqrt2))=-\int f\cos2\theta$ holds (LHS from the Bessel series, RHS by
 Simpson quadrature — an independent test of Corollary 2.2), and
 $E_{\mathrm{obs}}:=\sup_X|\int_{\sqrt2}^Xf\cos2\theta|$ against the proved $E(c)$.
-$E_{\mathrm{obs}}>E(c)$ would refute Proposition 4.2.
+$E_{\mathrm{obs}}>E(c)$ would refute Proposition 4.2. **The sup is taken over
+$X\le15$, not over all $X$** — the cost of a Bessel array at each of $\sim24c$
+points per unit $x$ is what bounds the range, not any belief about the tail; the
+tail integrand is $O(x^{-2})$ so it cannot be where a violation hides, but that is
+an argument, not a measurement, and the range is stated so it is not mistaken for
+one.
 
 **CHECK 3 — the conclusion.** $\sup_{x\ge1}x|\Phi(x)|/|\Phi(1)|$ on a grid refined
 geometrically to within $10^{-6}$ of the band edge, against $K(c)$. This corrects a
@@ -459,16 +481,101 @@ quoted as the size of the constant in Q1; the right number is $1$.** The proof g
 $1.86$–$3.38$ over our range, i.e. it is loose by a factor of two to three.
 
 **CHECK 4 — the sharp constant of §6, observed.** $A(x)/|\Phi(1)|$ over
-$3\le x\le25$, against $\sqrt{2/\pi}=0.797885$. $A$ is not exactly constant — it
+$3\le x\le15$, against $\sqrt{2/\pi}=0.797885$. $A$ is not exactly constant — it
 oscillates by $e^{\pm E_{\mathrm{obs}}}$ — so a narrow spread straddling
 $\sqrt{2/\pi}$ is what (6.1) predicts, and a single value would be evidence of a bug.
 
-**CHECK 5 — the hypothesis $\chi_n<c^2$ at $n=0,\dots,8$.** See §5's remark on
-uniformity.
+**CHECK 5 — the hypotheses themselves, $0\le\chi_n<c^2$, at $n=0,\dots,8$.** Both
+halves. This is the check that found something, so it is reported first below.
 
 ### Output
 
-<!-- MEASURED -->
+**CHECK 5 first, because it found something.** $\chi_n/c^2$, and $\min_n\chi_n$ for
+the $\chi\ge0$ hypothesis:
+
+| $c$ | $\chi_0/c^2$ | $\chi_2/c^2$ | $\chi_4/c^2$ | $\chi_6/c^2$ | $\chi_8/c^2$ | $\min_n\chi_n$ |
+|---|---|---|---|---|---|---|
+| $12.566$ | $0.0747$ | $0.3724$ | $0.6387$ | $0.8627$ | **$1.040$ — FAILS** | $11.80$ |
+| $18.850$ | $0.0509$ | $0.2542$ | $0.4448$ | $0.6210$ | $0.7800$ | $18.09$ |
+| $31.416$ | $0.0311$ | $0.1553$ | $0.2751$ | $0.3904$ | $0.5007$ | $30.66$ |
+| $50.265$ | $0.0196$ | $0.0980$ | $0.1747$ | $0.2497$ | $0.3229$ | $49.51$ |
+| $75.398$ | $0.0131$ | $0.0657$ | $0.1174$ | $0.1685$ | $0.2188$ | $74.65$ |
+| $200$ | $0.0050$ | $0.0249$ | $0.0447$ | $0.0645$ | $0.0841$ | $199.2$ |
+
+> **$\chi_8>c^2$ at $c=4\pi$, i.e. at $\mu=2$.** Theorem 5.2 does **not** cover
+> prolate index 8 at the bottom of this project's range. It covers it from
+> $\mu=3$ on, and covers indices $0,2,4,6$ throughout. This matters only if the
+> corpus's combination really involves $\Phi_8$: `h1-mean-value.md` §5's *text*
+> names $b_0\Phi_0+b_2\Phi_4+b_4\Phi_8$ while its *table* is at $n=0,2,4$, and
+> `index-convention.md` (mg-9433) settled that the corpus's $h_{4,\lambda}$ is
+> prolate index **4**, not 8. **I have not resolved which indices the combination
+> uses** — that is `index-convention.md`'s question, not this note's — and I record
+> the failure rather than assume it away. $\chi_n>0$ at every index and every
+> bandwidth, so the second hypothesis is free, as claimed.
+
+**CHECK 0** — Bessel series vs. ODE integration, at $x=1.5,2.5,4,7$ and $n=0,2,4$:
+relative difference $2.5\times10^{-43}$ to $2.6\times10^{-41}$ at
+$c=2\pi\cdot2,\,2\pi\cdot3,\,2\pi\cdot5$. The off-band values are sound.
+
+**CHECK 1** — worst ratio over $\sqrt2\le x\le20$, step $0.02$ (12 rows, $c=2\pi\mu$
+for $\mu=2,3,5,8$ and $n=0,2,4$; ranges over all 12):
+
+| quantity | claimed | worst observed ratio | verdict |
+|---|---|---|---|
+| $k/c$ | $>1$ | $1.00045$ to $1.00123$ (min) | holds |
+| $f\big/(2/x)$ | $\le1$ | $0.8673$ | holds |
+| $|f'|\big/(8/x^2)$ | $\le1$ | $0.5530$ | holds |
+| $|k'|\big/(4c/x^3)$ | $\le1$ | $0.6967$ | holds |
+| $\theta'\big/(c-\sqrt2)$ | $\ge1$ | $1.0290$ (min) | holds |
+| $\theta'=k+f\sin2\theta$ | identity | rel. err $3.9\times10^{-5}$–$1.6\times10^{-4}$ | holds (first order in the difference step) |
+
+**CHECK 2** — the oscillatory integral, $\sqrt2\le X\le15$:
+
+| $c$ | $E_{\mathrm{obs}}$ ($n=0,2,4$) | $E(c)$ proved | ratio | identity residual |
+|---|---|---|---|---|
+| $12.566$ | $0.0478,\,0.0525,\,0.0423$ | $0.6978$ | $\approx14$ | $\le4.3\times10^{-6}$ |
+| $18.850$ | $0.0320,\,0.0350,\,0.0323$ | $0.4414$ | $\approx13$ | $\le3.0\times10^{-6}$ |
+| $31.416$ | $0.0196,\,0.0205,\,0.0205$ | $0.2544$ | $\approx13$ | $\le1.9\times10^{-6}$ |
+| $50.265$ | $0.0124,\,0.0125,\,0.0127$ | $0.1555$ | $\approx12$ | $\le1.2\times10^{-6}$ |
+
+Proposition 4.2 holds everywhere, with about an order of magnitude to spare, and
+the ratio is flat in $c$ — so the bound has the right *shape* in $c$ and a loose
+constant, not the reverse. The identity residual is Simpson error at step
+$\pi/(24c)$ and confirms Corollary 2.2.
+
+**CHECK 3** — the conclusion. The grid is $x-1=10^{-6}$ upward, geometric ratio
+$1.15$, then step $\pi/(20c)$ out to $x=15$. **$n$ runs to $8$ at $c=31.4$ and
+$50.3$**, where $\chi_8<c^2$, so uniformity in the index is what is being tested:
+
+| $c$ | $\sup_{x>1}x|\Phi|/|\Phi(1)|$ (range over $n$) | attained at | $\sup_{x\ge\sqrt2}$ | proved $K(c)$ |
+|---|---|---|---|---|
+| $12.566$ ($n\le4$) | $0.99993$–$0.99997$ | $x\to1$ | $0.264$–$0.282$ | $3.3792$ |
+| $18.850$ ($n\le4$) | $0.99983$–$0.99990$ | $x\to1$ | $0.216$–$0.227$ | $2.6149$ |
+| $31.416$ ($n\le8$) | $0.99952$–$0.99975$ | $x\to1$ | $0.168$–$0.179$ | $2.1689$ |
+| $50.265$ ($n\le8$) | $0.99876$–$0.99915$ | $x\to1$ | $0.133$–$0.138$ | $1.9648$ |
+
+Every row is below $K(c)$, by a factor $2.0$ to $3.4$. The supremum is at the band
+edge in every one of the 16 rows and the value there is $1$ up to the grid's
+$10^{-6}$ offset — the ratio falls just short of $1$ by more at larger $c$ because
+$J_0(z)$ has already turned over by $x-1=10^{-6}$ when $c$ is large, which is the
+§6 picture and not an artefact. Note how far the two columns are apart: over
+$x\ge\sqrt2$, where the WKB half of the proof operates, the true value is $0.13$–$0.28$
+and falls like $c^{-1/2}$ (§6), while the proof gives $O(1)$.
+
+**CHECK 4** — the sharp constant, **observed**. $A(x)/|\Phi(1)|$ over $3\le x\le15$:
+
+| $c$ | min over $x,n$ | max over $x,n$ | $\sqrt{2/\pi}$ | the proof's bound $2^{1/4}\sqrt c$ |
+|---|---|---|---|---|
+| $12.566$ | $0.78735$ | $0.80960$ | $0.797885$ | $4.216$ |
+| $18.850$ | $0.79070$ | $0.80519$ | $0.797885$ | $5.163$ |
+| $31.416$ | $0.79365$ | $0.80227$ | $0.797885$ | $6.666$ |
+| $50.265$ | $0.79522$ | $0.80057$ | $0.797885$ | $8.431$ |
+
+The band straddles $\sqrt{2/\pi}$ at all four bandwidths and all three indices, and
+narrows from $\pm1.3\%$ to $\pm0.3\%$ as $c$ grows — which is the predicted
+$e^{\pm E_{\mathrm{obs}}}$ oscillation shrinking with $E$. **The last two columns
+are the whole of §6:** $A$ is a $c$-free constant near $0.798$, and the proof bounds
+it by something growing like $\sqrt c$. That gap is Q1′, and it is $\sqrt c$ wide.
 
 ---
 

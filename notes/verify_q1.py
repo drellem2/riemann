@@ -61,7 +61,7 @@ CHECK 5 -- chi_n/c^2 at the indices the corpus actually uses, n = 0..8.  The
            hypothesis chi_n < c^2 is not automatic at index 8 for small c, and
            `h1-mean-value.md` §5 tabulates only n = 0, 2, 4.
 
-Working precision 60 digits (CHECK 0 uses 80).  Runtime ~6 minutes; --quick ~1.
+Working precision 60 digits (CHECK 0 uses 80).  Runtime ~25 minutes; --quick ~3.
 """
 
 import sys
@@ -237,33 +237,32 @@ def check2():
     print("  c          n    E_obs      E(c) proved   identity resid   K(c) proved  verdict")
     cs = [2 * mp.pi * 3] if QUICK else [2 * mp.pi * 2, 2 * mp.pi * 3,
                                         2 * mp.pi * 5, 2 * mp.pi * 8]
-    xmax = mp.mpf(12) if QUICK else mp.mpf(25)
+    xmax = mp.mpf(10) if QUICK else mp.mpf(15)
     for cv in cs:
         c = mp.mpf(cv)
         # step must resolve the oscillation: phase speed is >= c
-        step = mp.pi / (c * 40)
+        step = mp.pi / (c * 24)
         for (n, lam, chi, mu, p1, b) in prolate_data(c):
             km = legendre_trunc(b, mp.mpf(10) ** -50)
             a = bessel_coeffs(b, mu, km)
 
-            def integrand(x):
-                _, cos2, _, _, f, _ = prufer_at(chi, c, x, *phi_and_deriv(a, c, x, km))
-                return f * cos2
+            def sample(x):
+                """(f cos2theta, A) at x -- ONE Bessel array serves both."""
+                _, cos2, A, _, f, _ = prufer_at(chi, c, x, *phi_and_deriv(a, c, x, km))
+                return f * cos2, A
 
-            _, _, A0, _, _, _ = prufer_at(chi, c, s2, *phi_and_deriv(a, c, s2, km))
+            g0, A0 = sample(s2)
             acc = mp.mpf(0)
             worst = mp.mpf(0)
-            x = s2
-            g0 = integrand(x)
             resid = mp.mpf(0)
+            x = s2
             while x + 2 * step <= xmax:
-                g1 = integrand(x + step)
-                g2 = integrand(x + 2 * step)
+                g1, _ = sample(x + step)
+                g2, Ax = sample(x + 2 * step)
                 acc += step / 3 * (g0 + 4 * g1 + g2)
                 x += 2 * step
                 g0 = g2
                 worst = max(worst, abs(acc))
-                _, _, Ax, _, _, _ = prufer_at(chi, c, x, *phi_and_deriv(a, c, x, km))
                 resid = max(resid, abs(mp.log(Ax / A0) + acc))
             ok = "ok" if worst <= E_proved(c) else "REFUTED"
             print("  %-10s %-4d %-10s %-13s %-16s %-12s %s"
@@ -287,7 +286,7 @@ def check3():
     print("  c          n    sup all x>1   at x        sup x>=sqrt2   proved K(c)   K/sup    verdict")
     cs = [2 * mp.pi * 3] if QUICK else [2 * mp.pi * 2, 2 * mp.pi * 3,
                                         2 * mp.pi * 5, 2 * mp.pi * 8]
-    xmax = mp.mpf(12) if QUICK else mp.mpf(25)
+    xmax = mp.mpf(10) if QUICK else mp.mpf(15)
     for cv in cs:
         c = mp.mpf(cv)
         # K is claimed uniform in n subject to chi_n < c^2; go to n = 8 where
@@ -306,7 +305,7 @@ def check3():
                 xs.append(1 + e)
                 e *= mp.mpf('1.15')
             x = mp.mpf('1.4')
-            step = mp.pi / (c * 30)
+            step = mp.pi / (c * 20)
             while x <= xmax:
                 xs.append(x)
                 x += step
@@ -339,10 +338,10 @@ def check4():
     print("  c          n    min A/|Phi(1)|  max A/|Phi(1)|  sqrt(2/pi)  2^{1/4} c^{1/2} (proof)")
     cs = [2 * mp.pi * 3] if QUICK else [2 * mp.pi * 2, 2 * mp.pi * 3,
                                         2 * mp.pi * 5, 2 * mp.pi * 8]
-    xmax = mp.mpf(12) if QUICK else mp.mpf(25)
+    xmax = mp.mpf(10) if QUICK else mp.mpf(15)
     for cv in cs:
         c = mp.mpf(cv)
-        step = mp.pi / (c * 30)
+        step = mp.pi / (c * 20)
         for (n, lam, chi, mu, p1, b) in prolate_data(c):
             km = legendre_trunc(b, mp.mpf(10) ** -50)
             a = bessel_coeffs(b, mu, km)

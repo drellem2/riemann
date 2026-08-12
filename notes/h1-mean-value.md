@@ -665,5 +665,13 @@ $A\to\sqrt{2/\pi}|\Phi(1)|$ would give $K=O(c^{-1/2})$ rather than $O(1)$, and t
 does need the $J_0$ matching at $x=1$. It is **observed, not proved**, filed as Q1′
 in `band-edge-connection.md` §9, and **nothing downstream needs it**.
 
+**One hypothesis cell fails, and it is in this note's blind spot.** §5's table stops
+at $n=4$; measured at $n=0,\dots,8$, **$\chi_8/c^2=1.040$ at $c=4\pi$** — so the
+theorem does not cover prolate index 8 at $\mu=2$ (it does for $\mu\ge3$, and covers
+$n=0,2,4,6$ throughout). §5's *text* names the combination
+$b_0\Phi_0+b_2\Phi_4+b_4\Phi_8$ while its *table* is at $n=0,2,4$; which is right is
+`index-convention.md`'s question (mg-9433 put the corpus's mode at index 4) and was
+not re-opened.
+
 **Unchanged:** Q2, Q3, Q4, Q5; §§1–4; the reduction of H1 and G5 to (P); every
 sign-blindness verdict in §8. H1 is still not proved.
