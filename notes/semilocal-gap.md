@@ -1,7 +1,8 @@
 # The semilocal gap — what the archimedean proof supplies, and what a finite place lacks
 
-Work item mg-03f0. Companion script:
-[`verify_semilocal_gap.py`](verify_semilocal_gap.py) (needs `numpy`).
+Work item mg-03f0. Companion scripts:
+[`verify_semilocal_gap.py`](verify_semilocal_gap.py) and, for §10,
+[`verify_arch_positivity.py`](verify_arch_positivity.py) (both need `numpy`).
 Continues [`citation-audit.md`](citation-audit.md) (mg-3a9c) and
 [`index-convention.md`](index-convention.md) (mg-9433), which between them
 established that the corpus's objects are Connes–Consani's and that its
@@ -49,13 +50,20 @@ at every $\lambda$, before any condition is imposed. Its norm is
 $2n^{-1/2}\cos\!\big(\pi/(m+2)\big)$, $m=\lceil L/\log n\rceil-1$ — the Boas–Kac
 bound the archimedean paper itself uses. Proved and checked in §3.2.
 
-**4. Place-by-place positivity is false, so "transport the proof to $p$" is not
-the right shape of statement.** Connes–Consani report that the archimedean
-contribution *alone* changes sign just past $L=\log 2$, and that positivity is
-restored only by adding the prime $2$ — and that perturbing $2$ to $1.9999$ or
-$2.0005$ destroys it (arXiv:2106.01715, `Spectraltriples.tex:542-575`, numerical). The required
-theorem is about a **cancellation between places**, not about each place. That is
-a different and harder object than the one that was proved. §3.3.
+**4. Place-by-place positivity fails, so "transport the proof to $p$" is not
+the right shape of statement. This is *numerical*, and now independently
+reproduced.** Connes–Consani report that the archimedean contribution *alone*
+changes sign past $L=\log 2$, and that positivity is restored only by adding the
+prime $2$ — and that perturbing $2$ to $1.9999$ or $2.0005$ destroys it
+(arXiv:2106.01715, `Spectraltriples.tex:542-575`, **numerical**, their word). No
+theorem asserts the failure, in that paper or anywhere else the corpus's sources
+reach; §10.1 says where that was looked for. But the computation is now rebuilt
+from scratch and agrees with theirs on all five numbers it states, so the third
+possibility — an artefact of the truncation or of double precision — is
+**excluded**: §10.2, and there is an explicit test function at §10.3. The
+crossing is at $\mu\approx2.2710$, not immediately past $2$. The required theorem is
+about a **cancellation between places**, not about each place. That is a
+different and harder object than the one that was proved. §3.3, §10.
 
 **5. CCM's "more precise strategy" is a strategy, and its own two halves are
 both deferred.** arXiv:2310.18423 proves the semilocal Sonin space is stable
@@ -268,21 +276,40 @@ Three consequences, and one warning.
   negative result and must not be quoted as if it explained anything about the
   direction of the inequality.
 
-### 3.3 Place-by-place positivity is false
+### 3.3 Place-by-place positivity fails — observed and reproduced, not proved
+
+> **STATUS, 2026-08-12 (mg-555b).** The heading used to read *"is false"*. It is
+> demoted to *"fails"* because no theorem asserts it — §10.1 records where that
+> was looked for, and the authors themselves present it as *"the first fact we
+> **report from the numerical computations**"* (`:543`). It is **not** demoted
+> further, because §10.2 rebuilds their computation independently and it agrees
+> on all five numbers it states; §10.3 exhibits a test function on which one can see it
+> without any matrix at all. Read every bullet below as **numerical**, and read
+> §10 before quoting any of them.
 
 Connes–Consani, arXiv:2106.01715, the subsections *Sensitivity of Weil positivity,
 archimedean place*, *… to the precise value $p=2$* and *Change of sign of smallest
 eigenvalue* (`Spectraltriples.tex:542`–`:600`; **numerical**, their computation,
-summarised in their own text at `:177` and `:210`):
+summarised in their own text at `:177` and `:210`). All four figures below were
+reproduced in §10.2; the reproduced value is given after each:
 
 - the archimedean contribution $-W_{\mathbb R}$ alone is positive up to $L=\log2$ — the
-  smallest eigenvalue of the even matrix at $L=\log2$ is $\sim0.00133$ (`:551`) —
-  and **changes sign just beyond it** (`:557`, Figure `testeven1`);
+  smallest eigenvalue of the even matrix at $L=\log2$ is $\sim0.00133$ (`:551`;
+  **ours: $0.00133$**) — and **changes sign beyond it**, at $\mu\approx2.2710$
+  (`:557`, Figure `testeven1`; their own prose puts the crossing at $2.27$ at
+  `:568`, and that is the number, not $2$);
 - positivity is restored on $\log2\le L<\log3$ by adding the prime $2$; at
-  $\mu=3$ the smallest eigenvalue is $<6\times10^{-8}$ (`:568`);
+  $\mu=3$ the smallest eigenvalue is $<6\times10^{-8}$ (`:568`; **ours:
+  $5.55\times10^{-8}$**);
 - replacing $2$ by a real parameter $p$, positivity at $\mu=3$ fails for
-  $p=1.9999$ and for $p=2.0005$ — an interval of size $<10^{-3}$ (`:574`);
-- the pattern repeats at $3$, $4=2^2$, $5$, $7$ (`:576`–`:600`).
+  $p=1.9999$ and for $p=2.0005$ — an interval of size $<10^{-3}$ (`:574`;
+  **ours: the admissible window is $[1.9999995,\,2.00043]$, width
+  $4.4\times10^{-4}$**). Note what this sharpness is *about*: it is the width of
+  the admissible window in the **parameter $p$**, not a tolerance to which the
+  repair holds;
+- the pattern repeats at $3$, $4=2^2$, $5$, $7$ (`:576`–`:600`; **ours: at
+  $\mu=3.5$, $\infty+2$ gives $-1.19\times10^{-2}$ and $\infty+2+3$ gives
+  $+2.48\times10^{-10}$**).
 
 Two things follow, and they matter more than their status as numerics suggests,
 because the theorem they bracket is only claimed at $\mu=2$.
@@ -290,9 +317,14 @@ because the theorem they bracket is only claimed at $\mu=2$.
 1. **The archimedean theorem is at the edge of its range.** Theorem 1 of
    arXiv:2006.13771 is stated for support in $[2^{-1/2},2^{1/2}]$, i.e. exactly
    $\mu=2$, $L=\log2$; Connes' 2026 survey still states it that way
-   (`rhready.tex:1200`). Just past that value the object it controls is
-   reported to go negative. There is no "extend the archimedean theorem to
-   larger $\lambda$ first" — the statement to be extended is false.
+   (`rhready.tex:1200`). Past that value the object it controls goes negative,
+   at $\mu\approx2.2710$ — a margin of $0.271$, or $0.127$ in $L$. There is no
+   "extend the archimedean theorem to larger $\lambda$ first": there is nowhere
+   to extend it *to*, because the statement fails at $\mu\approx2.271$. **Corrected
+   2026-08-12 (mg-555b):** this item previously said "just past that value" and
+   "the statement to be extended is false". The first was imprecise — the margin
+   is real, if small — and the second overstated a numerical fact as a proved
+   one. Neither correction changes the conclusion, which is item 2.
 2. **The semilocal statement is about cancellation between places, not about
    places.** Neither $Q_\infty$ (beyond $\mu=2$) nor any $-\Lambda(n)V(n)$
    (§3.2, at any $\mu$) is a positive form. Only the sum is — conjecturally,
@@ -585,10 +617,12 @@ Checked line by line; the outcome is mixed and is reported as such.
 - §1.3: $\lambda_{\max}>1$ (not $<1$) is what forces a condition at all; the
   inequality $b(a+c)\le a(b+c)|\langle\zeta\mid\xi_0\rangle|^2$ is not symmetric
   in the sign of $b$.
-- §3.3: "the archimedean contribution ceases to be **positive** past $\mu=2$ and
-  positivity is **restored** by the prime 2" — under a global sign flip this
-  becomes a statement about negativity being restored, which is a different
-  (and false) claim about the same figures.
+- §3.3: "the archimedean contribution ceases to be **positive** past
+  $\mu=2.271$ and positivity is **restored** by the prime 2" — under a global
+  sign flip this becomes a statement about negativity being restored, which is a
+  different (and false) claim about the same figures. §10.2 re-runs the
+  computation with the sign conventions rebuilt from the explicit formula rather
+  than inherited, which is the strongest form of this check the section admits.
 
 **Sign-blind, and flagged in place rather than removed:**
 
@@ -647,14 +681,21 @@ $V(n)\sim-V(n)$ and the norm formula (§3.2); the condition-budget observation
 and 3); the U4 closure by cross-check (§5.3); the whole of §5.5. Each is marked
 *ours* at the point of use.
 
-**Not done, and it would be the natural next check:** I did not reproduce
+~~**Not done, and it would be the natural next check:** I did not reproduce
 Connes–Consani's sensitivity figures (`Spectraltriples.tex:548`–`:572`, labels
 `testeven`, `testeven1`, `testeven2`, `testeven3`) — the archimedean sign change
 past $L=\log2$ and its repair by the prime $2$. §3.3 rests on their statement of their own numerics. It
 is the single most consequential **numerical** claim this note leans on, and
 unlike the rest of the note it is not checkable in one minute from a paper. It is
 also, per `citation-audit.md` §6, in the regime where the corpus's own arithmetic
-is unsound, so reproducing it is not a small job.
+is unsound, so reproducing it is not a small job.~~
+**DONE 2026-08-12 (mg-555b): §10.2 and [`verify_arch_positivity.py`](verify_arch_positivity.py).**
+All five of their reported numbers reproduced. §3.3
+no longer rests on their statement of their own numerics. The last sentence
+above was half right: the *repaired* eigenvalues are indeed in the regime
+`citation-audit.md` §6 warns about ($10^{-8}$ down to $10^{-12}$) and are
+reported as reproductions rather than verifications; the *sign change itself* is
+not — it happens at $10^{-3}$ against $O(1)$ entries, and it was a small job.
 
 **The claim in this note that would do the most damage if wrong** is §5.2 — that
 Connes' $1-\chi_2$ is the corpus's $1-\chi_4$, and hence that the identification
@@ -671,7 +712,7 @@ to twelve decimals only if the quantities are the same.
 | # | item | why it is open |
 |---|---|---|
 | S1 | Does the semilocal angle operator $P^S\widehat P^SP^S$ have *any* known spectral description, even partial? | I read CCM's semilocal-case section and the survey's *Geometric Perspectives*; neither gives one. Absence over what I read, not proof of absence |
-| S2 | Is the archimedean positivity theorem *known* to be sharp at $\mu=2$, or only numerically observed to fail past it? | §3.3 rests on Connes–Consani's figures `testeven1`/`testeven2`. I found no theorem asserting failure |
+| S2 | ~~Is the archimedean positivity theorem *known* to be sharp at $\mu=2$, or only numerically observed to fail past it?~~ **ANSWERED 2026-08-12 (mg-555b): only numerically observed — and now independently reproduced. §10** | was: rests on Connes–Consani's figures, no theorem found. Now: no theorem exists (§10.1 says where I looked and how the authors' own prose describes the figures), the numerics are theirs *and* ours (§10.2), an explicit witness function needs no matrix (§10.3), and the sharpness is at $\mu=2.271$, not $2$ |
 | S3 | ~~Has the second candidate semilocal prolate operator appeared since Feb 2026?~~ **RE-CHECKED against primary sources 2026-08-12 (mg-6d7e): NOT FOUND. A clean negative — §9** | was §7: search-result-level evidence only. Now: author listings for all three principals enumerated, the survey's LaTeX read for the words themselves, version histories checked. §9 says where I looked, so the next person can tell this negative from an unexamined one |
 | S4 | Does the corpus's `start.tex:264-273` commutator localisation have a semilocal analogue — i.e. does $[\mathbf W_{\lambda,S},P^S]=0$ for either CCM candidate? | This is the natural corpus-side question raised by §3.1 and §5.4, and answering it needs the deferred Jacobi coefficients. Recorded, not pursued: it is a proof attempt, and this ticket is not |
 | S5 | ~~`citation-audit.md` §4.2 row 14 and §4.4 need the narrowing of §5.3 applied in place~~ **DONE 2026-08-12 (mg-6d7e)** | row 14 now states the narrowing itself rather than pointing here, and §4.4 carries an end note scoping it: one entry joins that section's "removed because published" paragraph, and all five numbered items — item 1 included — stand. One correction to this note's own framing is recorded in §9 |
@@ -797,3 +838,246 @@ after arXiv:2310.18423 deferred it, and six months after a survey by the senior 
 that does not mention it, **both halves of CCM's "more precise strategy" remain
 deferred** and §4's conclusion stands unchanged: the semilocal case is still
 **announced**.
+
+---
+
+## 10. Appendix — S2 answered (added 2026-08-12, mg-555b)
+
+*Appended. Nothing above is deleted; §3.3, the bottom line's item 4, §6, §7 and §8's row
+S2 are annotated in place and point here. Companion script:
+[`verify_arch_positivity.py`](verify_arch_positivity.py), four checks, ~2.5 min.*
+
+**The question (§8, S2).** Is the failure of archimedean-only positivity past $\mu=2$
+(1) a theorem, (2) a numerical observation, or (3) an artefact of the truncation or the
+numerics?
+
+**The answer: (2), and firmly not (3).** No theorem asserts the failure — 10.1 says where
+I looked and how the authors describe their own figures. The observation is sound: 10.2
+rebuilds the computation from the explicit formula and matches Connes–Consani on all five numbers
+they report, and 10.3 exhibits a single test function on which the archimedean
+form is negative, with no matrix and no truncation in the argument. One correction to our
+own text falls out: the crossing is at $\mu=2.271$, not "just past $2$" (10.4).
+
+### 10.1 No theorem — where I looked, and the mood of the prose
+
+The distinction this ticket turns on is between *"we observe"* and *"one shows"*. Every
+occurrence of the failure in the corpus's sources is the first.
+
+**1. arXiv:2106.01715 (`Spectraltriples.tex`, 1958 lines), the paper the figures are in.**
+Three statements of the fact, in three registers, and all three name the numerics:
+
+> `:543`, opening the subsection itself: *"The first fact we **report from the numerical
+> computations** is that the archimedean contribution **fails to remain positive** when
+> extended a bit beyond the value $L=\log 2$."*
+>
+> `:177`, the introduction: *"… we **test numerically** this positivity for
+> larger values of $\lambda$, **showing** that the contribution from the archimedean place
+> alone **ceases to be positive** in the upper part of the interval
+> $\log(\lambda^2)\in[\log2-0.2,\log2+0.2]\sim[0.493,0.893]$."*
+>
+> `:210`, the section summary: *"… we **find that** the archimedean contribution
+> $-W_{\mathbb R}$ … **ends to be positive** if computed in an interval extending slightly
+> beyond the value $L=\log2$ (Figure `testeven1`)."* Two sentences later, of the
+> companion claims: *"we **report graphical evidence**."*
+
+The verbs are indicative — *fails*, *ceases*, *ends to be* — so the authors do assert the
+fact; they are not hedging it. What they never do is *prove* it. There is **no theorem,
+proposition, lemma or corollary environment anywhere in `:540`–`:640`**, the three
+sensitivity subsections in full; the sections consist of six figures and the prose around
+them. Checked mechanically, not by eye.
+
+**2. arXiv:2006.13771 (`weil-compo.tex`, 2496 lines), the archimedean positivity paper.**
+Sharpness of Theorem 1 is **never asserted**, and two nearby statements are easy to
+mistake for it:
+
+- `:853`, Remark `improve` (ii) — **a genuine theorem, about a different object**: *"The
+  functional $D\circ Q$ is not negative on $[2^{-1},2]$"*, proved by constructing a
+  positive-definite $f$ supported in $[-\log2,\log2]$ with $D_+(Q_+f)>0$, limit
+  $\sim+2.98699$. This is about the *remainder* $D$, i.e. about why the paper needs §4's
+  dihedral decomposition at all. It says nothing about $W_\infty$.
+- `:1427` — the largest eigenvalue of $\mathcal K_I$ *"is less than $1$ … this no longer
+  holds true when the interval length gets closer to $\log 2$"*. That is the **method**
+  degrading at the endpoint, not positivity failing past it. It is why the rank-one repair
+  of §1.3 exists.
+
+And the paper's own reason for the interval cuts the other way. `:114`: *"In this paper we
+consider the simplest instance of this strategy, namely when the support of the test
+function is contained in the interval $(1/2,2)$ **so that rational primes are not
+involved**."* The interval is chosen for **convenience** — it is the largest one on which
+the problem is purely archimedean — and is nowhere claimed to be the boundary of validity.
+So the paper neither asserts sharpness nor rests on it.
+
+**3. arXiv:2310.18423 (`mainc2m24fine.tex`), CCM.** Does not mention the sensitivity
+figures, the failure, or arXiv:2106.01715's numerics at all. Grepped for *sensitiv*,
+*fails to*, *ceases*, *beyond the value*, *log 2* — nothing relevant.
+
+**4. arXiv:2602.04022 (`rhready.tex`), Connes' 2026 survey.** Restates Theorem 1 with the
+same hypotheses twice (`:1198-1200`, and again in prose at `:1298`) and **never mentions
+that the archimedean form goes negative past that range**, in the *Remaining steps*
+subsection or anywhere else. If sharpness were known as a theorem, the survey is where it
+would appear.
+
+**What this negative does not cover.** The positivity at $\mu=2$ predates
+arXiv:2006.13771: *"This result was proved in [Yoshida] by reducing it to an explicit
+computation"* (`weil-compo.tex:118`), and Connes–Consani add *"In [Yoshida], the positivity
+was shown to hold for $\lambda=\sqrt2$ **using numerical analysis**"* (`:177`). **H. Yoshida,
+*On Hermitian forms attached to zeta functions*, Adv. Stud. Pure Math. 21 (1992) 281–325,
+I did not read** — it is not on arXiv and I could not reach it. It is the one place a
+sharpness statement could be hiding, and it is the obvious next check for anyone who wants
+to tighten this. Beyond that: arXiv sources only, four papers, read as LaTeX.
+
+### 10.2 Their computation, rebuilt — possibility (3) is excluded
+
+Connes–Consani give the semilocal form as $\psi^\#=W_{0,2}^\#-W_{\mathbb R}^\#-\sum_pW_p^\#$
+(`Spectraltriples.tex:414`), in their own orthonormal basis (`:385`), with the archimedean
+integral carried out at `:532`. That is enough to rebuild the even matrix $\sigma^+$ from
+scratch, which the script does — sign conventions taken from the explicit formula rather
+than inherited from §3.3, so this is also the strongest available form of §6's house-rule
+check.
+
+| Connes–Consani | source | ours |
+|---|---|---|
+| smallest eigenvalue at $L=\log2$, $\sim0.00133$ | `:551`, Fig. `testeven` | $0.0013303$ at $N=80$, $0.0013296$ at $N=160$ |
+| archimedean-alone crossing at $\mu=2.27$ | `:568`, Fig. `testeven2` | $\mu^*=2.271017$ at $N=160$, still decreasing in $N$ |
+| $\infty+2$ at $\mu=3$, $<6\times10^{-8}$ | `:568` | $5.55\times10^{-8}$ |
+| admissible $p$-window at $\mu=3$, width $<10^{-3}$ | `:574`, Fig. `testeven3` | $[1.9999995,\,2.00043]$, width $4.4\times10^{-4}$ |
+| prime $3$ repairs past $\mu=3$ | `:579`, Fig. `testeven4` | $\mu=3.5$: $\infty{+}2=-1.19\times10^{-2}$, $\infty{+}2{+}3=+2.48\times10^{-10}$ |
+
+The second row is the one that carries weight, because **$2.27$ was not a number I aimed
+at** — I computed the crossing and then found it written in their prose. Their
+window for the crossing, $L\in[0.493,0.893]$ (`:177`), contains $L^*=0.82023$, in its
+"upper part" as they say.
+
+**Why (3) is excluded, and it is not just "the numbers agree".**
+
+- **Truncation cannot manufacture the failure.** Restricting a quadratic form to a subspace
+  can only *raise* its smallest eigenvalue. So a negative truncated eigenvalue certifies a
+  negative one for the full form; truncation can hide a failure of positivity, never invent
+  one. The computed values behave accordingly — monotone decreasing in $N$
+  ($0.0013847\to0.0013296$ for $N=10\to160$ at $L=\log2$), and $\mu^*$ likewise decreasing.
+- **Double precision is not load-bearing for the sign change.** The matrix entries are
+  $O(1)$, the spectrum at $N=160$ runs $[1.3\times10^{-3},\,5.5]$, and every number is
+  quadrature-converged to ten digits. This is four orders of magnitude away from the regime
+  `citation-audit.md` §6 records (CCM at 200 digits, eigenvalues $\sim10^{-48}$ at
+  $\mu=11$).
+- **The rows that *are* in that regime are flagged as such.** The repaired eigenvalues of
+  rows 3–5 run $10^{-8}$ down to $10^{-12}$, leaving two to four digits of margin. The
+  script says so and reports them as **reproductions, not verifications**: past $\mu\approx4$
+  they want extended precision. Nothing in §3.3 or here leans on them — the load-bearing
+  claim is the *negative* values, which are $O(10^{-2})$ to $O(10^{-5})$.
+
+### 10.3 A witness, and why failure had to come eventually — *ours*
+
+Two things the reproduction does not by itself give: a statement independent of any matrix,
+and a reason.
+
+**The witness.** Take $f(x)=\cos(\pi x/L)+\kappa\cos(3\pi x/L)$ on $[-L/2,L/2]$ (additive
+coordinate $x=\log u$), continuous on $\mathbb R$ since both modes vanish at the endpoints,
+with $\kappa$ fixed by $\int f(x)\cosh(x/2)\,dx=0$. For real even $f$ that integral is
+$\widehat f(\pm i/2)$, so the boundary term of Prop. `Hilbert` vanishes exactly and the
+archimedean value is $-W_{\mathbb R}$ alone. Evaluating it is three one-dimensional
+quadratures. It **crosses zero at $\mu=3.5581$ and is negative at every larger $\mu$
+tested** ($4.06$, $4.48$, $7.39$); at $\mu=4.0552$ it is $-0.646$ against
+$\|f\|^2=6.48$. A weaker threshold than the true $2.271$ — it is one fixed vector, not the
+bottom eigenvector — but no truncation and no eigenvalue is involved, and one can write the
+function down in a line.
+
+**The reason.** Connes–Consani's own Prop. `Hilbert` (`:289`) puts the archimedean part on
+the Fourier side as
+$$\int|\widehat f(t)|^2\frac{2\theta'(t)}{2\pi}\,dt+2\Re\big(\widehat f(\tfrac i2)\overline{\widehat f(-\tfrac i2)}\big),$$
+$\theta$ the Riemann–Siegel theta function. **$\theta'$ is negative on $|t|<6.2898$**
+($\theta'(0)=-2.68609$; first zero $6.2898360$, computed in the script). So the Weil density
+is negative in a neighbourhood of $t=0$, and the only thing stopping a test function from
+living there is the uncertainty principle: a short support forces $\widehat f$ to spread
+past the crossing, where $\theta'>0$. Lengthening the support removes that obstruction.
+
+That is a **mechanism, not a proof** — it says failure at large $L$ is structurally
+expected and says nothing about where. But it settles the shape of the answer: the
+archimedean form is *not* a positive form that happens to be verified on a small interval;
+it is an indefinite form whose positivity on a small interval is an uncertainty-principle
+effect. Turning this into a theorem — an explicit family of test functions with an explicit
+threshold — looks routine and is not attempted here.
+
+**House rule.** Both halves are sign-sensitive: $\theta'<0$ near $t=0$ (not $>0$) is what
+makes the density hostile, and the witness's value is $-0.646$ (not $+0.646$). Under
+$W\mapsto-W$ both statements become false.
+
+### 10.4 The sites, and what changed at each
+
+The strong form — *"place-by-place positivity is **false**"*, *"changes sign **just past**
+$\mu=2$"* — appears in five places. Three are in this repository and are fixed on this
+branch; two are not and are listed for whoever owns them.
+
+| site | was | now |
+|---|---|---|
+| `semilocal-gap.md` §3.3 heading | "is false" | "fails — observed and reproduced, not proved", with a status block and per-bullet reproduced values |
+| `semilocal-gap.md` bottom line, item 4 | "is false"; "just past $L=\log2$" | "fails … **numerical**, and now independently reproduced"; crossing at $\mu\approx2.2710$ |
+| `semilocal-gap.md` §3.3 item 1 | "just past that value"; "the statement to be extended is false" | margin of $0.271$ in $\mu$ stated; "fails at $\mu=2.271$" |
+| **vision document `:61-62`** (CEILING DROPS, mg-03f0) | "changes sign just past $\mu=2$, repaired only by the prime 2 and only to within $10^{-3}$" | **not ours to edit — flagged.** Two repairs wanted: the crossing is $\mu=2.271$; and *"repaired … only to within $10^{-3}$"* misreads the source. $10^{-3}$ is the width of the admissible window in the **parameter $p$** at $\mu=3$ (`:574`) — a sharpness in $p$, not a residue left by the repair |
+| **vision document `:378-381`** (Amendment 3 §3) | "Place-by-place positivity is FALSE"; same $10^{-3}$ phrasing | **not ours to edit — flagged.** Same two repairs. The finding itself stands and is stronger than when written: it now has an independent reproduction behind it |
+
+**What does *not* change.** The structural conclusion — that the semilocal theorem must be
+about cancellation *between* places rather than assembly of per-place positives — is
+untouched, and §3.3's item 2 is the sentence that carries it. It rests on two facts:
+that no $-\Lambda(n)V(n)$ is of one sign (§3.2, which is **proved**, ours, and elementary),
+and that $Q_\infty$ is not positive beyond $\mu=2.271$ (numerical, now doubly so). The
+demotion is of one word in the second, and the ceiling drop mg-03f0 recorded stands.
+
+**Watching the exculpatory reading**, as the ticket asks. The tempting conclusion here is
+"the strong wording was a fair reading of the sources, so nothing went wrong". It is not
+quite. The sources say *"we report from the numerical computations"* in the very sentence
+that opens the subsection §3.3 cites; the word **numerical** is in §3.3's own header line,
+and the note's §0 vocabulary table defines it and warns that in this corpus it is *"not
+automatically trustworthy either"*. The strong wording was available to be caught at
+writing time from material already on the page. What was genuinely unavailable was the
+reproduction — and that turned out to be a small job, not a hard one — §7 said the opposite
+and was wrong about it.
+
+### 10.5 Secondary — `citation-audit.md` §7 item U7
+
+The ticket allows this only if the same read answers it. It does, for the negative half.
+
+**U7 asks** whether Connes–Consani anywhere size the residual $\widehat\varphi(0)$ — the
+Fourier-side endpoint condition their prolate combinations satisfy only approximately.
+**Answer: no, and the source says so in its own words.** Their construction is at
+`Spectraltriples.tex:744`:
+$\phi_{2n}:=\psi_{2n}\psi_0(0)-\psi_0\psi_{2n}(0)$ — imposing $\phi_{2n}(0)=0$ *exactly*.
+The other condition is handled at `:746`: *"For $1<n\le\nu(\mu)$ one may **approximate**
+$\mathcal F(\phi_n)$ by $(-1)^n\phi_n$ and, using the Poisson formula, **act as if**
+$\mathcal E(\phi_n)$ would fulfill the equality …"*. No error term is given there or
+anywhere the construction is used. The only quantitative material about the deviation is
+Figure `chimum` (caption at `:739`) — *graphs* of $\chi(\mu,m)$ — and the prose *"one only
+retains the values of $m$ for which the characteristic value $\chi(\mu,m)$ … is almost
+equal to $1$"*, *"$\chi(\mu,m)\sim1$ for $m\le\nu(\mu)$"* (`:729`–`:733`).
+
+Two places that look like they should contain it and do not, checked because their titles
+promise it:
+
+- the appendix **"Size of $\mathcal F_\mu\circ w$(Prolate)"** (`:1547`) is about the
+  $\lambda\to\infty$ **Hermite** limit, where $\mathcal F(h_{2m})=(-1)^mh_{2m}$ holds
+  exactly and so the analogous families $\psi^{\rm ev}_\ell$ satisfy *both* conditions
+  exactly (`:1563`). There is no residual there to size;
+- Connes' 2026 survey does give a quantitative statement in this area — $\widehat k_\lambda
+  \to\widehat k$ controlled by $c\lambda^{-1/2-\alpha}(1-2\alpha)^{-1}$ on
+  $\Im z=\alpha$ (`rhready.tex:1172`) — but that bounds the convergence of $k_\lambda$ to
+  $\mathcal E(h)$, a different quantity. Not the residual.
+
+**So U7 closes as a negative**, and `citation-audit.md` §4.4 item 1 keeps standing on it —
+but on a *sourced* negative now ("they say they act as if") rather than on "~40 pages
+skimmed".
+
+**One thing falls out, and it is *ours* and deliberately not pushed further.** The residual
+is not merely unsized in the literature; it is available in closed form from the identity
+Connes–Consani display a few lines earlier (`:727`, the classical prolate relation, in
+their $\lambda$-normalisation
+$\int_{-\lambda}^{\lambda}\psi_{m,\lambda}(\xi)e^{2\pi i\xi y}d\xi=(-1)^m\chi(\mu,m)\psi_{m,\lambda}(y)$,
+where the right-hand $\psi_{m,\lambda}$ is the un-truncated prolate function).
+Applying it to $\phi_{2n}$ termwise gives
+$$\widehat{\phi_{2n}}(0)=\big[\chi(\mu,2n)-\chi(\mu,0)\big]\,\psi_0(0)\,\psi_{2n}(0),$$
+so the residual is governed by a **difference of characteristic values** — exactly the
+quantities their Figure `chimum` plots. That is one line of algebra from their own display
+and it is why nobody needed to state it separately; it is *not* a claim that the sizing is
+in the paper. Whether it delivers the corpus's $\asymp1-\chi_4$ (`start.tex:177-186`,
+`citation-audit.md` §4.4 item 1) needs `index-convention.md` applied to the two indices and
+a numerical check of $\psi_0(0)\psi_{2n}(0)$ against $1-\chi$, **neither of which this note
+does**. Recorded as a lead, not a result.

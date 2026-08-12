@@ -50,16 +50,24 @@ cite them by line.
   archimedean argument supplies and what a finite place lacks: the sign there comes
   from one compression of a projection, and is paid for with a diagonalisation
   (Slepian–Pollak) that has no semilocal counterpart. Finds that the prime terms are
-  *exactly* indefinite, that place-by-place positivity is false, and that the corpus's
+  *exactly* indefinite, that place-by-place positivity fails, and that the corpus's
   central unresolved estimate is the bridge quantity across that gap — and is also,
   in Connes' own 2026 survey, a published observation. Its appendix §9 records the
   second candidate semilocal prolate operator, deferred by Connes–Consani–Moscovici
   in 2023, as **not having appeared as of 2026-08-12**, and describes the search that
-  looked, so the negative can be told apart from nobody having checked.
+  looked, so the negative can be told apart from nobody having checked. Its appendix
+  §10 settles whether the failure of archimedean-only positivity is a theorem: it is
+  not — **no theorem asserts it**, and §10.1 says where that was looked for — but it
+  is not an artefact either, because §10.2 rebuilds Connes–Consani's computation from
+  the explicit formula and matches it on all five numbers it reports, including a
+  crossing at \(\mu\approx2.271\) that appears in their own prose. §10.3 gives an
+  explicit test function on which the archimedean form is negative, and the reason it
+  had to be: the Weil density \(2\theta'(t)/2\pi\) is negative on \(|t|<6.29\).
 
-`s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have a companion
-`verify_*.py` (numpy); `index-convention.md` has one using `mpmath` in arbitrary
-precision and no numpy; `signed-geometry-proposals.md` and `citation-audit.md` are
+`s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
+`verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md` has
+one using `mpmath` in arbitrary precision and no numpy;
+`signed-geometry-proposals.md` and `citation-audit.md` are
 structural and have none. The first three notes were written offline and say so;
 `citation-audit.md` is the pass that checks them, `index-convention.md` closes one item
 it left open and `semilocal-gap.md` closes another.
