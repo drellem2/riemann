@@ -10,6 +10,16 @@ Nothing in `start.tex` or `s3.tex` was edited. References are by line.
 load-bearing external facts are flagged in §8 and should be checked before any of
 this is used in writing.*
 
+**Citations now checked (added 2026-08-12).** That pass was run by mg-3a9c and is
+[`citation-audit.md`](citation-audit.md). Of the thirteen attributions it took from
+this note: **A1, A4–A6, A11–A13 hold as stated**; **A2, A3, A7, A9, A10 are narrower
+than the text below claims**, and are narrowed in place at the five sites, each
+labelled with the audit row that licenses it. §4's central claim — that the corpus's
+objects are Connes–Consani's — is **confirmed, and understated**; see the annotation
+at §4(1). §8 item 3 is **done, and its answer is yes**; see §8. The narrowings are
+annotations rather than rewrites: a narrowing that erases the original over-claim also
+erases the evidence that the audit was worth doing.
+
 ---
 
 ## Bottom line
@@ -51,7 +61,7 @@ out the way it did.
 | # | candidate | signature lives in | passes mg-8d74 test? | verdict |
 |---|---|---|---|---|
 | **C1** | square of the adele class space / scaling site over $\mathbb F_1$ (Connes–Consani) | trace form on correspondences; Hodge-index analogue | **yes** | **Structurally the answer. Not a reduction — it is the open problem, correctly sited.** |
-| **C2** | semilocal / archimedean Sonin space (Connes–Consani 2021), prolates as the bridge | positivity of a Hermitian form by factorisation ($W=A^*A$) | **yes** | **The only place a sign is actually *proved*. Actionable now, and cheap.** |
+| **C2** | semilocal / archimedean Sonin space (Connes–Consani 2021), prolates as the bridge | positivity of a Hermitian form — by a *lower bound* by a manifestly positive Sonin trace, not by an exhibited square (narrowed: audit A3, §4) | **yes** | **The only place a sign is actually *proved* — at the **archimedean** place; the semilocal case is an announced strategy, not a theorem (narrowed: audit A2, §4). Actionable now, and cheap.** |
 | **C3** | Deninger's foliated dynamical system | leafwise $H^1$, cup product + Hodge $\star$ = polarised weight-1 HS | **yes** | Right shape; the space is not known to exist. |
 | **C4** | rational homology sphere $\leftrightarrow \operatorname{Spec}\mathcal O_K$, linking form | $\mathbb Q/\mathbb Z$-valued linking pairing | **no** | **Decoration** — explains why $S^3$, cannot sign a real number. |
 | **C5** | 4-dimensional filling, $\eta$-invariant, Dedekind sums | signature of a filling / spectral asymmetry | **no** | **Decoration** — and killable more cheaply than mg-8d74 §6 did. |
@@ -110,7 +120,7 @@ functional.** Six for six.
 **Corollary (the prediction).** Replacing $S^3$ by *any* geometry, of *any*
 dimension, and building the dictionary the same way, yields a sign-blind chain.
 Adding a seventh row of the same kind changes nothing — which is
-`s3-reduction-audit.md:321-322` arriving again by a different route.
+`s3-reduction-audit.md:384-385` arriving again by a different route.
 
 **Contrapositive (the design rule).** To break the invariance, the dictionary needs
 a row whose *analysis* side is a **product** or an **adjoint**. Those are the two
@@ -142,6 +152,31 @@ because $\operatorname{Spec}\mathcal O_K$ has étale cohomological dimension 3 w
 duality. And $\operatorname{Spec}\mathbb Z$ corresponds to $S^3$ specifically
 because $\mathbb Q$ has **no unramified extensions** (Minkowski), i.e.
 $\pi_1^{\text{ét}}(\operatorname{Spec}\mathbb Z)=1$ — matching $\pi_1(S^3)=1$.
+
+> **Narrowed by the citation audit — A7 (`citation-audit.md` §2.3).** Both halves of the
+> paragraph above are weaker than written; neither narrowing damages the use made of
+> them here, which needs only "why a 3-manifold, and why a homology sphere".
+>
+> *(i) The 3-dimensionality is conditional.* Artin–Verdier duality and
+> $\operatorname{cd}_{\text{ét}}(\operatorname{Spec}\mathcal O_K)=3$ hold — but **not at
+> the prime 2 when $K$ has a real embedding**, where the mod-2 étale cohomological
+> dimension is *infinite*. $\mathbb Q$ has a real place, so the caveat applies to
+> precisely the case invoked above. The sentence as written is unconditional; the
+> theorem is not.
+>
+> *(ii) "Corresponds… because" is an analogy, not an implication.* The arithmetic half
+> is a theorem: Minkowski's discriminant bound gives $|d_K|>1$ for $K\ne\mathbb Q$, hence
+> no nontrivial unramified extension of $\mathbb Q$, hence
+> $\pi_1^{\text{ét}}(\operatorname{Spec}\mathbb Z)=1$. The *identification* with $S^3$ is
+> a dictionary entry (M²KR — Mazur, Morishita, Kapranov, Reznikov) and is
+> one-directional: simple connectivity does not by itself pick $S^3$ out of the closed
+> 3-manifolds except through Poincaré–Perelman.
+>
+> *(iii) Holds:* primes $\leftrightarrow$ knots — Morishita, *Knots and Primes: An
+> Introduction to Arithmetic Topology*, Springer Universitext 2012, is the standing
+> reference, and the Legendre symbol $\leftrightarrow$ linking number entry that §7
+> leans on is its central example. Mazur's originating notes (c. 1963–64) are
+> **unpublished**, which is worth saying when citing them.
 
 So the vanishing $H^1(S^3)=H^2(S^3)=0$ that mg-8d74 §6 identified as the obstruction
 is *not an unlucky choice of manifold*. It is the topological shadow of class number
@@ -240,10 +275,21 @@ Anyone hoping to keep the $S^3$ material should read that as bad news.
 **Rank 1 for action.** This is the only candidate where a Weil sign has actually
 been *proved*, and it is the only one that touches the corpus's own objects.
 
+> **Narrowed by the citation audit — A2 (`citation-audit.md` §2.1).** *Proved* means
+> proved **at the archimedean place**. arXiv:2006.13771 proves that case and frames the
+> rest as strategy — "All the ingredients and tools used make sense in the general
+> semi-local case, where Weil positivity implies RH" — and three years later
+> Connes–Consani–Moscovici (arXiv:2310.18423 §1) still describe the semilocal case as a
+> programme, deferring a second candidate semilocal prolate operator "to a forthcoming
+> paper". So read every "semilocal extension" in this section as **announced, not
+> available**. The C2 ranking is unchanged — an archimedean theorem is still the only
+> proved sign on the list. What goes is the plural.
+
 **(1) The candidate, and why it is natural.** Connes–Consani's proof of Weil
 positivity at the archimedean place (*Weil positivity and trace formula: the
 archimedean place*, Selecta Math. 27 (2021)), and its semilocal extension to a
-finite set $S$ of places. The geometry is $\mathbb A_S/\mathbb Q^\times$ — the
+finite set $S$ of places *(announced; see A2 above)*. The geometry is
+$\mathbb A_S/\mathbb Q^\times$ — the
 adele class space of a *finite* set of places, which unlike the full one is
 tractable. The mechanism runs through the **Sonin space**: the space of functions
 vanishing, together with their Fourier transform, on $[-\Lambda,\Lambda]$.
@@ -255,6 +301,45 @@ of $\zeta$). The corpus's $1-\chi_4$, $\widehat P$, $h_\lambda$
 (`s3.tex:55-78`, `start.tex:138-149`) are objects of this space. **The corpus is
 already inside C2's geometry without saying so.**
 
+> **Confirmed — and understated. Strengthened per the citation audit §4.2
+> (`citation-audit.md`).** This is the one claim in this note that the audit found too
+> weak rather than too strong, and the correspondence is now available letter for
+> letter. It is not that the corpus's objects *belong to* that geometry: they **are the
+> objects of Connes–Consani, *Spectral triples and $\zeta$-cycles*, Enseign. Math. 69
+> (2023) 93–148 (arXiv:2106.01715), §3, in that paper's own letters**, performing that
+> paper's construction.
+>
+> | corpus | Connes–Consani 2023, §3 | verdict |
+> |---|---|---|
+> | $E(f)(u)=u^{1/2}\sum_{n\ge1}f(nu)$, `start.tex:54-58` | $\mathcal E(f)(x)=x^{1/2}\sum_{n>0}f(nx)$, **eq. (3.1)** | identical, same letter |
+> | the "codimension-two space of test functions", `start.tex:80-82` | $\mathcal S_0^{ev}$: even Schwartz $f$ with $f(0)=\hat f(0)=0$ — the stated **domain of $\mathcal E$** | identical |
+> | $\widehat P$, `s3.tex:62` | $\widehat P_\lambda$ | identical, same letter |
+> | $\chi_n$, `start.tex:44,148` | $\chi(\mu,m)$, the finite-Fourier characteristic value, $\simeq(-1)^m$ for $m\le\nu(\mu)$ | identical, same letter — **and it carries a sign**, which our scripts drop |
+> | $\nu(c)$ | $\nu(\mu)\approx2\mu$ | identical, same letter |
+> | $h_\lambda=\alpha h_{0,\lambda}+\beta h_{4,\lambda}$, `start.tex:138-145` | $\varphi_{2n}=\psi_{2n}\psi_0(0)-\psi_0\psi_{2n}(0)$ | same construction, endpoints mirrored |
+> | $k_\lambda=E(h_\lambda)$, `start.tex:151-153` | $\mathcal E(\varphi_n)$, Definition 3.1 | identical |
+> | "a striking almost-null direction", `start.tex:88` | that paper's **abstract** | identical phenomenon, published 2021/2023 |
+>
+> Three consequences for this note.
+>
+> **(a)** The right statement is not "the corpus is inside C2's geometry" but that the
+> corpus should be positioned **against Connes–Consani 2023 rather than beside it**,
+> with `start.tex` §1 and §3 written as exposition of arXiv:2106.01715 §3, cited.
+> **(b)** §8 item 3 below is not a check still to be run; it has been run and the answer
+> is yes — see the annotation there.
+> **(c)** The audit also found the published *mechanism* that neither this note nor the
+> corpus has: **the radical of the Weil quadratic form contains the range of
+> $\mathcal E$** (audit §4.5), so $\mathcal E$ of *anything* in $\mathcal S_0^{ev}$ lands
+> in the near radical, and the prolate input is needed only to force the support into
+> $[\lambda^{-1},\lambda]$. Whether the residual is $\asymp1-\chi_4$ is untouched by
+> that and remains the corpus's open question.
+>
+> One thing the audit deliberately did **not** settle, and this note should not assume:
+> in Connes–Consani, $QW_\lambda$ is a **single symbol** for the Weil quadratic form and
+> $W_\lambda$ alone is the **prolate operator** — so `start.tex`'s reading of $Q$ as a
+> projection has no counterpart in the source (audit §4.3). That bears on §8 item 2
+> below, and is Daniel's to resolve.
+
 **(2) Where the signature lives.** Not in middle cohomology — the honest substitute
 is a **factorisation**: the semilocal Weil form is shown to be
 $W_S=A^*A+(\text{controlled})$ on the relevant space, i.e. positivity by exhibiting
@@ -262,6 +347,24 @@ a square. In the taxonomy of §2.1 this is the $C^*$-algebra row: a Hermitian fo
 polarised by an explicit isometry rather than by a Hodge structure. This is
 mechanism (2) of `s3-sign-blindness.md:192` — the one the note listed as
 sign-breaking and did not pursue.
+
+> **Narrowed by the citation audit — A3 (`citation-audit.md` §2.2). No such
+> factorisation appears in the source.** What arXiv:2006.13771 proves (Theorem 1, for
+> test functions supported in $[2^{-1/2},2^{1/2}]$ with $\hat f$ vanishing at $0$ and
+> $i/2$) is a *lower bound*,
+> $$W_\infty(g\star g^*)\;\ge\;\operatorname{Tr}\bigl(\vartheta(g)\,\mathbf S\,\vartheta(g)^*\bigr),$$
+> with $\mathbf S$ the projection onto the Sonin space and $\vartheta$ the scaling
+> action; the gap between the Weil distribution and this **Sonin trace** is expanded in
+> prolate spheroidal wave functions and controlled by hermitian **Toeplitz** theory.
+>
+> The narrowing bites in one direction only, and it is not the structural one. The
+> right-hand side *is* of the form $\operatorname{Tr}(x\,x^*)$, so the taxonomy
+> placement above — the $C^*$-algebra row of §2.1 — **survives**, and this note's
+> reading is right: the sign really does come from an involution and a square. What does
+> not survive is "positivity by exhibiting a square" applied to $W_S$ **itself**. The
+> Weil form is *bounded below by* a manifestly positive trace, and the gap is what the
+> Toeplitz argument controls. As written above, a reader would go looking for an $A$ and
+> not find one.
 
 **(3) The flow-through — named.** The involution is the same $f\mapsto f^*$; the
 "geometry" is the semilocal trace formula, whose geometric side is the sum of local
@@ -289,9 +392,19 @@ attached to an operator with an adjoint.
 >   known technique supplies.
 
 This is the same shape as, and pairs with, the audit's blocking item #2 — the
-definition of $Q$ (`s3-reduction-audit.md:246-257`), which is still unresolved and
+definition of $Q$ (`s3-reduction-audit.md:309-320`), which is still unresolved and
 still the cheapest high-value item in the corpus. Two definitions, both one
 paragraph of writing, jointly gating everything downstream.
+
+> **Partial answer from the literature — `citation-audit.md` §4.3.** For the *published*
+> object the falsifier is already decided, and it is the middle branch: $QW_\lambda$ is
+> the Weil quadratic form on test functions supported in $[\lambda^{-1},\lambda]$, and
+> Connes–Consani's Figures 7–17 show it acquiring the contribution of the prime $p$
+> exactly as $\mu=\lambda^2$ passes $p$ — so it contains **finitely many primes**,
+> namely $p\le\lambda^2$. That is what the literature's object does. Whether it is what
+> `start.tex` means is Gate 1 and stays Daniel's; the falsifier above is unchanged as a
+> question about the corpus. Note the same audit section removes the premise the falsifier
+> shares with §8 item 2: in Connes–Consani there is no operator $Q$ to define.
 
 **(5) Davenport–Heilbronn.** Passes. The archimedean/semilocal positivity proof
 uses the specific local factors at the places in $S$; there are no such local
@@ -299,7 +412,9 @@ factors for a DH function. The step that fails is the construction of $A$.
 
 **Self-test.** "$W_S(f\star f^*)\ge0$" is **false** for $-W_S$. Passes.
 
-**Honest weakness.** C2 signs *some* places, and the difficulty of RH is exactly
+**Honest weakness.** C2 signs *some* places — narrowed per audit A2 to **one**, the
+archimedean; the semilocal "some" is announced rather than proved — and the
+difficulty of RH is exactly
 that positivity at all places simultaneously does not follow from positivity at each
 — the local terms are individually manageable and their sum is not. C2 is a real
 theorem and not a route to RH. Its value here is different and, for this corpus,
@@ -360,7 +475,7 @@ because I am proposing to work on it.**
 
 ## 6. Candidate (a) revisited — the compactness objection is wrong
 
-`s3-reduction-audit.md:292-298` proposed a unitary representation of a compact group
+`s3-reduction-audit.md:355-361` proposed a unitary representation of a compact group
 commuting with $W_\lambda$, "positivity from group averaging (Bochner/Godement)".
 mg-8d74 §4 corrected this to: symmetry gives Schur block-diagonality, not
 positivity — correct and important — and endorsed the audit's objection that "no
@@ -380,6 +495,26 @@ So the repaired candidate (a) reads:
 > that $W$ is **of positive type**; equivalently, by Bochner–Schwartz, that its
 > Fourier transform — a measure on $\widehat{C_{\mathbb Q}}$ supported on the
 > zeros — is a **positive** measure.
+
+> **Narrowed by the citation audit — A10 (`citation-audit.md` §2.5), and logged open as
+> U1.** Two statements are run together above, and only the first holds at that
+> generality.
+>
+> - **Bochner on LCA groups: holds**, exactly as used. A continuous function of positive
+>   type on a locally compact abelian $G$ is the Fourier transform of a positive measure
+>   on $\hat G$, and compactness is nowhere required — so this section's correction of
+>   mg-8d74 §4 stands **entirely**, and the "no compact group acts on the primes"
+>   objection really does fail for the reason given.
+> - **Bochner–Schwartz: holds as a theorem *on $\mathbb R^n$*** — a tempered distribution
+>   of positive type is the Fourier transform of a positive tempered measure. The audit
+>   could find no reference for the *distributional* version on a general LCA group, and
+>   the repaired candidate (a) above applies it to
+>   $C_{\mathbb Q}=\mathbb A^\times/\mathbb Q^\times$, which is not $\mathbb R^n$.
+>   Recorded **open** (audit U1); likely fine inside Weil's own framework, but not
+>   checked.
+>
+> Nothing downstream depends on this — the passage is diagnostic by its own statement
+> below — but it should not be written as though a single named theorem covered the step.
 
 This is inherently signed: it is false for $-W$. And it is not new — it is Weil
 positivity restated, and the restatement is a tautology-grade move. **Its value is
@@ -468,6 +603,17 @@ mentions $W_\lambda$. Sign-blind by construction.
   is not one. This is C1's blocker in its classical form, which is why C1 subsumes
   it.
 
+  > **Narrowed by the citation audit — A9 (`citation-audit.md` §2.4): negative
+  > *semi*-definite.** Faltings (*Calculus on arithmetic surfaces*, Ann. of Math. (2)
+  > **119** (1984) 387–424) and Hriljac (Amer. J. Math. **107** (1985) 23–38) prove that
+  > for an arithmetic divisor whose restriction to the generic fibre has degree zero,
+  > the arithmetic self-intersection equals **minus** the Néron–Tate height, hence is
+  > $\le0$ — becoming *definite* only after quotienting by the vertical and torsion
+  > classes on which the height vanishes. "Negative definite" over-claims by exactly that
+  > kernel. The use made of the theorem here is unaffected, and the diagnosis that
+  > follows it — that it needs an arithmetic **surface**, which
+  > $\operatorname{Spec}\mathbb Z$ is not — is correct and is the point.
+
 ---
 
 ## 8. What I would actually do next
@@ -478,7 +624,7 @@ everything else.
 1. **State which places $W_\lambda$ contains** (§4). One sentence. It decides whether
    $\operatorname{sign}(C_\lambda)$ is open at all, and it is the falsifier for the
    highest-value candidate.
-2. **Define $Q$** — still the audit's item #2 (`s3-reduction-audit.md:246-257`), now
+2. **Define $Q$** — still the audit's item #2 (`s3-reduction-audit.md:309-320`), now
    blocking for a third reason: whether $Q$ is compatible with the $\star$-algebra
    structure of §6 determines whether $QW_\lambda$ is still a form to which any
    positivity argument can apply.
@@ -487,6 +633,20 @@ everything else.
    Connes–Consani and Connes–Moscovici — which §4 argues they are — then the corpus
    is re-deriving pieces of a published framework, and should be positioned against
    it rather than beside it. This is a literature check, not research.
+
+   > **Done, and the answer is yes** — [`citation-audit.md`](citation-audit.md)
+   > (mg-3a9c, 2026-08-12) is that check. They are the Sonin/prolate objects of
+   > Connes–Consani and Connes–Moscovici, and more than that: the corpus's $E$,
+   > $\widehat P$, $\chi_n$, $\lambda$, the codimension-two test space, the two-mode
+   > prolate combination and the near-null direction itself are **the objects of
+   > Connes–Consani, arXiv:2106.01715 / Enseign. Math. 69 (2023) 93–148, §3, in that
+   > paper's own letters** — the table at §4(2) above. So the corpus **is** re-deriving
+   > pieces of a published framework, and the recommendation this item makes is
+   > confirmed rather than merely proposed: position `start.tex` §§1,3 **against**
+   > arXiv:2106.01715 §3, with the citation. This item is closed; items 1, 2 and 4
+   > remain open. On item 2 the audit sharpens the ask (§4.3): $QW_\lambda$ is a single
+   > symbol in the source and no operator $Q$ appears there, so "define $Q$" may resolve
+   > as "there is nothing to define".
 4. **Only then** consider whether anything in the $S^3$ material survives. On the
    analysis of §2.2 it does not: $S^3$ is the shadow of the problem C1 has to solve.
 
@@ -501,6 +661,29 @@ of positive type; symmetry and nondegeneracy of the linking form on a rational
 homology 3-sphere; $H^*(B^4)$ and Novikov additivity; Weil's use of
 Castelnuovo/Hodge index for $\operatorname{Tr}(Z\circ Z^t)>0$. All are standard;
 none should be cited in writing without a check.
+
+> **Checked, 2026-08-12 — [`citation-audit.md`](citation-audit.md) (mg-3a9c) is that
+> check.** Outcome for the list above, item by item:
+>
+> - **Hold as stated.** Connes–Consani, Selecta Math. **27** (2021) no. 4, Paper No. 77
+>   = arXiv:2006.13771 (**A1**); Connes–Moscovici on the prolate operator and the zeros
+>   of $\zeta$ = arXiv:2112.05500 / PNAS **119** (2022) e2123174119 (**A5**); the
+>   Sonin-projection/prolate-theory identification (**A6** — *stronger* than claimed
+>   here); primes $\leftrightarrow$ knots, Morishita (part of **A7**); the linking form
+>   on a rational homology 3-sphere (**A11**); $H^*(B^4)$ and Novikov additivity
+>   (**A12**); Weil's use of Castelnuovo/Hodge index (**A13**). Also **A4**, the Sonin
+>   space as used in §4. These may now be cited.
+> - **Narrower than stated, and narrowed in place above.** The semilocal extension
+>   (**A2** → §4); the $W_S=A^*A$ factorisation (**A3** → §4); the arithmetic-topology
+>   dictionary (**A7** → §2.2); Faltings–Hriljac (**A9** → §7); Bochner–Schwartz
+>   (**A10** → §6).
+> - **Still open.** Deninger ICM 1998 at page level (audit **U2**: the programme
+>   statement is confirmed, but the specific $H^0,H^2\leftrightarrow\hat f(0),\hat f(1)$
+>   pairing asserted at §5(1) above was not confirmed against the text); and
+>   Bochner–Schwartz on a general LCA group (**U1**).
+>
+> So the closing instruction above is discharged for the items marked *hold*, and
+> reinforced for the rest.
 
 ---
 

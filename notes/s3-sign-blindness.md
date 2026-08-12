@@ -58,7 +58,7 @@ $\eta \equiv 0$**, so the model as constructed predicts no spectral asymmetry at
 
 Two corrections to prior documents, both stated as claims to be checked:
 
-- **Against the audit's candidate (a)** (`s3-reduction-audit.md:293-298`): a compact
+- **Against the audit's candidate (a)** (`s3-reduction-audit.md:356-361`): a compact
   group commuting with $W_\lambda$ would **not** give positivity. It gives Schur
   block-diagonality — a *reindexing* of the sign question. §4. And the corpus
   already contains a worked instance of candidate (a) which delivers exactly zero
@@ -80,14 +80,14 @@ to separate them.
 
 | | quantity | status |
 |---|---|---|
-| **S-end** | sign of the endpoint term $h_\lambda(0)$ | **settled: negative.** `s3-reduction-audit.md:215` |
+| **S-end** | sign of the endpoint term $h_\lambda(0)$ | **settled: negative.** `s3-reduction-audit.md:278` |
 | **S-Weil** | $\operatorname{sign}(C_\lambda)$ in $QW_\lambda(Eh_\lambda)=C_\lambda(1-\chi_4)+o(\cdot)$ | **open.** `start.tex:370`, `s3.tex:183` |
 
 Only **S-Weil** is the content of what remains. **S-end** is where a sign already
 exists, so it is the natural place to ask whether $S^3$ *explains* signs or merely
 accommodates them — that is §2. But note in advance that S-end may not even enter
 S-Weil: under one reading of $Q$ (the audit's blocking ambiguity #2,
-`s3-reduction-audit.md:246-257`) the endpoint directions are projected away before
+`s3-reduction-audit.md:309-320`) the endpoint directions are projected away before
 $QW_\lambda$ is formed, and then S-end contributes nothing to S-Weil whatsoever.
 
 There is also a textual signal worth recording. Daniel's own Boundary Leakage Lemma
@@ -125,7 +125,7 @@ $$m\equiv 0\ (4):\ h(0)=\alpha\psi_0(0)\Bigl(1-\tfrac{\chi_0}{\chi_m}\Bigr)<0
 \qquad
 m\equiv 2\ (4):\ h(0)=\alpha\psi_0(0)\Bigl(1+\tfrac{\chi_0}{\chi_m}\Bigr)>0$$
 
-**for every such $m$.** This sharpens `s3-reduction-audit.md:215`, which derived the
+**for every such $m$.** This sharpens `s3-reduction-audit.md:278`, which derived the
 negative sign from $\chi_0>\chi_4$ specifically: the sign does not depend on the
 selection of 4 at all. Only the *magnitude*, $1-\chi_0/\chi_m\sim-(1-\chi_m)$, does.
 
@@ -140,7 +140,7 @@ interval here.
 *Method note.* Computing this sign numerically at $c\ge 20$ returns **noise**:
 $\chi_0/\chi_m-1$ is $O(e^{-2c})$ and underflows against $1$. An earlier draft of the
 script did exactly that and produced a garbage sign table. This is the same
-double-precision ceiling as `s3-reduction-audit.md:259-283`, and here it is a reason
+double-precision ceiling as `s3-reduction-audit.md:322-346`, and here it is a reason
 to *derive* the sign rather than measure it — (X) is an ordering, not a measurement.
 
 ---
@@ -174,7 +174,7 @@ asymptotics, uniformity in $\lambda$, upgrading $O$ to $\Theta$ to an exact lead
 term — can determine $\operatorname{sign}(C_\lambda)$. This is not a statement about
 how hard the remaining work is. It is a statement that the remaining work is *of a
 different type*, and that effort spent refining (i)–(iv) is provably not spent on
-the sign. The audit's sharpened forms (`s3-reduction-audit.md:165`, `:215`), and §5
+the sign. The audit's sharpened forms (`s3-reduction-audit.md:207`, `:278`), and §5
 of this note, are all subject to it.
 
 **The anticipated objection, and the answer.** *"Of course (i)–(iii) don't mention
@@ -207,7 +207,7 @@ names a projection, not the form.
 ## 4. Candidate (a), group averaging — engaged, and corrected
 
 The audit named this as what "the $S^3$ geometry reduces a Connes gap" would have to
-mean (`s3-reduction-audit.md:293-298`): a unitary representation of a compact group
+mean (`s3-reduction-audit.md:356-361`): a unitary representation of a compact group
 on the test space commuting with $W_\lambda$, so that "positivity could then come
 from group averaging (Bochner/Godement) rather than from an estimate."
 
@@ -323,7 +323,7 @@ constrained-minimisation routine is doing what it claims.
 
 *Not* independent, and I initially recorded it as though it were: $\nu/d_4$ drifts
 towards $8/11=0.7273$, the constant the audit obtained from Hermite limits
-(`s3-reduction-audit.md:165`). That agreement is **implied by** the overlap
+(`s3-reduction-audit.md:207`). That agreement is **implied by** the overlap
 $\to 1$ — once the minimiser is $h_\lambda$, its leakage is $h_\lambda$'s leakage and
 the constant must match. The overlap is the observation; the constant is its
 consequence, not a second witness.
@@ -416,12 +416,30 @@ invariants are given by **Dedekind-sum** expressions, which is the one place whe
 coefficients or not, quotient or not. If round with trivial coefficients, §6 is
 closed. If not, the eta invariant is computable and can be compared against
 $C_\lambda$, which would be a nontrivial numerical agreement of the kind the audit
-asked for at `s3-reduction-audit.md:318-319`.
+asked for at `s3-reduction-audit.md:381-382`.
 
-*Citations unverified — this audit, like mg-aedf, was run offline.* The load-bearing
-facts are standard (Hodge index / Weil's function-field proof; $H^*(S^3)$; APS eta;
-the round-$S^3$ Dirac spectrum; APS II for lens spaces), but should be checked before
-any of §6 is used in writing.
+*Citations unverified — this audit, like mg-aedf, was run offline.* **Discharged
+2026-08-12: they have been checked, and they hold.** The pass is
+[`citation-audit.md`](citation-audit.md) §3 (mg-3a9c), which is where the references
+now live. Item by item, for the load-bearing facts of §6:
+
+- **B5** — Hodge index / Weil's function-field proof, signature $(1,\rho-1)$: **holds.**
+  Weil obtains positivity of the trace form on correspondences from the
+  Castelnuovo–Severi inequality, equivalently Hodge index on the surface.
+- **B6** — $H^1(S^3;\mathbb Q)=H^2(S^3;\mathbb Q)=0$: **holds** (standard; no citation
+  needed).
+- **B7** — the APS eta invariant as the odd-dimensional signed invariant, arising as a
+  boundary correction: **holds** (Atiyah–Patodi–Singer I–III).
+- **B8** — the round-$S^3$ falsifier $\eta\equiv0$: **holds**, and both of the arguments
+  given above are good ones — the Dirac spectrum $\pm(\tfrac32+k)$ carries multiplicity
+  $(k+1)(k+2)$ on each sign, exactly symmetric, and the orientation-reversal argument is
+  independent of it.
+- **B9** — lens-space eta invariants as Dedekind sums: **holds** (APS II).
+
+Outside §6, and also checked: **B10**, Davenport–Heilbronn (§1, §7) and **B11**,
+Bochner/Godement versus Schur (§4) — both **hold**. Nothing in this note came back
+*narrower* or *unsupported*. So §6 may now be used in writing, falsifier included; the
+caveat above is left standing as the record of what this note knew when it was written.
 
 ---
 
@@ -479,7 +497,7 @@ even $m,n$ at moderate $c$. Then:
 
 **This is blocked, and by the audit's already-identified cheapest item.** $M$ cannot
 be written down until `start.tex:44`'s $Q$ — "removes the expected low-dimensional
-exceptional sector" — is pinned to a definition (`s3-reduction-audit.md:246-257`).
+exceptional sector" — is pinned to a definition (`s3-reduction-audit.md:309-320`).
 That was already the highest-value/lowest-cost item on the audit's list; it is now
 blocking for a second, independent reason. Note the two readings give different
 experiments, not just different constants: if $Q$ removes the endpoint directions

@@ -75,28 +75,28 @@ confirmed.
 
 ---
 
-## 2. Part A — the nine load-bearing facts of `signed-geometry-proposals.md:493-503`
+## 2. Part A — the nine load-bearing facts of `signed-geometry-proposals.md:653-663`
 
 | # | claim, as our text states it | outcome | reference |
 |---|---|---|---|
 | A1 | Connes–Consani, *Weil positivity and trace formula: the archimedean place*, Selecta Math. 27 (2021) | **holds** | Selecta Math. (N.S.) **27** (2021), no. 4, Paper No. 77, 70 pp.; DOI [10.1007/s00029-021-00689-4](https://doi.org/10.1007/s00029-021-00689-4); arXiv:2006.13771 (24 Jun 2020) |
 | A2 | "…and its semilocal extension" | **narrower** | §2.1 |
-| A3 | positivity there is by a factorisation $W_S = A^*A + (\text{controlled})$ (`signed-geometry-proposals.md:260-262`) | **narrower** | §2.2 |
-| A4 | Sonin space = functions vanishing with their Fourier transform on $[-\Lambda,\Lambda]$ (`:248-249`) | **holds** | arXiv:2006.13771 §1: the Sonin space is the orthogonal complement of the range of the cutoff projection at $\Lambda=1$, i.e. even $L^2(\mathbb R)$ functions which "together with their Fourier transform, vanish identically in $[-1,1]$"; called there "the well-known infinite dimensional Sonin's space" |
+| A3 | positivity there is by a factorisation $W_S = A^*A + (\text{controlled})$ (`signed-geometry-proposals.md:345-347`) | **narrower** | §2.2 |
+| A4 | Sonin space = functions vanishing with their Fourier transform on $[-\Lambda,\Lambda]$ (`:294-295`) | **holds** | arXiv:2006.13771 §1: the Sonin space is the orthogonal complement of the range of the cutoff projection at $\Lambda=1$, i.e. even $L^2(\mathbb R)$ functions which "together with their Fourier transform, vanish identically in $[-1,1]$"; called there "the well-known infinite dimensional Sonin's space" |
 | A5 | Connes–Moscovici on the prolate operator and the zeros of $\zeta$ | **holds** | arXiv:2112.05500, *Prolate spheroidal operator and Zeta* (10 Dec 2021) = A. Connes, H. Moscovici, *The UV prolate spectrum matches the zeros of zeta*, **PNAS 119** (2022) e2123174119, DOI [10.1073/pnas.2123174119](https://doi.org/10.1073/pnas.2123174119). Precise content: the restriction of the self-adjoint extension $W$ to the complement of $J$ has *negative* eigenvalues whose UV behaviour reproduces the **squares** of the zeros; the eigenfunctions lie in the Sonin space |
-| A6 | the Sonin projection's spectral theory *is* prolate theory (`:252-254`) | **holds, and stronger than claimed** | Connes–Consani–Moscovici, arXiv:2310.18423 §1: the Sonin space "was identified in [12] to the Sonin space" as the negative eigenspace of the prolate operator, "up to a finite dimensional possible discrepancy" |
+| A6 | the Sonin projection's spectral theory *is* prolate theory (`:298-300`) | **holds, and stronger than claimed** | Connes–Consani–Moscovici, arXiv:2310.18423 §1: the Sonin space "was identified in [12] to the Sonin space" as the negative eigenspace of the prolate operator, "up to a finite dimensional possible discrepancy" |
 | A7 | arithmetic-topology dictionary: $\operatorname{Spec}\mathcal O_K$ 3-dimensional with duality; $\operatorname{Spec}\mathbb Z \leftrightarrow S^3$ via Minkowski; primes $\leftrightarrow$ knots (Mazur, Morishita) | **narrower** | §2.3 |
 | A8 | Deninger, ICM 1998 | **holds** (programme statement); **unverified at page level** | C. Deninger, *Some analogies between number theory and dynamical systems on foliated spaces*, Doc. Math., Extra Vol. ICM Berlin 1998, Vol. I, 163–186. §7 item U2 |
-| A9 | Faltings–Hriljac arithmetic Hodge index: pairing negative definite on degree-zero divisors, equals Néron–Tate height (`:465-467`) | **narrower** | §2.4 |
-| A10 | Bochner–Schwartz for tempered distributions of positive type (`:369-371`) | **narrower** | §2.5 |
-| A11 | linking form on a rational homology 3-sphere is symmetric and nondegenerate, $\mathbb Q/\mathbb Z$-valued on $H_1$ torsion (`:411-413`) | **holds** | Standard; e.g. Friedl–Leidy–Nagel–Powell, *Linking forms revisited*, Pure Appl. Math. Q. **12** (2016) no. 4 (arXiv:1708.03754) §2: for a rational homology 3-sphere $Y$, $\lambda\colon H_1(Y;\mathbb Z)\times H_1(Y;\mathbb Z)\to\mathbb Q/\mathbb Z$ is nonsingular and symmetric, and $H_1$ is all torsion |
-| A12 | $H^2(B^4)=0$; Novikov additivity (`:435-443`) | **holds** | $B^4$ is contractible, so $H^*(B^4)=H^*(\mathrm{pt})$ — no citation required. Novikov additivity: if two compact oriented $4k$-manifolds are glued by an orientation-reversing diffeomorphism of their **whole** boundaries, the signature of the union is the sum. (Wall non-additivity applies only when gluing along a *proper* piece of the boundary; our text does not use that case, so the caveat does not bite.) |
-| A13 | Weil's use of Castelnuovo / Hodge index for $\operatorname{Tr}(Z\circ Z^t)>0$ (`:126`, `s3-sign-blindness.md:364-369`) | **holds** | Weil's 1948 proof of RH for curves over $\mathbb F_q$ obtains positivity of the trace form on correspondences from the **Castelnuovo–Severi inequality** — Castelnuovo's $\sigma(D,D)\ge 0$ for a divisor on $C_1\times C_2$, with equality iff $D$ has valence zero — equivalently the Hodge index theorem on the surface. Survey: J.S. Milne, *The Riemann Hypothesis over Finite Fields: From Weil to the Present Day* (arXiv:1509.00797) §3 |
+| A9 | Faltings–Hriljac arithmetic Hodge index: pairing negative definite on degree-zero divisors, equals Néron–Tate height (`:598-599`) | **narrower** | §2.4 |
+| A10 | Bochner–Schwartz for tempered distributions of positive type (`:484-486`) | **narrower** | §2.5 |
+| A11 | linking form on a rational homology 3-sphere is symmetric and nondegenerate, $\mathbb Q/\mathbb Z$-valued on $H_1$ torsion (`:546-548`) | **holds** | Standard; e.g. Friedl–Leidy–Nagel–Powell, *Linking forms revisited*, Pure Appl. Math. Q. **12** (2016) no. 4 (arXiv:1708.03754) §2: for a rational homology 3-sphere $Y$, $\lambda\colon H_1(Y;\mathbb Z)\times H_1(Y;\mathbb Z)\to\mathbb Q/\mathbb Z$ is nonsingular and symmetric, and $H_1$ is all torsion |
+| A12 | $H^2(B^4)=0$; Novikov additivity (`:570-578`) | **holds** | $B^4$ is contractible, so $H^*(B^4)=H^*(\mathrm{pt})$ — no citation required. Novikov additivity: if two compact oriented $4k$-manifolds are glued by an orientation-reversing diffeomorphism of their **whole** boundaries, the signature of the union is the sum. (Wall non-additivity applies only when gluing along a *proper* piece of the boundary; our text does not use that case, so the caveat does not bite.) |
+| A13 | Weil's use of Castelnuovo / Hodge index for $\operatorname{Tr}(Z\circ Z^t)>0$ (`:136`, `s3-sign-blindness.md:364-369`) | **holds** | Weil's 1948 proof of RH for curves over $\mathbb F_q$ obtains positivity of the trace form on correspondences from the **Castelnuovo–Severi inequality** — Castelnuovo's $\sigma(D,D)\ge 0$ for a divisor on $C_1\times C_2$, with equality iff $D$ has valence zero — equivalently the Hodge index theorem on the surface. Survey: J.S. Milne, *The Riemann Hypothesis over Finite Fields: From Weil to the Present Day* (arXiv:1509.00797) §3 |
 
 ### 2.1 A2 — the semilocal case is not proved
 
-`signed-geometry-proposals.md:244-245` cites "…and its semilocal extension" as if it were
-a companion theorem, and `:54` calls C2 "the only place a sign is actually *proved*".
+`signed-geometry-proposals.md:289-290` cites "…and its semilocal extension" as if it were
+a companion theorem, and `:64` calls C2 "the only place a sign is actually *proved*".
 
 What arXiv:2006.13771 proves is the **archimedean place**. Its own framing: "We explore in
 great details the simplest case of the single archimedean place… All the ingredients and
@@ -106,7 +106,7 @@ three years later, still describe the semilocal case as a programme: their paper
 a more precise strategy for addressing the semilocal Weil positivity", and defers a second
 candidate semilocal prolate operator "to a forthcoming paper".
 
-**Consequence for our text.** `signed-geometry-proposals.md:54` and `:240-241`, and the
+**Consequence for our text.** `signed-geometry-proposals.md:64` and `:275-276`, and the
 vision document's "C2 signs *some* places", should read: the sign is proved **at the
 archimedean place**; the semilocal case is an announced strategy. This does not change the
 C2 ranking — an archimedean theorem is still the only proved sign in the list — but it
@@ -114,7 +114,7 @@ removes a plural.
 
 ### 2.2 A3 — the mechanism is a compression, not an exhibited square
 
-`signed-geometry-proposals.md:260-262` states that the semilocal Weil form "is shown to be
+`signed-geometry-proposals.md:345-347` states that the semilocal Weil form "is shown to be
 $W_S=A^*A+(\text{controlled})$ on the relevant space, i.e. positivity by exhibiting a
 square."
 
@@ -128,7 +128,7 @@ prolate spheroidal wave functions and controlled by hermitian **Toeplitz matrix*
 The distinction matters in exactly one direction and it is the direction §2.1 of that note
 cares about. The right-hand side *is* of the form $\operatorname{Tr}(x\,x^*)$, so the
 taxonomy placement — the $C^*$-algebra row of the table at
-`signed-geometry-proposals.md:124-130` — **survives**; the sign really does come from an
+`signed-geometry-proposals.md:134-140` — **survives**; the sign really does come from an
 involution and a square, and the note's structural reading is right. What does not survive
 is the sentence "positivity by exhibiting a square" applied to $W_S$ itself: the Weil form
 is *bounded below by* a manifestly positive trace, and the gap is what the Toeplitz
@@ -144,7 +144,7 @@ one.
   cohomological dimension of $\mathcal O_K$ is *infinite*, and the clean 3-dimensional
   statement holds away from 2 (or for totally imaginary $K$). $\mathbb Q$ has a real place,
   so this caveat applies to precisely the case
-  `signed-geometry-proposals.md:139-144` invokes. It does not damage the argument there —
+  `signed-geometry-proposals.md:149-154` invokes. It does not damage the argument there —
   which only needs "why a 3-manifold, and why a homology sphere" — but the sentence as
   written is unconditional and the theorem is not.
 - **"$\operatorname{Spec}\mathbb Z\leftrightarrow S^3$ via Minkowski"** — the arithmetic
@@ -153,7 +153,7 @@ one.
   $\pi_1^{\text{ét}}(\operatorname{Spec}\mathbb Z)=1$. The *identification* with $S^3$ is a
   dictionary entry (the M²KR dictionary — Mazur, Morishita, Kapranov, Reznikov), not a
   theorem, and it is one-directional: simple connectivity does not by itself pick out
-  $S^3$ among closed 3-manifolds except through Poincaré–Perelman. Our text at `:142-144`
+  $S^3$ among closed 3-manifolds except through Poincaré–Perelman. Our text at `:152-154`
   says "corresponds… because", which reads as an implication. It is an analogy.
 - **primes $\leftrightarrow$ knots (Mazur, Morishita)** — holds. Morishita, *Knots and
   Primes: An Introduction to Arithmetic Topology*, Springer Universitext, 2012 (Japanese
@@ -164,7 +164,7 @@ one.
 
 ### 2.4 A9 — negative *semi*-definite
 
-`signed-geometry-proposals.md:465-467` says the arithmetic intersection pairing is
+`signed-geometry-proposals.md:598-599` says the arithmetic intersection pairing is
 "negative definite on degree-zero divisors, and equals the Néron–Tate height".
 
 The Faltings–Hriljac theorem (Faltings, *Calculus on arithmetic surfaces*, Ann. of Math.
@@ -175,13 +175,13 @@ Néron–Tate height, hence is $\le 0$ — negative *semi*-definite, becoming de
 after quotienting by the vertical/torsion classes on which the height vanishes. "Negative
 definite" is an over-claim by exactly that kernel.
 
-The note's *use* of the theorem is unaffected, and its own diagnosis at `:466-469` is
+The note's *use* of the theorem is unaffected, and its own diagnosis at `:601-604` is
 correct and worth keeping: the theorem needs an arithmetic **surface**, i.e. a curve over
 $\operatorname{Spec}\mathcal O_K$, and $\operatorname{Spec}\mathbb Z$ is not one.
 
 ### 2.5 A10 — Bochner–Schwartz is a theorem on $\mathbb R^n$
 
-`signed-geometry-proposals.md:369-371` writes: "Bochner's theorem is a statement about
+`signed-geometry-proposals.md:484-486` writes: "Bochner's theorem is a statement about
 locally compact abelian groups… and the Bochner–Schwartz extension covers tempered
 distributions." Two statements are being run together, and only the first is at that
 generality.
@@ -190,13 +190,13 @@ generality.
   entirely: a continuous function of positive type on a locally compact abelian $G$ is the
   Fourier transform of a positive measure on $\hat G$, and **compactness is nowhere
   required**. mg-8d74's "no compact group acts on the primes" objection really does fail
-  for the reason `signed-geometry-proposals.md:361-375` gives.
+  for the reason `signed-geometry-proposals.md:476-490` gives.
 - **Bochner–Schwartz** — holds as a theorem *on $\mathbb R^n$*: a tempered distribution of
   positive type is the Fourier transform of a positive tempered measure. I could not find a
   reference for the distributional version on a general LCA group, and the repaired
-  candidate (a) at `:379-382` applies it to $C_{\mathbb Q}=\mathbb A^\times/\mathbb Q^\times$,
+  candidate (a) at `:494-497` applies it to $C_{\mathbb Q}=\mathbb A^\times/\mathbb Q^\times$,
   which is not $\mathbb R^n$. Logged as unresolved in §7 (U1). Since that passage is
-  explicitly "diagnostic, not a route" (`:386`), nothing downstream depends on it — but the
+  explicitly "diagnostic, not a route" (`:521`), nothing downstream depends on it — but the
   sentence should not be written as though a single named theorem covered the step.
 
 ---
@@ -207,26 +207,26 @@ The work item asked for a sweep beyond §8's list. These are the load-bearing on
 
 | # | claim | outcome | reference |
 |---|---|---|---|
-| B1 | Slepian–Pollak finite-Fourier eigenrelation, $\mu_n=i^n\sqrt{2\pi\Lambda_n/c}$ (`s3-reduction-audit.md:178-180`, `s3-sign-blindness.md:109,116`) | **holds** | D. Slepian, H.O. Pollak, *Prolate spheroidal wave functions, Fourier analysis and uncertainty — I*, Bell System Tech. J. **40** (1961) 43–63. Independently corroborated: Connes–Consani state the same relation in the form $\widetilde{\mathcal F}(\psi_{m,\lambda})=\chi_m\psi_{m,\lambda}$ on $[-\lambda,\lambda]$ with $\chi_m$ "very close to $(-1)^m$ provided $m<2\lambda^2$" (arXiv:2106.01715 §3) — see §4.2 row 6 |
-| B2 | fixed-index large-$c$ Hermite limit for prolates (`s3-reduction-audit.md:135-136`) | **holds** (source), **unverified** (uniform-error version) | D. Slepian, *Some asymptotic expansions for prolate spheroidal wave functions*, J. Math. and Phys. **44** (1965) 99–140. §7 item U3 |
-| B3 | rigorous bounds: Bonami–Karoui, Osipov–Rokhlin–Xiao (`s3-reduction-audit.md:137`) | **holds** | A. Bonami, A. Karoui, *Uniform approximation and explicit estimates for the prolate spheroidal wave functions*, Constr. Approx. **43** (2016), Springer. A. Osipov, V. Rokhlin, H. Xiao, *Prolate Spheroidal Wave Functions of Order Zero: Mathematical Tools for Bandlimited Approximation*, Applied Math. Sciences **187**, Springer, 2013 — this is reference [16] of Connes–Consani–Moscovici arXiv:2310.18423, i.e. the same source the principals use |
-| B4 | Fuchs/Slepian asymptotic $1-\Lambda_n(c)\sim 4\sqrt\pi\,8^n c^{n+1/2}e^{-2c}/n!$ (`s3-reduction-audit.md:145`) | **holds** (source), **unverified** (exact constant) | W.H.J. Fuchs, *On the eigenvalues of an integral equation arising in the theory of band-limited signals*, J. Math. Anal. Appl. **9** (1964) 317–330. §7 item U4 |
+| B1 | Slepian–Pollak finite-Fourier eigenrelation, $\mu_n=i^n\sqrt{2\pi\Lambda_n/c}$ (`s3-reduction-audit.md:220-222`, `s3-sign-blindness.md:109,116`) | **holds** | D. Slepian, H.O. Pollak, *Prolate spheroidal wave functions, Fourier analysis and uncertainty — I*, Bell System Tech. J. **40** (1961) 43–63. Independently corroborated: Connes–Consani state the same relation in the form $\widetilde{\mathcal F}(\psi_{m,\lambda})=\chi_m\psi_{m,\lambda}$ on $[-\lambda,\lambda]$ with $\chi_m$ "very close to $(-1)^m$ provided $m<2\lambda^2$" (arXiv:2106.01715 §3) — see §4.2 row 6 |
+| B2 | fixed-index large-$c$ Hermite limit for prolates (`s3-reduction-audit.md:155-156`) | **holds** (source), **unverified** (uniform-error version) | D. Slepian, *Some asymptotic expansions for prolate spheroidal wave functions*, J. Math. and Phys. **44** (1965) 99–140. §7 item U3 |
+| B3 | rigorous bounds: Bonami–Karoui, Osipov–Rokhlin–Xiao (`s3-reduction-audit.md:157`) | **holds** | A. Bonami, A. Karoui, *Uniform approximation and explicit estimates for the prolate spheroidal wave functions*, Constr. Approx. **43** (2016), Springer. A. Osipov, V. Rokhlin, H. Xiao, *Prolate Spheroidal Wave Functions of Order Zero: Mathematical Tools for Bandlimited Approximation*, Applied Math. Sciences **187**, Springer, 2013 — this is reference [16] of Connes–Consani–Moscovici arXiv:2310.18423, i.e. the same source the principals use |
+| B4 | Fuchs/Slepian asymptotic $1-\Lambda_n(c)\sim 4\sqrt\pi\,8^n c^{n+1/2}e^{-2c}/n!$ (`s3-reduction-audit.md:179`) | **holds** (source), **unverified** (exact constant) | W.H.J. Fuchs, *On the eigenvalues of an integral equation arising in the theory of band-limited signals*, J. Math. Anal. Appl. **9** (1964) 317–330. §7 item U4 |
 | B5 | Hodge index / Weil function-field proof; signature $(1,\rho-1)$ (`s3-sign-blindness.md:364-369`) | **holds** | as A13 |
 | B6 | $H^1(S^3;\mathbb Q)=H^2(S^3;\mathbb Q)=0$ (`s3-sign-blindness.md:373`) | **holds** | standard; no citation required |
 | B7 | APS eta invariant as the odd-dimensional signed invariant, arising as a boundary correction (`s3-sign-blindness.md:391-397`) | **holds** | M.F. Atiyah, V.K. Patodi, I.M. Singer, *Spectral asymmetry and Riemannian geometry* I–III, Math. Proc. Cambridge Philos. Soc. **77** (1975) 43–69; **78** (1975) 405–432; **79** (1976) 71–99 |
 | B8 | round $S^3$, trivial coefficients: Dirac spectrum $\pm(\tfrac32+k)$ with equal multiplicities, hence $\eta\equiv0$ (`s3-sign-blindness.md:402-405`) | **holds** | The Dirac spectrum of the round $S^3$ is $\pm(\tfrac32+k)$, $k\ge0$, with multiplicity $(k+1)(k+2)$ on each sign — symmetric, so $\eta\equiv0$. See e.g. arXiv:1605.08589, *Spectral analysis of the Dirac operator on a 3-sphere*. The note's second argument (orientation-reversing isometry, $\eta$ odd under orientation reversal) is independent and also correct |
 | B9 | lens-space eta invariants are Dedekind-sum expressions (`s3-sign-blindness.md:411-413`) | **holds** | APS II; explicit modern form via Bär's formula for spherical space forms — see arXiv:1504.03121, *Properties of the Dirac spectrum on three dimensional lens spaces* |
-| B10 | Davenport–Heilbronn: Riemann-type functional equation, no Euler product, zeros off the critical line (`s3-sign-blindness.md:44-45,435-439`) | **holds** | H. Davenport, H. Heilbronn (1936). The function is $D(s)=\tfrac{1-i\kappa}{2}L(s,\chi)+\tfrac{1+i\kappa}{2}L(s,\bar\chi)$; it satisfies the functional equation, has no Euler product, has infinitely many zeros on the critical line **and** zeros off it. Numerics: Spira; see *Zeros of the Davenport–Heilbronn counterexample*, Math. Comp. **76** (2007) |
+| B10 | Davenport–Heilbronn: Riemann-type functional equation, no Euler product, zeros off the critical line (`s3-sign-blindness.md:44-45,453-457`) | **holds** | H. Davenport, H. Heilbronn (1936). The function is $D(s)=\tfrac{1-i\kappa}{2}L(s,\chi)+\tfrac{1+i\kappa}{2}L(s,\bar\chi)$; it satisfies the functional equation, has no Euler product, has infinitely many zeros on the critical line **and** zeros off it. Numerics: Spira; see *Zeros of the Davenport–Heilbronn counterexample*, Math. Comp. **76** (2007) |
 | B11 | Bochner/Godement give positivity for functions of positive type; Schur gives block-diagonality, not signs (`s3-sign-blindness.md:223-226`) | **holds** | as A10, first bullet |
 
 **Note on B1.** mg-aedf calls the phase rule "the one structural finding" of that note
-(`s3-reduction-audit.md:175`, `:198-200`). The underlying fact — that the finite-Fourier
+(`s3-reduction-audit.md:217`, `:240-242`). The underlying fact — that the finite-Fourier
 characteristic value alternates in sign with the mode index — is stated by Connes–Consani
 themselves, in the form $\chi_m\simeq(-1)^m$ for $\psi_{m,\lambda}:=\mathrm{PS}_{2m,0}$
 (their index $m$ is half the prolate index, so $(-1)^m=i^{2m}=i^n$: the two statements are
 the same statement). What is *not* in Connes–Consani is mg-aedf's **use** of it — the
 selection of mode 4 as the least-leaky even prolate whose phase matches mode 0, and the
-$\{0,2\}$-versus-$\{0,4\}$ comparison at `s3-reduction-audit.md:185-196`. Connes–Consani
+$\{0,2\}$-versus-$\{0,4\}$ comparison at `s3-reduction-audit.md:227-238`. Connes–Consani
 use the sign to split the even and odd matrices, not to select a mode. mg-aedf's framing
 ("Any $S^3$ derivation of '4' will at best reproduce it") stands; the sentence that it is
 new does not.
@@ -270,7 +270,7 @@ All right-hand entries are from Connes–Consani, arXiv:2106.01715 §3 unless ma
 | 14 | $1-\chi_4$ as the controlling scale, `start.tex:34,39,186` | not used. Connes–Consani report the smallest eigenvalue $s(L)$ decaying **exponentially in $\mu=e^L$** (Figures 18–21, §2.5) with no identification of the rate | **corpus-specific.** §4.4 |
 | 15 | Sonin space | negative eigenspace of the prolate operator (A5, A6). Absent from `start.tex` and `s3.tex` entirely | **published object the corpus does not use** |
 
-**Verdict.** `signed-geometry-proposals.md:255-256` — "The corpus is already inside C2's
+**Verdict.** `signed-geometry-proposals.md:301-302` — "The corpus is already inside C2's
 geometry without saying so" — is correct, and understated. It is not that the corpus's
 objects *belong to* that geometry; they are that paper's objects, in that paper's letters,
 performing that paper's construction. The corpus should be positioned **against**
@@ -324,7 +324,7 @@ Likewise for Gate 1 (which places $W_\lambda$ contains): under the published rea
 $QW_\lambda$ is the Weil form on test functions supported in $[\lambda^{-1},\lambda]$, and
 Connes–Consani's own Figures 7–17 show it acquiring the contribution of the prime $p$ as
 $\mu$ passes $p$. That is the "**finitely many primes**" branch of
-`signed-geometry-proposals.md:285-287` — the primes $p\le\mu=\lambda^2$. I record that
+`signed-geometry-proposals.md:388-390` — the primes $p\le\mu=\lambda^2$. I record that
 this is what the literature's object does; whether it is what `start.tex` means is Gate 1
 and remains Daniel's.
 
@@ -345,11 +345,11 @@ anything I found in the literature has been removed from the list.
    "exceptional sector $=0+O(1-\chi_4)$" is a *quantification of a step the published
    construction takes approximately*, which is a real if modest contribution — and it is
    not the "main new structural result" `start.tex:198` claims. mg-aedf independently
-   showed (`s3-reduction-audit.md:206-209`) that the two boxed identities are one fact,
+   showed (`s3-reduction-audit.md:269-272`) that the two boxed identities are one fact,
    which is consistent with this reading.
 2. **mg-aedf's exact constant.**
    $\|(1-\widehat P)h_\lambda\|_2^2=\tfrac8{11}(1-\Lambda_4)(1+O(c^{-4}))$
-   (`s3-reduction-audit.md:165`), with $|\beta|^2\to 8/11$ from the fixed-index Hermite
+   (`s3-reduction-audit.md:207`), with $|\beta|^2\to 8/11$ from the fixed-index Hermite
    limit. I found nothing of this shape in the literature. It is small, it is checkable,
    and it is ours.
 3. **mg-aedf's arithmetic bound.** That `start.tex:180-181` holds to 8 digits at $c\le12$,
@@ -361,7 +361,7 @@ anything I found in the literature has been removed from the list.
 4. **The $S^3$ / arithmetic-topology overlay.** Genuinely absent from this literature —
    and mg-8d74 already established it is invariant under $W_\lambda\mapsto-W_\lambda$, so
    it is a residue with no value. Recorded for completeness, not as an asset.
-5. **The sign-blindness lemma as an audit rule** (`signed-geometry-proposals.md:94-99`) and
+5. **The sign-blindness lemma as an audit rule** (`signed-geometry-proposals.md:104-109`) and
    the Davenport–Heilbronn test (`s3-sign-blindness.md` §7). Trivial as mathematics; not
    standard as a stated discipline. Worth keeping as method, not claimable as a result.
 
@@ -493,10 +493,10 @@ Two facts from this sweep are directly actionable:
 
 | # | item | why unresolved |
 |---|---|---|
-| U1 | Bochner–Schwartz on a general LCA group | I verified the theorem on $\mathbb R^n$ (tempered distribution of positive type $\Leftrightarrow$ Fourier transform of a positive tempered measure) and Bochner on LCA groups for *continuous functions* of positive type. I could not find a reference for the *distributional* version on a general LCA group, which is what `signed-geometry-proposals.md:369-382` applies to $C_{\mathbb Q}$. Likely fine (Weil's own framework), but not checked. Nothing downstream depends on it: that passage is diagnostic by its own statement |
-| U2 | Deninger ICM 1998 at page level | The programme statement (foliated 3-space, 2-dimensional leaves, flow, leafwise cohomology carrying the zeros, Lefschetz formula, closed orbits $\leftrightarrow$ primes) is confirmed from the abstract and from the substantial secondary literature. The specific pairing $H^0,H^2\leftrightarrow\hat f(0),\hat f(1)$ at `signed-geometry-proposals.md:320-321` I did not confirm against the text. It is stated in the secondary literature; I did not open Doc. Math. Extra Vol. ICM I pp. 163–186 |
-| U3 | Slepian 1965 uniform-error version of the Hermite limit | Source confirmed (J. Math. and Phys. **44** (1965) 99–140); the *uniform* error statement mg-aedf attributes to it (`s3-reduction-audit.md:135-136`) not checked — paywalled |
-| U4 | Fuchs 1964, the exact constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$ | Source confirmed (JMAA **9** (1964) 317–330); the constant not checked against the paper. mg-aedf verified the $c^{-4}$ *ratio* numerically at $c=8\ldots14$ and reported the constant "converging (slow)" (`s3-reduction-audit.md:149-151`), which is consistent with but not a check of the formula |
+| U1 | Bochner–Schwartz on a general LCA group | I verified the theorem on $\mathbb R^n$ (tempered distribution of positive type $\Leftrightarrow$ Fourier transform of a positive tempered measure) and Bochner on LCA groups for *continuous functions* of positive type. I could not find a reference for the *distributional* version on a general LCA group, which is what `signed-geometry-proposals.md:484-497` applies to $C_{\mathbb Q}$. Likely fine (Weil's own framework), but not checked. Nothing downstream depends on it: that passage is diagnostic by its own statement |
+| U2 | Deninger ICM 1998 at page level | The programme statement (foliated 3-space, 2-dimensional leaves, flow, leafwise cohomology carrying the zeros, Lefschetz formula, closed orbits $\leftrightarrow$ primes) is confirmed from the abstract and from the substantial secondary literature. The specific pairing $H^0,H^2\leftrightarrow\hat f(0),\hat f(1)$ at `signed-geometry-proposals.md:435-436` I did not confirm against the text. It is stated in the secondary literature; I did not open Doc. Math. Extra Vol. ICM I pp. 163–186 |
+| U3 | Slepian 1965 uniform-error version of the Hermite limit | Source confirmed (J. Math. and Phys. **44** (1965) 99–140); the *uniform* error statement mg-aedf attributes to it (`s3-reduction-audit.md:155-156`) not checked — paywalled |
+| U4 | Fuchs 1964, the exact constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$ | Source confirmed (JMAA **9** (1964) 317–330); the constant not checked against the paper. mg-aedf verified the $c^{-4}$ *ratio* numerically at $c=8\ldots14$ and reported the constant "converging (slow)" (`s3-reduction-audit.md:183-185`), which is consistent with but not a check of the formula |
 | U5 | "the 2023 trace formula" (`start.tex:46,242,425`) | Two candidates (§4.1), and the phrase is used for the thing to be *specialised to $h_\lambda$* at `start.tex:244-246,425`. Which paper is meant determines whether step 1 of `start.tex:348-356` is a computation in Connes–Consani 2023 or in CCM 2310.18423. Only Daniel can say |
 | U6 | whether the corpus's $h_{4,\lambda}$ means prolate index 4 or Connes–Consani's index $m=4$ | Their $\psi_{m,\lambda}:=\mathrm{PS}_{2m,0}$, so their $m$ is half the prolate index. mg-aedf's scripts use prolate index 4 (their $m=2$). If `start.tex:138-145` means their $m=4$, it is prolate index 8 and every constant in mg-aedf changes. The phase rule is unaffected (both are $\equiv0\bmod4$); the $8/11$ is not |
 | U7 | whether Connes–Consani anywhere size the residual $\hat\varphi(0)$ | I read §3 and §2.5 and the abstract. They state $\chi_m\simeq(-1)^m$ for $m\le\nu(\mu)$ and "act as if" the Poisson relation were exact; I found no error term. Absence of evidence over ~40 pages skimmed, not a proof of absence. §4.4 item 1 rests on this |
@@ -521,17 +521,30 @@ Not edits — a list for whoever writes next. `start.tex` and `s3.tex` are not t
 **`s3.tex`.**
 - `:122` splits $QW_\lambda$ differently from `start.tex`; §4.3.
 - `:55-78` is Slepian–Pollak double orthogonality, as mg-aedf already found
-  (`s3-reduction-audit.md:78`); Connes–Consani cite the same source (their §3).
+  (`s3-reduction-audit.md:98`); Connes–Consani cite the same source (their §3).
 
 **`s3-reduction-audit.md`.** B1–B4 hold; U3, U4, U6 open. §3's note on B1: the phase fact
 is in Connes–Consani; the mode-4 *selection* is not.
 
 **`s3-sign-blindness.md`.** B5–B11 all hold, including the round-$S^3$ falsifier. The
-"citations unverified" caveat at `:379-382` can be replaced by a pointer to this note.
+"citations unverified" caveat at `:421-424` can be replaced by a pointer to this note.
 
 **`signed-geometry-proposals.md`.** A1, A4–A6, A11–A13 hold. A2, A3, A7, A9, A10 need the
 narrowings of §2.1–§2.5. §4's central claim is confirmed and should be strengthened (§4.2).
 Its §8 item 3 — the ticket this note answers — is done, and its answer is yes.
+
+> **Applied to the three notes, 2026-08-12 (mg-2179).** The three paragraphs above are
+> no longer a to-do list: the narrowings, the caveat replacement and the §4 strengthening
+> have been made in place in the notes themselves, each annotation naming the audit row
+> (A2, A3, A7, A9, A10, B1–B4, §4.2, §4.3) that licenses it. Nothing was deleted — the
+> original over-claims stand alongside their narrowings, so this note's findings remain
+> checkable against the text they corrected. `start.tex` and `s3.tex` were **not**
+> touched: the six defects listed above for them are reported to Daniel by pm-riemann.
+> Every line anchor in this note that pointed into a changed note was renumbered and
+> re-verified against the passage it describes; one anchor (A9's `:465-467`, §2.4) was
+> found to have been two lines past the claim it quotes and now reads `:598-599`, and
+> the `s3-sign-blindness.md` caveat anchor just above, which mg-687b's renumbering pass
+> missed, was `:379-382` and is corrected here.
 
 ---
 

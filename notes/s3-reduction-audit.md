@@ -5,6 +5,15 @@ Work item mg-aedf. Companion script: [`verify_prolate_claims.py`](verify_prolate
 
 Nothing in `start.tex` or `s3.tex` was edited. References are by line.
 
+**Citations checked (added 2026-08-12).** [`citation-audit.md`](citation-audit.md)
+(mg-3a9c) verified this note's attributions against the sources: **B1–B4 hold as
+stated**, and the references are recorded at the four sites below. Three items remain
+**open**, and are marked open rather than dropped — **U3** (the uniform-error form of
+the Hermite limit, §2), **U4** (Fuchs' exact constant, §2), **U6** (the prolate-index
+ambiguity, §0). One substantive narrowing, at §3: the finite-Fourier phase fact **is**
+in Connes–Consani; the mode-4 *selection* built on it is not. Annotated in place, not
+rewritten — what this note concluded on its own evidence is part of the record.
+
 ---
 
 ## Bottom line
@@ -64,6 +73,17 @@ mode-selection result changes. The phase-matching condition is $n\equiv0\pmod 4$
 - *"4th eigenvector of $W_\lambda$"*: §3 does not survive this reading at all.
 
 Daniel's forthcoming examples should state the indexing explicitly.
+
+> **Still open — audit U6 (`citation-audit.md` §7).** The citation audit sharpened this
+> falsifier without settling it, and it is recorded here as open rather than dropped.
+> Connes–Consani index their two-mode combinations by
+> $\psi_{m,\lambda}:=\mathrm{PS}_{2m,0}$, so **their $m$ is half the prolate index**.
+> The script here uses prolate index 4, i.e. their $m=2$. If `start.tex:138-145` means
+> *their* $m=4$, it is prolate index 8 and every constant in this note changes. What
+> survives either reading is §3's phase rule, since both candidate indices are
+> $\equiv0\pmod4$; what does not survive is the $8/11$ of §2. So the falsifier above is
+> not hypothetical — there is a live second reading in the published source, and only
+> Daniel can close it.
 
 ---
 
@@ -138,6 +158,20 @@ Bonami–Karoui and Osipov–Rokhlin–Xiao for rigorous bounds — *citations t
 this audit was run offline*). **This is not the difficulty in disguise. It is
 bookkeeping over a known asymptotic.**
 
+> **Checked, 2026-08-12 — B2, B3 hold (`citation-audit.md` §3).** The sources are
+> right, and are: D. Slepian, *Some asymptotic expansions for prolate spheroidal wave
+> functions*, J. Math. and Phys. **44** (1965) 99–140 (**B2**); A. Bonami, A. Karoui,
+> *Uniform approximation and explicit estimates for the prolate spheroidal wave
+> functions*, Constr. Approx. **43** (2016), and A. Osipov, V. Rokhlin, H. Xiao,
+> *Prolate Spheroidal Wave Functions of Order Zero*, Applied Math. Sciences **187**,
+> Springer 2013 (**B3**) — the latter being reference [16] of Connes–Consani–Moscovici
+> arXiv:2310.18423, i.e. the same source the principals use.
+> **Still open — audit U3.** The *uniform-error* statement this paragraph attributes to
+> Slepian 1965 was not checked against the paper (paywalled). So "has rigorous
+> uniform-error versions in the literature" is an attribution to a confirmed source, not
+> a verification of the statement, and the verdict that U1 is "bookkeeping over a known
+> asymptotic" rests on it.
+
 ### U2 — "leakage associated to lower modes is smaller"
 
 **Verdict: already known, with an explicit rate — and the rate is only polynomial.**
@@ -149,6 +183,14 @@ $$\frac{1-\Lambda_0}{1-\Lambda_4}\sim\frac{4!}{8^4}\,c^{-4}=\frac{3}{512}c^{-4}.
 Verified: measured ratio vs. predicted, $c=8\to14$: $8.4\text{e-}6/1.4\text{e-}6$,
 $1.7\text{e-}6/5.9\text{e-}7$, $6.3\text{e-}7/2.8\text{e-}7$, $2.9\text{e-}7/1.5\text{e-}7$ —
 the $c^{-4}$ rate is right and the constant is converging (slow, as Fuchs asymptotics are).
+
+> **Checked, 2026-08-12 — B4 (`citation-audit.md` §3).** Source confirmed: W.H.J.
+> Fuchs, *On the eigenvalues of an integral equation arising in the theory of
+> band-limited signals*, J. Math. Anal. Appl. **9** (1964) 317–330.
+> **Still open — audit U4.** The exact constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$ was
+> not checked against the paper. The numerical evidence just above is *consistent with*
+> it and no more: a slowly converging ratio is not a check of the formula, and the
+> $3/512$ derived from it inherits that status.
 
 The quantitative consequence matters and is not stated in either document: because the
 suppression is only **polynomial** ($c^{-4}$), not exponential, U2 is not free — it is a
@@ -198,6 +240,27 @@ constraint on $\{0,2\}$ and $\{0,4\}$ at $c=8\dots16$ gives $|h(0)|\approx1.37\t
 **This subtracts from the $S^3$ case rather than adding to it.** The mode selection —
 the one place `s3.tex` claims the geometry does structural work — is a parity rule in
 Slepian theory. Any $S^3$ derivation of "4" will at best reproduce it.
+
+> **Narrowed by the citation audit — B1 and its note (`citation-audit.md` §3).** The
+> eigenrelation holds and the source is right (D. Slepian, H.O. Pollak, Bell System
+> Tech. J. **40** (1961) 43–63). What the audit adds is that the two halves of this
+> section have different status, where the heading above calls the whole of it "the one
+> structural finding":
+>
+> - **The phase fact is not ours.** Connes–Consani state the same relation themselves,
+>   as $\widetilde{\mathcal F}(\psi_{m,\lambda})=\chi_m\psi_{m,\lambda}$ with $\chi_m$
+>   "very close to $(-1)^m$ provided $m<2\lambda^2$" (arXiv:2106.01715 §3). Their $m$ is
+>   half the prolate index, so $(-1)^m=i^{2m}=i^{\,n}$ — **the same statement** — and
+>   they use it, to split the even and odd matrices.
+> - **The mode-4 *selection* is ours.** Choosing 4 as the least-leaky even prolate whose
+>   phase matches mode 0, and the $\{0,2\}$-versus-$\{0,4\}$ comparison above, are not in
+>   Connes–Consani; they never select a mode this way.
+>
+> So the conclusion of this section **stands and is reinforced**: the mode selection is
+> a parity rule in classical Slepian theory — and, more sharply, one already in the
+> corpus's own base paper — so it subtracts from the $S^3$ case, and any $S^3$
+> derivation of "4" at best reproduces it. What does not stand is reading this section
+> as a *new* fact about the phase.
 
 ---
 
