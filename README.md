@@ -121,11 +121,28 @@ cite them by line.
   bound, and confirms it to 18 digits. States what the exercise does *not*
   establish: both implementations read the same paper, and a shared misreading is
   invisible to it.
+- `h1-mean-value.md` — attacks the one named open analytic problem the above
+  produce: the mean-value bound over the zeros, called H1, that makes the
+  \(-4\pi\) upper bound conditional. Does **not** prove it. Finds that its name is
+  wrong — neither hypothesis of Plancherel–Pólya holds, and the first fails
+  structurally, since the spill is non-compactly supported *because* it is a
+  spill — and that the zeros are not the obstruction: Riemann–von Mangoldt, the
+  classical zero-free region and subharmonicity discharge the zeta side
+  unconditionally, leaving a weighted \(L^2\) tail bound for a prolate function
+  outside its interval, which also absorbs the companion gap. Proves half of what
+  remains, in the regime that applies here and by a three-line Sturm argument:
+  \(|\Phi_n(x)|\le|\Phi_n(1)|\) for \(x\ge1\) when \(\chi_n<c^2\). Checks the
+  published off-band results against our configuration and finds their hypothesis
+  is the negation of ours, so they cannot be borrowed. Records an observed
+  identity, \(\Phi_n(1)^2=c(1-\Lambda_n)(1-(2n+1)/(4c)+O(c^{-2}))\), which is what
+  calibrates the constant. The residue is an ODE connection problem at the band
+  edge, and it is stated as such. Everything in it is sign-blind, as a statement
+  about \(\sum|\cdot|^2\) must be.
 
 `s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
 `verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md`,
-`deficit-repair.md` and `prolate-rate.md` have ones using `mpmath` in arbitrary
-precision and no numpy; `independent-recheck.md`'s uses the Python standard
+`deficit-repair.md`, `prolate-rate.md` and `h1-mean-value.md` have ones using
+`mpmath` in arbitrary precision and no numpy; `independent-recheck.md`'s uses the Python standard
 library alone, which is the point of it;
 `signed-geometry-proposals.md` and `citation-audit.md` are
 structural and have none. The first three notes were written offline and say so;

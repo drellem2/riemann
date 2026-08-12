@@ -503,7 +503,7 @@ $\|r\|^2=C_1(\lambda)(1-\chi_2)$ with $C_1$ conjecturally $O(\log\mu)$.
 > for the spill $r$.
 
 This is a mean-value estimate for the zeta zeros as a sampling set, of
-Plancherel–Pólya type. It is not automatic: $QW_\lambda$ takes values in
+Plancherel–Pólya type. <!-- mg-8462: the LABEL is wrong — neither hypothesis of Plancherel–Pólya holds here, and the zeros are not the obstruction. The rest of this paragraph stands. See h1-mean-value.md and §13 below. --> It is not automatic: $QW_\lambda$ takes values in
 $(-\infty,+\infty]$ (`:289`) and is **unbounded above**, so no uniform $\Theta$
 exists on $L^2$; (H1) must use the specific $r$, which is smooth on
 $(0,\lambda^{-1})$ but has a jump at the endpoint, so $\mathcal F_\mu r$ decays
@@ -769,7 +769,7 @@ of magnitude across them. The second is not guarded and cannot be, at this cost.
 
 | # | item | why it is open |
 |---|---|---|
-| **P1** | Prove (H1): $\sum_{Z}|\mathcal F_\mu r(s)|^2\le\Theta(\lambda)\|r\|^2$ for the spill, with $\Theta$ subexponential | This is mg-7606's T2 with the unreachable half removed. It is a mean-value estimate over the zeros for one explicit function and it is the whole remaining content of the upper bound |
+| **P1** | Prove (H1): $\sum_{Z}|\mathcal F_\mu r(s)|^2\le\Theta(\lambda)\|r\|^2$ for the spill, with $\Theta$ subexponential | This is mg-7606's T2 with the unreachable half removed. It is a mean-value estimate over the zeros for one explicit function and it is the whole remaining content of the upper bound. <!-- mg-8462: still open, but REDUCED — the zeros come out of it entirely and what is left is a prolate tail bound off the interval. §13. --> |
 | **P2** | Prove (H0): $\|g\|^2$ bounded below, i.e. a lower bound for $\int|\zeta(\tfrac12+it)P_\phi|^2$ against the archimedean weight | Routine in shape, but $P_\phi$ depends on $\lambda$ and the bound must be uniform |
 | **P3** | Is $\kappa(\mu)=s/(1-\chi_2)$ a constant, and is it about $9$? | §5's extrapolated values are $7.1$–$9.9$ with no trend, which suggests a constant; but the extrapolation is a three-point model over eight points and cannot separate a constant from $\log\mu$. Distinguishing them needs converged $s$ over a wider range, or the constant in (H1) |
 | **P4** | The odd sector | CC's $\phi_3=\psi_3\psi_1(0)-\psi_1\psi_3(0)$ is built from $\mathit{PS}_{6,0}$ and $\mathit{PS}_{2,0}$, so the odd smallest eigenvalue should be governed by $1-\chi_3$, i.e. prolate index **6** — a *different* power, $13/2$, at the same rate $4\pi$. Not checked here, and it is a sharp prediction: mg-7606's T4 now has a number to aim at |
@@ -806,3 +806,66 @@ $c=2\pi\cdot5$), check 4 and check 5 exactly as §§3–5 report them. The $s(\m
 column was **not** reproduced at $N=100$: `--quick` runs $N\le80$, and its ratios
 ($8.66$ to $18.65$) sit above §4's, which is the direction truncation must move
 them.
+
+---
+
+## 13. H1 attacked: the zeros are not the obstruction (added 2026-08-12, mg-8462)
+
+*Appended while working [`h1-mean-value.md`](h1-mean-value.md). Nothing above is
+deleted and §6(c)'s conditional statement is **not** rewritten — it remains
+correct as stated. Two in-place annotations were added, both HTML comments and
+both line-count-preserving: at §6(c)'s "Plancherel–Pólya type", and at §11 P1.*
+
+**P1 is still open.** It is not proved, and no published theorem was found that
+proves it. What changed is where it lives.
+
+**1. The label "Plancherel–Pólya type" is wrong.** That theorem needs the
+function to be entire of exponential type and the sampling points to be
+uniformly separated. $\mathcal F_\mu r$ is not of exponential type — $r$ is
+supported on $(0,\lambda^{-1})$, a half-line in $v=-\log u$, so $\mathcal F_\mu r$
+is a Hardy function of a half-plane, not a Paley–Wiener function — and the zeros
+have density $\frac1{2\pi}\log\frac T{2\pi}\to\infty$, so they are not separated
+with any uniform constant. The first failure is structural: **the spill is
+non-compactly supported precisely because it is a spill.**
+
+**2. The $\|r\|^2$ on the right of (H1) cannot be the whole story.** Point
+evaluation of a Hardy function at a boundary point is unbounded, and under RH
+every $s_\rho$ is *on* the boundary. §6(c) already says no uniform $\Theta$
+exists on $L^2$; the sharper reading is that any proof must use decay of $r$ that
+$\|r\|$ does not see, so the natural statement drops $\|r\|^2$ altogether.
+
+**3. The zeta side can be discharged unconditionally.** Riemann–von Mangoldt, the
+de la Vallée Poussin zero-free region, subharmonicity and Plancherel give
+$$\sum_\rho|\mathcal F_\mu r(s_\rho)|^2\ll\int_{-1/2}^{1/2}\!\!\int_{\mathbb R}
+\log^3(3+|t|)\,|\mathcal F_\mu r(t+i\sigma)|^2\,dt\,d\sigma,$$
+after which no zeros remain. (Two bookkeeping steps are exponent-checked rather
+than written out; `h1-mean-value.md` §3 flags both.)
+
+**4. What is left is one hypothesis about prolate functions, and it absorbs the
+paper's G5 as well.** With $\Phi$ the entire extension of the prolate combination
+and $G(t)=\sum_{n\ge1}\Phi(nt)$,
+$$\textbf{(P)}\quad \sup_{t>1}\,t\,|G(t)|\le K(c)\,|\Phi(1)|,\quad K\ \text{subexponential}
+\;\Longrightarrow\; \text{(H1) and G5, hence } \limsup\mu^{-1}\log s\le-4\pi
+\text{ modulo (H0)}.$$
+
+**5. Half of (P) is now proved, in the regime we are in.** If $\chi_n<c^2$ — true
+throughout, measured $\chi_n/c^2\in[0.020,0.64]$ — the Sturm amplitude
+$V=\frac{((x^2-1)\Phi')^2}{(x^2-1)(c^2x^2-\chi_n)}+\Phi^2$ is non-increasing on
+$(1,\infty)$ with $V(1^+)=\Phi(1)^2$, so $|\Phi(x)|\le|\Phi(1)|$ for $x\ge1$.
+Missing is the decay $1/x$, and the obstruction is a connection problem at the
+**regular singular point $x=1$**, the band edge — which is exactly where the
+supremum is attained numerically ($x\approx1.008$).
+
+**6. The published off-band results do not cover us**, and the reason is a
+hypothesis, not a search failure: Osipov–Rokhlin (arXiv:1208.4816) assume
+$\chi_n>c^2$, the opposite regime. Their one hypothesis-free result is an exact
+identity whose remainder is the off-band leakage of $t\Phi(t)$ — the same
+exponential size as the term being bounded.
+
+**7. A by-product, observed:** $\Phi_n(1)^2=c(1-\Lambda_n)(1-\frac{2n+1}{4c}+O(c^{-2}))$,
+verified at $n=0,2,4$ for $c\le320$. With the exact identity
+$\int_{|x|>1}|\Phi_n|^2=(1-\Lambda_n)/\Lambda_n$ this is what calibrates $K$.
+
+**Sign.** All of it is sign-blind, as it must be: (H1) is a sum of squared moduli.
+§7's conclusion is untouched — the lower bound is still RH, and nothing here
+approaches it.
