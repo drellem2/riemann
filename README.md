@@ -45,12 +45,21 @@ cite them by line.
   `s3-reduction-audit.md` depends. Finds prolate index 4, and finds that the identity
   at `start.tex:180-181` cannot decide it: in arbitrary precision that identity holds
   exactly for every mode \(\equiv 0 \bmod 4\).
+- `semilocal-gap.md` — the branch the corpus's \(QW_\lambda\) lives in is the one
+  whose theorem does not exist. Names, ingredient by ingredient, what the proved
+  archimedean argument supplies and what a finite place lacks: the sign there comes
+  from one compression of a projection, and is paid for with a diagonalisation
+  (Slepian–Pollak) that has no semilocal counterpart. Finds that the prime terms are
+  *exactly* indefinite, that place-by-place positivity is false, and that the corpus's
+  central unresolved estimate is the bridge quantity across that gap — and is also,
+  in Connes' own 2026 survey, a published observation.
 
-`s3-reduction-audit.md` and `s3-sign-blindness.md` have a companion `verify_*.py`
-(numpy); `index-convention.md` has one using `mpmath` in arbitrary precision and no
-numpy; `signed-geometry-proposals.md` and `citation-audit.md` are structural and have
-none. The first three were written offline and say so; `citation-audit.md` is the pass
-that checks them, and `index-convention.md` closes one item it left open.
+`s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have a companion
+`verify_*.py` (numpy); `index-convention.md` has one using `mpmath` in arbitrary
+precision and no numpy; `signed-geometry-proposals.md` and `citation-audit.md` are
+structural and have none. The first three notes were written offline and say so;
+`citation-audit.md` is the pass that checks them, `index-convention.md` closes one item
+it left open and `semilocal-gap.md` closes another.
 
 The specific research target is still being chosen. Expect the contents to
 change substantially.

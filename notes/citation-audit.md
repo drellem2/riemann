@@ -267,7 +267,7 @@ All right-hand entries are from Connes–Consani, arXiv:2106.01715 §3 unless ma
 | 11 | *why* it is nearly null — the corpus gives no reason beyond the two endpoint cancellations | "the radical of $QW$ **contains the range of the map $\mathcal E$**"; hence $\mathcal E$ of anything lands in the "near radical", $QW_\lambda(g)\ll\|g\|^2$ | **published mechanism, and the corpus does not state it.** §4.5 |
 | 12 | $W_\lambda$, "the truncated Weil operator/form", `start.tex:42,208` | $W_\lambda$ = the **prolate operator**, eq. (3.3): $(W_\lambda\psi)(q)=-\partial((\lambda^2-q^2)\partial)\psi+(2\pi\lambda q)^2\psi$. Same symbol in Connes–Consani–Moscovici arXiv:2310.18423 eq. (2),(4),(5) | **notation collision.** §4.3 |
 | 13 | $Q$, "removes the expected low-dimensional exceptional sector", `start.tex:43,210,125` | no such operator. $QW_\lambda$ is one symbol: the **Weil quadratic form** on test functions supported in $[\lambda^{-1},\lambda]$ | **misparse.** §4.3 |
-| 14 | $1-\chi_4$ as the controlling scale, `start.tex:34,39,186` | not used. Connes–Consani report the smallest eigenvalue $s(L)$ decaying **exponentially in $\mu=e^L$** (Figures 18–21, §2.5) with no identification of the rate | **corpus-specific.** §4.4 |
+| 14 | $1-\chi_4$ as the controlling scale, `start.tex:34,39,186` | not used. Connes–Consani report the smallest eigenvalue $s(L)$ decaying **exponentially in $\mu=e^L$** (Figures 18–21, §2.5) with no identification of the rate | **corpus-specific.** §4.4 **NARROWED 2026-08-12, mg-03f0 — the rate *is* identified in the literature, in Connes' 2026 survey arXiv:2602.04022 (`rhready.tex:1149-1150`), as $1-\chi_2$ = the corpus's $1-\chi_4$. "corpus-specific" holds for the 2023 paper this row checked and not beyond it. See [`semilocal-gap.md`](semilocal-gap.md) §5.2–5.3.** |
 | 15 | Sonin space | negative eigenspace of the prolate operator (A5, A6). Absent from `start.tex` and `s3.tex` entirely | **published object the corpus does not use** |
 
 **Verdict.** `signed-geometry-proposals.md:301-302` — "The corpus is already inside C2's
@@ -496,7 +496,7 @@ Two facts from this sweep are directly actionable:
 | U1 | Bochner–Schwartz on a general LCA group | I verified the theorem on $\mathbb R^n$ (tempered distribution of positive type $\Leftrightarrow$ Fourier transform of a positive tempered measure) and Bochner on LCA groups for *continuous functions* of positive type. I could not find a reference for the *distributional* version on a general LCA group, which is what `signed-geometry-proposals.md:484-497` applies to $C_{\mathbb Q}$. Likely fine (Weil's own framework), but not checked. Nothing downstream depends on it: that passage is diagnostic by its own statement |
 | U2 | Deninger ICM 1998 at page level | The programme statement (foliated 3-space, 2-dimensional leaves, flow, leafwise cohomology carrying the zeros, Lefschetz formula, closed orbits $\leftrightarrow$ primes) is confirmed from the abstract and from the substantial secondary literature. The specific pairing $H^0,H^2\leftrightarrow\hat f(0),\hat f(1)$ at `signed-geometry-proposals.md:435-436` I did not confirm against the text. It is stated in the secondary literature; I did not open Doc. Math. Extra Vol. ICM I pp. 163–186 |
 | U3 | Slepian 1965 uniform-error version of the Hermite limit | Source confirmed (J. Math. and Phys. **44** (1965) 99–140); the *uniform* error statement mg-aedf attributes to it (`s3-reduction-audit.md:155-156`) not checked — paywalled |
-| U4 | Fuchs 1964, the exact constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$ | Source confirmed (JMAA **9** (1964) 317–330); the constant not checked against the paper. mg-aedf verified the $c^{-4}$ *ratio* numerically at $c=8\ldots14$ and reported the constant "converging (slow)" (`s3-reduction-audit.md:183-185`), which is consistent with but not a check of the formula |
+| U4 | Fuchs 1964, the exact constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$ | Source confirmed (JMAA **9** (1964) 317–330); the constant not checked against the paper. mg-aedf verified the $c^{-4}$ *ratio* numerically at $c=8\ldots14$ and reported the constant "converging (slow)" (`s3-reduction-audit.md:183-185`), which is consistent with but not a check of the formula **CLOSED 2026-08-12, mg-03f0 — the constant is right.** Connes states the asymptotic for the same quantity independently (arXiv:2602.04022, `rhready.tex:1149-1150`); with $\chi=\sqrt\Lambda$ the two expressions agree to twelve decimals at every $L$. See [`semilocal-gap.md`](semilocal-gap.md) §5.3 and check 2 of `verify_semilocal_gap.py`. |
 | U5 | "the 2023 trace formula" (`start.tex:46,242,425`) | Two candidates (§4.1), and the phrase is used for the thing to be *specialised to $h_\lambda$* at `start.tex:244-246,425`. Which paper is meant determines whether step 1 of `start.tex:348-356` is a computation in Connes–Consani 2023 or in CCM 2310.18423. Only Daniel can say |
 | U6 | ~~whether the corpus's $h_{4,\lambda}$ means prolate index 4 or Connes–Consani's index $m=4$~~ **CLOSED 2026-08-12, mg-9433 — prolate index 4** | Their $\psi_{m,\lambda}:=\mathrm{PS}_{2m,0}$, so their $m$ is half the prolate index, and the collision was real. But `start.tex:138-145` transcribes **Connes–Consani–Moscovici's** $\psi^+_\ell:=h_{4\ell}-\frac{h_{4\ell}(0)}{h_0(0)}h_0$ at $\ell=1$ (arXiv:2310.18423 source line 624), in Hermite functions indexed in full — same letter $h$, both subscripts, and "the CCM choice of coefficients" is that formula. mg-aedf's constants stand. Note the method: `start.tex:180-181` **cannot** discriminate — it holds exactly for every $m\equiv0\bmod4$ — so this was settled from the sources, not numerically. See §10 and [`index-convention.md`](index-convention.md) |
 | U7 | whether Connes–Consani anywhere size the residual $\hat\varphi(0)$ | I read §3 and §2.5 and the abstract. They state $\chi_m\simeq(-1)^m$ for $m\le\nu(\mu)$ and "act as if" the Poisson relation were exact; I found no error term. Absence of evidence over ~40 pages skimmed, not a proof of absence. §4.4 item 1 rests on this |
@@ -644,3 +644,50 @@ and read directly — `Spectraltriples.tex` (2106.01715) and `mainc2m24fine.tex`
 (2310.18423, 99,875 bytes, dated 2024-05-04). Line numbers are lines of those files.
 This is a stronger provenance than §9 records for the same passages, which is why items
 this note left open can be closed here. It is not the published journal text.
+
+---
+
+## 11. Appendix — two rows revisited from a source published after this pass (added 2026-08-12, mg-03f0)
+
+*Appended. Nothing above is deleted; the two rows affected are annotated in place,
+line-count-preserving, and both point here. Full account:
+[`semilocal-gap.md`](semilocal-gap.md).*
+
+This pass checked arXiv:2006.13771, arXiv:2106.01715 and arXiv:2310.18423. It did
+not check **A. Connes, *The Riemann Hypothesis: past, present and a letter through
+time*, arXiv:2602.04022 (Feb 2026)** — §6 lists it as "Connes' own current survey —
+the natural place to check positioning before writing", and that advice turns out
+to have been right twice.
+
+### §4.2 row 14 — narrowed, not overturned
+
+Row 14 calls $1-\chi_4$-as-the-controlling-scale **corpus-specific**, on the
+grounds that Connes–Consani report the smallest eigenvalue decaying exponentially
+in $\mu$ "with no identification of the rate". That is accurate for
+arXiv:2106.01715. It is not accurate about the literature: the 2026 survey
+(`rhready.tex:1149-1150`) reports *"a striking similarity between the behavior of
+$\epsilon(\lambda)$ and of the angular function $1-\chi_2(\lambda)$"*, gives the
+Fuchs asymptotic for it, and — by the footnote $\chi_k(\lambda)^2=\Lambda_{2k}(c)$
+— its $\chi_2$ is prolate index 4, i.e. the corpus's $\chi_4$
+([`index-convention.md`](index-convention.md)).
+
+The same survey writes $k_\lambda:=\mathcal E(h_\lambda)$ with $h_\lambda$ "the
+only linear combination of $h_{0,\lambda},h_{4,\lambda}$ with vanishing integral"
+(`:1159`) — which is `start.tex:138-153` and `:171`, same letters, same
+construction. So the corpus is not only inside Connes–Consani 2023; its
+distinguished vector and its controlling scale are both objects of the *current*
+programme. §4.4's residue list is unaffected in its other four items.
+
+### §7 item U4 — closed
+
+The Fuchs constant $4\sqrt\pi\,8^nc^{n+1/2}e^{-2c}/n!$
+(`s3-reduction-audit.md:179`), recorded here as source-confirmed but
+constant-unchecked, is **right**. Connes states
+$1-\chi_2\sim\frac{2^{14}}{3}\sqrt2\,\pi^5e^{-4\pi e^L+9L/2}$ for the same
+quantity; with $c=2\pi e^L$ and $1-\chi_2=(1-\Lambda_4)/2$ the two are the same
+expression, and the ratio is $1.000000000000$ at $L=1.0,\dots,3.0$
+(`verify_semilocal_gap.py`, check 2). This is documentary corroboration by a
+third party rather than a reading of Fuchs' paper, which is why it also
+independently corroborates the index convention: two constants written down by
+different people for two quantities agree exactly only if the quantities are the
+same one.
