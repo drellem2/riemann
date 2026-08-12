@@ -609,7 +609,7 @@ is wrong.
 |---|---|---|
 | **Q1** | $x|\Phi_{n,c}(x)|\le K|\Phi_{n,c}(1)|$, $x\ge1$, $\chi_n<c^2$, $K$ subexponential | **PROVED**, §5, with $K$ *bounded*: $K(c)=2^{3/4}e^{E(c)}\downarrow2^{3/4}$ |
 | **Q1′** | the sharp constant: $A\to\sqrt{2/\pi}|\Phi(1)|$, giving $K=O(c^{-1/2})$ instead of $O(1)$. Needs a uniform error bound for the $J_0$ approximation on $c^{-2}\ll x-1\ll1$ and control of the drift of $A$ out to $x=\sqrt2$ | **observed only** (§6, §7). *New item; not needed for anything currently downstream* |
-| **Q2** | single term to the sum $G=\sum_{n\ge1}\Phi(n\,\cdot)$; the sawtooth cancellation, and the remainders in Osipov–Rokhlin's expansion | **open — and it is now the whole remaining content of (P)**. Untouched here |
+| **Q2** | single term to the sum $G=\sum_{n\ge1}\Phi(n\,\cdot)$; the sawtooth cancellation, and ~~the remainders in Osipov–Rokhlin's expansion~~ (mg-9d43: not that — one more power of $x$) | **PROVED (mg-9d43), [`dilate-sum.md`](dilate-sum.md) Thm 5.1, $K_P(c)=O(\log c)$. Thm 5.2 above is its only non-elementary input, and §12 records why. Q3 now carries the weight** |
 | **Q3** | the two flagged steps of `h1-mean-value.md` §3 (fractional Sobolev for the $\log^3$ weight; the $\sigma\to\pm\frac12$ edge) | **open, routine, poly cost** — unchanged |
 | **Q4** | (H0), $\|g\|^2$ bounded below | **open** — unchanged, and untouched by anything in this note |
 | **Q5** | the endpoint identity $\Phi_n(1)^2=c(1-\Lambda_n)(1-\frac{2n+1}{4c}+\dots)$ | **observed only** — unchanged; §6 records one unopened lead |
@@ -617,7 +617,7 @@ is wrong.
 **What this note did not do.** It did not prove H1, or (P), or Q2. It proved one
 named lemma that H1 needs. The honest one-line summary is: *the item
 `h1-mean-value.md` called "the whole remaining content" is closed, and the item that
-inherits that description is Q2, which that note says is blocked on the evaluation
+inherits that description is Q2, which that note says is blocked on the evaluation <!-- mg-9d43: Q2 is now PROVED, and the "engineering problem" was a Poisson summation away. §12. -->
 cost of $\Phi(nt)$ for large $n$ — an engineering problem, not an idea problem.*
 Anyone quoting this note should quote Theorem 5.2 and §6's correction of the
 obstruction, not a resolution of H1.
@@ -696,3 +696,61 @@ note adds to that batch:
    amendment 11 item 4, it should go in with Theorem 5.2 next to it.
 
 None of these touches G10, Theorem `thm:boundary`, or anything about the sign.
+
+---
+
+## 12. Appended by mg-9d43 — Q2 is proved, and Theorem 5.2 is exactly what proved it
+
+*Append-only. Nothing above is rewritten; the in-place annotations are HTML comments
+and change no line count. Companion note: [`dilate-sum.md`](dilate-sum.md), script
+[`verify_q2.py`](verify_q2.py).*
+
+**Q2 is proved**, `dilate-sum.md` Theorem 5.1: for every even index $n$, every
+$c>\sqrt2$ and $0\le\chi_n<c^2$,
+$$\sup_{t>1}t\Big|\sum_{m\ge1}\Phi_n(mt)\Big|\le K_P(c)\,|\Phi_n(1)|,\qquad
+K_P(c)=O(\log c).$$
+
+**Theorem 5.2 above is the only non-elementary input, and it enters in the one form
+this note did not emphasise: it says $u=\sqrt{x^2-1}\,\Phi$ is BOUNDED.** In the
+Liouville form $u''+(c^2+\epsilon)u=0$ with $\epsilon=\frac{c^2-\chi+1}{x^2-1}$
+integrable at infinity, boundedness of $u$ is exactly what makes the Lagrange
+coefficients' derivatives integrable, hence what gives the off-band remainder its
+second power of $x$. **Lemma 5.1 alone would not do it** — it gives
+$|u|\le\sqrt{x^2-1}\,|\Phi(1)|$, which grows. So the factor $x$ that §6 above called
+"worth nothing on a bounded interval" is worth everything on the unbounded one, and
+Q1 was not a stepping stone to Q2 but its hypothesis in disguise.
+
+**Q1′ is now quantified downstream, and still not needed.** `dilate-sum.md` §7
+measures $\sup_{t>1}t|G|/|\Phi(1)|=0.94$–$1.05$, attained as $t\to1^+$, against the
+proved $K_P\approx18$–$27$: a factor $17$–$28$, of which $\sqrt c$ is Q1′ (this note's
+§7 CHECK 4) and the rest is the split in `dilate-sum.md` §5. **The truth in Q2 is
+$1$** — at $t\to1^+$ the first term of $G$ is $\Phi(t)\to\Phi(1)$, so no constant
+below $0.94$ is admissible — which is the exact analogue of this note's §7 CHECK 3 finding that the truth in Q1
+is $1$, attained at $x=1$. Recorded so the proved constant is not later mistaken for
+a tight one. **Nothing downstream needs it**, which is unchanged.
+
+**And the same grid artefact was committed again, one note later.** §7 CHECK 3 above
+corrects `h1-mean-value.md` §7 for measuring on a grid that starts $0.008$ *above*
+$x=1$ and so excludes the point where the supremum lives. `dilate-sum.md` §7's first
+pass sampled $t$ *uniformly* in $s=\mu t$ and so excluded the jump points where
+**its** supremum lives, under-reporting by a factor of two. It is caught and
+reported there. Two notes, two grids, the same exclusion — worth naming as a pattern
+rather than as two incidents.
+
+**§7's numerics stand, and here is why, because a defect was found in the shared
+apparatus.** `verify_h1.sph_j_all` — which this note's CHECK 0, 2, 3 and 4 all use —
+normalises on the sum rule but then fixes the remaining **global sign** by
+`(out[0]*scale)*(sin(z)/z) < 0`, the very quantity its own docstring explains must
+not be used, since $z=cx$ is a multiple of $\pi$ exactly when $x$ is an integer. At
+$c=6\pi$, $x=200$ that test compares against $\sin z=10^{-118}$ and returns the wrong
+sign. **Every quantity this note reports is a modulus** — $\sup_{x\ge1}x|\Phi|/|\Phi(1)|$,
+$A=\rho D^{1/4}$, worst ratios, relative agreements — and a global sign flip is
+invisible in a modulus, so CHECK 0–5 above are unaffected. The fixed copy is in
+`verify_q2.py`, agreeing with the original to 0 ulp at every index for generic $z$.
+
+**Unchanged:** Theorem 5.2 and its proof; the failing hypothesis cell
+$\chi_8/c^2=1.040$ at $c=4\pi$, which `dilate-sum.md` Theorem 5.1 inherits verbatim;
+Q1′, Q3, Q4, Q5; every sign-blindness verdict in §8. **H1 is still not proved**:
+Q1 and Q2 are the two substantive items and both are now closed, leaving **Q3**,
+which `h1-mean-value.md` §9 calls routine and unwritten, and **Q4 (H0)**, which is
+separate and untouched.

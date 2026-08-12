@@ -154,11 +154,29 @@ cite them by line.
   the band-edge connection, which is Bessel of order zero. Does **not** prove H1:
   the sum over dilates, the two flagged steps and H0 are all untouched.
   Sign-blind throughout; it contains no zeta function at all.
+- `dilate-sum.md` — **proves** the item the two above leave as the only substantive
+  obstacle: the passage from the single-term bound to the sum over dilates,
+  \(\sup_{t>1}t|\sum_{m\ge1}\Phi_n(mt)|\le K_P(c)|\Phi_n(1)|\) with
+  \(K_P(c)=O(\log c)\). Refutes the previous note's diagnosis of it, which was that
+  the off-band remainder had to be made small: the divergence is harmonic, so what
+  is needed is **one more power of \(x\), not one less power of \(e^{c}\)** — a
+  remainder of exactly the size \(|\Phi(1)|\) is harmless once it decays like
+  \(x^{-2}\), and that follows from the single-term bound by one application of
+  variation of parameters in the Liouville form. Shows the theorem turns on the
+  leading off-band term being a **pure sine**, which is a quantisation statement and
+  not an ODE one: a solution of the same equation with a cosine has
+  \(\sup_t t|G(t)|=\infty\), so no ODE-only argument could work. Removes the
+  computational blocker the previous notes reported by putting the sum on the other
+  side of a Poisson summation, where it becomes \(\lfloor\mu t\rfloor+1\) evaluations
+  *inside* the interval instead of infinitely many outside it. Reports a latent sign
+  defect found in the shared Bessel routine, which is invisible in the moduli the
+  earlier notes report and fatal here. Does **not** prove H1: the two flagged steps
+  and H0 remain. Sign-blind throughout.
 
 `s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
 `verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md`,
-`deficit-repair.md`, `prolate-rate.md`, `h1-mean-value.md` and
-`band-edge-connection.md` have ones using
+`deficit-repair.md`, `prolate-rate.md`, `h1-mean-value.md`,
+`band-edge-connection.md` and `dilate-sum.md` have ones using
 `mpmath` in arbitrary precision and no numpy; `independent-recheck.md`'s uses the Python standard
 library alone, which is the point of it;
 `signed-geometry-proposals.md` and `citation-audit.md` are

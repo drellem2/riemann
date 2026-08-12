@@ -327,8 +327,8 @@ $$\frac{2\Phi(1)}{c\,t\,\mu_\Phi}\sum_{n\ge1}\frac{\sin(cnt)}{n}
 =\frac{2\Phi(1)}{c\,t\,\mu_\Phi}\cdot\pi\left(\tfrac12-\{ct/2\pi\}\right),$$
 whose modulus is at most $\frac{\pi|\Phi(1)|}{c\,|\mu_\Phi|\,t}$ — bounded, and of
 exactly the shape (P) asserts. **The remainder term of that expansion is not
-controlled here** (see §6), so the passage from the single-term bound to (P) is
-*not* completed in this note; it is item **Q2** of §9. This is the honest status
+controlled here** (see §6), so the passage from the single-term bound to (P) is <!-- mg-9d43: Q2 is now PROVED — dilate-sum.md Thm 5.1. -->
+*not* completed in this note; it is item **Q2** of §9. This is the honest status <!-- mg-9d43: and §6's reason for rejecting the remainder — "same exponential size" — was the WRONG variable. See §13. -->
 and I have not smoothed it: §5 and §7 verify the single-term statement, not (P).
 
 ---
@@ -539,7 +539,7 @@ that and this note found nothing that disturbs it.
 | # | item | status |
 |---|---|---|
 | **Q1** | Prove $x|\Phi_{n,c}(x)|\le K|\Phi_{n,c}(1)|$ for $x\ge1$ with $K$ subexponential, in the regime $\chi_n<c^2$. Lemma 5.1 gives the amplitude; what is missing is the WKB decay ~~which must be connected through the **regular singular point $x=1$**~~ (mg-6851: it need not be — the row's diagnosis was wrong) | **PROVED (mg-6851), [`band-edge-connection.md`](band-edge-connection.md) Thm 5.2, with $K(c)=2^{3/4}e^{E(c)}$ *bounded*, $\downarrow2^{3/4}$. Q2 now carries the weight** |
-| **Q2** | Pass from the single-term bound (Q1) to (P) for $G=\sum_{n\ge1}\Phi(n\,\cdot)$. The mechanism is the sawtooth $\sum_n n^{-1}\sin(cnt)$ (§4); what must be controlled is the sum of the *remainders* in Osipov–Rokhlin's exact expansion, which is the off-band leakage of $t\Phi(t)$ (§6) | **open; not verified numerically here either — the evaluation cost of $\Phi(nt)$ for $n$ large defeated it in this session** |
+| **Q2** | Pass from the single-term bound (Q1) to (P) for $G=\sum_{n\ge1}\Phi(n\,\cdot)$. The mechanism is the sawtooth $\sum_n n^{-1}\sin(cnt)$ (§4) — right; ~~what must be controlled is the sum of the *remainders* in Osipov–Rokhlin's exact expansion, which is the off-band leakage of $t\Phi(t)$ (§6)~~ (mg-9d43: wrong variable — what is needed is one more power of $x$, not one less power of $e^{c}$) | **PROVED (mg-9d43), [`dilate-sum.md`](dilate-sum.md) Thm 5.1, with $K_P(c)=O(\log c)$. The evaluation cost was on the wrong side of a Poisson summation: `dilate-sum.md` Prop. 6.1 makes $tG(t)$ a sum of $\lfloor\mu t\rfloor+1$ *on-band* values. Q3 now carries the weight** |
 | **Q3** | Write out the two flagged steps of §3: the fractional-Sobolev handling of the $\log^3$ weight, and the $\sigma\to\pm\tfrac12$ edge. Both are exponent-checked, neither is written | **open, but routine; poly cost at worst** |
 | **Q4** | (H0), $\|g\|^2$ bounded below — untouched here. It is the paper's other half of G6 and is a mean value of $|\zeta(\tfrac12+it)|^2$ against an explicit weight | **open, unchanged by this note** |
 | **Q5** | Prove the endpoint identity §7, including the constant $c$ (not $\pi c/2$) and the $-(2n+1)/(4c)$ correction. It may well be in Slepian's or Fuchs' asymptotics in some normalisation; I did not find it | **observed only** |
@@ -675,3 +675,75 @@ not re-opened.
 
 **Unchanged:** Q2, Q3, Q4, Q5; §§1–4; the reduction of H1 and G5 to (P); every
 sign-blindness verdict in §8. H1 is still not proved.
+
+---
+
+## 13. Appended by mg-9d43 — Q2 is proved, and §§4/6's diagnosis of it was wrong
+
+*Append-only. Nothing above is rewritten; the in-place annotations are HTML comments
+and change no line count. Companion note: [`dilate-sum.md`](dilate-sum.md), script
+[`verify_q2.py`](verify_q2.py).*
+
+**Q2 is proved.** For every even index $n$, every $c>\sqrt2$ and every $\chi_n$ with
+$0\le\chi_n<c^2$,
+$$\sup_{t>1}t\Big|\sum_{m\ge1}\Phi_n(mt)\Big|\le K_P(c)\,|\Phi_n(1)|,\qquad
+K_P(c)=O(\log c),$$
+explicitly $K_P=\frac{\pi}{c|\mu_\Phi|}+B_1(3+\log\frac{B_2}{B_1})$ with
+$B_1=K_1+\frac2{c|\mu_\Phi|}$, $B_2=K_1(6c+2^{-1/2})$ and $K_1$ the proved Q1
+constant. Numerically $26.5$ at $c=4\pi$, minimum $17.9$ near $c\approx80$, never
+above $27$ in this project's range. **So Prop. 4.1 above has its hypothesis, and
+what stands between this note and H1 is Q3 alone** (plus Q4/H0, which is separate).
+
+**Four corrections to this note, and the first is the one that matters.**
+
+1. **§4's and §6's diagnosis of Q2 is wrong.** §6 rejects Osipov–Rokhlin's remainder
+   because it is "an object of the **same exponential size** as the quantity being
+   bounded", and §9's Q2 row repeats it. That is true and it is **not** an
+   obstruction. The naive bound fails because $\sum_m\frac1m$ diverges — a
+   *harmonic* divergence, caused by the exponent $1$ in $x^{-1}$ and by nothing
+   else. The factor $|\Phi(1)|$ sits outside the sum and its size is irrelevant.
+   **(P) needs one more power of $x$, not one less power of $e^{c}$**, and a
+   remainder of exactly the size $|\Phi(1)|$ costs nothing once it carries $x^{-2}$.
+   `dilate-sum.md` Prop. 4.1 supplies exactly that, from Q1 and one application of
+   variation of parameters to the Liouville form $u=\sqrt{x^2-1}\,\Phi$.
+2. **Q1 is not merely *an* input to Q2; it is *the* input.** Q1 says
+   $x|\Phi|\le K_1|\Phi(1)|$, which says exactly that $u=\sqrt{x^2-1}\Phi$ is
+   **bounded** — and bounded $u$ against the integrable perturbation
+   $\epsilon=\frac{c^2-\chi+1}{x^2-1}$ is what makes the Lagrange coefficients
+   converge. §5's Lemma 5.1 alone is **not** enough: it gives
+   $|u|\le\sqrt{x^2-1}|\Phi(1)|$, which grows.
+3. **§4's sawtooth is the right mechanism, and it is right for a reason this note
+   does not state: the leading off-band term is a *pure sine*.**
+   $\Phi(x)=\frac{a_1\sin(cx)}{x}+O(x^{-2})$ with **no cosine** —
+   $\beta_\infty=0$ — and that is a *quantisation* statement, proved from the
+   finite-Fourier eigenrelation, not from the ODE. It is not decoration:
+   $\sum_m m^{-1}\cos(cmt)=-\log|2\sin\frac{ct}2|$ is **unbounded**, so a solution of
+   the same equation with $\beta_\infty\ne0$ has $\sup_t t|G(t)|=+\infty$.
+   **(P) is false for a general solution of the prolate equation and true for the
+   eigenfunctions** (`dilate-sum.md` Cor. 3.4), so no ODE-only argument can prove Q2.
+4. **§9's Q2 row is wrong about the blocker too.** "The evaluation cost of
+   $\Phi(nt)$ for $n$ large defeated it" — the cost was on the wrong side of a
+   Poisson summation. With $h=1/(\mu t)$,
+   $$t\,G(t)=\frac{1}{2\mu\,\mu_\Phi}\sideset{}{'}\sum_{|k|\le\lfloor\mu t\rfloor}
+   \Phi\Big(\frac{k}{\mu t}\Big)-\frac{t\,\Phi(0)}{2}$$
+   exactly (`dilate-sum.md` Prop. 6.1): $\lfloor\mu t\rfloor+1$ evaluations of $\Phi$
+   **inside** $[-1,1]$, at $O(c)$ each, in place of an infinite conditionally
+   convergent sum of off-band values at $O(cmt)$ each. At $\mu=5$, $t=3$ that is
+   16 terms. The price is $10^3$–$10^8$ of cancellation, which is what arbitrary
+   precision is for.
+
+**A defect found in this note's own apparatus, and it invalidates nothing here.**
+`verify_h1.sph_j_all` normalises on the sum rule — its docstring is right about why
+$j_0(z)=\sin z/z$ must not be used — and then fixes the remaining **sign** by that
+same ill-conditioned quantity. At $c=6\pi$, $x=200$ the test compares against
+$\sin z=10^{-118}$, i.e. rounding noise, and returns the wrong global sign. **Every
+number this note and `band-edge-connection.md` report from that routine is a
+modulus**, in which a global sign flip is invisible, so nothing above changes; it is
+fatal only where the explicit leading term is subtracted, which is `dilate-sum.md`
+§4. The fixed copy is in `verify_q2.py` and agrees with the original to 0 ulp at
+every index for generic $z$.
+
+**Unchanged:** Q3, Q4, Q5; §§1–3; the reduction of H1 and G5 to (P), which
+`dilate-sum.md` quotes and does **not** re-verify; every sign-blindness verdict in
+§8. **H1 is still not proved** — Q3 is unwritten — but the two substantive items are
+now closed and what remains is described in this note's own §9 as routine.
