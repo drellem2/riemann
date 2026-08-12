@@ -35,9 +35,15 @@ cite them by line.
   arithmetic sign flows through to the geometry, ranked. Argues the missing
   ingredient is a product and an involution rather than a higher-dimensional
   manifold, and reports which of its own candidates are sign-blind.
+- `citation-audit.md` — verifies the attributions in the other three notes against
+  the sources, and settles where this work sits relative to the published
+  literature. Finds that the objects of `start.tex` §§1,3 are those of
+  Connes–Consani, *Spectral triples and \(\zeta\)-cycles* (2023), in that paper's
+  own notation.
 
 The first two have a companion `verify_*.py` (numpy) reproducing their numbers;
-the third is structural and has none.
+the last two are structural and have none. The first three were written offline
+and say so; `citation-audit.md` is the pass that checks them.
 
 The specific research target is still being chosen. Expect the contents to
 change substantially.
