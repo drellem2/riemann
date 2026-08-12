@@ -1,5 +1,22 @@
 # Is $s(\mu)$ governed by the prolate concentration defect?
 
+> **INDEPENDENTLY RECHECKED 2026-08-12 by mg-9797 —
+> [`independent-recheck.md`](independent-recheck.md).** Every number in §3–§4
+> reproduced to every digit printed by a second implementation written from the
+> definitions: $s/(1-\chi_2)\in[7.6074,12.9609]$, $s/(1-\Lambda_0)$ running
+> $5.0\times10^8\to2.8\times10^{10}$ and growing by a factor $56.16$,
+> $1-\Lambda_4(2\pi\cdot12)=9.858\times10^{-55}$, and all three $\sigma$
+> comparisons of §4 ($0.117$, $0.859$, $0.488$, with index 0 at $5.039$).
+> **No claim moves.** Two things were added rather than merely confirmed: the
+> claim that Connes' constant is *identically* $\tfrac12$ Fuchs at index 4 is
+> now algebra ($4\sqrt\pi\,8^4/4!\cdot(2\pi)^{9/2}=2^{15}\sqrt2\pi^5/3$, halved
+> by $1-\sqrt x\sim\tfrac12(1-x)$) and not only a 100-digit coincidence; and the
+> prolate normalisation is pinned against the trace sum rule
+> $\sum_n\Lambda_n(c)=2c/\pi$, to 58 digits. The honest limit is recorded there
+> as open item I2: **both implementations use the same Legendre/Bouwkamp route**,
+> so the agreement in §3 is weaker evidence than the agreement in
+> `deficit-repair.md` §4.1.
+
 Work item mg-fcb8. Companion script:
 [`verify_prolate_rate.py`](verify_prolate_rate.py) (needs `mpmath`; no `numpy`).
 Continues [`deficit-repair.md`](deficit-repair.md) §5 and its open item T2

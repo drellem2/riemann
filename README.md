@@ -106,11 +106,24 @@ cite them by line.
   of the part that falls outside the window. And finds that the rate cannot be made a
   theorem: a rate is two-sided, and its lower half is a positive lower bound on the
   Weil form for all \(\lambda\), which is equivalent to RH.
+- `independent-recheck.md` — rechecks the numerics of the two notes above from the
+  definitions, by a second implementation written without reading their scripts and
+  sharing with them no arithmetic library, no transcendental function and no
+  eigensolver. Reproduces every published number to every digit printed. Corrects
+  three cosmetic cells and finds one erratum in the literature: Connes–Consani's own
+  printed closed form for the even-sector boundary term is a factor \(2\) smaller
+  than the table it is derived from — an error that does not reach this repository,
+  because neither implementation uses that formula. Tests the one identity both
+  implementations had taken on trust, the normalisation behind the \(5.3721834\)
+  bound, and confirms it to 18 digits. States what the exercise does *not*
+  establish: both implementations read the same paper, and a shared misreading is
+  invisible to it.
 
 `s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
 `verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md`,
 `deficit-repair.md` and `prolate-rate.md` have ones using `mpmath` in arbitrary
-precision and no numpy;
+precision and no numpy; `independent-recheck.md`'s uses the Python standard
+library alone, which is the point of it;
 `signed-geometry-proposals.md` and `citation-audit.md` are
 structural and have none. The first three notes were written offline and say so;
 `citation-audit.md` is the pass that checks them, `index-convention.md` closes one item

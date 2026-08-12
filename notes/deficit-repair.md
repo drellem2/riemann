@@ -1,5 +1,17 @@
 # The archimedean deficit against the prime repair
 
+> **INDEPENDENTLY RECHECKED 2026-08-12 by mg-9797 —
+> [`independent-recheck.md`](independent-recheck.md).** A second implementation,
+> written from the definitions in `Spectraltriples.tex` without reading
+> `verify_deficit_repair.py`, sharing no arithmetic library, no transcendental
+> function and no eigensolver with it, reproduces **every number in this note to
+> every digit printed**, with three exceptions, all cosmetic and all listed in
+> that note's §8: §3's $R(3)$ should be $0.12404899$; §4.1's "digits" cell at
+> $\mu=8$ should be $31.06$; §5's "residual rms $0.042$" is the $(n-p)$-normalised
+> one. **No claim in this note moves.** §2.1's normalisation exposure — named in
+> §8 below as the thing that would do the most damage if wrong — is now tested
+> rather than assumed, and holds to 18 digits.
+
 Work item mg-7606. Companion script:
 [`verify_deficit_repair.py`](verify_deficit_repair.py) (needs `mpmath`; no
 `numpy`). Continues [`semilocal-gap.md`](semilocal-gap.md) §10 (mg-555b), which
@@ -288,6 +300,11 @@ the script, $N=60$ at $40$ digits:
 | $16$ | $0.93617534$ | $0.94601094$ | $0.00983560$ | $1.0105$ |
 | $20$ | $1.02672849$ | $1.04224568$ | $0.01551719$ | $1.0151$ |
 
+> **mg-9797:** every cell reproduced independently except $R(3)$, whose
+> converged value is $0.1240489948$ and so should print $0.12404899$. A rounding
+> slip: $R-D$ and $R/D$ in the same row are right, and the column that carries
+> the finding — $R/D$ falling $1.6777\to1.0151$ — is unaffected.
+
 $R>D$ at every $\mu$ computed, so the primes over-repair here. But read the last
 column rather than the fourth: **the relative excess is closing**, from $1.678$ at
 $\mu=3$ to $1.015$ at $\mu=20$, and the absolute slack neither grows nor decays
@@ -323,6 +340,15 @@ the Rayleigh quotient there, at $N=100$ and $120$ digits:
 
 "digits" is $\log_{10}\big(|\sigma^{\mathrm{arch}}(v_\mu)|/s(\mu)\big)$: the
 number of decimal digits to which the two halves agree.
+
+> **mg-9797:** every cell of this table reproduced independently — the signs,
+> the magnitudes and all eight $s(\mu)$ — except the "digits" entry at $\mu=8$,
+> which should be $31.06$: the row's own two entries give
+> $\log_{10}(0.05273312)+32.33898=31.0611$. Every other row of that column is
+> right, and §5–§6's derived "$5.21$ digits per unit of $\mu$" uses only the
+> $\mu=5$ and $\mu=12$ endpoints, so nothing downstream moves. The sign reversal
+> itself is the least fragile claim in the note: the two halves agree to 15–52
+> digits, so each sign is decided at the first digit.
 
 ### 4.2 What to read off it
 
@@ -400,7 +426,11 @@ constant, so:
 Least squares on §4.1, $\mu=5,\dots,12$:
 $$\log_{10}s(\mu)=-A\mu+B\log_{10}\mu+D,\qquad A=5.4635,\ B=5.322,\ D=6.589,$$
 with residual rms $0.042$ and max $|{\rm residual}|=0.056$ in $\log_{10}$ units,
-and standard errors $A\pm0.052$, $B\pm0.96$, $D\pm0.44$. (The two-parameter fit
+and standard errors $A\pm0.052$, $B\pm0.96$, $D\pm0.44$.
+<!-- mg-9797: the rms quoted is the (n-p)-normalised one, 0.04150; the /n one is
+0.03281. Independently reproduced: A = 5.463526 +- 0.051591, B = 5.322229 +-
+0.956951, D = 6.588946 +- 0.441716, max residual 0.05575, A at 0.117 sigma. -->
+ (The two-parameter fit
 $-A\mu+D$ gives $A=5.179$ and visibly worse residuals; the $\log\mu$ term is
 real.) Against this:
 
@@ -593,6 +623,16 @@ $D(\mu)<-2\vartheta'(0)$ and the monotonicity of $\vartheta'$ that it needs
 sign reversal on the near-radical direction (§4.2); the numerical
 load-bearing-ness of each prime power (§4.3); the rate $4\pi$ (§5); the
 obstruction statement (§6).
+
+> **mg-9797, on the two paragraphs below.** The normalisation exposure named
+> here is now **tested**: eq. (thetaprime) `:261` is confirmed to 18 digits by
+> an independent route — a test function vanishing to second order at $\pm L/2$,
+> whose transform decays like $t^{-5}$ and so needs no asymptotic tail — and
+> there is no extra factor of $2$. The second exposure stands: Proposition
+> `Hilbert` is still proved by nobody here. Separately, mg-9797 found that
+> Connes–Consani's own printed closed form (h02ev) at `:474` is a factor $2$
+> smaller than their table at `:444` from which it is derived; **that erratum
+> does not reach this note**, which builds $W_{0,2}$ from the table.
 
 **The claim in this note that would do the most damage if wrong** is §2.1's
 bound, because it is the only one stated as a proof and everything in §6 item 3
