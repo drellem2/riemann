@@ -63,10 +63,24 @@ cite them by line.
   crossing at \(\mu\approx2.271\) that appears in their own prose. §10.3 gives an
   explicit test function on which the archimedean form is negative, and the reason it
   had to be: the Weil density \(2\theta'(t)/2\pi\) is negative on \(|t|<6.29\).
+- `deficit-repair.md` — quantifies, past that threshold, the archimedean deficit
+  against what the primes supply. Finds that the deficit is *bounded*, uniformly in
+  \(\mu\), by \(\log\pi-\psi(1/4)=5.3721834\ldots\) and saturates there; that on the
+  archimedean worst direction the primes over-repair, but by a relative margin that
+  closes (\(R/D\) falls from \(1.68\) to \(1.015\) between \(\mu=3\) and \(\mu=20\));
+  and that positivity is nevertheless decided on a third direction, the near-radical
+  one, where the archimedean contribution is *positive*, the primes *negative*, and
+  the two agree to about \(5.2\) decimal digits per unit of \(\mu\) — a rate
+  consistent with \(4\pi/\log 10=5.4575\), the constant behind a decay
+  Connes–Consani plot as a figure and never name. The resulting statement — a proof
+  must exhibit an exact-to-\(e^{-4\pi\mu}\) cancellation between two quantities of
+  size \(\approx0.025\log\mu\), with every prime power below \(\mu\) individually
+  indispensable — is a sharpening of the positivity obstruction that does not depend
+  on the semilocal theorem.
 
 `s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
-`verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md` has
-one using `mpmath` in arbitrary precision and no numpy;
+`verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md` and
+`deficit-repair.md` have ones using `mpmath` in arbitrary precision and no numpy;
 `signed-geometry-proposals.md` and `citation-audit.md` are
 structural and have none. The first three notes were written offline and say so;
 `citation-audit.md` is the pass that checks them, `index-convention.md` closes one item
