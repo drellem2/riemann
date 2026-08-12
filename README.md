@@ -210,12 +210,26 @@ cite them by line.
   the conversion the previous note had left sketched, at a cost of \(\mu^{3/2}\);
   anyone printing "unconditional" is quoting that appendix too. Sign-blind
   throughout, and the matching lower bound is still RH.
+- `dunster-check.md` — the second reader on that one imported input. Reads (124) and
+  (107) back out of the arXiv LaTeX and evaluates **both sides independently** at
+  \(c=4\pi\ldots24\pi\) and prolate indices \(n=0,2,4,6,8\). Both hold: the
+  quantity (124) bounds, times \(c/\log c\), stays bounded at every index, and
+  (107) is pinned to its next coefficient,
+  \(\chi_n=(2n+1)c-\frac{(2n+1)^2+5}{8}+O(1/c)\). Two corrections. Dunster's
+  standing hypothesis is not \(\lambda<0\) but his (29), \(\sqrt{\chi_n}/c\le
+  \sigma_0<1\) with \(\sigma_0\) fixed; and at \((\mu,n)=(2,8)\) that **fails**
+  — \(\sigma=1.0199\), the threshold being \(\mu^*=2.1169\) — the same cell
+  `verify_q1.py` already flags for Q1. Theorem 6.1 is a \(\lambda\to\infty\) limit
+  at fixed \(n\) and is untouched; the sentence describing the hypothesis is not.
+  Also: (107) is itself a citation (Arscott [1, p. 186]), so the chain is two deep,
+  not one. **A numerical check is not a proof** — the import stays external, it is
+  now tested. Sign-blind throughout.
 
 `s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
 `verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md`,
 `deficit-repair.md`, `prolate-rate.md`, `h1-mean-value.md`,
 `band-edge-connection.md`, `dilate-sum.md`, `q3-log-weight-and-edge.md` and
-`h0-lower-bound.md` have ones using
+`h0-lower-bound.md` and `dunster-check.md` have ones using
 `mpmath` in arbitrary precision and no numpy; `independent-recheck.md`'s uses the Python standard
 library alone, which is the point of it;
 `signed-geometry-proposals.md` and `citation-audit.md` are

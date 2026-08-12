@@ -139,7 +139,7 @@ class Prolate:
 #   (124)  Ps_n^m(x) = [Ps_n^m(0)/U(-a/2,0)] (rho/x)^{1/2} (1-x^2)^{-1/4}
 #                      [ U(-a/2, rhohat sqrt(2 gamma))
 #                        + O(gamma^-1 ln gamma) env U(-a/2, rhohat sqrt(2 gamma)) ]
-#                                                                 :1426-:1440
+#                                                                 :1426-:1439
 
 
 def rho_of(x):
@@ -363,7 +363,7 @@ def check1():
     from 1 UNIFORMLY, not merely below it.  sigma = sqrt(chi_n)/c, so this is
     chi_n <= sigma_0^2 c^2 with sigma_0 fixed.  sigma is also the location of the
     turning points x = +- sigma (:483-:487), and Sec. 5's whole construction is
-    for a "pair of almost coalescent turning points near x = 0" (:1289-:1291),
+    for a "pair of almost coalescent turning points near x = 0" (:1303-:1304),
     which is sigma -> 0, not merely sigma < 1.""")
     print(f"\n    {'mu':>4} {'c':>10} " + " ".join(f"{'n='+str(n):>10}" for n in NS)
           + "     <- sigma = sqrt(chi_n)/c")
@@ -401,6 +401,10 @@ def check1():
         if f(hi) > 0:
             print(f"    {n:>3} {'> 60':>18}")
             continue
+        if f(lo) < 0:
+            # no crossing at all: chi_0(c) = c^2/3 + O(c^4) < c^2 for every c > 0.
+            print(f"    {n:>3} {'none':>18} {'-- sigma < 1 always':>16}")
+            continue
         for _ in range(60):
             mid = (lo + hi) / 2
             if f(mid) > 0:
@@ -420,7 +424,7 @@ def check1():
          "valid for fixed m and n and gamma -> infinity" (:1300-:1301).  Our
          n in {0,2,4,6,8} is fixed as c -> infinity.                     -- OK
     (ii) (124) is derived under "Let us assume that Ps_n^m(x, gamma^2) (and
-         hence m+n) is even" (:1394-:1395).  m = 0 and n even.           -- OK
+         hence m+n) is even" (:1396-:1397).  m = 0 and n even.           -- OK
          (The odd case is (125), which we never use.)
     (iii) lambda -> -infinity is assumed for the whole paper (:136-:138), citing
          [1, p. 186] = Arscott 1964.  For fixed n, lambda ~ -gamma^2.    -- OK
@@ -450,7 +454,7 @@ def check2():
     verbatim at PSWF_JCA.tex:1296-:1299, "the O(gamma^-1) term being valid for
     fixed m and n and gamma -> infinity".
 
-    The first equality is a definition (it is how a enters (106) at :1281-:1285);
+    The first equality is a definition (it is how a enters (106) at :1290-:1294);
     what is testable is the second.  At m = 0 the claim is a = 2n + 1 + O(1/c),
     i.e. gamma * (a - 2n - 1) bounded as gamma -> infinity.  The column to read
     is the last one: if (107) held only with O(1) -- which is all (27) literally

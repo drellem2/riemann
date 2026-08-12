@@ -57,7 +57,7 @@ eq. **(124)** with eq. **(107)**: for fixed $m,n$ and $\gamma\to\infty$, uniform
 $0\le x\le1-\delta_0$, $\mathrm{Ps}_n^m$ is a parabolic cylinder function of argument
 $\hat\rho\sqrt{2\gamma}$ with relative error $O(\gamma^{-1}\log\gamma)$, and
 $a=\lambda\gamma^{-1}+\gamma=2(n-m+\tfrac12)+O(\gamma^{-1})$. His $\lambda$ is our
-$\chi_n-c^2$, so **his standing hypothesis $\lambda<0$ is exactly our $\chi_n<c^2$** — the
+$\chi_n-c^2$, so **his standing hypothesis $\lambda<0$ is exactly our $\chi_n<c^2$** — the <!-- mg-ff96: understated. His standing hypothesis is (29) at `:466`, sigma = sqrt(chi_n)/c <= sigma_0 < 1, which is strictly stronger; §5 below has it right, this summary does not. dunster-check.md §3. -->
 hypothesis Osipov–Rokhlin's theorems negate (`h1-mean-value.md` §6) and the one Lemma 5.1 and
 Q1 are built on. Dunster says so himself: his earlier paper assumed $\lambda>0$, "which does
 not have many of the applications described above". §5.
@@ -118,7 +118,7 @@ $(1-z^2)y''-2zy'+(\lambda-\mu^2(1-z^2)^{-1}+\gamma^2(1-z^2))y=0$ and ours is
 $((1-y^2)\Phi')'+(\chi-c^2y^2)\Phi=0$, so
 $$\gamma=c,\qquad \lambda_{\text{Dunster}}=\chi-c^2,\qquad \mu_{\text{Dunster}}=m=0 .$$
 Everything in §5 is stated in the converted symbols, and the one hypothesis that matters,
-$\lambda_{\text{Dunster}}<0$, is our $\chi<c^2$.
+$\lambda_{\text{Dunster}}<0$, is our $\chi<c^2$. <!-- mg-ff96: the dictionary is confirmed by direct residual against Dunster's (1) as printed (dunster-check.md §2), but "the one hypothesis that matters" is (29), not lambda<0. -->
 
 ---
 
@@ -284,7 +284,7 @@ He is explicit that the complementary case is elsewhere (`:184`): "in comparison
 paper in which $\lambda<0$, in [9] the case $\lambda>0$ was assumed, which does not have many
 of the applications described above." His summary §6 states the same as
 $\sigma=\sqrt{1+\gamma^{-2}\lambda}=\sqrt{\chi_n}/c\in[0,\sigma_0]$, $\sigma_0<1$; the corpus's
-measured $\chi_n/c^2$ runs $0.020$ to $0.64$ (`h1-mean-value.md` §5), so $\sigma\le0.8$ with
+measured $\chi_n/c^2$ runs $0.020$ to $0.64$ (`h1-mean-value.md` §5), so $\sigma\le0.8$ with <!-- mg-ff96: WRONG at index 8. That range was measured at n<=4. Measured at n=8: sigma = 0.883 at mu=3 (a row of §7 CHECK 6 below) and sigma = 1.0199 at mu=2, where the hypothesis FAILS -- chi_8 > c^2 below c* = 13.3007 (mu* = 2.1169). Thm 6.1 is a lambda->infinity limit at fixed n and is unaffected; the sentence is not. dunster-check.md §3.1. -->
 room, and in the fixed-$n$ limit $\sigma\to0$.
 
 **This is the third time the regime has decided the outcome on this chain, and the first time
@@ -296,7 +296,7 @@ It was one hypothesis-sign away, in a paper nobody in this corpus had opened.**
 
 **The statement, converted.** At $m=0$ and fixed even $n$, with $\gamma=c$:
 
-- **(107)** $a=\lambda\gamma^{-1}+\gamma=\chi_n/c=2n+1+O(c^{-1})$, for fixed $n$ as
+- **(107)** $a=\lambda\gamma^{-1}+\gamma=\chi_n/c=2n+1+O(c^{-1})$, for fixed $n$ as <!-- mg-ff96: verified numerically at n=0,2,4,6,8 and c=4pi..24pi, including its next coefficient: chi_n = (2n+1)c - ((2n+1)^2+5)/8 + O(1/c). Note (107)'s O(1/gamma) is itself imported, from (27) at `:455` citing Arscott [1, p.186] -- a second-level dependency §10 does not record. dunster-check.md §4. -->
   $c\to\infty$. *(This is the eigenvalue input Lemma 3.3 needs, and it is where
   $\chi_n\le(2n+1)c+O(1)$ comes from.)*
 - **(124)** uniformly for $0\le x\le1-\delta_0$,
@@ -318,7 +318,7 @@ $e^{-z^2/4}\mathit{He}_n(z)|_{z=2\sqrt\pi X}=e^{-\pi X^2}2^{-n/2}H_n(\sqrt{2\pi}
 $h_n(X)$ up to normalisation. The order perturbation $a=2n+1+O(c^{-1})$ moves $U$ by
 $O(c^{-1})$ locally uniformly, by analyticity of $U(\cdot,z)$ in its first argument. So:
 
-> **(E)** For each fixed even $n$ and each fixed $R>0$,
+> **(E)** For each fixed even $n$ and each fixed $R>0$, <!-- mg-ff96: (E) is measured to hold with O(1/c); the step (124)=>(E) is measured separately and costs O(1/c) too. But (124)'s own error and the corpus's conversion error are each ~3x the total and largely cancel, so CHECK 7 below is NOT evidence that (124) is accurate. dunster-check.md §6. -->
 > $$\frac{\Phi_n(X/\lambda)}{\Phi_n(0)}\;=\;\frac{h_n(X)}{h_n(0)}+O\big(c^{-1}\log c\big)
 > \qquad\text{uniformly on }|X|\le R .$$
 
@@ -597,7 +597,7 @@ sign. The odd sector. Remark 6.4's reading of $\epsilon(\lambda)$ versus $s^\pm$
 
 | # | item | status |
 |---|---|---|
-| **H0-1** | Write out (E) from Dunster (124) with the constants tracked, rather than as $O(c^{-1}\log c)$. Needs his [10] (the coalescing-turning-point theory), which was **not opened here** | **imported, source read for (124) but not for its error bounds** |
+| **H0-1** | Write out (E) from Dunster (124) with the constants tracked, rather than as $O(c^{-1}\log c)$. Needs his [10] (the coalescing-turning-point theory), which was **not opened here** <!-- mg-ff96: TWO sources are unopened, not one: [10] for (124)'s error bounds, and Arscott [1, p.186] for (107)'s via (27). dunster-check.md §9 D-1, D-2. --> | **imported, source read for (124) but not for its error bounds** |
 | **H0-2** | The effective range. Thm 6.1 is a limit statement; the finite-$\mu$ table in §7 covers $\mu\le20$ and $\|g\|^2$ is monotone there. A $\lambda_0$ beyond which $\|g\|^2\ge\tfrac15$ provably is not written out | **measured, not proved, for $\mu\le20$** |
 | **H0-2b** | §A is loose by $\mu^{3/2}$. Replacing it by the observed truth $\Phi(1)^2\asymp c(1-\Lambda_4)$ — i.e. proving Q5's constant — would take $\Xi$ back to $O(\mu^{9/2}\log^3\mu)$ | **proved but loose; sharpening is Q5** |
 | **H0-3** | Q5 of `h1-mean-value.md` — the endpoint identity $\Phi_n(1)^2=c(1-\Lambda_n)(1-\frac{2n+1}{4c}+\ldots)$ — is still **observed only** in its constant. Dunster's §§3–4 (Bessel-function approximations, radial case, valid at the band edge) is the obvious place to look next, and was **not** pursued here | **open, and now with a candidate source** |
@@ -725,3 +725,53 @@ and the *consequence* — $\|g\|^2\to0.2192\ldots$ — is measured at five bandw
 against a limit computed two independent ways. The second-most damaging would be the regime
 check on Dunster's standing hypothesis; that one is quoted verbatim from the source, in his
 own symbols, with the conversion $\lambda_{\text{Dunster}}=\chi-c^2$ written out in §0.
+
+---
+
+## 12. Appended by mg-ff96: the Dunster import, checked numerically — *second reader*
+
+Full note: [`dunster-check.md`](dunster-check.md). Script: [`verify_dunster.py`](verify_dunster.py).
+Nothing above was rewritten; the in-place marks are HTML comments and the line count is unchanged.
+
+§11 nominated two claims as the ones that would do the most damage if wrong. Both were
+attacked. **The first survived; the second did not, in the one respect §11 did not anticipate.**
+
+**The conversion (124) $\Rightarrow$ (E) survives, and (124) itself is confirmed.** Both sides
+of (124) were evaluated independently — left from `prolate_even`, right from mpmath's parabolic
+cylinder function — at $n=0,2,4,6,8$ and $c=4\pi,\ldots,24\pi$. The quantity (124) actually
+bounds, $\sup|{\rm LHS}-{\rm RHS}|/\operatorname{env}U$, times $c/\log c$, is bounded at every
+index and decreasing at $n=0,2$. The ratio at $x=0.95$ at $c=24\pi$ is $1.02249$ ($n=0$),
+$1.19397$ ($n=4$), $1.56475$ ($n=8$). (107) is confirmed too, with its next coefficient:
+$\chi_n=(2n+1)c-\frac{(2n+1)^2+5}8+O(c^{-1})$.
+
+**The regime check did not survive intact.** §11 says it "is quoted verbatim from the source".
+The *quotation* is fine; the *numeric check attached to it* in §5 is not. Three corrections,
+all marked in place above:
+
+1. Dunster's standing hypothesis is **(29)** at `PSWF_JCA.tex:466`, $0\le\sigma=\sqrt{\chi_n}/c
+   \le\sigma_0<1$ with $\sigma_0$ **fixed**, not $\lambda<0$. §5 states this correctly in its
+   "summary §6" sentence and then §0 and Bottom line 4 print the weaker form.
+2. §5's "$\sigma\le0.8$ with room" is **false at index 8**: $\sigma=0.883$ at $\mu=3$, which is
+   a row of §7 CHECK 6 above. The $0.020$–$0.64$ range it quotes from `h1-mean-value.md` §5 was
+   measured at $n\le4$; $\phi_\lambda$ carries index 8.
+3. At $\mu=2$, $\sigma=1.0199$ and **the hypothesis fails outright** — $\chi_8>c^2$, Dunster's
+   $\lambda>0$, the case he assigns to [9] and not to this paper. The threshold is
+   $c^*_8=13.3006991$, $\mu^*=2.1168720$. `verify_q1.py` CHECK 6 already prints this cell as
+   failing *Q1's* hypothesis (mg-6851); §5 did not carry it across to Dunster's.
+
+**Theorem 6.1 is undisturbed**, and the reason is structural rather than lucky: (E) enters only
+at step (i), a $\lambda\to\infty$ limit at fixed $n$, and $\sigma_n(c)\to0$, so the limit is
+taken well inside (29). §7's tables are measurements, not applications of (E).
+
+**Two further corrections that cost nothing but should be on the record.**
+
+- §10 H0-1 records one unopened source. There are **two**: Dunster [10] for (124)'s error
+  bounds, and Arscott [1, p. 186] for (107)'s, via his (27) at `:455`. The chain is two deep.
+- §7 CHECK 7's clean $O(1/c)$ is **not** evidence that (124) is accurate at those bandwidths.
+  Splitting the error, Dunster's part and the conversion's part are each about three times the
+  total and largely cancel ($n=4$, $c=24\pi$: $0.1031$ and $0.0923$ against $0.0315$).
+
+**What did not change.** (H0), Theorem 6.1, the constant $0.2192471995\ldots$, the $-4\pi$
+bound, or G13's status as an external dependency. A numerical check is not a proof. What it
+buys is that G13 is now a *tested* import, with its hypotheses enumerated and one of them
+found to bite.
