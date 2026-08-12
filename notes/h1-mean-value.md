@@ -70,7 +70,7 @@ is non-increasing on $(1,\infty)$ and $V(1^+)=\Phi(1)^2$, whence
 $$|\Phi_n(x)|\;\le\;|\Phi_n(1)|\qquad(x\ge1).$$
 $\chi_n<c^2$ holds throughout our range — measured, $\chi_n/c^2=0.020$ to $0.64$
 (§5). What the lemma does not give is the decay $1/x$, and the decay is what (P)
-needs. §5.
+needs. §5. <!-- mg-6851: the decay is now PROVED — band-edge-connection.md Thm 5.2. -->
 
 **5. The published literature does not close the other half, and the reason is
 that its hypothesis is the negation of ours.** Osipov–Rokhlin, arXiv:1208.4816,
@@ -100,8 +100,8 @@ classical special function with sixty years of literature; it is numerically
 checkable to arbitrary precision (H1 is not — it is an infinite sum over zeros of
 a function of size $10^{-55}$); and half of it is now proved. **It is not
 outcome (1).** H1 is not proved here and this note does not claim it is. The one
-step that would finish it is named in §9 as **Q1** and it is a connection problem
-at a regular singular point, not a mean-value problem about zeros.
+step that would finish it is named in §9 as **Q1**. <!-- mg-6851: Q1 is PROVED, and
+it was NOT a connection problem at a regular singular point — band-edge-connection.md. -->
 
 ---
 
@@ -388,9 +388,9 @@ amplitude for this equation is $\Phi\sim\text{const}\cdot D^{-1/4}\asymp(cx)^{-1
 — the invariant that is *actually* constant is $\sqrt D\,V$, which satisfies
 $$\big(\sqrt D\,V\big)'=\frac{D'}{2\sqrt D}\Big(\Phi^2-\frac{p^2}{D}\Big),$$
 sign-indefinite, vanishing only on average over an oscillation. Turning that
-average into a bound is a Levinson-type argument that must be connected through
-$x=1$, and $x=1$ is a **regular singular point** of the equation. That connection
-is the whole of what is missing; it is **Q1** of §9.
+average into a bound is a Levinson-type argument. <!-- mg-6851: the rest of this
+paragraph claimed it "must be connected through x=1, a regular singular point".
+That is WRONG. Q1 is PROVED without it: band-edge-connection.md §6, Thm 5.2. -->
 
 ---
 
@@ -487,11 +487,11 @@ $K_1:=\sup_{x>1}x|\Phi_n(x)|/|\Phi_n(1)|$ over $1<x\le14$ in steps of $0.008$
 | $50.265$ | $0.2262$ | $0.2369$ | $0.2511$ | $x\approx1.02$ |
 
 $K_1<1$ throughout, no growth in $c$ — and the supremum sits **just above the
-band edge**, which is where §5 says the missing connection argument lives and
-where §6 says the published expansion is silent. Also measured:
+band edge**. <!-- mg-6851: this grid starts 0.008 ABOVE x=1, and the true sup over
+x>=1 is 1, attained AT x=1. Do not quote 0.79 as the constant in Q1; the proved
+one is K(c) = 2^{3/4}e^{E(c)}. See band-edge-connection.md §7. --> Also measured:
 $\sup_{x>1}|\Phi_n(x)|/|\Phi_n(1)|\le0.79$, consistent with Lemma 5.1 (a grid can
-only under-report a supremum, so this illustrates the lemma rather than testing
-it; the lemma is what is relied on).
+only under-report a supremum; the lemma is what is relied on).
 
 **Numerical hygiene.** CHECK 0 validates the entire extension before it is used:
 the spherical-Bessel series is checked against the Legendre series at $x=1$,
@@ -538,7 +538,7 @@ that and this note found nothing that disturbs it.
 
 | # | item | status |
 |---|---|---|
-| **Q1** | Prove $x|\Phi_{n,c}(x)|\le K|\Phi_{n,c}(1)|$ for $x\ge1$ with $K$ subexponential, in the regime $\chi_n<c^2$. Lemma 5.1 gives the amplitude; what is missing is the WKB decay, which must be connected through the **regular singular point $x=1$** — a Bessel-type connection problem at the band edge. Measured $K_1\le0.79$ with no growth in $c$ (§7) | **open; this is the whole remaining content, and it is an ODE problem** |
+| **Q1** | Prove $x|\Phi_{n,c}(x)|\le K|\Phi_{n,c}(1)|$ for $x\ge1$ with $K$ subexponential, in the regime $\chi_n<c^2$. Lemma 5.1 gives the amplitude; what is missing is the WKB decay ~~which must be connected through the **regular singular point $x=1$**~~ (mg-6851: it need not be — the row's diagnosis was wrong) | **PROVED (mg-6851), [`band-edge-connection.md`](band-edge-connection.md) Thm 5.2, with $K(c)=2^{3/4}e^{E(c)}$ *bounded*, $\downarrow2^{3/4}$. Q2 now carries the weight** |
 | **Q2** | Pass from the single-term bound (Q1) to (P) for $G=\sum_{n\ge1}\Phi(n\,\cdot)$. The mechanism is the sawtooth $\sum_n n^{-1}\sin(cnt)$ (§4); what must be controlled is the sum of the *remainders* in Osipov–Rokhlin's exact expansion, which is the off-band leakage of $t\Phi(t)$ (§6) | **open; not verified numerically here either — the evaluation cost of $\Phi(nt)$ for $n$ large defeated it in this session** |
 | **Q3** | Write out the two flagged steps of §3: the fractional-Sobolev handling of the $\log^3$ weight, and the $\sigma\to\pm\tfrac12$ edge. Both are exponent-checked, neither is written | **open, but routine; poly cost at worst** |
 | **Q4** | (H0), $\|g\|^2$ bounded below — untouched here. It is the paper's other half of G6 and is a mean value of $|\zeta(\tfrac12+it)|^2$ against an explicit weight | **open, unchanged by this note** |
@@ -619,3 +619,51 @@ this note supports are:
    logarithmic"** (paper `:1252`) is right, and Prop. 3.1 makes it the actual
    mechanism rather than an aside.
 4. Neither change touches G10, Theorem `thm:boundary`, or anything about the sign.
+
+---
+
+## 12. Appended by mg-6851 — Q1 is proved, and §5's diagnosis of it was wrong
+
+*Append-only. Nothing above is rewritten; the in-place annotations are HTML
+comments and change no line count. Companion note:
+[`band-edge-connection.md`](band-edge-connection.md), script
+[`verify_q1.py`](verify_q1.py).*
+
+**Q1 is proved.** For every real solution $\Phi$ of the prolate equation analytic at
+$x=1$, every $c>\sqrt2$ and every $\chi$ with $0\le\chi<c^2$ (and $\chi_n\ge n(n+1)$,
+so the lower bound is free),
+$$x|\Phi(x)|\le K(c)|\Phi(1)|\ (x\ge1),\qquad
+K(c)=2^{3/4}e^{E(c)},\quad
+E(c)=\frac{5\sqrt2}{c-\sqrt2}+\frac{\sqrt2c/3+2}{(c-\sqrt2)^2}.$$
+$K$ is **bounded**, not merely subexponential, is independent of the index $n$
+throughout $\chi_n<c^2$, and decreases to $2^{3/4}=1.6818$. At our bandwidths
+$K=3.379$ ($c=4\pi$) down to $1.861$ ($c=24\pi$). So Prop. 4.1 above has its
+hypothesis on the single-term side, and (P) is now **exactly** Q2.
+
+**Three corrections to this note, and the first is the one that matters.**
+
+1. **§5's closing diagnosis is wrong.** "That connection is the whole of what is
+   missing" — it is not. The factor $x$ is worth nothing on a bounded interval, so
+   the asymptotic argument may start at $x=\sqrt2$, where **Lemma 5.1 itself
+   supplies the initial amplitude**. The regular singular point is never crossed.
+   Lemma 5.1 does more than this note credits it with: it is not only the amplitude
+   half of Q1, it is also the connection.
+2. **§5's amplitude identity is right and is the mechanism.** $(\sqrt DV)'$, divided
+   by $2\sqrt DV$, is exactly $A'/A=-\frac{D'}{4D}\cos2\theta$ for $A=\rho D^{1/4}$.
+   The mean cancels identically; what closes it is that the phase speed satisfies
+   $k^2=c^2+\frac{c^2-\chi}{x^2-1}>c^2$, so one integration by parts costs $O(1/c)$.
+   **$\chi<c^2$ is exactly "no turning point outside the band"**, which is the same
+   fact as §6's finding that Osipov–Rokhlin's regime is the negation of ours.
+3. **§7's $K_1\le0.79$ is a grid artefact and should not be quoted as Q1's
+   constant.** That grid starts $0.008$ above $x=1$; the supremum of
+   $x|\Phi(x)|/|\Phi(1)|$ over $x\ge1$ is $1$, attained at $x=1$. §7 flags the
+   exclusion and is not wrong, but the number has since been quoted as if it were
+   the constant, including in vision amendment 11 §4.
+
+**What is genuinely a connection problem at the band edge** is the *sharp* constant:
+$A\to\sqrt{2/\pi}|\Phi(1)|$ would give $K=O(c^{-1/2})$ rather than $O(1)$, and that
+does need the $J_0$ matching at $x=1$. It is **observed, not proved**, filed as Q1′
+in `band-edge-connection.md` §9, and **nothing downstream needs it**.
+
+**Unchanged:** Q2, Q3, Q4, Q5; §§1–4; the reduction of H1 and G5 to (P); every
+sign-blindness verdict in §8. H1 is still not proved.

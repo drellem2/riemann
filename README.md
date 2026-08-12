@@ -135,13 +135,30 @@ cite them by line.
   published off-band results against our configuration and finds their hypothesis
   is the negation of ours, so they cannot be borrowed. Records an observed
   identity, \(\Phi_n(1)^2=c(1-\Lambda_n)(1-(2n+1)/(4c)+O(c^{-2}))\), which is what
-  calibrates the constant. The residue is an ODE connection problem at the band
-  edge, and it is stated as such. Everything in it is sign-blind, as a statement
-  about \(\sum|\cdot|^2\) must be.
+  calibrates the constant. The residue is stated as an ODE connection problem at
+  the band edge — which `band-edge-connection.md` below shows it is not.
+  Everything in it is sign-blind, as a statement about \(\sum|\cdot|^2\) must be.
+- `band-edge-connection.md` — **proves** the item the above calls "the whole
+  remaining content": \(x|\Phi_{n,c}(x)|\le K(c)|\Phi_{n,c}(1)|\) for \(x\ge1\)
+  whenever \(\chi_n<c^2\), with \(K(c)=2^{3/4}e^{E(c)}\) *bounded* rather than
+  merely subexponential, independent of the index, and decreasing to
+  \(2^{3/4}=1.6818\). Along the way it refutes that note's own diagnosis: the
+  missing step is **not** a connection through the regular singular point
+  \(x=1\), because the factor \(x\) is worth nothing on a bounded interval, so
+  the asymptotic argument may start at \(x=\sqrt2\) with its initial amplitude
+  supplied by the Sturm lemma — the lemma *is* the connection. What makes it
+  close is that \(\chi_n<c^2\) says exactly that there is no turning point
+  outside the band, so the phase advances at rate at least \(c\) and one
+  integration by parts costs \(O(1/c)\). Records, as observed and not proved,
+  that the *sharp* constant is \(O(c^{-1/2})\) and that recovering it does need
+  the band-edge connection, which is Bessel of order zero. Does **not** prove H1:
+  the sum over dilates, the two flagged steps and H0 are all untouched.
+  Sign-blind throughout; it contains no zeta function at all.
 
 `s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
 `verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md`,
-`deficit-repair.md`, `prolate-rate.md` and `h1-mean-value.md` have ones using
+`deficit-repair.md`, `prolate-rate.md`, `h1-mean-value.md` and
+`band-edge-connection.md` have ones using
 `mpmath` in arbitrary precision and no numpy; `independent-recheck.md`'s uses the Python standard
 library alone, which is the point of it;
 `signed-geometry-proposals.md` and `citation-audit.md` are
