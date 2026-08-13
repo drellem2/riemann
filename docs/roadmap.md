@@ -25,11 +25,11 @@ withdrawn.
 
 ## Next (queued, available)
 
-- **mg-d03b** — *The whole sign lives in a margin of $8.7\times10^{-5}$.* Exhibit the near-null
-  direction of $-E$ on the codimension-two subspace; track the margin past $\mu=2$ to find out
-  whether Theorem 1's hypothesis is the truth or an artifact of its proof; and measure what
-  each vanishing condition individually buys. Every statement in this area is false for
-  $W_\lambda\to-W_\lambda$, so work here is automatically not sign-blind.
+- **mg-0b7a** — *Make the ceiling a theorem.* $\hat\epsilon(0)=+5.37>0$, so the symbol of $-E$
+  is negative at low frequency and only a support too short to reach that band saves the
+  inequality. Currently one line plus numerics; turning it into a theorem would establish a
+  **limit on the archimedean route itself**, which is the kind of result this programme
+  produces well.
 
 ## Why everything is sign-blind, and the one design rule that follows
 
@@ -69,19 +69,44 @@ gap $=-E$, and the whole of Theorem 1 — seventy pages — is the single statem
 quadratic form $-E$ is positive on the codimension-two subspace $\hat g(0)=\hat g(i/2)=0$ for
 $\mu\le2$.
 
-## The first statement in this corpus that is not sign-blind
+## The first statements in this corpus that are not sign-blind
 
-> Before the two vanishing conditions are imposed, the gap $W_\infty-\operatorname{Tr}$ is
-> **negative** on some direction at every $\mu\ge1.2$, including $\mu=2$, inside the theorem's
-> own support range.
+> Before the vanishing conditions are imposed, the gap $W_\infty-\operatorname{Tr}$ is
+> **negative** on some direction at every $\mu\ge1.2$. **FALSE for
+> $W_\lambda\to-W_\lambda$** — the trace does not move under that substitution and $W_\infty$
+> does. First one in five months (mg-5210).
 
-**FALSE for $W_\lambda\to-W_\lambda$** — the trace does not move under that substitution and
-$W_\infty$ does. Numerical, archimedean-only, and the first one in five months.
+mg-d03b then corrected two things in the framing above, both mine:
 
-Read the other way it measures what $\hat g(0)=\hat g(i/2)=0$ are doing: without them the form
-is indefinite, with them positive by $8.7\times10^{-5}$. **They are not a technical
-convenience, they are the theorem.** And the margin is thin — on the direction where the gap
-is smallest, the Sonin trace is essentially *all* of the Weil functional.
+- **The $8.7\times10^{-5}$ "margin" is not a margin.** It is
+  $\epsilon'(1^+)L^2/2\pi^2N^2$ — the $N$-mode **truncation order**, matched across 24 cells at
+  $N=40/80/160$ to $0.14\%$. $-E$ is compact, so its truncated minimum goes to $0$, not to a
+  margin. And there is **no near-null direction**: the minimiser is the top resolved cosine
+  mode, weight $1.000$ on $n=N$, and it moves when the basis moves.
+- **Theorem 1's $\mu\le2$ is an artefact of its proof.** What is truncation-stable is the
+  *inertia*, and by it the conclusion holds to $\mu=6.17$ — three times the stated hypothesis —
+  and is **false past it** ($-0.0921$ at $\mu=8$, unchanged $N=60\to120$). Worth stating
+  wherever that theorem is quoted: a bound that is an artefact reads exactly like a real one.
+- **One condition does all the work.** $\hat g(0)=0$ alone gives $-E\ge0$ to $\mu=2.763$, past
+  Theorem 1's whole support range; at $\mu\le2$ the second condition buys **nothing** for the
+  sign. Refines mg-5210's "they are the theorem" to: *one of them is.*
+
+## The ceiling, and why it is the important finding
+
+$\mu_c(k) = 2.763,\ 6.174,\ 13.01,\ 26.46$ for $k=1..4$ — geometric, ratios
+$2.23,\ 2.11,\ 2.03$, $\log\mu_c$ linear in $k$ with slope $0.7523$. **Each vanishing
+condition buys a bounded factor and no more.**
+
+The mechanism needs no computation: $\epsilon>0$, so $\hat\epsilon(0)=+5.3722>0$, so **the
+symbol of $-E$ is negative at low frequency**. Only a support too short to let $\hat g$ into
+that band can save the inequality. $\hat\epsilon>0$ only on $|t|<t_0=6.29177$; $k$ conditions
+hold $\hat g$ down near $t=0$ to order $k$; a support of length $L$ resolves $t$ only to
+$2\pi/L$. The resolution-cell count gives $0.9986$ against the measured $0.7523$ — **shape
+right, constant 25% out, and the note says so rather than claiming the derivation.**
+
+**Read plainly: the archimedean place has a ceiling, and no amount of work there removes it.**
+That is what mg-0b7a is for, and it is what makes the semilocal question (R2) the real
+decision rather than one option among four.
 
 ## The decision I am not making
 
