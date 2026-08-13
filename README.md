@@ -345,6 +345,46 @@ from over twenty-five minutes to under ten, which is the reason for the split.
 **To get the full grid for the last four, run them locally without the switch.**
 That is the run the notes record, and CI does not perform it.
 
+### The versions these scripts are run on
+
+**NumPy 2.0 or newer, mpmath 1.3 or newer, on Python 3.12** — that is what CI
+installs and the only combination the whole suite is exercised on. The NumPy
+floor is hard: `verify_sonin_trace.py` calls `np.trapezoid`, the name `np.trapz`
+was renamed to when NumPy 2.0 removed the old one.
+
+Until 2026-08-13 nothing here said any of that. The workflow installed bare
+`numpy mpmath`, no note or README named a version, and `verify_sonin_trace.py`
+merged to `main` calling `np.trapz` — deprecated across NumPy's whole 1.x series
+and deleted in 2.0. It passed on the machine that wrote it, which still had a
+1.x where the old name existed, and died on the runner twelve seconds in with
+`module 'numpy' has no attribute 'trapz'`. Neither machine was wrong, because
+nothing had said which one was right.
+
+**Floors, not pins**, deliberately. Pinning exact versions in the workflow would
+have made that run green and left the defect standing, for whoever next ran the
+scripts on a current NumPy to find without a CI run to tell them why. The
+environment moving under us is the thing that caught it — within minutes of the
+merge, on a machine that is not the one that wrote the code, which is the entire
+point of running them there. A floor states the contract without freezing the
+environment against the next such removal.
+
+A floor nothing enforces is a floor nothing enforces, so
+[`test_exit_codes.py`](#the-exit-code-contract) reads it before it runs anything
+and reports a NumPy below 2.0 exactly the way it reports a missing `mpmath`:
+**NOT RUN**, exit 2, a statement about the machine. Left to itself a 1.x box
+would report `verify_sonin_trace.py`'s contract as broken, on the strength of an
+`AttributeError` that says nothing about the contract at all.
+
+The rename itself is inert, and this was measured rather than assumed: on one
+and the same NumPy, `np.trapezoid` supplied as an alias for `np.trapz` gives
+this script's output byte for byte, and the two functions' implementations
+differ only in whitespace. What *does* move between NumPy 1.25 and 2.5 is the
+seventh significant digit of CHECK 2's smallest eigenvalue (`min Sonin` at
+\(\mu\ge2.2\), a relative change of \(4\times10^{-7}\)) — LAPACK, not this
+repository. Every figure `sonin-trace.md` quotes is unaffected: the five
+Connes–Consani anchors of CHECK 1 are identical on both, and the note's own
+tables are quoted to three significant figures.
+
 ### The exit-code contract
 
 **Every script exits non-zero when a check it states comes out wrong.** That was
@@ -473,7 +513,10 @@ cd paper && pdflatex positivity-obstruction.tex   # three passes; no bibtex
 
 lean/scripts/check.sh                 # the Lean build, sorry grep and axiom audit
 
-pip install numpy mpmath              # numpy for four scripts, mpmath for most
+pip install "numpy>=2.0" "mpmath>=1.3"   # numpy for five scripts, mpmath for
+                                         # most; the floors are not optional --
+                                         # see "The versions these scripts are
+                                         # run on" above
 cd notes && python verify_q1.py       # any verifier; run from `notes/`
 echo $?                               # 0 iff every check it states came out right
 

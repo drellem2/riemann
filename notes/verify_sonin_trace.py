@@ -358,7 +358,7 @@ def check1():
     xs = np.linspace(0.0, 4 * np.pi, 400001)
     sinc = np.ones_like(xs)
     sinc[1:] = np.sin(xs[1:]) / xs[1:]
-    target = 2 * (np.trapz(sinc, xs) / (4 * np.pi) + 1)
+    target = 2 * (np.trapezoid(sinc, xs) / (4 * np.pi) + 1)
     got = (pr.lam ** 2).sum()
     print("  sum lambda(n)^2  = %.10f" % got)
     print("  2(Si(4pi)/4pi+1) = %.10f      `weil-compo.tex:1101`, CC: ~2.237484835"

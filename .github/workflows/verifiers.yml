@@ -65,10 +65,18 @@ jobs:
         with:
           python-version: "3.12"
 
-      # numpy for the four Connes-Consani matrix scripts, mpmath for the
+      # numpy for the five Connes-Consani matrix scripts, mpmath for the
       # arbitrary-precision ones.  `verify_independent_recheck.py` needs
       # neither, by design — it is the standard-library second implementation.
-      - run: pip install --quiet numpy mpmath
+      #
+      # FLOORS, NOT PINS.  numpy >= 2.0 is a hard requirement: the scripts call
+      # `np.trapezoid`, which is what `np.trapz` was renamed to when 2.0 removed
+      # the old name.  Until 2026-08-13 this line was `numpy mpmath` with no
+      # constraint at all and nothing anywhere stated a supported version, which
+      # is how `verify_sonin_trace.py` reached `main` calling the removed name
+      # and died here twelve seconds in.  See README.md, "The versions these
+      # scripts are run on", for why these stay floors and are not pinned.
+      - run: pip install --quiet "numpy>=2.0" "mpmath>=1.3"
 
       # Several scripts import their siblings by bare module name, so the
       # working directory has to be `notes/`.
@@ -111,7 +119,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: pip install --quiet numpy mpmath
+      # Same floors as the `verify` job above, for the same reason.
+      - run: pip install --quiet "numpy>=2.0" "mpmath>=1.3"
 
       - name: test_exit_codes.py
         working-directory: notes

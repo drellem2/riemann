@@ -38,7 +38,8 @@ worse than the truth, because the fix is one `pip install`.  So the imports the
 selected scripts need are checked BEFORE anything is run, and any child that
 dies of `ModuleNotFoundError` anyway (a sibling import this scan did not follow,
 a module installed but broken) is reported as an environment failure rather than
-as a contract failure.
+as a contract failure.  A module that is present but too old is the same case
+wearing different clothes and is checked the same way -- see `FLOORS`.
 
 Exit status: 0 if every script passed both controls, 1 if any contract failed,
 2 if the environment is missing something and the contract was therefore not
@@ -57,11 +58,20 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 # what `pip install` line to point at when an import is missing; this is the one
 # README.md gives under "Reproducing the same checks locally".
-PIP_LINE = "pip install numpy mpmath"
+PIP_LINE = 'pip install "numpy>=2.0" "mpmath>=1.3"'
 
 # the third-party modules any of these scripts import.  Everything else they
 # import is either the standard library or a sibling in this directory.
 THIRD_PARTY = ("numpy", "mpmath")
+
+# the oldest version of each that these scripts are run against, as (major,
+# minor); README.md, "The versions these scripts are run on", is the statement
+# of record.  An installed-but-too-old module is checked here for the same
+# reason a missing one is: on numpy 1.x every script that calls `np.trapezoid`
+# dies of an `AttributeError` -- not an `ImportError`, so `import_error` below
+# does not see it -- and gets counted as a broken contract.  It is not one.  It
+# is this machine, and the fix is the `pip install` line above.
+FLOORS = {"numpy": (2, 0), "mpmath": (1, 3)}
 
 # script -> the arguments/environment CI uses, so the forced run reaches its
 # first decision on the same grid the workflow runs.
@@ -134,12 +144,27 @@ def requirements(script, _seen=None):
     return need
 
 
-def check_environment(scripts):
-    """Report missing imports before running anything; [] if the run can proceed.
+def version_of(mod):
+    """(major, minor) of an installed module, or None if it will not be read.
 
-    Returns a list of (module, [scripts that need it]) for every module that is
-    not importable by the interpreter the children will run under -- which is
-    this one, since `run` invokes `sys.executable`.
+    Only the first two components, and only when both are plain integers: a
+    development suffix is not worth a parser here, and a version this cannot
+    read is reported as no answer rather than as a failure.
+    """
+    try:
+        parts = __import__(mod).__version__.split(".")
+        return (int(parts[0]), int(parts[1]))
+    except Exception:
+        return None
+
+
+def check_environment(scripts):
+    """Report an unusable environment before running anything; [] if it will do.
+
+    Returns a list of (module, [scripts that need it], what is wrong) for every
+    module that is not importable by the interpreter the children will run under
+    -- which is this one, since `run` invokes `sys.executable` -- or that is
+    importable but older than the floor in `FLOORS`.
     """
     needed = {}
     for script, _, _ in scripts:
@@ -152,7 +177,14 @@ def check_environment(scripts):
         except (ImportError, ValueError):
             found = False
         if not found:
-            missing.append((mod, needed[mod]))
+            missing.append((mod, needed[mod], "missing"))
+            continue
+        floor = FLOORS.get(mod)
+        have = version_of(mod) if floor else None
+        if floor is not None and have is not None and have < floor:
+            missing.append((mod, needed[mod],
+                            "%s installed, needs >= %d.%d"
+                            % (__import__(mod).__version__, floor[0], floor[1])))
     return missing
 
 
@@ -193,11 +225,11 @@ def main(argv):
 
     missing = check_environment(scripts)
     if missing:
-        print("NOT RUN -- this environment cannot import what the scripts need.")
+        print("NOT RUN -- this environment does not have what the scripts need.")
         print()
-        for mod, users in missing:
-            print("    %-8s missing, needed by %d of the %d scripts selected (%s)"
-                  % (mod, len(users), len(scripts),
+        for mod, users, why in missing:
+            print("    %-8s %s, needed by %d of the %d scripts selected (%s)"
+                  % (mod, why, len(users), len(scripts),
                      ", ".join(users) if len(users) <= 3 else
                      ", ".join(users[:3]) + ", ..."))
         print()
