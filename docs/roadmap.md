@@ -12,7 +12,12 @@ actually fail; the paper compiles; and three CI workflows re-run all of it on a 
 on every push. Formalising also refuted a printed formula that four readings had missed. **The
 paper's thesis is unchanged by all of it:** every one of the 91 results is sign-blind. The
 prolate mechanism governs magnitude; the sign is RH; the two do not connect, and that is the
-result. The open question is not throughput — it is **who outside this fleet will read it**.
+result.
+
+**Direction, as of 2026-08-13 17:15 (Daniel).** Publishing is **off** — it does not meet his
+bar for time and reputation investment. The question is now **how to get past sign-blindness**,
+and that is the whole focus. The publishing framing that stood in this file earlier today is
+withdrawn.
 
 ## Now (in flight)
 
@@ -20,8 +25,34 @@ result. The open question is not throughput — it is **who outside this fleet w
 
 ## Next (queued, available)
 
-*Empty, and deliberately so.* What remains inside my authority is thin; what remains outside
-it is the whole question. See below.
+- **mg-5210** — *How big is the Sonin trace?* See "Why everything is sign-blind" below. The
+  first item in this programme aimed at the signed half rather than the gap.
+
+## Why everything is sign-blind, and the one design rule that follows
+
+mg-8599's lemma is the whole story: if every analysis-side entry of a dictionary is a
+**subspace, a projection, a norm, or a scalar functional**, nothing derived from it can
+distinguish $W_\lambda$ from $-W_\lambda$ — none of those objects is a function of
+$W_\lambda$. Six rows, six for six.
+
+**Design rule (the contrapositive).** To break the invariance you need a row whose analysis
+side is a **product** or an **adjoint**. Those are the two operations "square" is built from,
+and positivity is always a statement about a cone of squares. Every historical case has this
+shape — curve/transpose, abelian variety/Rosati, Hodge structure/conjugation,
+$C^*$-algebra/$a\mapsto a^*$: an involution and a positive trace. Ours is
+$f^*(u)=\overline{f(1/u)}/|u|$, and $W(f\star f^*)\ge0$ is the open one.
+
+**And here is the cause, sharply.** Connes–Consani's archimedean theorem is a *lower bound*,
+not a factorisation: $W_\infty(g\star g^*)\ge\operatorname{Tr}(\vartheta(g)\,\mathbf S\,
+\vartheta(g)^*)$. The right-hand side is positive because it is literally $\operatorname{Tr}
+(xx^*)$. The **difference** is expanded in prolate functions and controlled by Toeplitz
+theory — and *that difference is the entire corpus*. Our $\lambda$ is their Sonin cutoff; our
+$1-\chi_4$ is leakage across it; the deficit, the rate, the $-4\pi$ and all 91 Lean results
+are statements about the **gap**.
+
+**We have no result of any kind about the trace, and the trace is the only place the sign
+lives.** Nothing we prove is sign-sensitive because we have spent the programme on the
+sign-blind half of a two-term inequality.
 
 ## The decision I am not making
 
@@ -39,12 +70,28 @@ library gaps, and the third is a multi-month project that would benefit people w
 this repo. Until one is chosen, Q2 rests on Q1, Lemma 2.1 and Lemma 3.3, and **is not
 unconditional** — precisely as mg-57a2 was scoped to expect.
 
-## Later (proposed, not filed)
+## Later (proposed, not filed) — the other routes past sign-blindness
 
-- **Q1′** — the proof's amplitude bound is $2^{1/4}\sqrt c$ where the measured ratio straddles
+Graded honestly. Each is judged by one question: **does it produce a sentence that is false for
+$W_\lambda\to-W_\lambda$?**
+
+- **R2 — the semilocal extension.** Connes–Consani's theorem is archimedean-only; the semilocal
+  case is an announced strategy, not a theorem, and the citation audit established that our
+  objects *are* their objects in their own letters. Semilocal positivity is a signed
+  conclusion. The biggest commitment here and the one I would go to after mg-5210.
+- **R3 — self-adjoint test vectors.** Restrict to $g=g^*$, the fixed locus of the involution,
+  which is exactly "$\hat g$ real on the critical line". The corpus's near-null direction was
+  never checked for this. Speculative, afternoon-sized.
+- **R4 — probe the sign numerically.** Point today's verified numerics at
+  $\operatorname{Tr}-W$ for explicit $g$ and find where it crosses. A numerical statement about
+  a sign is not sign-blind, whatever else it is. Largely folded into mg-5210.
+
+**Not part of the sign programme**, kept for the record:
+
+- **Q1′** — amplitude bound $2^{1/4}\sqrt c$ against a measured ratio straddling
   $\sqrt{2/\pi}$. Slack in a proved constant; low value.
 - **Lemma 2.1 and Lemma 3.3** — Q2's remaining prose inputs, carried as hypotheses
-  `hAlpha`/`hBeta`. Neither attempted. Worth doing only as part of a decision above.
+  `hAlpha`/`hBeta`. Worth doing only as part of a mathlib decision.
 
 ## Backlog (open, no near-term plan)
 
@@ -109,8 +156,9 @@ one. That is why it is now written down (mg-83d1) rather than left in an outbox.
 
 - **Three of the four legs are still prose.** The line moved today, but it moved to where the
   gaps are *mathlib* gaps.
-- **Still nobody outside this fleet has read a line.** The endorsement requirement partly
-  re-imports the human review Daniel ruled out: an endorser must read enough to vouch.
+- ~~Still nobody outside this fleet has read a line.~~ **No longer a gap I am watching**, since
+  publishing is off (Daniel, 17:15). It remains true, and it stops being a *problem* only
+  because nothing now depends on it. If publishing comes back, this comes back with it.
 - **CI's coverage is narrower than its badge.** Four verifiers run reduced grids
   (`verify_q1.py` 2m02s in CI vs 25m31s full). mg-5995 ran all four full grids by hand and
   they pass; CI does not repeat that, and `verify_q1.py`'s `--quick` grid does not reach the
