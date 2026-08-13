@@ -1,0 +1,46 @@
+name: lean
+
+# Re-runs `lean/scripts/check.sh` on a clean machine: the build, the `sorry`
+# grep, and the axiom audit.  The script exits non-zero if the build fails, if
+# `sorry` appears in the sources, or if any result depends on `sorryAx`.
+#
+# The toolchain and the mathlib revision are pinned (`lean/lean-toolchain`,
+# `lean/lake-manifest.json`).  `leanprover/lean-action` installs elan and runs
+# `lake exe cache get`, which fetches prebuilt mathlib oleans — mathlib is
+# NEVER compiled from source here; see `lean/README.md`.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lean-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: build, sorry grep, axiom audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      # Installs the pinned toolchain, fetches the mathlib cache, and runs
+      # `lake build`.  `check.sh` below re-runs `lake build` (a no-op by then)
+      # and adds the two checks the action does not do.
+      - name: Set up Lean and fetch the mathlib cache
+        uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: lean
+          build: true
+          test: false
+          lint: false
+          use-mathlib-cache: true
+
+      - name: lean/scripts/check.sh
+        run: ./lean/scripts/check.sh
