@@ -17,18 +17,18 @@ and Daniel has chosen the route (below).
 
 ## Now (in flight)
 
-*Nothing.* Five merged today: mg-7fc6 09:55 (`4788c42`), mg-fe9a 10:48 (`2bc06b5`), mg-5995 12:38 (`00ee1f2`), mg-6e8a 13:05 (`87f2af4`), mg-1155 13:42 (`ed30454`). mg-57a2 filed 14:55, awaiting dispatch.
+*Nothing.* Six merged today: mg-7fc6 09:55 (`4788c42`), mg-fe9a 10:48 (`2bc06b5`), mg-5995 12:38 (`00ee1f2`), mg-6e8a 13:05 (`87f2af4`), mg-1155 13:42 (`ed30454`), mg-57a2 15:55 (`860c9cb`).
 
 ## Next (queued, available)
 
-- **mg-57a2** — *Formalise Prop. 4.1, and find out what its printed statement omits.* The
-  predicted third missing-hypothesis site. It does **not** make Q2 unconditional (it consumes
-  Q1, so it terminates at the Prufer wall); it buys one prose input instead of two, and a shot
-  at the defect class formalising keeps finding here. Scoped to forbid the mathlib Prufer
-  build, which stays Daniel's call.
+*Empty.* Six items merged today and every one is closed out. What remains is the three
+mathlib walls, and those are Daniel's call, not mine.
 
 ## Later (proposed, not filed)
 
+- **Lemma 2.1 and Lemma 3.3** are now Q2's remaining prose inputs, carried as the hypotheses
+  `hAlpha`/`hBeta`. Neither was attempted. Q2 rests on these plus Q1 — **it is still not
+  unconditional**, exactly as mg-57a2 was scoped to expect.
 - **Lean continuation past the walls — now three walls, and they are different in kind.**
   mg-7fc6 measured them instead of guessing. **Q1** needs a continuous branch of the Prüfer
   angle along an ODE-defined curve; that is the mathlib-infrastructure commitment mg-a087
@@ -68,7 +68,7 @@ and Daniel has chosen the route (below).
 - Periodic **S3 re-check**: CCM's deferred semilocal prolate operator had not appeared as of
   Feb 2026 (arXiv-only; `math.jhu.edu` and `alainconnes.org` both 403'd).
 
-## Recently shipped (last 7d — 34 items)
+## Recently shipped (last 7d — 35 items)
 
 Merged since the 08-12 17:05 regeneration:
 
@@ -79,6 +79,7 @@ Merged since the 08-12 17:05 regeneration:
 | mg-882b | **Citation audit closed** — U1, U2, U3, U8, U9, plus U4's stale row and the converse check. |
 | mg-7fc6 | **The Lean frontier moved past the elementary layer**, and the reachability question was answered by measurement rather than by my guess. 65 audited results, no `sorry`. See below for exactly what this does and does not mean. |
 | mg-5995 | **The fifteen verifiers now have an exit-code contract, and a positive control proves each one can fail.** I re-ran that control myself in a clean venv: all 15 exit 1 under force naming the check they stopped on, all 3 unforced controls exit 0. It **caught a real defect on its first sweep** — `verify_deficit_repair.py` CHECK 6, where D(8) and s(8) are stable to different mpmath depths (fixed in `89674fa`, confirmed against the full grid). `verify_h0.py`'s full grid also ran to completion for the first time: 44 minutes, the one mg-fe9a cancelled at a 30-minute cap. |
+| mg-57a2 | **Prop. 4.1 formalised — and a printed formula in the corpus was simply FALSE.** `dilate-sum.md` Lemma 3.1's Liouville potential read $(c^2-\chi+1)/(x^2-1)$; the true one is $(c^2-\chi)/(x^2-1)+1/(x^2-1)^2$. It had propagated to `band-edge-connection.md`, `h1-mean-value.md` and `verify_q2.py`'s CHECK 1 banner, all now corrected. **Nothing downstream moves, and that was machine-checked rather than argued**: the corrected $\epsilon$ still yields Lemma 3.2's (3.3) with the *same* constant $6c$, hence the same $B_1$, $B_2$, $K_P(c)$. Caught numerically first (1e-13 against the true value, where the note managed 2 significant figures), then in Lean. 65 → **91 audited results**, no `sorry`. Everything added is sign-blind. |
 | mg-1155 | **The paper compiles**, and there is now a third green badge. Two undefined macros twelve lines apart (`\C`, `\widecheck`) were killing the build outright — no PDF at all. Now 49 pages in three passes with nothing undefined. The `paper` workflow builds *both* `.tex` documents and fails on any undefined control sequence, reference, citation, or rerun request after the final pass — and its log check was positive-controlled against the broken `main` version. A trap worth keeping: **`grep -a`** is required on these logs, which are non-UTF-8, and plain `grep` silently reports nothing. |
 | mg-6e8a | **The positive control now runs in CI** as a 16th job of `verifiers.yml`, and it tells *"this script's contract does not work"* apart from *"this script never ran"* — exit 1 vs exit 2. I re-tested the case that nearly made me file a false regression: on a machine with neither module it now prints `NOT RUN … it is a statement about this machine` and names the `pip install` line, where it used to print 18 contract failures. It resolves each script's imports with `ast` rather than grep, because `verify_dunster.py` names mpmath in prose. All 16 jobs green on `main`. |
 | mg-fe9a | **CI, and the 65 results now have an independent compile.** `lean` and `verifiers` both green on `main`, both badges reading *passing*. The Lean build takes 3m55s on a cold cache with `Downloaded: 8232/8232 (100%)` — nothing compiled from source — and ends `check.sh: OK - 65 results, none depending on sorryAx`. Its **finding** was worth more than the workflows: 12 of the 15 `verify_*.py` scripts print `REFUTED`/`MISMATCH` and exit 0, so a naive call is green either way. Filed as mg-5995. |
