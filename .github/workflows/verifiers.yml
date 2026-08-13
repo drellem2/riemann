@@ -4,15 +4,15 @@ name: verifiers
 # its own job, so the run page names every script it ran and how long it took —
 # a single tick covering an unnamed subset would be worse than no CI at all.
 #
-# Eleven scripts run on their FULL grid.  Four run on the reduced grid their
+# Twelve scripts run on their FULL grid.  Four run on the reduced grid their
 # own `--quick` / `QUICK=1` switch selects, because their full grids exceed a
 # sane per-push budget.  Which is which is recorded here, in the job names, and
 # in README.md under "Continuous integration" — read that before reading a
 # green tick as "every number in `notes/` was rechecked".  It is not that.
 #
-# A sixteenth job, `exit-codes`, runs the positive control for the exit-code
-# contract those fifteen depend on.  It belongs in this workflow rather than in
-# its own: the thing it guards is the exit status of the same fifteen scripts,
+# A seventeenth job, `exit-codes`, runs the positive control for the exit-code
+# contract those sixteen depend on.  It belongs in this workflow rather than in
+# its own: the thing it guards is the exit status of the same sixteen scripts,
 # so the badge that goes green for them should be the badge that goes red when
 # the status underneath it stops meaning anything.
 
@@ -50,6 +50,7 @@ jobs:
           - {script: verify_dunster.py,             args: "", env: ""}
           - {script: verify_q2.py,                  args: "", env: ""}
           - {script: verify_independent_recheck.py, args: "", env: ""}
+          - {script: verify_sonin_trace.py,         args: "", env: ""}
           # --- reduced grid: full grid exceeds the per-push budget ----------
           # `--quick` / `QUICK=1` keep every check and coarsen the grid (fewer
           # bandwidths c, larger step).  They do not skip checks.
@@ -90,7 +91,7 @@ jobs:
             exit 1
           fi
 
-  # The positive control: every one of the fifteen is run once with its first
+  # The positive control: every one of the sixteen is run once with its first
   # decision forced negative and must exit non-zero naming that decision, and
   # the three fastest are run unforced and must exit 0.  A contract that cannot
   # fail is a green tick that means nothing, and before this job nothing but a

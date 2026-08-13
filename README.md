@@ -236,6 +236,19 @@ cite them by line.
   Also: (107) is itself a citation (Arscott [1, p. 186]), so the chain is two deep,
   not one. **A numerical check is not a proof** — the import stays external, it is
   now tested. Sign-blind throughout.
+- `sonin-trace.md` — how big the Sonin trace is, which nobody had asked. It is the
+  only object in Connes–Consani's archimedean theorem that carries a sign, and it is
+  computable: their own Theorem `devil` gives
+  \(\operatorname{tr}(\vartheta(f)\mathbf S)=W_\infty(f)+\int f\epsilon\,d^*\rho\)
+  with \(\epsilon\) an explicit prolate series, so the gap in their Theorem 1 is exactly
+  \(-E\) and the theorem is one line about a quadratic form. Rebuilds \(\epsilon\) and
+  reproduces all five of their printed anchors for it. Finds that the trace is the same
+  order as the Weil functional (73% of it on the corpus's two-mode prolate vector, flat
+  in \(\mu\)), that its floor decays at \(-3.06\) per unit \(\mu\) against the corpus's
+  \(-4\pi=-12.57\), and that the \(\epsilon\) apparatus lives at a **fixed** bandwidth
+  \(c=2\pi\) while the corpus's lives at \(c=2\pi\mu\) — so "our \(\lambda\) is their Sonin
+  cutoff" is true of the 2023 paper and false of the 2021 theorem. Produces three
+  statements that are **not** sign-blind, where the corpus had none.
 - `statement-defects.md` — method, not mathematics, and the shortest note here. Every
   formalisation run so far has found the same class of defect: **the printed statement
   does not match the argument beneath it** — a hypothesis doing two jobs, a hypothesis
@@ -245,7 +258,8 @@ cite them by line.
   the expensive one, and machine-check the claim that nothing downstream moves rather
   than arguing it. It sits beside the house rule as the project's second standing check.
 
-`s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
+`s3-reduction-audit.md`, `s3-sign-blindness.md`, `semilocal-gap.md` and
+`sonin-trace.md` have companion
 `verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md`,
 `deficit-repair.md`, `prolate-rate.md`, `h1-mean-value.md`,
 `band-edge-connection.md`, `dilate-sum.md`, `q3-log-weight-and-edge.md` and
@@ -293,12 +307,12 @@ measured **3m55s** with a cold cache and **2m11s** with a warm one, of which
 ### `verifiers` — the numerical scripts
 
 [`.github/workflows/verifiers.yml`](.github/workflows/verifiers.yml) runs **all
-fifteen** `notes/verify_*.py` scripts, one GitHub job each, so the run page names
+sixteen** `notes/verify_*.py` scripts, one GitHub job each, so the run page names
 every script it ran and how long it took. Nothing is silently skipped. A
-sixteenth job runs [the positive control](#the-exit-code-contract) that proves
-those fifteen exit statuses can still fail.
+seventeenth job runs [the positive control](#the-exit-code-contract) that proves
+those sixteen exit statuses can still fail.
 
-Eleven run on their **full grid** — the same run you would get locally with no
+Twelve run on their **full grid** — the same run you would get locally with no
 arguments. Four run on the **reduced grid** their own `--quick` / `QUICK=1`
 switch selects, because their full grids exceed a sane per-push budget. The
 reduced mode coarsens the grid (fewer bandwidths \(c\), larger step); it does not
@@ -317,12 +331,13 @@ skip checks.
 | `verify_dunster.py` | full grid | 4m52s |
 | `verify_q2.py` | full grid | 7m32s |
 | `verify_independent_recheck.py` | full grid | 9m28s |
+| `verify_sonin_trace.py` | full grid | 2m54s — measured on a laptop, not yet on a runner |
 | `verify_prolate_rate.py` | `--quick` | 2m17s, against 18m41s for the full grid |
 | `verify_deficit_repair.py` | `--quick` | 4m58s, against 20m10s for the full grid |
 | `verify_q1.py` | `--quick` | 2m02s, against 25m31s for the full grid |
 | `verify_h0.py` | `QUICK=1` | 2m01s; the full grid exceeds 30m |
 
-Those four times are measured, not estimated: a run with all fifteen on their
+Those four times are measured, not estimated: a run with all sixteen on their
 full grids was made, and fourteen passed — `verify_h0.py` was still going when it
 was cancelled at thirty minutes. Reducing these four takes the whole workflow
 from over twenty-five minutes to under ten, which is the reason for the split.
@@ -333,7 +348,7 @@ That is the run the notes record, and CI does not perform it.
 ### The exit-code contract
 
 **Every script exits non-zero when a check it states comes out wrong.** That was
-not true until 2026-08-13: twelve of the fifteen printed their verdict — words
+not true until 2026-08-13: twelve of the then fifteen printed their verdict — words
 like `REFUTED` or `MISMATCH`, or a measured value against a bound — into a table
 cell and then exited 0 regardless, so `python verify_q1.py; echo $?` printed 0
 whether the check passed or refuted itself. The reproduction command below could
@@ -353,7 +368,7 @@ the top of its source which of its checks are wired and which are not, and why.
 
 That the contract can fail is itself tested, per script, by
 [`notes/test_exit_codes.py`](notes/test_exit_codes.py): it runs each of the
-fifteen with `VERIFY_SELFTEST_FORCE_FAIL=1`, which forces the first decision the
+sixteen with `VERIFY_SELFTEST_FORCE_FAIL=1`, which forces the first decision the
 script reaches to come out negative, and requires a non-zero exit naming that
 check. A script that imported the contract but never used it would reach no
 decision, exit 0, and be reported as a failure by that test. The three fastest
@@ -361,15 +376,15 @@ are also run unforced and must exit 0.
 
 **That test runs in CI**, as the `exit-code contract (positive control)` job of
 the `verifiers` workflow — the same badge, because what it guards is the exit
-status of the same fifteen scripts. A control only a human remembers to run
+status of the same sixteen scripts. A control only a human remembers to run
 decays into the state this repository was in before 2026-08-13, and it decays
 without anything going red. The forced runs stop at the first decision, so the
 job is cheap: **1m00s and 1m34s** on two runs on a developer machine, against
 twenty-plus minutes for the grids above.
 
 It distinguishes a broken contract from a machine that cannot run the scripts at
-all. On a box without `mpmath` every one of the fifteen dies at import and exits
-1, which reads as fifteen broken contracts; that reading is wrong and the fix is
+all. On a box without `mpmath` every one of the sixteen dies at import and exits
+1, which reads as sixteen broken contracts; that reading is wrong and the fix is
 one `pip install`. So the test checks the imports the selected scripts need
 before running anything, reports what is missing and what to install, and exits
 **2** — a status that says the contract was not tested, as distinct from the 1
@@ -389,7 +404,7 @@ other half covers: `verify_q1.py` is the only script that can print `REFUTED`
 and `verify_independent_recheck.py` the only one that can print `MISMATCH`. The
 other thirteen state their verdicts in prose — "R > D at every mu", "ratios
 above 1 refute the lemma" — with the numbers left to a reader, so that grep
-could only ever have caught a wrong *result* in two of the fifteen. For the rest
+could only ever have caught a wrong *result* in two of the sixteen. For the rest
 the exit code is not a better signal than the grep; it is the only one there has
 ever been.
 
@@ -471,7 +486,7 @@ import their siblings by bare module name. `verify_independent_recheck.py` needs
 neither numpy nor mpmath, which is the point of it.
 
 If the `pip install` line above was skipped, `test_exit_codes.py` says so and
-exits 2 rather than reporting fifteen failures: without `mpmath` every script
+exits 2 rather than reporting sixteen failures: without `mpmath` every script
 dies at import and exits 1, and a run that never happened is not a contract that
 does not work.
 
