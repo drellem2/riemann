@@ -21,7 +21,15 @@ and Daniel has chosen the route (below).
 
 ## Next (queued, available)
 
-*Empty.* mg-fe9a filed at 10:35, awaiting dispatch.
+- **mg-fe9a** — *CI on the public repo.* Nothing re-runs `lean/scripts/check.sh` or the
+  fifteen `notes/verify_*.py` scripts; there is no `.github/workflows/` at all. The 65
+  machine-checked results have been compiled by the polecat that wrote them and by the
+  refinery gate, and by nothing else — I could not independently confirm the build this
+  morning without compiling mathlib from source on a loaded host. For a public repo whose
+  credibility claim is reproducibility, and whose next readers are strangers with every
+  reason to discount agent-produced proofs, a green check anyone can click is worth more
+  than another paragraph. Took the slot ahead of Prop. 4.1 because it serves the live
+  endorsement question rather than the mathematics.
 
 ## Later (proposed, not filed)
 
@@ -44,11 +52,9 @@ and Daniel has chosen the route (below).
   (two for two so far). Worth doing, not worth doing first.
 - **Q1′** — the proof's amplitude bound is $2^{1/4}\sqrt c$ where the measured ratio straddles
   $\sqrt{2/\pi}$. Slack in a proved constant; low value.
-- **CI on the public repo — FILED as mg-fe9a (10:35).** Nothing currently re-runs `lean/scripts/check.sh` or the fifteen
-  `notes/verify_*.py` scripts; there is no `.github/workflows/`. For a public repo whose
-  credibility claim is reproducibility, a green check is worth more than a paragraph. Not
-  With mg-7fc6 merged this took the next slot ahead of Prop. 4.1, and mg-7fc6
-  strengthened the case: 65 machine-checked results are worth more when a machine re-runs them.
+- **An independent Lean compile on an idle box.** Distinct from mg-fe9a and it survives even
+  if CI proves unviable: the point is one build by something that is neither the author nor
+  the merge gate. Cheap, but it needs a host that is not running six polecats.
 
 ## Backlog (open, no near-term plan)
 
