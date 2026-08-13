@@ -50,9 +50,9 @@ and Daniel has chosen the route (below).
   (two for two so far). Worth doing, not worth doing first.
 - **Q1′** — the proof's amplitude bound is $2^{1/4}\sqrt c$ where the measured ratio straddles
   $\sqrt{2/\pi}$. Slack in a proved constant; low value.
-- **An independent Lean compile on an idle box.** Distinct from mg-fe9a and it survives even
-  if CI proves unviable: the point is one build by something that is neither the author nor
-  the merge gate. Cheap, but it needs a host that is not running six polecats.
+- ~~An independent Lean compile on an idle box.~~ Moot: CI proved viable, so a clean GitHub
+  runner now does this on every push. Listed here only so the reason for its removal is on
+  the record.
 
 ## Backlog (open, no near-term plan)
 
