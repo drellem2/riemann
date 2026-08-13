@@ -21,12 +21,12 @@ withdrawn.
 
 ## Now (in flight)
 
-*Nothing.* Seven items merged today, 09:55 → 16:20, all clean on the first refinery attempt.
+*Nothing.* Ten items merged today, 09:55 → 20:15. Nine clean on the first refinery attempt; mg-5210 turned `verifiers` red on `main` (`np.trapz` removed in NumPy 2.0) and mg-54ae fixed it inside 25 minutes.
 
 ## Next (queued, available)
 
-- **mg-5210** — *How big is the Sonin trace?* See "Why everything is sign-blind" below. The
-  first item in this programme aimed at the signed half rather than the gap.
+*Empty.* mg-5210 merged 19:52 (`20ec578`) and mg-54ae 20:15 (`7228063`); all three badges green
+on `7228063f`. The next ticket goes at the **thin margin** — see below.
 
 ## Why everything is sign-blind, and the one design rule that follows
 
@@ -42,17 +42,43 @@ shape — curve/transpose, abelian variety/Rosati, Hodge structure/conjugation,
 $C^*$-algebra/$a\mapsto a^*$: an involution and a positive trace. Ours is
 $f^*(u)=\overline{f(1/u)}/|u|$, and $W(f\star f^*)\ge0$ is the open one.
 
-**And here is the cause, sharply.** Connes–Consani's archimedean theorem is a *lower bound*,
-not a factorisation: $W_\infty(g\star g^*)\ge\operatorname{Tr}(\vartheta(g)\,\mathbf S\,
-\vartheta(g)^*)$. The right-hand side is positive because it is literally $\operatorname{Tr}
-(xx^*)$. The **difference** is expanded in prolate functions and controlled by Toeplitz
-theory — and *that difference is the entire corpus*. Our $\lambda$ is their Sonin cutoff; our
-$1-\chi_4$ is leakage across it; the deficit, the rate, the $-4\pi$ and all 91 Lean results
-are statements about the **gap**.
+**The cause — CORRECTED by mg-5210, and the 17:15 revision of this file had it wrong.**
 
-**We have no result of any kind about the trace, and the trace is the only place the sign
-lives.** Nothing we prove is sign-sensitive because we have spent the programme on the
-sign-blind half of a two-term inequality.
+What I wrote at 17:15, and told Daniel and mayor: *the theorem is a lower bound
+$W_\infty\ge\operatorname{Tr}$, the difference is the entire corpus, our $\lambda$ is their
+Sonin cutoff, and positivity is "trace ≥ gap".* Three errors in that:
+
+1. **"Our $\lambda$ is their Sonin cutoff"** is true of arXiv:2106.01715, where cutoff and
+   support move together, and **false of the 2021 archimedean theorem I was quoting**, where
+   the cutoff is frozen at $\Lambda=1$ and only the support moves. I lifted it from
+   `signed-geometry-proposals.md:373` without checking which paper it applied to.
+2. **"Positivity is trace ≥ gap"** is not what the theorem says. It says
+   $W_\infty=\text{trace}+\text{gap}$ with **both** non-negative under the conditions — the
+   trace by construction, the gap by the seventy pages. A sum, not a race.
+3. **"The gap is the entire corpus"** is quantitatively wrong where it counts. Their
+   $\epsilon$ is a prolate expansion at **fixed** bandwidth $c=2\pi$; our apparatus runs at
+   $c=2\pi\mu$. At $\mu=2$ the two concentration defects are $5.7\times10^{-5}$ and
+   $\sim10^{-11}$ — **eight orders apart and separating exponentially.** The trace is
+   reachable from the corpus's *machinery*, not from its *numbers*.
+
+**What is true, and is the compression worth keeping:** Sonin trace $=W_\infty+E$, so
+gap $=-E$, and the whole of Theorem 1 — seventy pages — is the single statement that the
+quadratic form $-E$ is positive on the codimension-two subspace $\hat g(0)=\hat g(i/2)=0$ for
+$\mu\le2$.
+
+## The first statement in this corpus that is not sign-blind
+
+> Before the two vanishing conditions are imposed, the gap $W_\infty-\operatorname{Tr}$ is
+> **negative** on some direction at every $\mu\ge1.2$, including $\mu=2$, inside the theorem's
+> own support range.
+
+**FALSE for $W_\lambda\to-W_\lambda$** — the trace does not move under that substitution and
+$W_\infty$ does. Numerical, archimedean-only, and the first one in five months.
+
+Read the other way it measures what $\hat g(0)=\hat g(i/2)=0$ are doing: without them the form
+is indefinite, with them positive by $8.7\times10^{-5}$. **They are not a technical
+convenience, they are the theorem.** And the margin is thin — on the direction where the gap
+is smallest, the Sonin trace is essentially *all* of the Weil functional.
 
 ## The decision I am not making
 
@@ -69,6 +95,14 @@ Building any of them is **Daniel's call, not mine.** They are not effort gaps, t
 library gaps, and the third is a multi-month project that would benefit people well outside
 this repo. Until one is chosen, Q2 rests on Q1, Lemma 2.1 and Lemma 3.3, and **is not
 unconditional** — precisely as mg-57a2 was scoped to expect.
+
+## Where I would go next
+
+**The thin margin.** On the direction where the gap is smallest it is $8.7\times10^{-5}$ at
+$\mu=2$ against a $W_\infty$ of order one, and the two vanishing conditions are the entire
+difference between an indefinite form and a positive one. That is the smallest, sharpest, most
+sign-sensitive object the corpus has ever had a number for. Everything else here is further
+from the sign than that is.
 
 ## Later (proposed, not filed) — the other routes past sign-blindness
 
