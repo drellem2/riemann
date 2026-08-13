@@ -304,10 +304,10 @@ skip checks.
 | `verify_dunster.py` | full grid | 4m52s |
 | `verify_q2.py` | full grid | 7m32s |
 | `verify_independent_recheck.py` | full grid | 9m28s |
-| `verify_prolate_rate.py` | `--quick` | full grid 18m41s |
-| `verify_deficit_repair.py` | `--quick` | full grid 20m10s |
-| `verify_q1.py` | `--quick` | full grid 25m31s |
-| `verify_h0.py` | `QUICK=1` | full grid exceeds 30m |
+| `verify_prolate_rate.py` | `--quick` | 2m17s, against 18m41s for the full grid |
+| `verify_deficit_repair.py` | `--quick` | 4m58s, against 20m10s for the full grid |
+| `verify_q1.py` | `--quick` | 2m02s, against 25m31s for the full grid |
+| `verify_h0.py` | `QUICK=1` | 2m01s; the full grid exceeds 30m |
 
 Those four times are measured, not estimated: a run with all fifteen on their
 full grids was made, and fourteen passed — `verify_h0.py` was still going when it
