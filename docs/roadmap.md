@@ -25,11 +25,9 @@ withdrawn.
 
 ## Next (queued, available)
 
-- **mg-0b7a** — *Make the ceiling a theorem.* $\hat\epsilon(0)=+5.37>0$, so the symbol of $-E$
-  is negative at low frequency and only a support too short to reach that band saves the
-  inequality. Currently one line plus numerics; turning it into a theorem would establish a
-  **limit on the archimedean route itself**, which is the kind of result this programme
-  produces well.
+*Empty.* Thirteen items merged today. **The decision on the board is R2 — the semilocal
+extension** — and it is Daniel's, not mine: it is the largest commitment here, and the
+archimedean ceiling being proved is exactly what makes adding places the only way past it.
 
 ## Why everything is sign-blind, and the one design rule that follows
 
@@ -91,22 +89,47 @@ mg-d03b then corrected two things in the framing above, both mine:
   Theorem 1's whole support range; at $\mu\le2$ the second condition buys **nothing** for the
   sign. Refines mg-5210's "they are the theorem" to: *one of them is.*
 
-## The ceiling, and why it is the important finding
+## The ceiling is now a THEOREM — and mg-0b7a corrected its own predecessor's numbers
 
-$\mu_c(k) = 2.763,\ 6.174,\ 13.01,\ 26.46$ for $k=1..4$ — geometric, ratios
-$2.23,\ 2.11,\ 2.03$, $\log\mu_c$ linear in $k$ with slope $0.7523$. **Each vanishing
-condition buys a bounded factor and no more.**
+**Theorem A (mg-0b7a, `notes/sonin-ceiling.md`).** An explicit admissible test function has
+$E(g)>0$ at **every** codimension once the support is long enough. It needs only
+$\hat\epsilon(0)>0$ and integrability, and both are supplied:
 
-The mechanism needs no computation: $\epsilon>0$, so $\hat\epsilon(0)=+5.3722>0$, so **the
-symbol of $-E$ is negative at low frequency**. Only a support too short to let $\hat g$ into
-that band can save the inequality. $\hat\epsilon>0$ only on $|t|<t_0=6.29177$; $k$ conditions
-hold $\hat g$ down near $t=0$ to order $k$; a support of length $L$ resolves $t$ only to
-$2\pi/L$. The resolution-cell count gives $0.9986$ against the measured $0.7523$ — **shape
-right, constant 25% out, and the note says so rather than claiming the derivation.**
+- $\hat\epsilon(0)=2\sum\frac{\lambda}{1+\lambda}A_n^2=5.37218344$ **in closed form**, by Mellin
+  inversion at $s=1/2$ — and deliberately **without** appealing to $\epsilon>0$ pointwise,
+  which *this corpus has never proved*. My ticket assumed that route; the worker found the
+  premise missing and went around it.
+- $\epsilon(\rho)\sqrt\rho\to1$, derived from the finite-Fourier kernel's spectral expansion.
+  mg-d03b had marked it "ours, unanchored".
 
-**Read plainly: the archimedean place has a ceiling, and no amount of work there removes it.**
-That is what mg-0b7a is for, and it is what makes the semilocal question (R2) the real
-decision rather than one option among four.
+**So the archimedean place has a proved ceiling.** No amount of work there removes it.
+
+**The numbers were wrong, and the cause is worth knowing.** The cosine basis every script in
+this corpus uses is the **even block**, and Theorem 1 imposes no parity. Admitting odd $g$:
+
+| $k$ | mg-d03b (even only) | corrected (full space) |
+|---|---|---|
+| 1 | 2.763 | **1.771** |
+| 2 — Theorem 1's | 6.174 | **2.754** |
+| 3 | 13.01 | **4.140** |
+| 4 | 26.46 | **6.024** |
+
+Two claims I put in this file at 22:05 are refuted by that:
+
+- ~~"Theorem 1's conclusion holds to $\mu=6.17$, three times its hypothesis."~~ It is $2.754$,
+  a factor **1.38**. $\mu\le2$ is still an artefact, by much less than stated.
+- ~~"One condition does all the work at $\mu\le2$."~~ **Wrong.** $\mu_c(1)=1.771<2$, because
+  **an odd $g$ satisfies $\hat g(0)=0$ for free.** mg-5210's original reading — *both*
+  conditions are the theorem — stands unrefined.
+
+**And the "25% out" constant was not an error.** $\Lambda(k)/(\pi k/t_0)\to1$ **from above**:
+the resolution-cell count is an upper bound, not a wrong estimate.
+
+**The epistemic caveat that applies to every number above.** Truncation raises eigenvalues, so
+a negative truncated eigenvalue certifies a negative one for the full form — **but not the
+converse.** Every $\mu_c$, mg-d03b's and mg-0b7a's, is an upper bound on a threshold whose
+lower half is unproved. *"$-E$ is indefinite past $\mu_c$"* is certified; *"$-E\ge0$ below
+it"* is not, and nothing in this corpus proves it.
 
 ## The decision I am not making
 
