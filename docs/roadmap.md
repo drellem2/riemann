@@ -17,12 +17,15 @@ and Daniel has chosen the route (below).
 
 ## Now (in flight)
 
-*Nothing.* Six merged today: mg-7fc6 09:55 (`4788c42`), mg-fe9a 10:48 (`2bc06b5`), mg-5995 12:38 (`00ee1f2`), mg-6e8a 13:05 (`87f2af4`), mg-1155 13:42 (`ed30454`), mg-57a2 15:55 (`860c9cb`).
+*Nothing.* Six merged today (mg-83d1 filed 16:13, awaiting dispatch): mg-7fc6 09:55 (`4788c42`), mg-fe9a 10:48 (`2bc06b5`), mg-5995 12:38 (`00ee1f2`), mg-6e8a 13:05 (`87f2af4`), mg-1155 13:42 (`ed30454`), mg-57a2 15:55 (`860c9cb`).
 
 ## Next (queued, available)
 
-*Empty.* Six items merged today and every one is closed out. What remains is the three
-mathlib walls, and those are Daniel's call, not mine.
+- **mg-83d1** — *Write the defect class and its two countermeasures into the corpus.* Three
+  Lean runs, three defects in **what a statement says**, zero incorrect proofs — and the class
+  has no natural detector, because everything derived from the bad statement was correct, so
+  nothing downstream ever went red. Documentation only. Sits beside the sign-blindness house
+  rule so the project's two standing checks are in one place.
 
 ## Later (proposed, not filed)
 
