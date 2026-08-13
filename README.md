@@ -327,12 +327,25 @@ and then exit 0 regardless. Exit status alone would therefore be green whether
 or not a check came out wrong, so the workflow additionally fails a job if the
 captured output matches `Traceback|REFUTED|MISMATCH`.
 
-Two failure words are deliberately **not** in that list, because they appear in
-cells that are *expected* to fail and are documented as such above: `(FAILS)` in
-`verify_q1.py` and `NO` in `verify_h1.py` and `verify_semilocal_gap.py` — see the
-\(\mu^*=2.1169\) threshold and the index-8 cell that both `verify_q1.py` and
-`dunster-check.md` already flag. Gating on those would make the badge
-permanently red while telling a reader nothing new.
+Two further failure words are deliberately **not** in that list, because they mark
+cells that are *allowed* to fail. `(FAILS)` is one: on its full grid
+`verify_q1.py` prints exactly one such cell,
+
+```
+12.56637   0.07472     0.3724      0.6387      0.8627      1.04 (FAILS)  11.7997
+```
+
+which is the ratio \(r\ge 1\) row, the same documented boundary as the
+\(\mu^*=2.1169\) threshold and the index-8 cell that `verify_q1.py` and
+`dunster-check.md` already flag. Gating on `(FAILS)` would paint the badge red
+for something the notes already record and explain. `NO` — the negative branch in
+`verify_h1.py` and `verify_semilocal_gap.py` — is excluded for the same reason,
+pre-emptively: it did not occur in any run made here, on either grid.
+
+Note that the `(FAILS)` cell above appears on the **full** grid, which CI does
+not run for `verify_q1.py`; the reduced grid does not reach it. That is one more
+reason the reduced runs are weaker than the full ones, and another reason to run
+the full grids locally.
 
 So: a green tick means **every script still runs to completion on a clean
 machine, and none of them printed a verdict word that was not already expected.**
