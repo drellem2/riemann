@@ -17,18 +17,15 @@ and Daniel has chosen the route (below).
 
 ## Now (in flight)
 
-*Nothing.* Four merged today: mg-7fc6 09:55 (`4788c42`), mg-fe9a 10:48 (`2bc06b5`), mg-5995 12:38 (`00ee1f2`), mg-6e8a 13:05 (`87f2af4`). mg-1155 filed 14:24, awaiting dispatch.
+*Nothing.* Five merged today: mg-7fc6 09:55 (`4788c42`), mg-fe9a 10:48 (`2bc06b5`), mg-5995 12:38 (`00ee1f2`), mg-6e8a 13:05 (`87f2af4`), mg-1155 13:42 (`ed30454`). mg-57a2 filed 14:55, awaiting dispatch.
 
 ## Next (queued, available)
 
-- **mg-1155** — *The paper does not compile.* `pdflatex -halt-on-error` dies with no PDF.
-  Exactly two undefined control sequences, twelve lines apart: `\C` at l.1746 and
-  `\widecheck` at l.1760 — I built a clean copy of `main` to measure the whole surface. The
-  218 undefined refs / 63 citations a single pass also reports are **single-pass artifacts,
-  not defects** (the bibliography is inline, 15 `\bibitem`s); the ticket says so explicitly so
-  nobody hunts phantom labels. Includes a `paper` CI job and badge, following mg-fe9a's
-  pattern. Matters because the repo went public-facing today and its headline artifact is the
-  one thing a stranger cannot build.
+- **mg-57a2** — *Formalise Prop. 4.1, and find out what its printed statement omits.* The
+  predicted third missing-hypothesis site. It does **not** make Q2 unconditional (it consumes
+  Q1, so it terminates at the Prufer wall); it buys one prose input instead of two, and a shot
+  at the defect class formalising keeps finding here. Scoped to forbid the mathlib Prufer
+  build, which stays Daniel's call.
 
 ## Later (proposed, not filed)
 
@@ -39,16 +36,11 @@ and Daniel has chosen the route (below).
   and de la Vallée Poussin, which mathlib does not have. **H0** needs prolate / parabolic-
   cylinder functions, which mathlib does not have. Building any of these is **Daniel's call,
   not mine** — the last is a research-library project in its own right.
-- **Prop. 4.1** of `notes/dilate-sum.md` (the $x^{-2}$ remainder bound) is currently a
-  *hypothesis* of the formalised Q2, and mg-7fc6 rates it "probably reachable, not attempted"
-  — the Lagrange system is the Prüfer system's *linear* cousin and needs no continuous branch.
-  **Correction to the 10:15 revision of this file, which said this was the cheapest remaining
-  win and would let Q2 stand on its own: it would not.** `lean/README.md:44` gives the reason
-  — Prop. 4.1(ii) consumes Q1 for $\|u\|\le K_1\|\Phi(1)\|$, so formalising it moves Q2's
-  dependency from Prop. 4.1 to **Q1**, which is behind the Prüfer wall. It terminates in the
-  same place. The remaining value is real but smaller: Q2 would rest on one prose input
-  instead of two, and the exercise is the predicted next site for a missing-hypothesis find
-  (two for two so far). Worth doing, not worth doing first.
+- ~~Prop. 4.1~~ — **filed as mg-57a2.** Recording the correction that shaped it: the 10:15
+  revision of this file said Prop. 4.1 was the cheapest remaining win and would let Q2 stand
+  on its own. **It would not.** `lean/README.md:44` gives the reason — Prop. 4.1(ii) consumes
+  Q1 for $\|u\|\le K_1\|\Phi(1)\|$, so formalising it moves Q2's dependency to **Q1**, behind
+  the Prüfer wall. It terminates in the same place.
 - **Q1′** — the proof's amplitude bound is $2^{1/4}\sqrt c$ where the measured ratio straddles
   $\sqrt{2/\pi}$. Slack in a proved constant; low value.
 - ~~An independent Lean compile on an idle box.~~ Moot: CI proved viable, so a clean GitHub
@@ -76,7 +68,7 @@ and Daniel has chosen the route (below).
 - Periodic **S3 re-check**: CCM's deferred semilocal prolate operator had not appeared as of
   Feb 2026 (arXiv-only; `math.jhu.edu` and `alainconnes.org` both 403'd).
 
-## Recently shipped (last 7d — 33 items)
+## Recently shipped (last 7d — 34 items)
 
 Merged since the 08-12 17:05 regeneration:
 
@@ -87,6 +79,7 @@ Merged since the 08-12 17:05 regeneration:
 | mg-882b | **Citation audit closed** — U1, U2, U3, U8, U9, plus U4's stale row and the converse check. |
 | mg-7fc6 | **The Lean frontier moved past the elementary layer**, and the reachability question was answered by measurement rather than by my guess. 65 audited results, no `sorry`. See below for exactly what this does and does not mean. |
 | mg-5995 | **The fifteen verifiers now have an exit-code contract, and a positive control proves each one can fail.** I re-ran that control myself in a clean venv: all 15 exit 1 under force naming the check they stopped on, all 3 unforced controls exit 0. It **caught a real defect on its first sweep** — `verify_deficit_repair.py` CHECK 6, where D(8) and s(8) are stable to different mpmath depths (fixed in `89674fa`, confirmed against the full grid). `verify_h0.py`'s full grid also ran to completion for the first time: 44 minutes, the one mg-fe9a cancelled at a 30-minute cap. |
+| mg-1155 | **The paper compiles**, and there is now a third green badge. Two undefined macros twelve lines apart (`\C`, `\widecheck`) were killing the build outright — no PDF at all. Now 49 pages in three passes with nothing undefined. The `paper` workflow builds *both* `.tex` documents and fails on any undefined control sequence, reference, citation, or rerun request after the final pass — and its log check was positive-controlled against the broken `main` version. A trap worth keeping: **`grep -a`** is required on these logs, which are non-UTF-8, and plain `grep` silently reports nothing. |
 | mg-6e8a | **The positive control now runs in CI** as a 16th job of `verifiers.yml`, and it tells *"this script's contract does not work"* apart from *"this script never ran"* — exit 1 vs exit 2. I re-tested the case that nearly made me file a false regression: on a machine with neither module it now prints `NOT RUN … it is a statement about this machine` and names the `pip install` line, where it used to print 18 contract failures. It resolves each script's imports with `ast` rather than grep, because `verify_dunster.py` names mpmath in prose. All 16 jobs green on `main`. |
 | mg-fe9a | **CI, and the 65 results now have an independent compile.** `lean` and `verifiers` both green on `main`, both badges reading *passing*. The Lean build takes 3m55s on a cold cache with `Downloaded: 8232/8232 (100%)` — nothing compiled from source — and ends `check.sh: OK - 65 results, none depending on sorryAx`. Its **finding** was worth more than the workflows: 12 of the 15 `verify_*.py` scripts print `REFUTED`/`MISMATCH` and exit 0, so a naive call is green either way. Filed as mg-5995. |
 
