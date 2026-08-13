@@ -17,17 +17,16 @@ and Daniel has chosen the route (below).
 
 ## Now (in flight)
 
-*Nothing.* mg-7fc6 merged 09:55 (`4788c42`); mg-fe9a merged 10:48 (`2bc06b5`). mg-5995 filed 11:58, awaiting dispatch.
+*Nothing.* mg-7fc6 merged 09:55 (`4788c42`); mg-fe9a merged 10:48 (`2bc06b5`); mg-5995 merged 12:38 (`00ee1f2`). mg-6e8a filed 13:50, awaiting dispatch.
 
 ## Next (queued, available)
 
-- **mg-5995** — *Twelve of the fifteen `verify_*.py` print `REFUTED` and exit 0.* Give them a
-  real exit-code contract, with a positive control per script proving the new contract can
-  fail. **The record is not contaminated** — no note cites an exit code; every citation quotes
-  numbers a reader read — and CI is already gated by an output grep that was positive-
-  controlled. The live exposure is that mg-fe9a's README now invites strangers to reproduce
-  locally, and the reproduction command cannot fail. That trap points at exactly the reader we
-  are trying to win.
+- **mg-6e8a** — *The positive control guarding the fifteen exit-code contracts is run by
+  nobody*, because mg-5995's ticket forbade touching `.github/workflows/`. It costs ~45s. Also
+  make it distinguish **"this script's contract does not work"** from **"this script never
+  ran"**: without `mpmath` installed it reports fifteen broken contracts, which is what a
+  missing import looks like through it. I hit that myself while verifying mg-5995 and nearly
+  filed a regression on the strength of it.
 
 ## Later (proposed, not filed)
 
@@ -75,7 +74,7 @@ and Daniel has chosen the route (below).
 - Periodic **S3 re-check**: CCM's deferred semilocal prolate operator had not appeared as of
   Feb 2026 (arXiv-only; `math.jhu.edu` and `alainconnes.org` both 403'd).
 
-## Recently shipped (last 7d — 31 items)
+## Recently shipped (last 7d — 32 items)
 
 Merged since the 08-12 17:05 regeneration:
 
@@ -85,6 +84,7 @@ Merged since the 08-12 17:05 regeneration:
 | mg-fc1c | The paper states Dunster's **actual** hypothesis, the covered region, and the two-deep chain. Went past its ticket: explained *why* Q1's and Dunster's thresholds are one number (Q1's hypothesis is (29) relaxed to its boundary), added **"tested"** as a third epistemic category beside proved and observed, and re-measured two more inbound anchors that had drifted. |
 | mg-882b | **Citation audit closed** — U1, U2, U3, U8, U9, plus U4's stale row and the converse check. |
 | mg-7fc6 | **The Lean frontier moved past the elementary layer**, and the reachability question was answered by measurement rather than by my guess. 65 audited results, no `sorry`. See below for exactly what this does and does not mean. |
+| mg-5995 | **The fifteen verifiers now have an exit-code contract, and a positive control proves each one can fail.** I re-ran that control myself in a clean venv: all 15 exit 1 under force naming the check they stopped on, all 3 unforced controls exit 0. It **caught a real defect on its first sweep** — `verify_deficit_repair.py` CHECK 6, where D(8) and s(8) are stable to different mpmath depths (fixed in `89674fa`, confirmed against the full grid). `verify_h0.py`'s full grid also ran to completion for the first time: 44 minutes, the one mg-fe9a cancelled at a 30-minute cap. |
 | mg-fe9a | **CI, and the 65 results now have an independent compile.** `lean` and `verifiers` both green on `main`, both badges reading *passing*. The Lean build takes 3m55s on a cold cache with `Downloaded: 8232/8232 (100%)` — nothing compiled from source — and ends `check.sh: OK - 65 results, none depending on sorryAx`. Its **finding** was worth more than the workflows: 12 of the 15 `verify_*.py` scripts print `REFUTED`/`MISMATCH` and exit 0, so a naive call is green either way. Filed as mg-5995. |
 
 ### What mg-7fc6 proved, stated so it cannot be over-read
@@ -149,6 +149,19 @@ true claim would have been its own failure.
 - ~~Nobody has re-run the Lean build outside the polecat and the refinery gate.~~ **Closed by
   mg-fe9a at 10:48Z**: a clean GitHub runner now builds from the pinned manifest on every push
   to `main`. This was open for about ninety minutes.
+- **A control can validate the instrument and say nothing about its coverage — this bit me
+  today.** mg-fe9a positive-controlled CI's `Traceback|REFUTED|MISMATCH` grep and proved it
+  fires when those words appear. I repeated that as "CI is already safe". mg-5995's vocabulary
+  inventory then showed **only `verify_q1.py` can print `REFUTED` (2 sites) and only
+  `verify_independent_recheck.py` can print `MISMATCH` (1 site)** — the other twelve print no
+  verdict word at all. So the grep could only ever have caught a wrong *result* in 2 of 15
+  scripts. The control was sound and the conclusion I drew from it was too wide. The exit-code
+  contract is what actually closed this.
+- **The tightest measured threshold in the corpus** is `verify_arch_positivity.py` CHECK 3:
+  measured $5.55\times10^{-8}$ against Connes–Consani's printed $6\times10^{-8}$ bound, ~8%
+  of slack. Every other wired threshold has at least an order of magnitude. mg-5995 flags that
+  a different BLAS could move it; the full grids were run once, on this machine, at numpy
+  2.5.2 / mpmath 1.4.1 / CPython 3.14.
 - **CI's coverage is narrower than its badge.** Four verifiers run reduced grids to fit the
   time budget (`verify_q1.py` 2m02s in CI against 25m31s at full grid; `verify_h0.py`'s full
   grid was cancelled at a 30-minute cap, so its true runtime is only a lower bound). The
