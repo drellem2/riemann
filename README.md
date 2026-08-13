@@ -1,6 +1,16 @@
 # riemann
 
+[![lean](https://github.com/drellem2/riemann/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/drellem2/riemann/actions/workflows/lean.yml?query=branch%3Amain)
+[![verifiers](https://github.com/drellem2/riemann/actions/workflows/verifiers.yml/badge.svg?branch=main)](https://github.com/drellem2/riemann/actions/workflows/verifiers.yml?query=branch%3Amain)
+
 Work on the Riemann Hypothesis via Connes' spectral approach.
+
+Everything here is agent-produced. The two badges are the part a stranger can
+check without taking anyone's word for it: **lean** re-runs the Lean build, the
+`sorry` grep and the axiom audit on a clean machine, and **verifiers** re-runs
+the numerical scripts. What they do and do not cover is set out under
+[Continuous integration](#continuous-integration) — read that before reading a
+green tick as more than it is.
 
 ## Goal
 
@@ -239,6 +249,109 @@ it left open and `semilocal-gap.md` closes another.
 
 The specific research target is still being chosen. Expect the contents to
 change substantially.
+
+## Continuous integration
+
+Two GitHub Actions workflows run on every push to `main` and on every pull
+request. They re-run checks that already existed in this repository; they do not
+add new ones. Nothing here is a proof of anything — it is evidence that the
+artefacts still do what the notes say they do, produced by a machine that is not
+the one that wrote them.
+
+### `lean` — the Lean development
+
+[`.github/workflows/lean.yml`](.github/workflows/lean.yml) runs
+[`lean/scripts/check.sh`](lean/scripts/check.sh) unmodified. That script builds
+the development, greps the sources for `sorry`, and runs the axiom audit; it
+exits non-zero if the build fails, if `sorry` appears, or if any result depends
+on `sorryAx`. A green tick means the log ends in
+
+```
+check.sh: OK — 65 results, none depending on sorryAx
+```
+
+**mathlib is never compiled from source.** The workflow uses
+[`leanprover/lean-action`](https://github.com/leanprover/lean-action), which
+installs the pinned toolchain (`lean/lean-toolchain`) and runs `lake exe cache
+get` to fetch prebuilt oleans for the pinned revision
+(`lean/lake-manifest.json`). This is the same warning `lean/README.md` gives for
+local use, and it is the reason the job takes minutes rather than hours: a
+measured **3m55s** with a cold cache and **2m11s** with a warm one, of which
+`check.sh` itself is about 40s.
+
+### `verifiers` — the numerical scripts
+
+[`.github/workflows/verifiers.yml`](.github/workflows/verifiers.yml) runs **all
+fifteen** `notes/verify_*.py` scripts, one GitHub job each, so the run page names
+every script it ran and how long it took. Nothing is silently skipped.
+
+Eleven run on their **full grid** — the same run you would get locally with no
+arguments. Four run on the **reduced grid** their own `--quick` / `QUICK=1`
+switch selects, because their full grids exceed a sane per-push budget. The
+reduced mode coarsens the grid (fewer bandwidths \(c\), larger step); it does not
+skip checks.
+
+| script | CI runs | time on a runner |
+|---|---|---|
+| `verify_semilocal_gap.py` | full grid | 11s |
+| `verify_prolate_claims.py` | full grid | 13s |
+| `verify_sign_claims.py` | full grid | 14s |
+| `verify_arch_positivity.py` | full grid | 2m05s |
+| `verify_h1.py` | full grid | 2m09s |
+| `verify_citation_u8.py` | full grid | 3m16s |
+| `verify_q3.py` | full grid | 3m16s |
+| `verify_index_convention.py` | full grid | 3m56s |
+| `verify_dunster.py` | full grid | 4m52s |
+| `verify_q2.py` | full grid | 7m32s |
+| `verify_independent_recheck.py` | full grid | 9m28s |
+| `verify_prolate_rate.py` | `--quick` | full grid 18m41s |
+| `verify_deficit_repair.py` | `--quick` | full grid 20m10s |
+| `verify_q1.py` | `--quick` | full grid 25m31s |
+| `verify_h0.py` | `QUICK=1` | full grid exceeds 30m |
+
+Those four times are measured, not estimated: a run with all fifteen on their
+full grids was made, and fourteen passed — `verify_h0.py` was still going when it
+was cancelled at thirty minutes. Reducing these four takes the whole workflow
+from over twenty-five minutes to under ten, which is the reason for the split.
+
+**To get the full grid for the last four, run them locally without the switch.**
+That is the run the notes record, and CI does not perform it.
+
+### What a green `verifiers` tick does not mean
+
+**These scripts report; they do not assert.** With three exceptions
+(`verify_arch_positivity.py`, `verify_semilocal_gap.py` and
+`verify_independent_recheck.py`, which carry `assert`/`raise`), they print their
+findings — including verdict words like `REFUTED` or `MISMATCH` — into a table
+and then exit 0 regardless. Exit status alone would therefore be green whether
+or not a check came out wrong, so the workflow additionally fails a job if the
+captured output matches `Traceback|REFUTED|MISMATCH`.
+
+Two failure words are deliberately **not** in that list, because they appear in
+cells that are *expected* to fail and are documented as such above: `(FAILS)` in
+`verify_q1.py` and `NO` in `verify_h1.py` and `verify_semilocal_gap.py` — see the
+\(\mu^*=2.1169\) threshold and the index-8 cell that both `verify_q1.py` and
+`dunster-check.md` already flag. Gating on those would make the badge
+permanently red while telling a reader nothing new.
+
+So: a green tick means **every script still runs to completion on a clean
+machine, and none of them printed a verdict word that was not already expected.**
+It does not mean a human or a machine re-derived the mathematics, and it is not a
+substitute for reading the notes. The numbers a script prints are checked against
+the notes by a reader, not by CI.
+
+### Reproducing the same checks locally
+
+```sh
+lean/scripts/check.sh                 # the Lean build, sorry grep and axiom audit
+
+pip install numpy mpmath              # numpy for four scripts, mpmath for most
+cd notes && python verify_q1.py       # any verifier; run from `notes/`
+```
+
+The verifiers must be run with `notes/` as the working directory — several
+import their siblings by bare module name. `verify_independent_recheck.py` needs
+neither numpy nor mpmath, which is the point of it.
 
 ## License
 

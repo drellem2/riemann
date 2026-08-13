@@ -4,8 +4,11 @@ name: verifiers
 # its own job, so the run page names every script it ran and how long it took —
 # a single tick covering an unnamed subset would be worse than no CI at all.
 #
-# READ `README.md`, section "Continuous integration", before reading a green
-# tick here as "every number in `notes/` was rechecked".  It is not that.
+# Eleven scripts run on their FULL grid.  Four run on the reduced grid their
+# own `--quick` / `QUICK=1` switch selects, because their full grids exceed a
+# sane per-push budget.  Which is which is recorded here, in the job names, and
+# in README.md under "Continuous integration" — read that before reading a
+# green tick as "every number in `notes/` was rechecked".  It is not that.
 
 on:
   push:
@@ -22,28 +25,32 @@ concurrency:
 
 jobs:
   verify:
-    name: ${{ matrix.script }} ${{ matrix.args }}
+    name: ${{ matrix.script }} ${{ matrix.args }}${{ matrix.env }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
         include:
-          - {script: verify_arch_positivity.py,     args: ""}
-          - {script: verify_citation_u8.py,         args: ""}
-          - {script: verify_deficit_repair.py,      args: ""}
-          - {script: verify_dunster.py,             args: ""}
-          - {script: verify_h0.py,                  args: ""}
-          - {script: verify_h1.py,                  args: ""}
-          - {script: verify_independent_recheck.py, args: ""}
-          - {script: verify_index_convention.py,    args: ""}
-          - {script: verify_prolate_claims.py,      args: ""}
-          - {script: verify_prolate_rate.py,        args: ""}
-          - {script: verify_q1.py,                  args: ""}
-          - {script: verify_q2.py,                  args: ""}
-          - {script: verify_q3.py,                  args: ""}
-          - {script: verify_semilocal_gap.py,       args: ""}
-          - {script: verify_sign_claims.py,         args: ""}
+          # --- full grid (measured on a runner, longest 9m28s) --------------
+          - {script: verify_semilocal_gap.py,       args: "", env: ""}
+          - {script: verify_prolate_claims.py,      args: "", env: ""}
+          - {script: verify_sign_claims.py,         args: "", env: ""}
+          - {script: verify_arch_positivity.py,     args: "", env: ""}
+          - {script: verify_h1.py,                  args: "", env: ""}
+          - {script: verify_citation_u8.py,         args: "", env: ""}
+          - {script: verify_q3.py,                  args: "", env: ""}
+          - {script: verify_index_convention.py,    args: "", env: ""}
+          - {script: verify_dunster.py,             args: "", env: ""}
+          - {script: verify_q2.py,                  args: "", env: ""}
+          - {script: verify_independent_recheck.py, args: "", env: ""}
+          # --- reduced grid: full grid exceeds the per-push budget ----------
+          # `--quick` / `QUICK=1` keep every check and coarsen the grid (fewer
+          # bandwidths c, larger step).  They do not skip checks.
+          - {script: verify_q1.py,                  args: "--quick", env: ""}
+          - {script: verify_prolate_rate.py,        args: "--quick", env: ""}
+          - {script: verify_deficit_repair.py,      args: "--quick", env: ""}
+          - {script: verify_h0.py,                  args: "",        env: "QUICK=1"}
     steps:
       - uses: actions/checkout@v4
 
@@ -62,13 +69,15 @@ jobs:
         working-directory: notes
         run: |
           set -o pipefail
-          python "${{ matrix.script }}" ${{ matrix.args }} 2>&1 | tee run.log
+          # Two scripts take their reduced grid from a `QUICK=1` environment
+          # variable rather than a `--quick` argv flag, hence the `env` prefix.
+          env ${{ matrix.env }} python "${{ matrix.script }}" ${{ matrix.args }} 2>&1 | tee run.log
           # These scripts REPORT; with three exceptions they do not exit
           # non-zero when a check they can decide comes out wrong — they print
           # a verdict word into a table cell and return 0.  So the exit status
           # alone would be green either way, and the verdict words have to be
           # promoted to the exit status here.  `(FAILS)` and `NO` are
-          # deliberately not in this list: both appear in cells that are
+          # deliberately NOT in this list: both appear in cells that are
           # EXPECTED to fail and are documented as such (see README.md).
           if grep -nE 'Traceback|REFUTED|MISMATCH' run.log; then
             echo "::error::${{ matrix.script }} printed a failing verdict (see the matched lines above)"
