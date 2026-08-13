@@ -250,9 +250,28 @@ resolving false and one true, giving SUCCESS-with-successor-queued against CANCE
 blob, opposite outcomes, one variable. That is what rules out the truthy-string failure the
 ticket warned about.
 
-**Known residue:** `main` is hardcoded rather than read from
-`github.event.repository.default_branch`, so a future rename silently restores the old
-behaviour.
+**Production control, run by me because the polecat could not — the expression's `main` branch
+cannot be tested until the file is on `main`.** Measured: `fa6cf397` (mg-4bbd's own merge) ran
+to **completion** despite two pushes of mine landing 63 s and 72 s later. Before the fix the
+first of those would have killed it. **The fix does what it was for.**
+
+**Two residues, one of which the ticket did not anticipate.**
+
+1. **A run can still be lost — via the queue, not via cancellation.** GitHub permits only *one
+   pending run per concurrency group*, so my second push displaced my first from the queue and
+   `73149366` was cancelled without ever starting. `cancel-in-progress: false` does not reach
+   this. **Consequence: two merges landing inside one run's lifetime can still leave the middle
+   sha with no completed run.** At today's cadence — fourteen merges — that is not
+   hypothetical. The fix should be understood as "an in-flight run is no longer killed", not as
+   "every sha gets a completed run".
+   *Candidate remedy, not filed:* drop grouping entirely on the default branch, or group by
+   sha, so each merge gets its own run. Costs runner minutes, buys a complete record.
+2. **`main` is hardcoded** rather than read from `github.event.repository.default_branch`, so a
+   branch rename would silently restore the old behaviour.
+
+*My first attempt at this control was inconclusive and I nearly reported it as a failure*: I
+pushed twice within 9 s while a third run was in flight, which exercises the queue rule rather
+than the one under test. The distinction only showed up on the timestamps.
 
 ## Gaps I'm watching
 
