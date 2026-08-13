@@ -6,6 +6,30 @@ Work item mg-d03b. Companion script:
 reduction of Connes–Consani's archimedean theorem this note **re-verifies and keeps**,
 and whose central number this note **retires**.
 
+> **CORRECTED BY mg-0b7a — read [`sonin-ceiling.md`](sonin-ceiling.md) with this note.**
+> Two numbers below are wrong, and they are wrong for one reason, marked where they occur.
+>
+> **Every $\mu_c(k)$ in this note is the EVEN BLOCK only.** $E$ is a convolution form, so
+> $E(g)=E(g_{\rm ev})+E(g_{\rm odd})$, and the basis used throughout this corpus —
+> $\xi_n=\cos(2\pi ny/L)$ — spans the even half. Theorem 1 is stated for
+> $g\in C_c^\infty(\mathbb R_+^*)$ with no parity condition, so odd $g$ are admissible
+> and were never computed. With them:
+>
+> 1. **Bottom line 4 / §4.2.** Theorem 1's conclusion holds to $\mu=2.754$, not $6.17$ —
+>    a factor $1.38$ on its stated $\mu\le2$, not $3.09$. $\mu\le2$ is a much smaller
+>    artefact than this note claims. $\mu_c(1,2,3,4)=1.771,\,2.754,\,4.140,\,6.024$.
+> 2. **Bottom line 5 / §4.3.** *"$\hat g(0)=0$ alone gives $-E\ge0$ up to $\mu=2.763$,
+>    so at $\mu\le2$ the second condition buys nothing"* is **FALSE**: $\mu_c(1)=1.771<2$,
+>    because an odd $g$ satisfies $\hat g(0)=0$ for free. mg-5210 §6's reading — both
+>    conditions are the theorem — stands.
+>
+> What is **kept**: everything in §§1–3 (the $8.7\times10^{-5}$, the minimiser, the
+> `conditions()` endpoint defect), the symbol, $t_0$, $\hat\epsilon(0)$, and the shape of
+> §4 and §5 — the inertia is still what is truncation-stable, and each condition still
+> buys a fixed factor. Bottom line 7, the ceiling argument, is **proved**, and Bottom
+> line 6's "$25\%$ out" is **reinterpreted**: $2\pi/t_0$ is an upper bound on the slope
+> and $0.7523$ lies below it, which is what upper bounds look like.
+
 The work item asked three questions about the $8.7\times10^{-5}$ that mg-5210 measured:
 what is the near-null direction, what happens to the margin past $\mu=2$, and what do
 the two vanishing conditions buy. The first question has no answer because it has no
@@ -60,16 +84,20 @@ complete long before the truncation bites. Reading that:
 
 Each column is an upper bound falling in $N$ — truncation raises a form's eigenvalues —
 and they differ by at most $0.6\%$, so three figures is what this supports.
-**Theorem 1's conclusion holds to $\mu=6.17$, three times its stated hypothesis
-$\mu\le2$. So $\mu\le2$ is an artefact of the proof.** It is not vacuous either: the
-conclusion is *false* from $\mu=6.17$ on, and by $\mu=8$ the codimension-two form has a
-negative eigenvalue of $-0.0921$, unchanged from $N=60$ to $N=120$. §4.
+~~**Theorem 1's conclusion holds to $\mu=6.17$, three times its stated hypothesis
+$\mu\le2$.**~~ **$6.17$ is the even block's; on the full space it is $\mu=2.754$, a
+factor $1.38$ (mg-0b7a).** **So $\mu\le2$ is an artefact of the proof**, by much less
+than this note says. It is not vacuous either: the conclusion is *false* past $\mu_c$,
+and by $\mu=8$ the codimension-two form has a negative eigenvalue of $-0.0921$,
+unchanged from $N=60$ to $N=120$. §4, and [`sonin-ceiling.md`](sonin-ceiling.md) §5.
 
-**5. One of the two conditions is doing all the work at $\mu\le2$.** $\hat g(0)=0$
-alone gives $-E\ge0$ up to $\mu=2.763$ — past the whole of Theorem 1's support range.
-At $\mu\le2$ the second condition $\hat g(i/2)=0$ buys **nothing** for the sign of $-E$.
-This refines mg-5210's "they are not decoration, they are the theorem": one of them is.
-§4.
+**5. ~~One of the two conditions is doing all the work at $\mu\le2$.~~ WRONG (mg-0b7a).**
+~~$\hat g(0)=0$ alone gives $-E\ge0$ up to $\mu=2.763$ — past the whole of Theorem 1's
+support range. At $\mu\le2$ the second condition $\hat g(i/2)=0$ buys **nothing** for the
+sign of $-E$. This refines mg-5210's "they are not decoration, they are the theorem":
+one of them is.~~ $2.763$ is the even block's; on the full space $\mu_c(1)=1.771<2$,
+because an odd $g$ satisfies $\hat g(0)=0$ for free. mg-5210's reading stands unrefined.
+[`sonin-ceiling.md`](sonin-ceiling.md) §5. §4 below is kept, struck where affected.
 
 **6. The margin scales understandably with the codimension: each condition buys a
 fixed factor in the support.** $\log\mu_c$ is linear in $k$ with measured slope
@@ -77,12 +105,18 @@ $0.7523$; $\mu_c(k+1)/\mu_c(k)$ is $2.234$, $2.107$, $2.034$. The mechanism is t
 $\hat\epsilon>0$ only on $|t|<t_0=6.29177$, so $-E$ is negative only on directions whose
 $\hat g$ lives in that band, $k$ conditions hold $\hat g$ down near $t=0$ to order $k$,
 and a support of length $L$ resolves $t$ only to $2\pi/L$. Equating gives
-$\log\mu_c\approx2\pi k/t_0=0.9986\,k$. **The shape is right and the constant is $25\%$
-out**, and that is all that is claimed — the geometric growth is measured, the
-$2\pi/t_0$ is a count of resolution cells and not a derivation. §5.
+$\log\mu_c\approx2\pi k/t_0=0.9986\,k$. ~~**The shape is right and the constant is $25\%$
+out**~~ — *the count IS a derivation, of an upper **bound**: restricting to codimension
+$k$ kills at most $k$ negative eigenvalues, so $\log\mu_c(k)\le\Lambda(k)\sim2\pi k/t_0$
+on this block, and $0.7523<0.9986$ is the slack in an inequality
+([`sonin-ceiling.md`](sonin-ceiling.md) §4, mg-0b7a). The increments $0.804,0.746,0.710$
+are also still falling, so $0.7523$ is not a converged slope.* The geometric growth is
+measured. §5.
 
 **7. Why the conclusion has to fail eventually, which is the one thing that could have
-been said without computing anything.** $\epsilon>0$, so
+been said without computing anything.** *(Now a theorem, and its two premises supplied:
+[`sonin-ceiling.md`](sonin-ceiling.md) §§2–3, mg-0b7a. $\epsilon>0$ pointwise is not
+proved in this corpus and is not needed.)* $\epsilon>0$, so
 $\hat\epsilon(0)=2\int_0^\infty\epsilon(e^y)\,dy=+5.3722>0$, so the symbol of $-E$ is
 *negative* at low frequency. Only a support too short to let $\hat g$ into that band can
 save the inequality. Every question in the work item about "what happens past $\mu=2$"
@@ -273,6 +307,10 @@ Bisecting the codimension-$k$ smallest eigenvalue in $\mu$:
 
 $$\mu_c(1)=2.7634,\qquad \mu_c(2)=6.1739,\qquad \mu_c(3)=13.011,\qquad \mu_c(4)=26.461$$
 
+**Even block only (mg-0b7a).** Admitting odd $g$ — Theorem 1 imposes no parity — gives
+$\mu_c(1,2,3,4)=1.771,\,2.754,\,4.140,\,6.024$. Everything in the rest of this section
+is the even block's, and the factor of three below is a factor of $1.38$.
+
 at $N=120$, each an upper bound on the true value and each $\le0.6\%$ below its $N=60$
 counterpart. Theorem 1 is stated for $\operatorname{supp}g\subset[2^{-1/2},2^{1/2}]$,
 i.e. $\mu\le2$, and its conclusion holds to $\mu=6.17$ — a factor $3.09$ in $\mu$,
@@ -289,8 +327,10 @@ genuine threshold and the theorem is on the right side of it by a factor of thre
 
 ### 4.3 What one condition buys, and what a third buys
 
-$\mu_c(1)=2.763>2$: **$\hat g(0)=0$ alone covers the whole of Theorem 1's support
-range.** At $\mu\le2$ the unconditioned form has exactly one negative eigenvalue
+**WRONG (mg-0b7a): $2.763$ is the even block's, and $\mu_c(1)=1.771<2$ on the full
+space, because an odd $g$ satisfies $\hat g(0)=0$ for free. The paragraph is kept
+struck.** ~~$\mu_c(1)=2.763>2$: **$\hat g(0)=0$ alone covers the whole of Theorem 1's
+support range.**~~ At $\mu\le2$ the unconditioned form has exactly one negative eigenvalue
 ($-1.3411$), and $\hat g(0)=0$ removes it. So for the sign of $-E$ at $\mu\le2$ the
 condition $\hat g(i/2)=0$ is inert.
 
@@ -314,8 +354,11 @@ $-E$ is negative on $|t|<t_0$ and positive outside it, and everything above foll
   $|t|<t_0$. A support of length $L$ resolves $t$ to $2\pi/L$, so that band holds about
   $Lt_0/2\pi$ independent directions, and $k$ vanishing conditions remove $k$ of them.
   Positivity therefore survives until $L\approx2\pi k/t_0$, i.e.
-  $$\log\mu_c(k)\ \approx\ \frac{2\pi}{t_0}\,k\ =\ 0.9986\,k.$$
-  Measured slope: $0.7523$. **The shape is right and the constant is $25\%$ out** — the
+  $$\log\mu_c(k)\ \le\ \Lambda(k),\qquad \frac{\Lambda(k)}{k}\ \longrightarrow\ \frac{2\pi}{t_0}\ =\ 0.9986 .$$
+  Measured slope: $0.7523$. ~~**The shape is right and the constant is $25\%$ out**~~ —
+  *mg-0b7a: the relation is an inequality (min-max plus the Szegő density), the measured
+  slope lies below the bound as it must, and $\Lambda_{\rm even}(1..4)=1.056,\,2.064,\,
+  3.068,\,4.070$ against $\log\mu_c=1.017,\,1.820,\,2.566,\,3.276$.* The
   conditions $\hat g(ij/2)=0$ sit at $k$ distinct points of the imaginary axis and only
   approximate a $k$-fold zero of $\hat g$ at $t=0$, which is where the $25\%$ lives.
   This is a count of resolution cells, not a derivation, and is offered as one.
@@ -343,9 +386,9 @@ took to rule out.
 | §3: `conditions()` row 1 was not $\hat g(i/2)$ | no. Sign-blind |
 | §1.2, §5: $\hat\epsilon(0)=5.37>0$, $t_0=6.2918$, $\hat\epsilon t^2/2\to-\epsilon'(1^+)$ | no. Sign-blind |
 | §4.1: the inertia table and its stability in $N$ | no. Sign-blind |
-| §4.2: **Theorem 1's conclusion $W_\infty(g\star g^*)\ge\operatorname{Tr}(\vartheta(g)\mathbf S\vartheta(g)^*)$ holds to $\mu=6.17$, three times its stated hypothesis** | **YES.** The trace does not move under the substitution and $W_\infty$ does, so the direction of the inequality does |
-| §4.2: **it is false from $\mu=6.17$ on** | **YES**, same reason |
-| §4.3: **at $\mu\le2$ one condition already gives the inequality** | **YES**, same reason |
+| §4.2: **Theorem 1's conclusion $W_\infty(g\star g^*)\ge\operatorname{Tr}(\vartheta(g)\mathbf S\vartheta(g)^*)$ holds to $\mu=6.17$, three times its stated hypothesis** *(even block only — $2.754$ and a factor $1.38$, mg-0b7a)* | **YES.** The trace does not move under the substitution and $W_\infty$ does, so the direction of the inequality does |
+| §4.2: **it is false from $\mu=6.17$ on** *(from $2.754$ on, mg-0b7a)* | **YES**, same reason |
+| ~~§4.3: **at $\mu\le2$ one condition already gives the inequality**~~ **FALSE (mg-0b7a)** | **YES**, same reason — and this is the first statement in this corpus to be marked non-sign-blind and then refuted |
 | §4.3: unconditioned the inequality fails at every $\mu$ (mg-5210 §6, reproduced) | **YES**, and this is mg-5210's statement, re-verified |
 
 **Four statements that are not sign-blind, where mg-5210 produced three.** They are not
