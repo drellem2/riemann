@@ -40,6 +40,14 @@ route to reach c = 400.
 """
 import numpy as np
 
+from verdict import Verdict
+
+# The exit-code contract (mg-5995).  S1's sign table already prints its own
+# expectation in the last column (`expect i^m`); comparing the two is the only
+# numerical claim this script makes -- S2/S3 report leakages and drifts and
+# state no threshold, so nothing there is wired.
+VD = Verdict()
+
 N = 900  # Gauss-Legendre nodes
 
 
@@ -124,6 +132,11 @@ for c in [10, 20, 50, 100, 200, 400]:
     p, I = prolate_legendre(c, K=max(400, 4 * c))
     r = I / p
     row = " ".join(f"{'+' if r[m] / r[0] > 0 else '-':>10}" for m in (2, 4, 6, 8, 10, 12))
+    # (P): sign(r_m/r_0) = i^m, which is + for m = 0 mod 4 and - for m = 2 mod 4.
+    # That is the `expect i^m` column, printed as a literal on the same line.
+    for m in (2, 4, 6, 8, 10, 12):
+        VD.check((r[m] / r[0] > 0) == (m % 4 == 0),
+                 "S1 (P): sign(r_%d/r_0) = i^%d (c=%d)" % (m, m, c))
     print(f"{c:>5} " + row + f" {'-  +  -  +  -  +':>26}")
 
 print("\n  (X)  chi_0/chi_m > 1, shown via d_n = 1-lam_n increasing.  Sinc-kernel route,")
@@ -132,7 +145,11 @@ print(f"{'c':>5} " + " ".join(f"{'d_' + str(m):>11}" for m in (0, 2, 4, 6, 8, 10
 for c in [10, 12, 14]:
     lam, p, I = prolate(c, nmax=13)
     d = 1 - lam
-    print(f"{c:>5} " + " ".join(f"{d[m]:>11.3e}" for m in (0, 2, 4, 6, 8, 10, 12)))
+    ms = (0, 2, 4, 6, 8, 10, 12)
+    # (X) is the ordering lam_0 > lam_m, i.e. d_0 < d_m, for every m > 0.
+    VD.check(all(d[a] < d[b] for a, b in zip(ms, ms[1:])),
+             "S1 (X): d_n = 1 - lam_n increasing in n (c=%d)" % c)
+    print(f"{c:>5} " + " ".join(f"{d[m]:>11.3e}" for m in ms))
 print("""
   CAUTION.  Evaluating the sign of (1 - r_0/r_m) numerically at c >= 20 returns
   NOISE: chi_0/chi_m - 1 is O(e^{-2c}) and underflows against 1, so the printed
@@ -195,3 +212,5 @@ print("""
        not an asymp.  Note this is still a statement about h and P only: it
        does not mention W_lambda, E, Q or zeta, and so is invariant under
        W_lambda -> -W_lambda.  See s3-sign-blindness.md section 3.""")
+
+VD.finish()

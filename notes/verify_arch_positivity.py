@@ -90,6 +90,18 @@ says nothing about *where*.  Where is checks 1-3.
 
 import numpy as np
 
+from verdict import Verdict
+
+# The exit-code contract (mg-5995).  This script already `assert`s its Gram
+# matrix, the monotonicity of the truncation and the sign of theta'; what it did
+# not decide is the four reproductions its own docstring states as facts -- the
+# two Connes-Consani anchors of CHECKS 1 and 2, and the three claims CHECK 3
+# summarises as "All three hold".  Those are wired here.  The near-zero positive
+# rows of CHECK 3's last table are NOT wired past mu = 3.2: the script's own
+# CAVEAT records that double precision leaves them 2-4 digits and that they are
+# reproductions rather than verifications.
+VD = Verdict()
+
 GAMMA = np.euler_gamma
 
 
@@ -260,6 +272,11 @@ def check1():
         if prev is not None:
             assert ev[0] <= prev + 1e-14, "truncation must be monotone decreasing"
         prev = ev[0]
+        if N == 80:
+            # the anchor the docstring quotes: "Connes-Consani report ~0.00133
+            # (`Spectraltriples.tex:551`).  We get 0.0013303."
+            VD.check(abs(ev[0] - 0.00133) < 5e-6,
+                     "CHECK 1: lambda_min at mu = 2, N = 80 reproduces CC's ~0.00133")
         print(f"{N:>5} {gram:>10.1e} {ev[0]:>14.7f}")
     print()
     print(f"spectrum at N = 160 runs [{ev[0]:.3e}, {ev[-1]:.3e}] -- nothing small is")
@@ -280,6 +297,10 @@ def check2():
     print(f"{'N':>5} {'L*':>12} {'mu*':>12}")
     for N in (20, 40, 80, 160):
         Ls = _bisect(lambda L: lam_min(L, N), 0.75, 0.95)
+        # "mu* = 2.27099 against their 2.27": their figure is quoted to three
+        # digits, so 5e-3 is the width of the number they printed.
+        VD.check(abs(np.exp(Ls) - 2.27) < 5e-3,
+                 "CHECK 2: the crossing mu* reproduces CC's 2.27 (N=%d)" % N)
         print(f"{N:>5} {Ls:>12.7f} {np.exp(Ls):>12.7f}")
     print()
     print("mu* = 2.27099 against their 2.27, on a number this note did not aim at;")
@@ -297,8 +318,13 @@ def check3():
     print("repairs it (`:579`, Figure `testeven4`).")
     print()
     L3 = np.log(3.0)
+    rep = lam_min_with(L3, (2,))
+    # the first of the docstring's "All three hold": at mu = 3 the prime 2
+    # restores positivity, with smallest eigenvalue below their 6e-8.
+    VD.check(0 < rep < 6e-8,
+             "CHECK 3: at mu = 3, arch + p=2 is positive and below CC's 6e-8")
     print(f"mu = 3, archimedean alone      : {lam_min_with(L3):>14.6e}")
-    print(f"mu = 3, archimedean + p = 2    : {lam_min_with(L3, (2,)):>14.6e}"
+    print(f"mu = 3, archimedean + p = 2    : {rep:>14.6e}"
           "   (their bound: < 6e-8)")
     print()
     print(f"{'p':>9} {'lambda_min at mu = 3':>22}")
@@ -306,12 +332,24 @@ def check3():
         print(f"{p:>9.4f} {lam_min_with(L3, (p,), 160):>22.6e}")
     lo = _bisect(lambda p: lam_min_with(L3, (p,), 80), 1.999, 2.0, 1e-8)
     hi = _bisect(lambda p: lam_min_with(L3, (p,), 80), 2.0, 2.001, 1e-8)
+    # the second: the window in p is narrower than their 1e-3.  The line below
+    # prints that comparison; this makes it decide something.
+    VD.check(hi - lo < 1e-3,
+             "CHECK 3: the admissible window in p is narrower than 1e-3")
     print(f"admissible window [{lo:.7f}, {hi:.7f}], width {hi - lo:.3e} < 1e-3")
     print()
     print(f"{'mu':>6} {'arch + 2':>14} {'arch + 2 + 3':>14}")
     for mu in (3.2, 3.5, 3.8):
-        print(f"{mu:>6.1f} {lam_min_with(np.log(mu), (2,)):>14.6e}"
-              f" {lam_min_with(np.log(mu), (2, 3)):>14.6e}")
+        with2 = lam_min_with(np.log(mu), (2,))
+        with23 = lam_min_with(np.log(mu), (2, 3))
+        if mu == 3.2:
+            # the third: past mu = 3 the prime 2 alone no longer repairs and the
+            # prime 3 does.  Only the first row is wired -- the CAVEAT below
+            # says the positive rows past mu ~ 4 are 1e-12 in double precision.
+            VD.check(with2 < 0 < with23,
+                     "CHECK 3: at mu = 3.2 the prime 3 repairs what the prime 2 "
+                     "no longer does")
+        print(f"{mu:>6.1f} {with2:>14.6e} {with23:>14.6e}")
     print()
     print("CAVEAT, and it is the one `citation-audit.md` §6 records.  The repaired")
     print("eigenvalues here are 1e-8 to 1e-12 against O(1) matrix entries, so double")
@@ -335,6 +373,11 @@ def check4():
     print(f"{'L':>7} {'mu':>9} {'kappa':>11} {'||f||^2':>10} {'archimedean':>14}")
     for L in (0.8202, 1.0, 1.2, 1.2692, 1.4, 1.5, 2.0):
         kap, nrm, val = witness(L)
+        if L == 1.4:
+            # "at mu = 4.055 the archimedean form is negative on a function one
+            # can write down in a line, with a margin of 0.6 against a norm of
+            # 6.3" -- the row that carries CHECK 4's conclusion.
+            VD.check(val < 0, "CHECK 4: the explicit witness is negative at mu = 4.055")
         print(f"{L:>7.4f} {np.exp(L):>9.5f} {kap:>11.6f} {nrm:>10.6f} {val:>14.7f}")
     Ls = _bisect(lambda L: witness(L)[2], 1.2, 1.5)
     print()
@@ -357,3 +400,4 @@ if __name__ == "__main__":
     print("truncation or the numerics -- is excluded.  The answer to S2 is (2): a")
     print("numerical observation, now an independently reproduced one, with no")
     print("theorem asserting it anywhere in the corpus (§10.1).")
+    VD.finish()

@@ -70,6 +70,20 @@ import sys
 import time
 import mpmath as mp
 import verify_prolate_rate as P
+from verdict import Verdict
+
+# The exit-code contract (mg-5995).  Wired: every apparatus identity of CHECK 0
+# -- the gamma -> 0 Legendre limit, the ODE residual, the normalisation, DLMF
+# 12.7.2 / 12.2.11 / 12.2.6, Dunster's (75) and (76), and the jump at X_c that
+# certifies the root was found -- plus CHECK 1(a)'s dictionary residual and
+# CHECK 5's "a digit that moves is a digit that was never there".
+#
+# NOT wired, deliberately: CHECK 1(b)'s sigma table and its c* row.  Dunster's
+# standing hypothesis FAILS at index 8 for mu <= 2.1169, that failure is this
+# script's own finding (mg-fc1c, `dunster-check.md`), and gating on it would
+# paint the badge red for a documented result.  CHECKS 2--4 measure the size of
+# an imported O(gamma^-1 ln gamma); a size is not a verdict.
+VD = Verdict()
 
 QUICK = "--quick" in sys.argv
 
@@ -253,6 +267,13 @@ def check0():
     for n in NS:
         v = pr.val(n, mp.mpf("0.37"))
         pb = mp.sqrt(mp.mpf(2 * n + 1) / 2) * mp.legendre(n, mp.mpf("0.37"))
+        # the gamma -> 0 limit, at c = 1e-3: chi_n -> n(n+1) and the ratio is
+        # +-1, the sign being the convention and not a failure.  Both columns
+        # are correct to 7 digits, the residual being O(c^2) = 1e-6.
+        VD.check(abs(pr.chi[n] - n * (n + 1)) < mp.mpf("1e-4"),
+                 "CHECK 0(a): chi_%d -> n(n+1) as gamma -> 0" % n)
+        VD.check(abs(abs(v / pb) - 1) < mp.mpf("1e-4"),
+                 "CHECK 0(a): |Phi_%d / Pbar_%d| -> 1 as gamma -> 0" % (n, n))
         print(f"    {n:>3} {mp.nstr(pr.chi[n], 16):>22} {n*(n+1):>8} "
               f"{mp.nstr(v / pb, 16):>26}")
 
@@ -267,12 +288,17 @@ def check0():
         res = (mp.diff(lambda t: (1 - t * t) * mp.diff(f, t), y)
                + (pr.chi[n] - c * c * y * y) * f(y))
         scale = c * c * max(abs(f(mp.mpf("0.0"))), abs(f(y)))
+        # measured 1e-38 at 40 working digits, the loss being mp.diff's.
+        VD.check(abs(res) / scale < mp.mpf("1e-25"),
+                 "CHECK 0(b): the solver satisfies the prolate ODE (n=%d)" % n)
         print(f"    n = {n}:  |residual| / (c^2 |Phi|) = {mp.nstr(abs(res) / scale, 4)}")
 
     print("\n(c) int_{-1}^1 Phi_n^2 = 1 (by construction: sum beta^2 = 1) and the")
     print("    Legendre coefficient tail, which controls the truncation.")
     for n in NS:
         b = pr.beta[n]
+        VD.check(abs(sum(t * t for t in b) - 1) < mp.mpf("1e-30"),
+                 "CHECK 0(c): int Phi_%d^2 = 1" % n)
         print(f"    n = {n}:  sum beta^2 - 1 = {mp.nstr(sum(t*t for t in b) - 1, 4)}"
               f"   |beta_last| = {mp.nstr(abs(b[-1]), 4)}")
 
@@ -282,6 +308,8 @@ def check0():
     for n in NS:
         lhs = U(-n - mp.mpf(1) / 2, z)
         rhs = mp.exp(-z * z / 4) * mp.power(2, -mp.mpf(n) / 2) * mp.hermite(n, z / mp.sqrt(2))
+        VD.check(abs(lhs / rhs - 1) < mp.mpf("1e-30"),
+                 "CHECK 0(d): DLMF 12.7.2 at n = %d" % n)
         print(f"    n = {n}:  ratio - 1 = {mp.nstr(abs(lhs / rhs - 1), 4)}")
     print("    DLMF 12.2.11 (Wronskian):  U V' - U' V = sqrt(2/pi),  a = -4.4321")
     a = -mp.mpf("4.4321")
@@ -289,11 +317,15 @@ def check0():
         zz = mp.mpf(zz)
         w = (U(a, zz) * mp.diff(lambda t: mp.pcfv(a, t), zz)
              - mp.diff(lambda t: U(a, t), zz) * mp.pcfv(a, zz))
+        VD.check(abs(w / mp.sqrt(2 / mp.pi) - 1) < mp.mpf("1e-30"),
+                 "CHECK 0(d): DLMF 12.2.11 (Wronskian) at z = %s" % mp.nstr(zz, 3))
         print(f"    z = {zz}:  W / sqrt(2/pi) - 1 = "
               f"{mp.nstr(abs(w / mp.sqrt(2 / mp.pi) - 1), 4)}")
     print("    DLMF 12.2.6:  U(a,0) = sqrt(pi) / (2^{a/2+1/4} Gamma(3/4 + a/2))")
     u0 = mp.sqrt(mp.pi) / (mp.power(2, a / 2 + mp.mpf(1) / 4)
                            * mp.gamma(mp.mpf(3) / 4 + a / 2))
+    VD.check(abs(U(a, 0) / u0 - 1) < mp.mpf("1e-30"),
+             "CHECK 0(d): DLMF 12.2.6 for U(a,0)")
     print(f"    a = -4.4321:  ratio - 1 = {mp.nstr(abs(U(a, 0) / u0 - 1), 4)}")
 
     print("""
@@ -305,12 +337,22 @@ def check0():
     print(f"    {'a':>10} {'x':>5} {'U / (75)':>22} {'Ubar / (76)':>22}")
     for aD in ["1", "9", "4.4321"]:
         aD = mp.mpf(aD)
+        dev = {}
         for xx in [mp.mpf(30), mp.mpf(60)]:
             ru = U(-aD / 2, xx) / (xx ** ((aD - 1) / 2) * mp.exp(-xx * xx / 4))
             rb = Ubar(-aD / 2, xx) / (mp.sqrt(2 / mp.pi) * mp.gamma(aD / 2 + mp.mpf(1) / 2)
                                       * xx ** (-(aD + 1) / 2) * mp.exp(xx * xx / 4))
+            dev[int(xx)] = (abs(ru - 1), abs(rb - 1))
             print(f"    {mp.nstr(aD, 6):>10} {int(xx):>5} {mp.nstr(ru, 14):>22} "
                   f"{mp.nstr(rb, 14):>22}")
+        # "the two columns must approach 1": both are within 2% at x = 30 and
+        # closer at 60 than at 30, the error being O(x^-2).  The stated factor
+        # of 4 is not wired as such -- U/(75) is exact at a = 1, so the ratio
+        # that would test it is 0/0 there.
+        for j, col in enumerate(("(75)", "(76)")):
+            VD.check(dev[30][j] < mp.mpf("0.02") and dev[60][j] <= dev[30][j],
+                     "CHECK 0(e): Dunster's %s approached in x (a=%s)"
+                     % (col, mp.nstr(aD, 6)))
 
     print("""
 (f) X_c, the largest root of U(-c,x) = Ubar(-c,x) (DLMF 14.15.23).  env is
@@ -321,8 +363,13 @@ def check0():
         cD = mp.mpf(cD)
         xc = X_c(cD)
         eps = mp.mpf("1e-12")
+        gap = abs(envU(cD, xc + eps) / envU(cD, xc - eps) - 1) - (mp.sqrt(2) - 1)
+        # "the jump must be exactly sqrt(2) - 1 ...  That it is, is the check
+        # that the root was found."  Measured 5e-13, i.e. the straddle itself.
+        VD.check(abs(gap) < mp.mpf("1e-9"),
+                 "CHECK 0(f): the env jump at X_c is sqrt2 - 1 (c=%s)" % mp.nstr(cD, 3))
         print(f"    c = {cD}:  X_c = {mp.nstr(xc, 12)}   jump - (sqrt2 - 1) = "
-              f"{mp.nstr(abs(envU(cD, xc + eps) / envU(cD, xc - eps) - 1) - (mp.sqrt(2) - 1), 4)}")
+              f"{mp.nstr(gap, 4)}")
 
 
 # --- CHECK 1 -------------------------------------------------------------------
@@ -349,6 +396,10 @@ def check1():
         res = ((1 - y * y) * mp.diff(f, y, 2) - 2 * y * mp.diff(f, y)
                + (lamD + c * c * (1 - y * y)) * f(y))
         scale = c * c * abs(f(y))
+        # "If the dictionary were wrong the residual would not vanish."
+        VD.check(abs(res) / scale < mp.mpf("1e-25"),
+                 "CHECK 1(a): our Phi_%d solves Dunster's (1) under the "
+                 "dictionary" % n)
         print(f"    n = {n}:  lambda_D = {mp.nstr(lamD, 12):>18}"
               f"   |residual|/(c^2|Phi|) = {mp.nstr(abs(res) / scale, 4)}")
 
@@ -674,6 +725,7 @@ def check5():
     base = mp.mp.dps
     print(f"\n    mu = {mu}, n = {n}, x = {x0}")
     print(f"    {'dps':>5} {'K':>6} {'a = chi_n/c':>26} {'LHS':>26} {'RHS':>26}")
+    seen = set()
     for dps in [25, 40, 60]:
         for dK in [0, 40]:
             mp.mp.dps = dps
@@ -683,8 +735,13 @@ def check5():
             a = pr.a(n)
             L = pr.val(n, x0) / pr.val(n, mp.mpf(0))
             Rv, _, _ = dunster124(x0, a, cc)
-            print(f"    {dps:>5} {K:>6} {mp.nstr(a, 20):>26} "
-                  f"{mp.nstr(L, 20):>26} {mp.nstr(Rv, 20):>26}")
+            cells = (mp.nstr(a, 20), mp.nstr(L, 20), mp.nstr(Rv, 20))
+            seen.add(cells)
+            print(f"    {dps:>5} {K:>6} {cells[0]:>26} "
+                  f"{cells[1]:>26} {cells[2]:>26}")
+    # "A digit that moves is a digit that was never there."
+    VD.check(len(seen) == 1,
+             "CHECK 5: no printed digit moves across dps 25/40/60 and K, K+40")
     mp.mp.dps = base
 
 
@@ -700,3 +757,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    VD.finish()

@@ -47,6 +47,17 @@ so the eigenvector, not merely the eigenvalue, is verified.
 from mpmath import mp, mpf, sqrt, besselj, pi, fabs, nstr, log10, power
 import time
 
+from verdict import Verdict
+
+# The exit-code contract (mg-5995).  Section 0's three evaluation points "must
+# not depend on x" and their signs must reproduce i^n; section 1 states the
+# result BOTH ways -- the identity holds to working precision for every
+# m = 0 mod 4 and fails for every m = 2 mod 4 -- and both directions are wired,
+# so an identity that started holding for m = 2 mod 4 would fail this script as
+# loudly as one that stopped holding for m = 0 mod 4.  Sections 2--6 are
+# stability tables and convergences with no threshold stated.
+VD = Verdict()
+
 # ---------------------------------------------------------------- prolate core
 
 
@@ -238,9 +249,16 @@ def main():
     print("  %3s %-24s %-24s %-24s %s" % ("n", "mu from x=0", "mu from x=0.7",
                                           "mu from x=1", "eig residual"))
     for p in ps:
+        m07, m1 = p.mu_at(mpf(7) / 10), p.mu_at(1)
+        # "must not depend on x": the three columns agree in all 20 printed
+        # digits, the eigenvector residual being 1e-38 at dps = 40.
+        for lbl, v in (("0.7", m07), ("1", m1)):
+            VD.check(fabs(v / p.mu - 1) < mpf(10) ** -30,
+                     "0: mu_%d from x=%s agrees with x=0" % (p.n, lbl))
+        VD.check((p.mu > 0) == (p.n % 4 == 0),
+                 "0: sign(mu_%d) = i^%d" % (p.n, p.n))
         print("  %3d %-24s %-24s %-24s %s" % (
-            p.n, nstr(p.mu, 20), nstr(p.mu_at(mpf(7) / 10), 20),
-            nstr(p.mu_at(1), 20), nstr(p.res, 4)))
+            p.n, nstr(p.mu, 20), nstr(m07, 20), nstr(m1, 20), nstr(p.res, 4)))
     print("\n  Signs reproduce the Slepian-Pollak phase mu_n = i^n sqrt(2 pi Lambda_n/c):")
     print("  " + "  ".join("mu_%d %s 0" % (p.n, ">" if p.mu > 0 else "<") for p in ps))
 
@@ -253,6 +271,16 @@ def main():
                                           "Lambda_m", "|ratio - 1|"))
     for m in range(2, 21, 2):
         r, _ = identity_ratio(ps, m)
+        # both halves of the paragraph printed below the table.  For m = 0 mod 4
+        # the column measures 1e-65 or smaller at dps = 80; for m = 2 mod 4 the
+        # smallest failure on the grid is 12.56 (at m = 18), so the two classes
+        # are separated by sixty orders and 1 is a safe place to cut.
+        if m % 4 == 0:
+            VD.check(fabs(r - 1) < mpf(10) ** -40,
+                     "1: the identity holds at m = %d (= 0 mod 4)" % m)
+        else:
+            VD.check(fabs(r - 1) > 1,
+                     "1: the identity fails at m = %d (= 2 mod 4)" % m)
         tag = ""
         if m == 4:
             tag = "   <- reading A"
@@ -373,3 +401,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    VD.finish()

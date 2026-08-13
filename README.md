@@ -317,18 +317,45 @@ from over twenty-five minutes to under ten, which is the reason for the split.
 **To get the full grid for the last four, run them locally without the switch.**
 That is the run the notes record, and CI does not perform it.
 
+### The exit-code contract
+
+**Every script exits non-zero when a check it states comes out wrong.** That was
+not true until 2026-08-13: twelve of the fifteen printed their verdict — words
+like `REFUTED` or `MISMATCH`, or a measured value against a bound — into a table
+cell and then exited 0 regardless, so `python verify_q1.py; echo $?` printed 0
+whether the check passed or refuted itself. The reproduction command below could
+not fail. It can now.
+
+The contract lives in [`notes/verdict.py`](notes/verdict.py), which each script
+imports; the printed tables are unchanged, byte for byte, on a passing run. On a
+failing run the script writes the list of failed checks to **stderr** — stdout,
+which the notes cite by line, stays as it was — and exits 1.
+
+What is wired is what a script *states*: a printed verdict word, a measured
+quantity against a bound the note proves, an identity whose residual it says must
+vanish. What is deliberately not wired is a quantity a script reports rather than
+bounds — several are labelled OBSERVED in the notes and have no threshold to
+test — and any cell the notes document as allowed to fail. Each script says at
+the top of its source which of its checks are wired and which are not, and why.
+
+That the contract can fail is itself tested, per script, by
+[`notes/test_exit_codes.py`](notes/test_exit_codes.py): it runs each of the
+fifteen with `VERIFY_SELFTEST_FORCE_FAIL=1`, which forces the first decision the
+script reaches to come out negative, and requires a non-zero exit naming that
+check. A script that imported the contract but never used it would reach no
+decision, exit 0, and be reported as a failure by that test. The three fastest
+are also run unforced and must exit 0. That test is a local check and is not in
+the workflow: what CI runs is the fifteen scripts themselves, whose exit status
+now means something.
+
+CI keeps its output grep (`Traceback|REFUTED|MISMATCH`) as a second line of
+defence. It is no longer the only thing between a false result and a green tick.
+
 ### What a green `verifiers` tick does not mean
 
-**These scripts report; they do not assert.** With three exceptions
-(`verify_arch_positivity.py`, `verify_semilocal_gap.py` and
-`verify_independent_recheck.py`, which carry `assert`/`raise`), they print their
-findings — including verdict words like `REFUTED` or `MISMATCH` — into a table
-and then exit 0 regardless. Exit status alone would therefore be green whether
-or not a check came out wrong, so the workflow additionally fails a job if the
-captured output matches `Traceback|REFUTED|MISMATCH`.
-
-Two further failure words are deliberately **not** in that list, because they mark
-cells that are *allowed* to fail. `(FAILS)` is one: on its full grid
+Two failure words are deliberately **not** in CI's grep, because they mark
+cells that are *allowed* to fail — and for the same reason the exit-code contract
+does not gate on them either. `(FAILS)` is one: on its full grid
 `verify_q1.py` prints exactly one such cell,
 
 ```
@@ -348,10 +375,11 @@ reason the reduced runs are weaker than the full ones, and another reason to run
 the full grids locally.
 
 So: a green tick means **every script still runs to completion on a clean
-machine, and none of them printed a verdict word that was not already expected.**
-It does not mean a human or a machine re-derived the mathematics, and it is not a
-substitute for reading the notes. The numbers a script prints are checked against
-the notes by a reader, not by CI.
+machine, every check any of them states came out right, and none of them printed
+a verdict word that was not already expected.** It does not mean a human or a
+machine re-derived the mathematics, and it is not a substitute for reading the
+notes. Most of what these scripts print is measurement rather than verdict, and
+those numbers are checked against the notes by a reader, not by CI.
 
 ### Reproducing the same checks locally
 
@@ -360,6 +388,9 @@ lean/scripts/check.sh                 # the Lean build, sorry grep and axiom aud
 
 pip install numpy mpmath              # numpy for four scripts, mpmath for most
 cd notes && python verify_q1.py       # any verifier; run from `notes/`
+echo $?                               # 0 iff every check it states came out right
+
+cd notes && python test_exit_codes.py # ~2 min: proves each script can still fail
 ```
 
 The verifiers must be run with `notes/` as the working directory — several

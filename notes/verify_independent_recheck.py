@@ -65,7 +65,18 @@ import sys
 from decimal import Decimal as D, getcontext, localcontext
 from fractions import Fraction
 
+from verdict import Verdict
+
 QUICK = "--quick" in sys.argv
+
+# The exit-code contract (mg-5995).  This script `raise`s and `assert`s inside
+# its own arithmetic, but its printed verdicts decided nothing: CHECK 0(a) could
+# print `MISMATCH` into a table cell and still exit 0.  That cell, and the five
+# numbered findings this recheck exists to corroborate, are wired below.  The
+# `verdict` module is the one import from outside the standard library, and it
+# computes nothing -- the point of this file, that a second implementation uses
+# no third-party numerics, is untouched.
+VD = Verdict()
 
 
 # --------------------------------------------------------------------------
@@ -1138,14 +1149,19 @@ def check0():
             ("gamma", euler_gamma(), "0.5772156649015328606065120900824024310421593359399235988058"),
             ("e    ", exp(D(1)), "2.7182818284590452353602874713526624977572470936999595749670")):
         d = abs(got - D(want))
+        w = VD.word(d < D("1e-55"), "OK", "MISMATCH",
+                    "CHECK 0(a): %s against its known digits" % nm.strip())
         print("      %s = %s   |got - known| = %s   %s"
-              % (nm, F(got, 50), F(d, 3, e=True), "OK" if d < D("1e-55") else "MISMATCH"))
+              % (nm, F(got, 50), F(d, 3, e=True), w))
     print()
     print("  (b) psi(1/4): the asymptotic-series route against Gauss' closed form")
     a = digamma(D(1) / 4)
     b = -euler_gamma() - 3 * ln2() - pi() / 2
     print("      series  psi(1/4) = %s" % a)
     print("      closed  -g-3ln2-pi/2 = %s" % b)
+    # the series route against Gauss' closed form: measured exactly 0 at 60 dps.
+    VD.check(abs(a - b) < D("1e-50"),
+             "CHECK 0(b): psi(1/4) series = -gamma - 3 ln2 - pi/2")
     print("      difference = %s" % (a - b))
     print()
     getcontext().prec = 40
@@ -1162,8 +1178,14 @@ def check0():
         for tt in ("0.3", "1.1"):
             t = D(tt)
             direct = (_conv(n, m, t, L) + _conv(m, n, t, L)) / 2
+            gap = _table(n, m, t, L) - direct
+            # "the table is the thing being tested": measured 1e-37 or smaller
+            # against convolutions of size 1e-2 to 1, at 40 working digits.
+            VD.check(abs(gap) < D("1e-25"),
+                     "CHECK 0(c): the convolution table at (n=%d, m=%d, t=%s)"
+                     % (n, m, tt))
             print("      %-4d %-4d %-6s %-24s %.2e"
-                  % (n, m, tt, F(direct, 20), float(_table(n, m, t, L) - direct)))
+                  % (n, m, tt, F(direct, 20), float(gap)))
     print()
     print("  (d) W_{0,2}^# three ways: quadrature of the table against the closed")
     print("      form 2 v_n v_m derived here, and against the paper's own printed")
@@ -1192,10 +1214,20 @@ def check0():
     for (n, m) in ([(1, 2), (0, 0), (0, 2)] if QUICK else [(1, 2), (3, 3), (0, 0), (0, 2), (4, 7)]):
         num = numeric(n, m)
         mine = 2 * vv(n) * vv(m)
+        # "The rank-one closed form derived here reproduces it exactly."
+        VD.check(abs(num / mine - 1) < D("1e-12"),
+                 "CHECK 0(d): W_{0,2} = 2 v_n v_m at (%d,%d)" % (n, m))
         rp = ""
         if n > 0 and m > 0:
             paper = 8 * K * L ** 3 / ((L * L + 16 * PI * PI * m * m) *
                                       (L * L + 16 * PI * PI * n * n))
+            # the erratum, stated as a finding: (h02ev) is a factor 2 too small
+            # in the EVEN sector, "the ratio above is 2.000000000000000, not 1".
+            # Wired in the direction the note records -- if the ratio ever came
+            # back 1 the erratum would be wrong and the note would need redoing.
+            VD.check(abs(num / paper - 2) < D("1e-12"),
+                     "CHECK 0(d): the paper's (h02ev) is a factor 2 small at "
+                     "(%d,%d)" % (n, m))
             rp = F(num / paper, 15)
         print("      %-8s %-26s %-14s %-14s"
               % ("%d,%d" % (n, m), F(num, 18), F(num / mine, 15), rp))
@@ -1203,6 +1235,9 @@ def check0():
         num = numeric(n, m)
         paper = -256 * PI ** 2 * L * K * m * n / (
             (L * L + 16 * PI * PI * m * m) * (L * L + 16 * PI * PI * n * n))
+        # "The paper's own (h02) for the ODD sector is exact."
+        VD.check(abs(num / paper - 1) < D("1e-12"),
+                 "CHECK 0(d): the paper's (h02) is exact at (%d,%d)" % (n, m))
         print("      %-8s %-26s %-14s %-14s"
               % ("%d,%d" % (n, m), F(num, 18), "", F(num / paper, 15)))
     print()
@@ -1231,6 +1266,13 @@ def check1():
         getcontext().prec = p
         a = ln(pi()) - digamma(D(1) / 4)
         b = euler_gamma() + 3 * ln2() + pi() / 2 + ln(pi())
+        # NUMBER ONE: two routes to |2 theta'(0)|, and the note's value.  The
+        # two agree to within the last printed digit at each precision, so the
+        # comparison is made at 25 digits, which every row carries.
+        VD.check(abs(a - b) < D("1e-25"),
+                 "CHECK 1: the two routes to |2 theta'(0)| agree (%d dps)" % p)
+        VD.check(abs(a - D("5.3721834192256655822")) < D("1e-18"),
+                 "CHECK 1: |2 theta'(0)| is the note's 5.3721834192... (%d dps)" % p)
         print("      %3d dps:  log pi - psi(1/4) = %s" % (p, a))
         print("                closed form       = %s" % b)
     print()
@@ -1328,6 +1370,14 @@ def check1b(T=None):
         print("        Plancherel (1/2pi) int |fhat|^2 = %s" % F(pl, 22))
         print("        ||f||^2                         = %s" % F(nf, 22))
         print("        ratio                           = %s" % F(pl / nf, 22))
+        # "A factor 2 here would double the bound of CHECK 1."  Both ratios are
+        # 1 to nine digits or better at every row; the residual is the tail.
+        VD.check(abs(rhs / lhs - 1) < D("1e-6"),
+                 "CHECK 1b: (thetaprime) is normalised as printed (mu=%s, T=%s)"
+                 % (muv, Tv))
+        VD.check(abs(pl / nf - 1) < D("1e-6"),
+                 "CHECK 1b: Plancherel in the same normalisation (mu=%s, T=%s)"
+                 % (muv, Tv))
     print()
     print("  There is no extra factor of 2.  The residual in both ratios is the")
     print("  truncated tail int_T^infty, which is O(log T / T^9) here.  Three things")
@@ -1356,6 +1406,10 @@ def check2(N=None):
         al, be = tridiagonalize(f.arch())
         lo, hi = eig_k(al, be, 0, digits=30)
         Dm = -(lo + hi) / 2
+        # NUMBER ONE, the conclusion: "D increases in mu, never reaches the
+        # bound".  Both halves; the bound is |2 theta'(0)| of CHECK 1.
+        VD.check(D(0) < Dm < bound,
+                 "CHECK 2: 0 < D(mu) < |2 theta'(0)| (mu=%s)" % mu)
         print("      %-8s %-12s %-24s %s"
               % (mu, F(f.L, 5), F(Dm, 14), F(bound - Dm, 8)))
     print()
@@ -1381,6 +1435,8 @@ def check3(N=60):
         v = inverse_iteration(A, lam, iters=3)
         Dm = -rayleigh(A, v)
         R = -quadform(Pr, v) / sum(x * x for x in v)
+        # NUMBER TWO: "R > D at every mu computed".
+        VD.check(R > Dm, "CHECK 3: R(mu) > D(mu) on v_arch (mu=%d)" % mu)
         print("      %-5d %-14s %-14s %-13s %s"
               % (mu, F(Dm, 8), F(R, 8), F(R - Dm, 8), F(R / Dm, 4)))
     print()
@@ -1414,6 +1470,11 @@ def check4(N=None):
         qp = -quadform(Pr, v) / nrm
         s = qa + qp
         out[mu] = s
+        # NUMBER THREE, "the claim the ticket says to check hardest": on v_mu
+        # the archimedean half is POSITIVE and the prime half NEGATIVE, and
+        # what survives is a positive s(mu) fifteen or more digits below them.
+        VD.check(qa > 0 > qp and s > 0,
+                 "CHECK 4: arch(v_mu) > 0 > prime(v_mu), s(mu) > 0 (mu=%d)" % mu)
         print("      %-5d %-20s %-20s %-16s %-10s %s"
               % (mu, F(qa, 8, sgn=True), F(qp, 8, sgn=True), F(s, 4, e=True),
                  F(ln(s) / ln(D(10)), 3), F(ln(abs(qa) / s) / ln(D(10)), 2)))
@@ -1462,6 +1523,17 @@ def check5(svals):
     c4 = ln(D(2) ** 14 * D(2).sqrt() * pi() ** 5 / 3) / ln10
     print("      D vs log10(2^14 sqrt2 pi^5/3) = %s  ->  %s sigma"
           % (F(c4, 6), F((coef[2] - c4) / se[2], 3)))
+    # NUMBER FOUR, as the paragraph below states it: the index-4 predictions are
+    # each within one standard error and the index-0 reading of B is not.  Under
+    # `--quick` the fit is over the same eight mu, so this holds either way.
+    VD.check(abs(coef[0] - tgt) / se[0] <= 1,
+             "CHECK 5: A is within one sigma of 4 pi / log 10")
+    VD.check(abs(coef[1] - D("4.5")) / se[1] <= 1,
+             "CHECK 5: B is within one sigma of 9/2 (prolate index 4)")
+    VD.check(abs(coef[1] - D("0.5")) / se[1] > 2,
+             "CHECK 5: B is NOT compatible with 1/2 (prolate index 0)")
+    VD.check(abs(coef[2] - c4) / se[2] <= 1,
+             "CHECK 5: D is within one sigma of log10(2^14 sqrt2 pi^5/3)")
     print()
     print("  All three fitted parameters and all three standard errors reproduce")
     print("  the note's, and the constant 6.373563 -- which `deficit-repair.md`")
@@ -1477,6 +1549,9 @@ def check6(svals):
     print()
     getcontext().prec = 40
     L0, _, _, _ = lambda_n(D(1), 0, kmax=60)
+    # the only external anchor the prolate apparatus has.
+    VD.check(abs(L0 - D("0.57258")) < D("5e-6"),
+             "CHECK 6: Lambda_0(c=1) reproduces Slepian's tabulated 0.57258")
     print("  Lambda_0(c=1) = %s" % L0)
     print("  Slepian's classical tabulated value is 0.57258 -- an external anchor,")
     print("  and the only one available for the prolate apparatus.")
@@ -1486,6 +1561,9 @@ def check6(svals):
     print("  THE TRACE SUM RULE, which is what pins the normalisation constant:")
     print("      sum_n Lambda_n(5) = %s" % tot)
     print("      2c/pi             = %s" % exact)
+    # "a wrong factor there is exactly what this sum rule would expose"
+    VD.check(abs(tot - exact) < D("1e-50"),
+             "CHECK 6: the trace sum rule sum_n Lambda_n(5) = 2c/pi")
     print("      difference        = %s" % F(tot - exact, 3, e=True))
     print("  The identity Lambda_n = c d_0^2/(pi psi_n(0)^2) is derived in the")
     print("  module docstring above from the finite Fourier transform; a wrong")
@@ -1510,6 +1588,15 @@ def check6(svals):
               % (mu, F(d0, 5, e=True), F(1 - A4, 5, e=True), F(dchi, 5, e=True),
                  F(s / d0, 5, e=True), F(s / dchi, 4)))
     print()
+    # NUMBER FIVE: "s exceeds the index-0 defect by nine to ten orders and the
+    # gap GROWS; against the index-4 defect the ratio stays O(10) with no
+    # trend."  Under `--quick` both figures are inflated by the looser
+    # truncation, which is why the index-4 band is wired at 100 and not at the
+    # measured 12.96.
+    VD.check(r0[-1] / r0[0] > 10 and min(r0) > D("1e8"),
+             "CHECK 6: s/(1-Lambda_0) is huge and grows")
+    VD.check(max(r2) < 100,
+             "CHECK 6: s/(1-chi_2) stays O(10) across mu = 5..12")
     print("      s/(1-Lambda_0) grows by a factor %s over mu=5..12" % F(r0[-1] / r0[0], 2))
     print("      s/(1-chi_2) stays in [%s, %s]" % (F(min(r2), 4), F(max(r2), 4)))
     print()
@@ -1527,6 +1614,10 @@ def check6(svals):
     connes = D(2) ** 14 * D(2).sqrt() * PI ** 5 / 3 * D(12) ** (D(9) / 2) * exp(-4 * PI * 12)
     print("  Connes' printed constant (`rhready.tex:1149`) against Fuchs at n=4:")
     print("      (2^14 sqrt2 pi^5/3) mu^{9/2} e^{-4 pi mu}  /  (Fuchs(4, 2 pi mu)/2)")
+    # "Identically one half of Fuchs at index 4": the printed ratio is 1 to a
+    # hundred digits.
+    VD.check(abs(connes / (fuchs(c, 4) / 2) - 1) < D("1e-30"),
+             "CHECK 6: Connes' printed constant is (1/2) Fuchs at index 4")
     print("      = %s" % (connes / (fuchs(c, 4) / 2)))
     print("  Identically one half of Fuchs at index 4, as `prolate-rate.md` says,")
     print("  and the halving is exactly 1 - sqrt(x) ~ (1-x)/2.  Derived, not quoted.")
@@ -1636,3 +1727,4 @@ if __name__ == "__main__":
         check7()
     if run(8):
         check8()
+    VD.finish()

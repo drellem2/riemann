@@ -74,7 +74,16 @@ import sys
 import mpmath as mp
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from verdict import Verdict  # noqa: E402
 from verify_prolate_rate import Lambda_even  # noqa: E402
+
+# The exit-code contract (mg-5995).  The check is a CONTRAST, and the script
+# says what it has to look like: |log10 ratio| is O(1) at kappa = 2 pi (measured
+# 0.15 down to 0.057) and "tens of orders of magnitude" away at every other
+# kappa (measured 9.2 to 53).  Both halves are wired, at 1 and at 5 -- an order
+# of magnitude of slack on each side of a gap that is eight wide.  The last
+# block's claim that the digits do not move is wired as printed: same 12 digits.
+VD = Verdict()
 
 
 def connes_A(mu):
@@ -118,6 +127,12 @@ def main():
             K = int(c) + 90
             m = measured(kap, mu, K)
             r = m / connes_A(mu)
+            lg = abs(mp.log10(r))
+            if name == "2*pi":
+                VD.check(lg < 1, "U8: |log10 ratio| = O(1) at kappa = 2 pi (mu=%d)" % mu)
+            else:
+                VD.check(lg > 5, "U8: kappa = %s excluded by orders of magnitude "
+                                 "(mu=%d)" % (name, mu))
             row += f"{mp.nstr(mp.log10(r), 8):>15}"
         print(row)
     print()
@@ -154,13 +169,19 @@ def main():
     print()
     print(f"{'mu':>5} {'dps':>6} {'K':>6} {'ratio at kappa = 2 pi':>28}")
     for mu in [8, 10]:
+        seen = set()
         for dps in [200, 320, 420]:
             for dK in [40, 90, 160]:
                 mp.mp.dps = dps
                 c = 2 * mp.pi * mp.mpf(mu)
                 K = int(c) + dK
                 r = measured(2 * mp.pi, mu, K) / connes_A(mu)
+                seen.add(mp.nstr(r, 12))
                 print(f"{mu:>5} {dps:>6} {K:>6} {mp.nstr(r, 12):>28}")
+        # "Unchanged in the printed digits across dps 200/320/420 and
+        # K = c+40/90/160" -- the nine rows are one number or they are not.
+        VD.check(len(seen) == 1,
+                 "U8: ratio unchanged in the printed digits across dps and K (mu=%d)" % mu)
     mp.mp.dps = 320
     print()
     print("Unchanged in the printed digits across dps 200/320/420 and K = c+40/90/160.")
@@ -168,3 +189,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    VD.finish()

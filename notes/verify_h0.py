@@ -89,8 +89,18 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import verify_q2 as VQ             # noqa: E402
 import verify_q3 as VT             # noqa: E402
+from verdict import Verdict        # noqa: E402
 
 QUICK = os.environ.get("QUICK", "") not in ("", "0")
+
+# The exit-code contract (mg-5995).  Wired: CHECK 0's admissibility, CHECK 1's
+# u -> 1/u symmetry ("not imposed anywhere in `E_inf`; it is a test of the whole
+# construction"), CHECK 5's two independent routes to the same constant,
+# CHECK 6's proved inequality, CHECK 7's DLMF identity and CHECK 8's proved
+# upper bound.  CHECKS 3 and 4 report a convergence and its rate, and CHECK 7's
+# sup-error columns are the size of an O(gamma^-1 log gamma) import rather than
+# a bound anyone claims -- neither is wired.
+VD = Verdict()
 
 MUS = [5] if QUICK else [3, 5, 8, 12, 20]
 
@@ -241,8 +251,16 @@ def check0():
         mine = S_of(cb, muv * tp) / (lam * mp.sqrt(tp))
         theirs = cb.R(tp)
         rel = abs(mine - theirs) / abs(theirs)
+        integ = cb.integral()
+        # both conditions are imposed on the solve, so these are residuals of
+        # the solve: measured 1e-89, 1e-48 and 1e-41 at 40 working digits, with
+        # the last column exactly 0.  1e-20 is far above all of them and far
+        # below anything that would mean the vector is not admissible.
+        VD.check(abs(cb.p0) < mp.mpf(10) ** -20 and abs(integ) < mp.mpf(10) ** -20
+                 and abs(nrm) < mp.mpf(10) ** -20 and rel < mp.mpf(10) ** -20,
+                 "CHECK 0: the vector is admissible and S = q3.R (mu=%s)" % muv)
         print("  %-5s %-13s %-13s %-13s %s"
-              % (muv, mp.nstr(cb.p0, 3), mp.nstr(cb.integral(), 3),
+              % (muv, mp.nstr(cb.p0, 3), mp.nstr(integ, 3),
                  mp.nstr(nrm, 3), mp.nstr(rel, 3)))
 
 
@@ -253,6 +271,9 @@ def check1():
     print("phi(0) and hat phi(0) vanish.  That symmetry is not imposed anywhere in")
     print("`E_inf`; it is a test of the whole construction.\n")
     n2 = 2 * mp.quad(lambda x: phi_inf(x) ** 2, [0, 1, 4])
+    # "Unit norm, phi_inf(0) = 0": measured 1e-38 and 1e-42.
+    VD.check(abs(n2 - 1) < mp.mpf(10) ** -20, "CHECK 1: ||phi_inf||^2 = 1")
+    VD.check(abs(phi_inf(mp.mpf(0))) < mp.mpf(10) ** -20, "CHECK 1: phi_inf(0) = 0")
     print("  ||phi_inf||^2 - 1        = %s" % mp.nstr(n2 - 1, 5))
     print("  phi_inf(0)               = %s" % mp.nstr(phi_inf(mp.mpf(0)), 5))
     print("  int_R phi_inf            = %s   (quadrature-limited, not exact zero)"
@@ -262,6 +283,9 @@ def check1():
         u = mp.mpf(uv)
         a, b = E_inf(u), E_inf(1 / u)
         rel = abs(a - b) / max(abs(a), mp.mpf(10) ** -40)
+        # E phi_inf(u) = E phi_inf(1/u): measured 1e-36 or better.
+        VD.check(rel < mp.mpf(10) ** -20,
+                 "CHECK 1: E phi_inf(u) = E phi_inf(1/u) (u=%s)" % uv)
         print("  %-8s %-16s %-16s %s"
               % (uv, mp.nstr(a, 8), mp.nstr(b, 8), mp.nstr(rel, 3)))
 
@@ -350,6 +374,11 @@ def check5(limit):
     print("  Mellin route     = %s" % mp.nstr(val, 10))
     print("  u-space (CHECK 2)= %s" % mp.nstr(limit, 10))
     print("  relative diff    = %s" % mp.nstr(abs(val - limit) / limit, 4))
+    # "Agreement is a check on both": measured 1e-22, both routes quadrature-
+    # limited, so 1e-10 is generous and still an order of magnitude tighter
+    # than the ten digits the two lines above print.
+    VD.check(abs(val - limit) / limit < mp.mpf(10) ** -10,
+             "CHECK 5: the Mellin route reproduces ||E phi_inf||^2")
     print("\n  |s|   |M(s)|          |zeta(1/2-is)|   -- the weight is the decaying factor")
     for sv in (0, 5, 10, 20, 40):
         s = mp.mpf(sv)
@@ -375,6 +404,10 @@ def check6():
             md = cb.md[n]
             m2 = 2 * mp.quad(lambda y: y * y * md.phi_in(y) ** 2, [0, 1])
             lhs = c * c * m2
+            # c^2 int y^2 Phi^2 = chi - int (1-y^2) Phi'^2 <= chi.  The
+            # inequality is elementary and the `ratio` column is it.
+            VD.check(lhs <= md.chi,
+                     "CHECK 6: c^2 int y^2 Phi^2 <= chi_n (mu=%s, n=%d)" % (muv, n))
             print("  %-5s %-3s %-19s %-13s %-10s %s"
                   % (muv, n, mp.nstr(lhs, 8), mp.nstr(md.chi, 8),
                      mp.nstr(lhs / md.chi, 6),
@@ -404,6 +437,9 @@ def check7():
         z = mp.mpf(zv)
         lhs = mp.pcfu(-mp.mpf(9) / 2, z)
         rhs = mp.exp(-z * z / 4) * mp.hermite(4, z / mp.sqrt(2)) / 2 ** 2
+        # DLMF 12.7.2 is an identity; measured 0 or 1e-41.
+        VD.check(abs(lhs - rhs) / abs(rhs) < mp.mpf(10) ** -20,
+                 "CHECK 7: DLMF 12.7.2 U(-9/2,z) = e^{-z^2/4} He_4(z) (z=%s)" % zv)
         print("    z = %-5s U(-9/2,z) = %-18s e^{-z^2/4} He_4(z) = %-18s rel %s"
               % (zv, mp.nstr(lhs, 10), mp.nstr(rhs, 10),
                  mp.nstr(abs(lhs - rhs) / abs(rhs), 3)))
@@ -451,6 +487,11 @@ def check8():
             truth = md.p1 ** 2 / (c * defect)
             X0 = K1 * (6 * c + 1 / mp.sqrt(2)) * c * abs(md.mu)
             bound = 2 * mp.pi * c * X0 / kap / c          # per unit of (1 - Lam), over c
+            # §A of the note PROVES Phi_n(1)^2 <= (2 pi c X_0/kappa)(1 - Lambda_n),
+            # so the last column is a ratio that must stay below 1.
+            VD.check(truth <= bound,
+                     "CHECK 8: Phi(1)^2 below the proved upper bound "
+                     "(mu=%s, n=%d)" % (muv, n))
             print("  %-5s %-3s %-20s %-25s %s"
                   % (muv, n, mp.nstr(truth, 8), mp.nstr(bound, 8),
                      mp.nstr(truth / bound, 4)))
@@ -474,3 +515,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    VD.finish()

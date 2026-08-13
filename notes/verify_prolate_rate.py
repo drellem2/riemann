@@ -71,8 +71,17 @@ hopeless here: its top eigenvalues agree to 55 decimal places.
 import sys
 import mpmath as mp
 import verify_deficit_repair as V
+from verdict import Verdict
 
 QUICK = "--quick" in sys.argv
+
+# The exit-code contract (mg-5995).  Wired: CHECK 0's tabulated value and its
+# second eigensolver, CHECK 1's identification of Connes' constant with Fuchs',
+# CHECK 4's "all within one standard error", and CHECK 5's "no movement".
+# CHECK 2 reports ratios and CHECK 3 reports a fit that is allowed to refuse
+# (`(not geometric)` at mu = 6 and 9 is documented, not a failure) -- so the
+# extrapolation column is deliberately left ungated.
+VD = Verdict()
 
 # s(mu) is recomputed by this script; nothing below is copied from a note.
 
@@ -242,6 +251,9 @@ def check0():
     print()
     mp.mp.dps = 40
     got = dict(Lambda_even(mp.mpf(1), 2, K=40))[0]
+    # "agreement to the five digits he prints"
+    VD.check(abs(got - mp.mpf("0.57258")) < mp.mpf("5e-6"),
+             "CHECK 0: Lambda_0(c=1) agrees with Slepian's tabulated 0.57258")
     print("  Lambda_0(c=1) = %s" % mp.nstr(got, 15))
     print("  Slepian's classical tabulated value for c = 1 is 0.57258 ; agreement")
     print("  to the five digits he prints.")
@@ -272,6 +284,11 @@ def check0():
         col = [x / nrm for x in col]
         m = col[0] * mp.sqrt(mp.mpf(2)) / sum(col[i] * P0[i] for i in range(K))
         alt = c / (2 * mp.pi) * m * m
+        # "Agreement to every digit printed": twenty of them, on quantities of
+        # size 1e-18 to 1e-26 that are each 1 minus a number.
+        VD.check(mp.nstr(1 - mine[n], 20) == mp.nstr(1 - alt, 20),
+                 "CHECK 0: the two eigensolvers agree to every printed digit "
+                 "(n=%d)" % n)
         print("      %-4d %-28s %-28s" % (n, mp.nstr(1 - mine[n], 20), mp.nstr(1 - alt, 20)))
     print()
     print("  Agreement to every digit printed, on quantities of size 1e-18 to")
@@ -298,6 +315,9 @@ def check1():
     print("      2^14 sqrt2 pi^5 / 3          = %s" % mp.nstr(K1, 25))
     print("      (1/2) Fuchs_4 at c = 2 pi mu = %s" % mp.nstr(K2, 25))
     print("      difference                   = %s" % mp.nstr(K1 - K2, 5))
+    # "They are the same number."  Both are closed forms at 100 digits.
+    VD.check(abs(K1 - K2) < abs(K1) * mp.mpf(10) ** -60,
+             "CHECK 1: Connes' constant IS Fuchs' constant at index 4")
     print()
     print("  They are the same number.  So Connes' statement IS Fuchs' theorem at")
     print("  index n = 4, halved because chi_2 = sqrt(Lambda_4) and")
@@ -450,6 +470,9 @@ def check4(rows):
            ("D", mp.mpf("6.589"), mp.mpf("0.44"), D)]
     print("      %-3s %-18s %-14s %-8s" % ("", "fitted (mg-7606)", "predicted", "sigma"))
     for name, val, err, pred in fit:
+        # "Three parameters, none of them free, all within one standard error."
+        VD.check(abs(val - pred) / err <= 1,
+                 "CHECK 4: %s is within one standard error of its prediction" % name)
         print("      %-3s %-18s %-14s %-8s"
               % (name, "%s +- %s" % (mp.nstr(val, 6), mp.nstr(err, 3)),
                  mp.nstr(pred, 8), mp.nstr(abs(val - pred) / err, 3)))
@@ -478,12 +501,17 @@ def check5():
     print("  truncations.  1 - Lambda_4 is 1e-55 read off a matrix whose entries")
     print("  are of order c^2 = 5.7e3, so this is the check that matters:")
     print()
+    seen = set()
     for dps, K in ((80, 165), (120, 165), (120, 220), (200, 220)):
         mp.mp.dps = dps
         c = 2 * mp.pi * mp.mpf(12)
         L = dict(Lambda_even(c, 2, K=K))
+        seen.add((mp.nstr(1 - L[0], 16), mp.nstr(1 - L[4], 16)))
         print("      dps = %-4d K = %-4d  1-Lambda_0 = %s   1-Lambda_4 = %s"
               % (dps, K, mp.nstr(1 - L[0], 16), mp.nstr(1 - L[4], 16)))
+    # "No movement": the four rows are one row, in the digits printed.
+    VD.check(len(seen) == 1,
+             "CHECK 5: the defects do not move across dps 80/120/200 and K 165/220")
     print()
     print("  No movement.  The Legendre coefficients beta_k decay super-")
     print("  exponentially past k ~ c, so K = c + 90 is already past the point")
@@ -513,3 +541,4 @@ if __name__ == "__main__":
     print("=" * 79)
     print()
     check5()
+    VD.finish()

@@ -70,8 +70,17 @@ Runtime ~12 minutes at the defaults; `--quick` cuts it to about two.
 import sys
 import mpmath as mp
 import verify_prolate_rate as VP
+from verdict import Verdict
 
 QUICK = "--quick" in sys.argv
+
+# The exit-code contract (mg-5995): CHECK 0's two agreement columns and CHECK 2's
+# lemma.  The `j_0 normalisation` column of CHECK 0 is NOT wired -- it is the
+# ill-conditioned route, and it is printed BECAUSE it is wrong by O(1).  Nor is
+# the `chi<c^2` column: that is a hypothesis flag, and `NO` there is the
+# documented Osipov-Rokhlin regime, not a failure (README.md).  CHECK 1 and
+# CHECK 3 are labelled OBSERVED in the note and state no bound to test.
+VD = Verdict()
 
 
 # --- the entire extension of a prolate function -------------------------------
@@ -193,6 +202,14 @@ def check0():
                     jk *= sc
             s0 = (mp.sin(c) / c) / bad[0]
             vbad = sum(ak * bad[k] * s0 for k, ak in a.items())
+            # "where the two must agree": measured 1e-49 to 1e-59 at dps = 60,
+            # so 1e-30 leaves twenty orders of slack and still catches an O(1)
+            # disagreement of the kind the last column exhibits on purpose.
+            tag = "(c=%s, n=%d)" % (mp.nstr(c, 7), n)
+            VD.check(abs(v1 / p1 - 1) < mp.mpf(10) ** -30,
+                     "CHECK 0: Bessel series = Legendre series at x=1 " + tag)
+            VD.check(abs(v2 / p1 - 1) < mp.mpf(10) ** -30,
+                     "CHECK 0: same with the recurrence started 400 higher " + tag)
             print("  %-10s %-3d %-15s %-16s %-20s %s"
                   % (mp.nstr(c, 7), n, mp.nstr(abs(p1), 6),
                      mp.nstr(abs(v1 / p1 - 1), 3), mp.nstr(abs(v2 / p1 - 1), 3),
@@ -270,6 +287,11 @@ def checks23():
         c = mp.mpf(cv)
         data, sup_a, sup_x, at_x = scan(c, xmax, step)
         for i, (n, lam, chi, mu, p1, b) in enumerate(data):
+            # the lemma of note §5.1: chi_n < c^2 implies |Phi_n(x)| <= |Phi_n(1)|
+            # for x >= 1.  Only tested where its hypothesis holds.
+            VD.check(chi >= c ** 2 or sup_a[i] <= abs(p1),
+                     "CHECK 2: chi<c^2 => sup|Phi| <= |Phi(1)| (c=%s, n=%d)"
+                     % (mp.nstr(c, 7), n))
             print("  %-10s %-3d %-11s %-9s %-19s %-24s %s"
                   % (mp.nstr(c, 7), n, mp.nstr(chi / c ** 2, 4),
                      "yes" if chi < c ** 2 else "NO",
@@ -283,3 +305,4 @@ if __name__ == "__main__":
     check1()
     checks23()
     print("\ndone.")
+    VD.finish()

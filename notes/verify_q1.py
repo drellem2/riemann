@@ -67,9 +67,15 @@ Working precision 60 digits (CHECK 0 uses 80).  Runtime ~25 minutes; --quick ~3.
 import sys
 import mpmath as mp
 import verify_prolate_rate as VP
+from verdict import Verdict
 from verify_h1 import sph_j_all, bessel_coeffs, legendre_trunc, prolate_data
 
 QUICK = "--quick" in sys.argv
+
+# The exit-code contract (mg-5995): CHECK 1's five algebraic bounds, and the two
+# `REFUTED` cells of CHECKS 2 and 3.  CHECK 5's `(FAILS)` cell is NOT wired --
+# chi_8 >= c^2 at small c is documented and expected (README.md, `dunster-check.md`).
+VD = Verdict()
 
 SQRT2 = None            # set after precision is fixed
 
@@ -163,6 +169,12 @@ def check0():
             for xt in [mp.mpf('1.5'), mp.mpf('2.5'), mp.mpf('4.0'), mp.mpf('7.0')]:
                 vs, _ = phi_and_deriv(a, c, xt, km)
                 vo = sol(xt)[0]
+                # "They agree or one is wrong."  odefun is asked for 1e-40 and
+                # the measured column is 1e-42 to 1e-43, so 1e-30 is three
+                # orders of slack on the integrator's own tolerance.
+                VD.check(abs(vo / vs - 1) < mp.mpf(10) ** -30,
+                         "CHECK 0: ODE vs Bessel series (c=%s, n=%d, x=%s)"
+                         % (mp.nstr(c, 7), n, mp.nstr(xt, 3)))
                 print("  %-10s %-4d %-7s %-19s %s"
                       % (mp.nstr(c, 7), n, mp.nstr(xt, 3), mp.nstr(vs, 10),
                          mp.nstr(abs(vo / vs - 1), 3)))
@@ -217,6 +229,12 @@ def check1():
                 sin2t = mp.sin(2 * th[0])
                 wthe = max(wthe, abs(d / h - (k + f * sin2t)) / (k + f * sin2t))
                 x += step
+            tag = "(c=%s, n=%d)" % (mp.nstr(c, 7), n)
+            VD.check(wk >= 1, "CHECK 1: k/c >= 1 (phase speed) " + tag)
+            VD.check(wf <= 1, "CHECK 1: f <= 2/x " + tag)
+            VD.check(wfp <= 1, "CHECK 1: |f'| <= 8/x^2 " + tag)
+            VD.check(wkp <= 1, "CHECK 1: |k'| <= 4c/x^3 " + tag)
+            VD.check(wth >= 1, "CHECK 1: theta' >= c - sqrt2 " + tag)
             print("  %-10s %-4d %-9s %-8s %-13s %-14s %-17s %s"
                   % (mp.nstr(c, 7), n, mp.nstr(wk, 6), mp.nstr(wf, 4),
                      mp.nstr(wfp, 4), mp.nstr(wkp, 4), mp.nstr(wth, 6),
@@ -264,7 +282,9 @@ def check2():
                 g0 = g2
                 worst = max(worst, abs(acc))
                 resid = max(resid, abs(mp.log(Ax / A0) + acc))
-            ok = "ok" if worst <= E_proved(c) else "REFUTED"
+            ok = VD.word(worst <= E_proved(c), "ok", "REFUTED",
+                         "CHECK 2: E_obs <= E(c) proved (c=%s, n=%d)"
+                         % (mp.nstr(c, 7), n))
             print("  %-10s %-4d %-10s %-13s %-16s %-12s %s"
                   % (mp.nstr(c, 7), n, mp.nstr(worst, 4),
                      mp.nstr(E_proved(c), 4), mp.nstr(resid, 3),
@@ -316,7 +336,9 @@ def check3():
                     best, bestx = v, xv
                 if xv >= s2 and v > best_far:
                     best_far = v
-            ok = "ok" if best <= K_proved(c) else "REFUTED"
+            ok = VD.word(best <= K_proved(c), "ok", "REFUTED",
+                         "CHECK 3: sup x|Phi|/|Phi(1)| <= K(c) proved (c=%s, n=%d)"
+                         % (mp.nstr(c, 7), n))
             print("  %-10s %-4d %-13s %-11s %-14s %-13s %-7s %s"
                   % (mp.nstr(c, 7), n, mp.nstr(best, 7), mp.nstr(bestx, 6),
                      mp.nstr(best_far, 7), mp.nstr(K_proved(c), 5),
@@ -398,3 +420,4 @@ if __name__ == "__main__":
     check3()
     check4()
     print("\ndone.")
+    VD.finish()

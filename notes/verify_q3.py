@@ -61,8 +61,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import verify_prolate_rate as VP   # noqa: E402
 import verify_h1 as VH             # noqa: E402
 import verify_q2 as VQ             # noqa: E402
+from verdict import Verdict        # noqa: E402
 
 QUICK = os.environ.get("QUICK", "") not in ("", "0")
+
+# The exit-code contract (mg-5995).  Two of the six checks state something that
+# can come out wrong: CHECK 0's admissibility (Phi(0) and int Phi vanish to the
+# working precision, Phi(1) does not) and CHECK 1's jump against its predicted
+# size.  CHECKS 2--5 measure ranges, exponents and variations that the note
+# reads rather than tests -- CHECK 4 is explicitly "observed, not proved", and
+# its Titchmarsh formula is quoted from memory -- so none of those are wired.
+VD = Verdict()
 
 
 # --- the three-mode near-radical vector ---------------------------------------
@@ -180,8 +189,15 @@ def check0():
     for cv in cs_of():
         c = mp.mpf(cv)
         C = Comb(c)
+        integ = C.integral()
+        # "Phi(0) and int Phi are zero to the working precision; Phi(1) is not."
+        # Stated as a comparison rather than an absolute cutoff because Phi(1)
+        # itself falls to 1e-16 across this grid while Phi(0) stays at 1e-122.
+        VD.check(abs(C.p1) > mp.mpf(10) ** 40 * max(abs(C.p0), abs(integ)),
+                 "CHECK 0: Phi(0) and int Phi vanish to working precision, "
+                 "Phi(1) does not (c=%s)" % mp.nstr(c, 6))
         print("  %-8s %-15s %-16s %-16s %-14s %s"
-              % (mp.nstr(c, 6), mp.nstr(abs(C.p0), 4), mp.nstr(abs(C.integral()), 4),
+              % (mp.nstr(c, 6), mp.nstr(abs(C.p0), 4), mp.nstr(abs(integ), 4),
                  mp.nstr(C.p1, 8), mp.nstr(1 - C.lam4, 6),
                  mp.nstr(C.p1 ** 2 / (1 - C.lam4), 6)))
     print("\n  Phi(0) and int Phi are zero to the working precision; Phi(1) is not.")
@@ -214,6 +230,11 @@ def check1():
             lo = C.R(t - eps)
             meas = hi - lo
             pred = C.p1 / mp.sqrt(mp.mpf(N))
+            # "ratio -> 1 means a jump is there."  The column prints 1.0 to the
+            # twelve digits asked for at every row of every c.
+            VD.check(abs(meas / pred - 1) < mp.mpf("1e-6"),
+                     "CHECK 1: jump at u = lambda/N equals |Phi(1)| N^-1/2 "
+                     "(c=%s, N=%d)" % (mp.nstr(c, 6), N))
             print("     %-5d %-9s %-16s %-16s %-16s %s"
                   % (N, mp.nstr(t, 5), mp.nstr(meas, 6), mp.nstr(pred, 6),
                      mp.nstr(meas / pred, 12),
@@ -385,3 +406,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    VD.finish()

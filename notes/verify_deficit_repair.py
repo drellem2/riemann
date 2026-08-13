@@ -94,8 +94,19 @@ eigenvalue.  So lambda_min(N) decreases in N, and:
 
 import sys
 import mpmath as mp
+from verdict import Verdict
 
 QUICK = "--quick" in sys.argv
+
+# The exit-code contract (mg-5995).  Wired: CHECK 0's two apparatus residuals,
+# CHECK 1's identity and its Plancherel normalisation ("must be ||f||^2 = 1"),
+# CHECK 2's uniform bound ("the table saturates that bound from below and does
+# not cross it"), CHECK 3's "R > D at every mu", CHECK 4's sign reading
+# ("arch(v_mu) > 0 and prime(v_mu) < 0") and CHECK 6's "stable to every digit
+# shown".  CHECK 5's fit is NOT wired: under `--quick` the script prints its own
+# warning that four points at N = 40 are not the note's numbers, and its
+# mantissa is recorded as unconverged either way.
+VD = Verdict()
 
 
 # --- Gauss-Legendre nodes at the working precision ---------------------------
@@ -343,6 +354,9 @@ def check0():
     H0 = h_at(L, N, mp.mpf(0))
     err = max(abs(H0[i, j] - (2 if i == j else 0))
               for i in range(N + 1) for j in range(N + 1))
+    # (a) and (b) are the closed form and the quadrature against a second
+    # closed form; both measure ~1e-50 at 50 working digits.
+    VD.check(err < mp.mpf("1e-30"), "CHECK 0(a): h_nm(0) = 2 delta_nm")
     print(f"  (a) h_nm(0) = 2 delta_nm, straight from the closed form: max error "
           f"{mp.nstr(err, 3)}")
 
@@ -352,6 +366,8 @@ def check0():
         a = 2 * mp.pi * k / L
         return a * (2 - 2 * mp.cosh(L / 2)) / (a * a + mp.mpf(1) / 4)
     qerr = max(abs(S[k] - exact(k)) for k in range(1, N + 1))
+    VD.check(qerr < mp.mpf("1e-30"),
+             "CHECK 0(b): the quadrature against its closed form")
     print("  (b) the quadrature against an independent closed form for")
     print(f"      int_0^L 2cosh(y/2) sin(a_k y) dy: max error {mp.nstr(qerr, 3)}"
           f"  (at {mp.mp.dps} digits)")
@@ -411,6 +427,12 @@ def check1():
                          * mp.conj(fh(mp.mpc(0, -mp.mpf(1) / 2))))
         M11 = sigma_arch(L, 3, npan=60)[1, 1]
         tot = I + tail + bdry
+        # the docstring's own summary: "verified to 9 digits".  The column
+        # measures 1e-8, and it is the quadrature tail that sets that, not the
+        # identity; a missing factor of 2 -- the failure this check exists for
+        # -- would put the column at 1.
+        VD.check(abs(M11 - tot) / abs(M11) < mp.mpf("1e-6"),
+                 "CHECK 1: the matrix entry equals the Fourier side (mu=%d)" % mu)
         print(f"  {mu:>5} {mp.nstr(M11, 12):>20} {mp.nstr(tot, 12):>20} "
               f"{mp.nstr(abs(M11 - tot) / abs(M11), 3):>11}", flush=True)
     print()
@@ -423,6 +445,8 @@ def check1():
     pts = [mp.mpf(0)] + [a1 + k * (4 * mp.pi / L) / 2 for k in range(1, 400)]
     P = 2 * mp.quad(lambda t: abs(fh2(t)) ** 2, pts) / (2 * mp.pi) \
         + 2 * (4 / L) / pts[-1] / (2 * mp.pi)
+    VD.check(abs(P - 1) < mp.mpf("1e-6"),
+             "CHECK 1: Plancherel gives ||f||^2 = 1 in this normalisation")
     print(f"      int |f^(t)|^2 dt / 2 pi = {mp.nstr(P, 10)}   (must be ||f||^2 = 1)")
     print()
     print("  So there is NO extra factor: the matrix in this basis IS the form of")
@@ -441,15 +465,21 @@ def check2():
     if QUICK:
         grid = [3, 11, 100, 10 ** 6, 10 ** 20]
         Ns = (40, 80)
+    tp0 = theta_prime(mp.mpf(0))
     for mu in grid:
         L = mp.log(mp.mpf(mu))
-        row = [mp.nstr(-lam_min(sigma_arch(L, N, npan=max(8, int(N * 30 / 55) + 1))), 10)
-               for N in Ns]
+        vals = [-lam_min(sigma_arch(L, N, npan=max(8, int(N * 30 / 55) + 1)))
+                for N in Ns]
+        row = [mp.nstr(v, 10) for v in vals]
+        # "The table saturates that bound from below and does not cross it":
+        # D(mu) < -2 theta'(0) = 5.3721834, for every mu and every truncation.
+        for N, v in zip(Ns, vals):
+            VD.check(v < -2 * tp0,
+                     "CHECK 2: D(mu) < |2 theta'(0)| (mu=%s, N=%d)" % (mu, N))
         lbl = str(mu) if mu <= 1000 else f"1e{len(str(mu)) - 1}"
         print(f"  {lbl:>8} {mp.nstr(L, 6):>9} "
               + " ".join(f"{r:>15}" for r in row), flush=True)
     print()
-    tp0 = theta_prime(mp.mpf(0))
     t0 = bisect(theta_prime, mp.mpf(5), mp.mpf(8))
     print(f"  theta'(0) = {mp.nstr(tp0, 12)};  theta' < 0 exactly on |t| < "
           f"{mp.nstr(t0, 8)}; theta' is")
@@ -485,6 +515,7 @@ def check3():
         e, v = bottom(sigma_arch(L, N))
         R = -quad_form(w_primes(L, N), v)
         D = -e
+        VD.check(R > D, "CHECK 3: R > D on the archimedean minimiser (mu=%d)" % mu)
         print(f"  {mu:>6} {mp.nstr(D, 9):>15} {mp.nstr(R, 9):>15} "
               f"{mp.nstr(R - D, 9):>15} {mp.nstr(R / D, 5):>9}", flush=True)
     print()
@@ -522,6 +553,10 @@ def check4():
         r = -quad_form(P, v)
         dig = mp.log10(abs(a) / abs(s))
         rows.append((mu, a, s, dig))
+        # "Read the signs.  arch(v_mu) > 0 and prime(v_mu) < 0" -- that
+        # reversal against CHECK 3 is the whole point of this check.
+        VD.check(a > 0 and r < 0,
+                 "CHECK 4: arch(v_mu) > 0 and prime(v_mu) < 0 (mu=%d)" % mu)
         print(f"  {mu:>4} {mp.nstr(a, 9):>15} {mp.nstr(r, 9):>15} "
               f"{mp.nstr(s, 7):>14} {mp.nstr(mp.log10(s), 8):>11} "
               f"{mp.nstr(dig, 6):>9}", flush=True)
@@ -665,11 +700,16 @@ def check6():
     N = 60
     L = mp.log(mp.mpf(8))
     print(f"  {'dps':>6} {'D(8)':>24} {'s(8)':>24}")
+    seen = set()
     for dps in ((40, 80, 140) if not QUICK else (40, 80)):
         mp.mp.dps = dps
         A = sigma_arch(L, N)
-        print(f"  {dps:>6} {mp.nstr(-lam_min(A), 18):>24} "
-              f"{mp.nstr(lam_min(sub(A, w_primes(L, N))), 18):>24}", flush=True)
+        cells = (mp.nstr(-lam_min(A), 18), mp.nstr(lam_min(sub(A, w_primes(L, N))), 18))
+        seen.add(cells)
+        print(f"  {dps:>6} {cells[0]:>24} {cells[1]:>24}", flush=True)
+    # "Both are stable to every digit shown."
+    VD.check(len(seen) == 1,
+             "CHECK 6: D(8) and s(8) do not move as working precision grows")
     print()
     print("  Both are stable to every digit shown.  At 40 digits an answer of size")
     print("  1e-33 has seven digits of room and no more; double precision has none")
@@ -694,3 +734,4 @@ if __name__ == "__main__":
     print("negative, the two agreeing to about 5.2 decimal digits per unit of mu, at")
     print("a rate consistent with 4 pi / log 10 = 5.4575.  That is what a semilocal")
     print("positivity theorem would have to reproduce.")
+    VD.finish()

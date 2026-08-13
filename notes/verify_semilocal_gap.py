@@ -64,6 +64,16 @@ import math
 
 import numpy as np
 
+from verdict import Verdict
+
+# The exit-code contract (mg-5995).  This script already `assert`s the Boas-Kac
+# agreement of CHECK 1 and the ratio of CHECK 2, but its own `indef?` column --
+# printed `yes`/`NO` -- decided nothing: it could print `NO`, contradicting the
+# note's conclusion that every row is indefinite, and still exit 0.  `NO` is
+# also excluded from CI's grep, deliberately (README.md), which left that cell
+# with no gate at all.
+VD = Verdict()
+
 
 def V_matrix(n, mu, N):
     """Matrix of V(n) in the Fourier basis {e_k : |k| <= N} of L^2([-L/2, L/2])."""
@@ -163,6 +173,12 @@ if __name__ == "__main__":
         m = int(np.ceil(np.log(mu) / np.log(n))) - 1
         bk = 2 * n ** -0.5 * np.cos(np.pi / (m + 2))
         ok = lo < 0 < hi and elo < 0 < ehi
+        VD.check(ok, "CHECK 1: V(n) indefinite on both the full space and the "
+                 "even sector (n=%d, mu=%.1f)" % (n, mu))
+        # "the spectrum is exactly symmetric about 0.  It is, to 1e-15."
+        VD.check(abs(lo + hi) < 1e-12,
+                 "CHECK 1: full-space spectrum symmetric about 0 "
+                 "(n=%d, mu=%.1f)" % (n, mu))
         assert abs(hi - bk) < 1e-6, (n, mu, hi, bk)
         print(f"{n:>3} {mu:>6.1f} {lo:>12.6f} {hi:>12.6f} {elo:>12.6f} {ehi:>12.6f}"
               f"  {bk:>10.6f}  {'yes' if ok else 'NO'}")
@@ -180,3 +196,4 @@ if __name__ == "__main__":
     print("paper itself uses at `weil-compo.tex:842` of arXiv:2006.13771; the asserts")
     print("above check the computed extreme eigenvalues against it.")
     check2()
+    VD.finish()

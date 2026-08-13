@@ -28,6 +28,16 @@ WHAT IS CHECKED
 """
 import numpy as np
 
+from verdict import Verdict
+
+# The exit-code contract (mg-5995).  Test B prints its own expectation on the
+# same line (`expect +1 both`), and the Legendre-route table states the sign law
+# r_0, r_4 > 0 and r_2 < 0 "at every c"; those are wired.  Tests C--H are
+# convergences towards printed limits with no threshold stated, and test I is
+# the record of where the sinc route STOPS working -- the c = 20 row of table G
+# is a documented breakdown, not a failure -- so none of those are wired.
+VD = Verdict()
+
 N = 900  # Gauss-Legendre nodes
 
 
@@ -77,6 +87,11 @@ for c in [4, 6, 8, 10, 12, 14]:
     print(f"{c:>4} {1-lam[0]:>11.3e} {1-lam[4]:>11.3e} {(1-lam[0])/(1-lam[4]):>10.3e}"
           f" {24/4096/c**4:>14.3e} {psi_0[4]/psi_0[0]:>13.6f} {b**2:>12.6f}"
           f" {leak/(1-lam[4]):>15.6f} {h0/c_pred:>11.8f}")
+    # B is the Slepian-Pollak eigenrelation and the line prints its own
+    # expectation: both entries are +1.00000000 at every c on this grid.
+    for n, v in zip((0, 4), mu):
+        VD.check(abs(v - 1) < 1e-6, "B: mu_%d / sqrt(2 pi lam_%d / c) = +1 (c=%d)"
+                                    % (n, n, c))
     print(f"     B: mu_n / sqrt(2 pi lam_n / c) = {mu[0]:+.8f} (n=0), {mu[1]:+.8f} (n=4)"
           f"   [expect +1 both, since i^0 = i^4 = +1]")
 
@@ -156,6 +171,9 @@ print(f"{'c':>5} {'r_0':>12} {'r_2':>12} {'r_4':>12} {'sqrt(2pi/c)':>13}")
 for c in [10, 20, 50, 100, 200, 400]:
     psi_0, integ = prolate_legendre(c, K=max(400, 4 * c))
     r = integ / psi_0
+    # the line printed below the table: the finite-Fourier phase i^n.
+    VD.check(r[0] > 0 and r[4] > 0 and r[2] < 0,
+             "G: r_0, r_4 > 0 and r_2 < 0 (c=%d)" % c)
     print(f"{c:>5} {r[0]:>12.6f} {r[2]:>12.6f} {r[4]:>12.6f} {np.sqrt(2*np.pi/c):>13.6f}")
 print("   r_0, r_4 > 0 and r_2 < 0 at every c: i^0 = i^4 = +1, i^2 = -1.")
 print("""
@@ -184,3 +202,5 @@ print("""A  --  Pythagoras premise (analytic, no numerics needed).
      ||(1-P)h_lam||^2 = |a|^2(1-lam_0) + |b|^2(1-lam_4) <= 1-lam_4   since lam_0 > lam_4.
   Only the LOWER bound needs a uniformity claim, namely |b_lam| bounded below.
 """)
+
+VD.finish()

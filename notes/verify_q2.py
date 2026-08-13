@@ -95,8 +95,17 @@ import sys
 import mpmath as mp
 import verify_prolate_rate as VP
 import verify_h1 as VH
+from verdict import Verdict
 
 QUICK = "--quick" in sys.argv
+
+# The exit-code contract (mg-5995).  Three of the five checks state a criterion
+# in their own prose and are wired to it: CHECK 0 ("a disagreement here refutes
+# (I)", and the two jump identities it says are checked), CHECK 2 ("ratios above
+# 1 refute the lemma") and CHECK 3 (the measured sup against the proved K_P).
+# CHECK 1 reports a convergence with no rate claimed, and CHECK 4's chi_8/c^2 is
+# a hypothesis that is documented to fail at small c -- neither is wired.
+VD = Verdict()
 
 
 # --- on-band evaluation, from the Legendre series -----------------------------
@@ -365,6 +374,13 @@ def check0():
                 B = tG_direct(m, t, N)
                 rel = abs(A - B) / abs(B) if B != 0 else abs(A - B)
                 canc = abs(t * m.p0 / 2) / abs(A) if A != 0 else mp.inf
+                # The direct route's truncation is O(N^-3) at N = 30 or 60, and
+                # the column measures 1e-9 to 3e-5.  1e-3 is a wide margin on
+                # that and still catches the wrong-constant/wrong-sign/factor-
+                # of-2-pi disagreements this check exists to catch, all O(1).
+                VD.check(rel < mp.mpf("1e-3"),
+                         "CHECK 0: identity (I) vs direct off-band sum "
+                         "(c=%s, n=%d, t=%s)" % (mp.nstr(c, 6), m.n, mp.nstr(t, 4)))
                 print("  %-8s %-2d %-8s %-23s %-21s %s"
                       % (mp.nstr(c, 6), m.n, mp.nstr(t, 4), mp.nstr(A, 12),
                          mp.nstr(rel, 4), "%.1e" % float(canc)))
@@ -385,6 +401,13 @@ def check0():
         hi = tG_poisson(m, mp.mpf("2.6000001"))
         mid = (lo + hi) / 2
         half = (hi - lo) / 2
+        # "Both are checked": the value at the resonance is the mid-value of the
+        # one-sided limits, and the half-jump is pi|a_1|/2.  Both columns
+        # measure ~2e-5, set by the 1e-7 straddle, not by either identity.
+        VD.check(abs(mid - at) / abs(at) < mp.mpf("1e-3"),
+                 "CHECK 0: G(2.6) is the mid-value at the resonance (n=%d)" % m.n)
+        VD.check(abs(abs(half) / (mp.pi * abs(m.a1) / 2) - 1) < mp.mpf("1e-3"),
+                 "CHECK 0: the jump is pi a_1/t (n=%d)" % m.n)
         print("  %-3d %-21s %-21s %-21s %-15s %s"
               % (m.n, mp.nstr(lo, 10), mp.nstr(at, 10), mp.nstr(hi, 10),
                  mp.nstr(abs(mid - at) / abs(at), 4),
@@ -449,6 +472,11 @@ def check2():
                 if x >= mp.sqrt(2):
                     r2 = max(r2, x * x * abs(w) / (B2 * abs(m.p1)))
                 x += step
+            # "Ratios above 1 refute the lemma."
+            VD.check(r1 <= 1, "CHECK 2: x|W| <= B_1 |Phi(1)| (c=%s, n=%d)"
+                              % (mp.nstr(c, 6), m.n))
+            VD.check(r2 <= 1, "CHECK 2: x^2|W| <= B_2 |Phi(1)| (c=%s, n=%d)"
+                              % (mp.nstr(c, 6), m.n))
             print("  %-8s %-2d  %-23s %-25s %-9s %s"
                   % (mp.nstr(c, 6), m.n, mp.nstr(r1, 6), mp.nstr(r2, 6),
                      mp.nstr(B1, 5), mp.nstr(B2, 5)))
@@ -498,6 +526,10 @@ def check3():
                         best, bt = v, t
                 s += 1
             r = best / abs(m.p1)
+            # the conclusion of `dilate-sum.md` Thm 5.1: the measured sup must
+            # sit below the proved K_P(c).  Measured, it sits ~20x below.
+            VD.check(r <= KP, "CHECK 3: sup t|G|/|Phi(1)| <= K_P(c) proved "
+                              "(c=%s, n=%d)" % (mp.nstr(c, 6), m.n))
             print("  %-8s %-2d  %-19s %-10s %-15s %-8s %s"
                   % (mp.nstr(c, 6), m.n, mp.nstr(r, 6), mp.nstr(bt, 5),
                      mp.nstr(KP, 6), mp.nstr(KP / r, 4),
@@ -561,3 +593,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    VD.finish()
