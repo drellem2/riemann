@@ -16,6 +16,22 @@ of those files. Provenance is §8, to the standard of `citation-audit.md` §9.
 Nothing in `start.tex` or `s3.tex` was edited, and **no existing number in the
 corpus moves** — §7.
 
+> **CORRECTED BY mg-d03b — read [`sonin-margin.md`](sonin-margin.md) with this note.**
+> Two claims below are wrong and are marked where they occur.
+>
+> 1. **There is no margin of $8.7\times10^{-5}$.** $-E$ is a compact operator, so its
+>    eigenvalues accumulate at $0$ and the smallest eigenvalue of an $N$-term truncation
+>    is a statement about $N$. Every entry of §2.2's conditioned column is
+>    $\epsilon'(1^+)L^2/2\pi^2N^2$ to four figures, at $N=40$, $80$ and $160$; the
+>    minimising direction is the top cosine mode. Bottom line 5 and §§2.2–2.3 are
+>    affected. **Every *sign* in this note stands.**
+> 2. **`verify_sonin_trace.conditions()` row 1 was not $\hat g(i/2)$** — an endpoint,
+>    now fixed. No output of this note's script moved: the two runs are byte-identical.
+>
+> What replaces the margin is the inertia, which is truncation-stable: Theorem 1's
+> conclusion holds to $\mu=6.17$ against its stated $\mu\le2$, is false past that, and
+> needs only *one* of its two conditions at $\mu\le2$.
+
 ---
 
 ## Bottom line
@@ -71,10 +87,13 @@ all at the wrong bandwidth. §5.
 **5. "Positivity is trace $\ge$ gap" is not what the theorem says.** It says
 $W_\infty=\text{trace}+\text{gap}$ with **both** terms non-negative under the
 conditions — the trace by construction, the gap by the seventy pages. Positivity
-is a sum of two non-negative things, not a race between them. What *is* true, and
+is a sum of two non-negative things, not a race between them. ~~What *is* true, and
 is measured here, is that the race is close: on the direction where the gap is
 smallest it is $8.7\times10^{-5}$ at $\mu=2$ against a $W_\infty$ of order one, so
-**there the Sonin trace is essentially all of the Weil functional.** §2.3.
+**there the Sonin trace is essentially all of the Weil functional.**~~
+**WRONG (mg-d03b).** That number is $\epsilon'(1^+)L^2/2\pi^2N^2$, the $N=80$
+truncation order; the infimum over the conditioned subspace is $0$ and is not
+attained, so there is no such direction. [`sonin-margin.md`](sonin-margin.md) §2.
 
 **6. One sign-sensitive statement, which is the point of the ticket.** *Before
 the two vanishing conditions are imposed, the gap $W_\infty-\operatorname{Tr}$ is
@@ -181,20 +200,34 @@ per unit $\lVert g\rVert^2$:
 |---|---|---|---|---|---|---|---|---|
 | min gap | 6.05e−6 | 2.99e−5 | 6.29e−5 | 8.75e−5 | 1.13e−4 | 1.22e−4 | 1.53e−4 | 2.20e−4 |
 
-Positive at every $\mu$ on the grid. **Ours, numerical.** For $\mu\le2$ this
+Positive at every $\mu$ on the grid. **Ours, numerical.** *The signs in this row
+stand; the values do not — every one of them is
+$\epsilon'(1^+)L^2/2\pi^2N^2$ at $N=80$, and they tend to $0$ as $N$ grows
+([`sonin-margin.md`](sonin-margin.md) §2). The apparent growth in $\mu$ is the factor
+$L^2$; the true infimum is monotone non-increasing in $\mu$.* For $\mu\le2$ this
 reproduces the theorem; for $\mu>2$ it is an observation with no theorem behind
 it — Connes–Consani's proof is specific to $I=[\frac12,2]$ (`semilocal-gap.md`
 §1.3: three numbers, all specific to that interval) and nothing here extends it.
 
-### 2.3 The margin is thin, and that is the interesting part
+### 2.3 The margin is thin, and that is the interesting part — WRONG (mg-d03b)
 
-Compare the two columns. The gap's *minimum* is $8.7\times10^{-5}$ at $\mu=2$; the
-Weil functional on the same test space is of order one. So on that direction the
-inequality of Theorem 1 is very nearly an equality: **the Sonin trace is
-essentially the whole of $W_\infty$, and the seventy pages buy a margin of one
-part in $10^4$.**
+**This subsection is retired.** It read the column of §2.2 as a margin. It is not
+one: $-E$ is a compact operator, its eigenvalues accumulate at $0$, and the smallest
+eigenvalue at $N$ cosine modes is $\epsilon'(1^+)L^2/2\pi^2N^2$ — $8.7459\times10^{-5}$
+at $\mu=2$, $N=80$, against the $8.747916\times10^{-5}$ printed above, and a quarter of
+that at $N=160$. The minimising vector is the top basis mode.
+[`sonin-margin.md`](sonin-margin.md) §2 does the arithmetic against all eight rows at
+three truncation orders. The paragraph as written is kept below, struck, because a
+retraction that deletes the claim leaves nobody able to check the retraction.
 
-This is worth saying because the work item's framing — "positivity is trace
+> ~~Compare the two columns. The gap's *minimum* is $8.7\times10^{-5}$ at $\mu=2$; the
+> Weil functional on the same test space is of order one. So on that direction the
+> inequality of Theorem 1 is very nearly an equality: **the Sonin trace is
+> essentially the whole of $W_\infty$, and the seventy pages buy a margin of one
+> part in $10^4$.**~~
+
+The rest of this subsection is unaffected, and it is worth saying because the work
+item's framing — "positivity is trace
 $\ge$ gap … we have spent the programme bounding the gap from above" — reads the
 theorem as a competition between two terms. It is not. $W_\infty$ is their
 *sum*, both are non-negative under the conditions, and positivity needs neither
@@ -289,11 +322,15 @@ Applied statement by statement.
 | §2.2: the gap $-E$ is positive on the codimension-two subspace, $\mu\le3$ | no — $E$ is built from $\mathbf S$ and $\vartheta$ and never mentions $W_\lambda$. Sign-blind |
 | §3: the trace's size, every column headed $S$ | no. Sign-blind |
 | §6 headline: *unconditioned, $W_\infty-\operatorname{Tr}<0$ on some direction at every $\mu\ge1.2$* | **YES.** The trace is fixed, $W_\infty$ flips, so the sign of the difference flips |
-| §2.3: on the minimizing direction the trace is essentially all of $W_\infty$ | **yes**, same reason |
+| ~~§2.3: on the minimizing direction the trace is essentially all of $W_\infty$~~ | **retired by mg-d03b** — there is no such direction. The house rule sorted it correctly as not sign-blind; it was still false |
 | §4: the trace's floor decays at $-3.06$, against $-4\pi$ | no. Sign-blind |
 | §5: the two bandwidths | no. Sign-blind |
 
-**Three statements that are not sign-blind, where the corpus had none.** They are
+**Three statements that are not sign-blind, where the corpus had none** — two after
+mg-d03b retired the third, and that is the lesson worth carrying with the finding: *the
+house rule sorts statements, not errors.* It marked §2.3's claim as sign-sensitive,
+correctly, and the claim was wrong anyway, for a sign-blind reason (a truncation order).
+ They are
 not progress towards positivity and are not offered as such — the first is
 Connes–Consani's identity, and the other two are measurements of how their
 theorem sits. What they demonstrate is that the sign-blindness of the corpus was
@@ -381,6 +418,9 @@ sine-integral closed form to ten digits).
 **Not attempted.** The semilocal case — out of scope by the work item.
 $k_\lambda=E(h_\lambda)$ — §3(d) says what was used instead and why. Anything
 Lean.
+
+**Superseded.** §2.3's margin, and the values (not the signs) of §2.2's conditioned
+column — [`sonin-margin.md`](sonin-margin.md), which also fixes `conditions()`.
 
 **Open, and the obvious next measurement.** Evaluate the Sonin trace on
 $k_\lambda=E(h_\lambda)$, the vector `start.tex:39`'s $\asymp1-\chi_4$ is about.

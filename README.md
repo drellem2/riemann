@@ -249,6 +249,19 @@ cite them by line.
   \(c=2\pi\) while the corpus's lives at \(c=2\pi\mu\) — so "our \(\lambda\) is their Sonin
   cutoff" is true of the 2023 paper and false of the 2021 theorem. Produces three
   statements that are **not** sign-blind, where the corpus had none.
+- `sonin-margin.md` — the sequel that retires `sonin-trace.md`'s central number. The
+  \(8.7\times10^{-5}\) is not a margin: \(-E\) is compact, so its eigenvalues accumulate
+  at \(0\), and the smallest eigenvalue at \(N\) cosine modes is
+  \(\epsilon'(1^+)L^2/2\pi^2N^2\) — the closed form reproduces all eight printed rows at
+  \(N=40,80,160\), twenty-four cells within \(0.15\%\). The minimising direction is the
+  top basis vector. It also finds and fixes a wrong endpoint in that script's second
+  vanishing condition, which no output of it could see. What **is** truncation-stable is
+  the inertia, and by it Connes–Consani's Theorem 1 holds to \(\mu=6.17\) against its
+  stated \(\mu\le2\) — **the hypothesis is an artefact of the proof, by a factor of
+  three** — is *false* past that, and needs only **one** of its two conditions at
+  \(\mu\le2\). Each further condition buys a factor \(\approx2.1\) in the support, for a
+  reason readable off the symbol \(\hat\epsilon\). Four statements that are not
+  sign-blind.
 - `statement-defects.md` — method, not mathematics, and the shortest note here. Every
   formalisation run so far has found the same class of defect: **the printed statement
   does not match the argument beneath it** — a hypothesis doing two jobs, a hypothesis
@@ -258,8 +271,8 @@ cite them by line.
   the expensive one, and machine-check the claim that nothing downstream moves rather
   than arguing it. It sits beside the house rule as the project's second standing check.
 
-`s3-reduction-audit.md`, `s3-sign-blindness.md`, `semilocal-gap.md` and
-`sonin-trace.md` have companion
+`s3-reduction-audit.md`, `s3-sign-blindness.md`, `semilocal-gap.md`,
+`sonin-trace.md` and `sonin-margin.md` have companion
 `verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md`,
 `deficit-repair.md`, `prolate-rate.md`, `h1-mean-value.md`,
 `band-edge-connection.md`, `dilate-sum.md`, `q3-log-weight-and-edge.md` and
@@ -307,13 +320,13 @@ measured **3m55s** with a cold cache and **2m11s** with a warm one, of which
 ### `verifiers` — the numerical scripts
 
 [`.github/workflows/verifiers.yml`](.github/workflows/verifiers.yml) runs **all
-sixteen** `notes/verify_*.py` scripts, one GitHub job each, so the run page names
-every script it ran and how long it took. Nothing is silently skipped. A
-seventeenth job runs [the positive control](#the-exit-code-contract) that proves
-those sixteen exit statuses can still fail.
+seventeen** `notes/verify_*.py` scripts, one GitHub job each, so the run page names
+every script it ran and how long it took. Nothing is silently skipped. An
+eighteenth job runs [the positive control](#the-exit-code-contract) that proves
+those seventeen exit statuses can still fail.
 
 Twelve run on their **full grid** — the same run you would get locally with no
-arguments. Four run on the **reduced grid** their own `--quick` / `QUICK=1`
+arguments. Five run on the **reduced grid** their own `--quick` / `QUICK=1`
 switch selects, because their full grids exceed a sane per-push budget. The
 reduced mode coarsens the grid (fewer bandwidths \(c\), larger step); it does not
 skip checks.
@@ -332,24 +345,27 @@ skip checks.
 | `verify_q2.py` | full grid | 7m32s |
 | `verify_independent_recheck.py` | full grid | 9m28s |
 | `verify_sonin_trace.py` | full grid | 2m54s — measured on a laptop, not yet on a runner |
+| `verify_sonin_margin.py` | `--quick` | 34s, against 4m59s for the full grid — measured on a laptop, not yet on a runner |
 | `verify_prolate_rate.py` | `--quick` | 2m17s, against 18m41s for the full grid |
 | `verify_deficit_repair.py` | `--quick` | 4m58s, against 20m10s for the full grid |
 | `verify_q1.py` | `--quick` | 2m02s, against 25m31s for the full grid |
 | `verify_h0.py` | `QUICK=1` | 2m01s; the full grid exceeds 30m |
 
-Those four times are measured, not estimated: a run with all sixteen on their
-full grids was made, and fourteen passed — `verify_h0.py` was still going when it
-was cancelled at thirty minutes. Reducing these four takes the whole workflow
+Those five times are measured, not estimated: a run with the then sixteen on
+their full grids was made, and fourteen passed — `verify_h0.py` was still going
+when it was cancelled at thirty minutes; `verify_sonin_margin.py` was timed the
+same way when it was added. Reducing these five takes the whole workflow
 from over twenty-five minutes to under ten, which is the reason for the split.
 
-**To get the full grid for the last four, run them locally without the switch.**
+**To get the full grid for the last five, run them locally without the switch.**
 That is the run the notes record, and CI does not perform it.
 
 ### The versions these scripts are run on
 
 **NumPy 2.0 or newer, mpmath 1.3 or newer, on Python 3.12** — that is what CI
 installs and the only combination the whole suite is exercised on. The NumPy
-floor is hard: `verify_sonin_trace.py` calls `np.trapezoid`, the name `np.trapz`
+floor is hard: `verify_sonin_trace.py` and `verify_sonin_margin.py` call
+`np.trapezoid`, the name `np.trapz`
 was renamed to when NumPy 2.0 removed the old one.
 
 Until 2026-08-13 nothing here said any of that. The workflow installed bare
@@ -408,7 +424,7 @@ the top of its source which of its checks are wired and which are not, and why.
 
 That the contract can fail is itself tested, per script, by
 [`notes/test_exit_codes.py`](notes/test_exit_codes.py): it runs each of the
-sixteen with `VERIFY_SELFTEST_FORCE_FAIL=1`, which forces the first decision the
+seventeen with `VERIFY_SELFTEST_FORCE_FAIL=1`, which forces the first decision the
 script reaches to come out negative, and requires a non-zero exit naming that
 check. A script that imported the contract but never used it would reach no
 decision, exit 0, and be reported as a failure by that test. The three fastest
@@ -416,15 +432,15 @@ are also run unforced and must exit 0.
 
 **That test runs in CI**, as the `exit-code contract (positive control)` job of
 the `verifiers` workflow — the same badge, because what it guards is the exit
-status of the same sixteen scripts. A control only a human remembers to run
+status of the same seventeen scripts. A control only a human remembers to run
 decays into the state this repository was in before 2026-08-13, and it decays
 without anything going red. The forced runs stop at the first decision, so the
 job is cheap: **1m00s and 1m34s** on two runs on a developer machine, against
 twenty-plus minutes for the grids above.
 
 It distinguishes a broken contract from a machine that cannot run the scripts at
-all. On a box without `mpmath` every one of the sixteen dies at import and exits
-1, which reads as sixteen broken contracts; that reading is wrong and the fix is
+all. On a box without `mpmath` every one of the seventeen dies at import and exits
+1, which reads as seventeen broken contracts; that reading is wrong and the fix is
 one `pip install`. So the test checks the imports the selected scripts need
 before running anything, reports what is missing and what to install, and exits
 **2** — a status that says the contract was not tested, as distinct from the 1
@@ -444,7 +460,7 @@ other half covers: `verify_q1.py` is the only script that can print `REFUTED`
 and `verify_independent_recheck.py` the only one that can print `MISMATCH`. The
 other thirteen state their verdicts in prose — "R > D at every mu", "ratios
 above 1 refute the lemma" — with the numbers left to a reader, so that grep
-could only ever have caught a wrong *result* in two of the sixteen. For the rest
+could only ever have caught a wrong *result* in two of the seventeen. For the rest
 the exit code is not a better signal than the grep; it is the only one there has
 ever been.
 
@@ -529,7 +545,7 @@ import their siblings by bare module name. `verify_independent_recheck.py` needs
 neither numpy nor mpmath, which is the point of it.
 
 If the `pip install` line above was skipped, `test_exit_codes.py` says so and
-exits 2 rather than reporting sixteen failures: without `mpmath` every script
+exits 2 rather than reporting seventeen failures: without `mpmath` every script
 dies at import and exits 1, and a run that never happened is not a contract that
 does not work.
 

@@ -6,7 +6,7 @@
 
 A test that has never been observed failing is not known to work.  Every
 `verify_*.py` script now decides something and exits 1 when the decision comes
-out negative -- so for each of the sixteen this runs the script with
+out negative -- so for each of the seventeen this runs the script with
 
     VERIFY_SELFTEST_FORCE_FAIL=1
 
@@ -32,8 +32,8 @@ pass every test above.
 
 A script that never ran is not a script whose contract is broken, and the two
 must not be reported the same way.  On a machine without `mpmath` installed
-every one of the sixteen dies at import and exits 1, which looks exactly like
-sixteen broken contracts unless something says otherwise -- and that reading is
+every one of the seventeen dies at import and exits 1, which looks exactly like
+seventeen broken contracts unless something says otherwise -- and that reading is
 worse than the truth, because the fix is one `pip install`.  So the imports the
 selected scripts need are checked BEFORE anything is run, and any child that
 dies of `ModuleNotFoundError` anyway (a sibling import this scan did not follow,
@@ -92,6 +92,7 @@ SCRIPTS = [
     ("verify_semilocal_gap.py", [], {}),
     ("verify_sign_claims.py", [], {}),
     ("verify_sonin_trace.py", [], {}),
+    ("verify_sonin_margin.py", ["--quick"], {}),
 ]
 
 # the negative control: fast enough to run in full inside a test.
@@ -125,7 +126,7 @@ def requirements(script, _seen=None):
     """The third-party modules `script` needs, following sibling imports.
 
     Today every script that needs mpmath or numpy imports it directly, so the
-    recursion changes no answer.  It is here because eight of the sixteen import
+    recursion changes no answer.  It is here because nine of the seventeen import
     another verifier by bare module name: the first one to take a dependency only
     through a sibling would otherwise be cleared to run on a machine that cannot
     run it, and would then be reported as a broken contract, which is the exact

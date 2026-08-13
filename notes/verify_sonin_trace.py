@@ -98,6 +98,15 @@ CHECK 4 -- the comparison.  gap = -E, so Theorem 1 IS "-Ehat >= 0 on the
 codimension-two subspace".  Verified for mu <= 2, and the mu at which it first
 fails is located.
 
+    CORRECTED BY mg-d03b, and read the check's own closing note before its
+    table.  Its "min gap (cond.)" column is NOT a margin -- it is
+    eps'(1+) L^2 / (2 pi^2 N^2), a closed form in the truncation order, and it
+    goes to zero as N grows.  Its `conditions()` second row was also evaluated
+    at the wrong endpoint until mg-d03b, which no output here could see.  Both
+    are measured in `verify_sonin_margin.py` CHECK 1.  The signs -- "positive
+    at every mu on the grid", "indefinite unconditioned" -- are unaffected and
+    stand.
+
 CHECK 5 -- the two bandwidths, c = 2 pi against c = 2 pi mu.
 
 Runtime ~3 minutes (measured, 2m54s).  The cost is the eps quadrature and
@@ -258,11 +267,21 @@ def conditions(L, N):
     c = np.where(n == 0, L ** -0.5, ((-1.0) ** n) * np.sqrt(2.0 / L))
     v0 = np.where(n == 0, c * L, 0.0)                       # int cos(2 pi n y/L) dy
     a = 2 * np.pi * n / L
-    # int_{-L/2}^{L/2} cos(a y) e^{y/2} dy = 2 (1/2) cosh(L/4)... done exactly:
+    # int_{-L/2}^{L/2} cos(a y) e^{y/2} dy, done exactly:
     #   = [e^{y/2}(cos(a y)/2 + a sin(a y))/(1/4 + a^2)] from -L/2 to L/2
+    #
+    # The antiderivative is evaluated at y = +-q with q = L/2, so the factor is
+    # e^{+-q/2}, not e^{+-q}.  It was written `np.exp(q)` until mg-d03b, which
+    # made row 1 the integral over [-L, L] rather than over the support, wrong
+    # by 1.5 in absolute terms at mu = 5 -- its n = 0 entry came out c 4 sinh(L/2)
+    # where ghat(i/2) is c 4 sinh(L/4).  Nothing in this script's output moved
+    # when it was fixed, which is exactly why nothing caught it: CHECK 4's
+    # conditioned column is eps'(1+) L^2 / (2 pi^2 N^2) whichever two conditions
+    # are imposed.  See `sonin-margin.md` sec 2 and `verify_sonin_margin.py`
+    # CHECK 1, which measures both halves of that sentence.
     q = L / 2.0
-    num = np.exp(q) * (np.cos(a * q) / 2 + a * np.sin(a * q)) \
-        - np.exp(-q) * (np.cos(a * q) / 2 - a * np.sin(a * q))
+    num = np.exp(q / 2) * (np.cos(a * q) / 2 + a * np.sin(a * q)) \
+        - np.exp(-q / 2) * (np.cos(a * q) / 2 - a * np.sin(a * q))
     v1 = c * num / (0.25 + a ** 2)
     return v0, v1
 
@@ -534,17 +553,22 @@ def check4(pr):
     print()
     print("  Read the two columns apart.  Unconditioned, -Ehat is negative at every")
     print("  mu, including mu = 2: the trace exceeds the Weil functional on some")
-    print("  direction even inside the theorem's support range, and the two vanishing")
-    print("  conditions are not decoration -- they are what the theorem is.")
-    print("  Conditioned, the theorem holds where it is claimed -- and the margin is")
-    print("  thin: the smallest gap is 8.7e-5 at mu = 2 against a W_inf of order one,")
-    print("  so on that direction the Sonin trace is essentially ALL of the Weil")
-    print("  functional.  The theorem's conclusion also survives past its proved")
-    print("  support range, to mu = 3, where no theorem covers it.")
+    print("  direction even inside the theorem's support range, so the vanishing")
+    print("  conditions are not decoration.  Conditioned, the theorem holds where it")
+    print("  is claimed, and past it, to mu = 3.")
     if first_fail is not None:
         print("  It first fails on this grid at mu = %.4f." % first_fail)
     else:
         print("  It does not fail anywhere on this grid.")
+    print()
+    print("  READ THE CONDITIONED COLUMN AS A MARGIN AND YOU WILL BE WRONG (mg-d03b).")
+    print("  -Ehat is a compact operator, so its eigenvalues accumulate at 0 and the")
+    print("  smallest one at N = 80 is a statement about N, not about the theorem:")
+    print("  it is eps'(1+) L^2 / (2 pi^2 N^2) to four figures at every mu above,")
+    print("  8.7459e-5 at mu = 2.  The minimising vector is the top cosine mode.")
+    print("  `sonin-margin.md` and `verify_sonin_margin.py` CHECK 1 do that")
+    print("  arithmetic; what is truncation-stable is the INERTIA, and by it the")
+    print("  theorem's conclusion holds to mu = 6.19 and is false from mu = 8.")
     print()
 
 
