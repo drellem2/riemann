@@ -348,8 +348,22 @@ are also run unforced and must exit 0. That test is a local check and is not in
 the workflow: what CI runs is the fifteen scripts themselves, whose exit status
 now means something.
 
+**The four scripts CI runs on a reduced grid had their wired checks verified
+against their FULL grids by hand when the contract was written — all four exit 0
+with nothing on stderr, `verify_h0.py` taking 44 minutes. CI does not repeat
+that.** So a threshold that is right on the reduced grid and drifts on the full
+one will not be caught by a green tick; it is caught by whoever next runs the
+full grid, which is the run the notes record.
+
 CI keeps its output grep (`Traceback|REFUTED|MISMATCH`) as a second line of
-defence. It is no longer the only thing between a false result and a green tick.
+defence, and it is worth keeping for the `Traceback` half. But note what the
+other half covers: `verify_q1.py` is the only script that can print `REFUTED`
+and `verify_independent_recheck.py` the only one that can print `MISMATCH`. The
+other thirteen state their verdicts in prose — "R > D at every mu", "ratios
+above 1 refute the lemma" — with the numbers left to a reader, so that grep
+could only ever have caught a wrong *result* in two of the fifteen. For the rest
+the exit code is not a better signal than the grep; it is the only one there has
+ever been.
 
 ### What a green `verifiers` tick does not mean
 
@@ -372,7 +386,9 @@ pre-emptively: it did not occur in any run made here, on either grid.
 Note that the `(FAILS)` cell above appears on the **full** grid, which CI does
 not run for `verify_q1.py`; the reduced grid does not reach it. That is one more
 reason the reduced runs are weaker than the full ones, and another reason to run
-the full grids locally.
+the full grids locally. It is also why the exit-code contract was checked on
+that full grid rather than reasoned about: the run prints the cell and exits 0,
+so the exclusion is measured.
 
 So: a green tick means **every script still runs to completion on a clean
 machine, every check any of them states came out right, and none of them printed
