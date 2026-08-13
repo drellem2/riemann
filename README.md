@@ -236,6 +236,14 @@ cite them by line.
   Also: (107) is itself a citation (Arscott [1, p. 186]), so the chain is two deep,
   not one. **A numerical check is not a proof** — the import stays external, it is
   now tested. Sign-blind throughout.
+- `statement-defects.md` — method, not mathematics, and the shortest note here. Every
+  formalisation run so far has found the same class of defect: **the printed statement
+  does not match the argument beneath it** — a hypothesis doing two jobs, a hypothesis
+  omitted, a formula that is false — while everything derived from it was correct, so
+  nothing downstream ever went red and no instrument complained. Records the class, and
+  the two practices that caught the last one: run a cheap independent instrument before
+  the expensive one, and machine-check the claim that nothing downstream moves rather
+  than arguing it. It sits beside the house rule as the project's second standing check.
 
 `s3-reduction-audit.md`, `s3-sign-blindness.md` and `semilocal-gap.md` have companion
 `verify_*.py` scripts (numpy; `semilocal-gap.md` has two); `index-convention.md`,
@@ -244,7 +252,8 @@ cite them by line.
 `h0-lower-bound.md` and `dunster-check.md` have ones using
 `mpmath` in arbitrary precision and no numpy; `independent-recheck.md`'s uses the Python standard
 library alone, which is the point of it;
-`signed-geometry-proposals.md` is structural and has none, and `citation-audit.md` is too
+`signed-geometry-proposals.md` and `statement-defects.md` are structural and have none,
+and `citation-audit.md` is too
 except for one `mpmath` check (its §7 item U8). The first three notes were written offline and say so;
 `citation-audit.md` is the pass that checks them, `index-convention.md` closes one item
 it left open and `semilocal-gap.md` closes another.

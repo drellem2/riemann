@@ -3296,6 +3296,23 @@ beneath them, which re-reading cannot see because the prose is true as far as it
 goes; item~10 is a displayed formula that is false, inside a proof whose
 conclusion is nonetheless correct.
 
+\emph{One level up, items~8--10 are one class and it is worth naming, because it
+is the only class formalisation has found here: the printed statement does not
+match the argument beneath it.}  In all three the argument was sound and its
+consequences were true, so nothing derived from the bad statement was wrong ---
+which is exactly why nothing caught them.  A statement survives in a corpus by
+being used, and what survives is the part of it the use does not exercise: a
+hypothesis nobody had to name, a formula consumed only through a bound that the
+false and the true version both satisfy.  Item~10 had been read and copied four
+times before a machine saw it, once into a numerical script's banner --- an
+instrument quoting the wrong statement while correctly testing the right one.
+The class has no natural detector; it is found only by re-deriving a printed
+statement on purpose.  \file{notes/statement-defects.md} records it, together
+with the two practices that caught item~10: an independent cheap check aimed at
+the statement itself before the expensive one is aimed at its consequences, and a
+machine-checked rather than argued ``nothing else changes'' --- a no-op claim
+being exactly the shape a reader waves through.
+
 \begin{enumerate}\itemsep3pt
 \item \textbf{A stated strategy read as a companion theorem.}  An early note
 cited ``the archimedean place and its semilocal extension'' as though both were

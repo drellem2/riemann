@@ -143,6 +143,16 @@ is mg-7fc6's, and items 5–6 are clarifications rather than repairs — stated 
 such rather than dressed up. **Item 7 is mg-57a2's and is different in kind from
 all of them: an incorrect proof, the first formalisation has found here.**
 
+**What every item below has in common, and it is worth knowing before you start a
+formalisation ticket: the defect was in what a statement *said*, never in anything
+derived from it.** So nothing downstream went red in any of these — the class has
+no natural detector, and it is found only by re-deriving a printed statement
+deliberately. `notes/statement-defects.md` states the class and the two practices
+that caught item 7 (a cheap independent instrument *before* the expensive one; a
+machine-checked rather than argued "nothing else changes"). Read it before
+pointing this development at a new note — that note is where the second of the
+project's two standing checks lives, the house rule below being the first.
+
 1. **Lemma 5.1's use of "Φ is analytic at `x=1`" splits into two independent
    hypotheses**, and the note's remark that "boundedness near `x=1` would do"
    names only one of them. The proof needs *both*
@@ -281,3 +291,8 @@ bound on a modulus, or (in the assembly) invariant under relabelling its
 arguments, and **not one of them becomes false under `W_λ ↦ -W_λ`**. Nothing new
 was found here that is not sign-blind, which is the answer the thesis of
 `paper` §1.2 predicts.
+
+That test — *is the statement false for `-W_λ`?* — is the project's first standing
+check. The second is `notes/statement-defects.md`: *does the printed statement say
+what the argument beneath it proves?* They fail in opposite directions and neither
+substitutes for the other, so apply both.
