@@ -1,0 +1,115 @@
+name: paper
+
+# Builds the LaTeX documents on a clean machine.
+#
+# The paper is this repository's headline artefact, and before this workflow it
+# sat on `main` in a state where `pdflatex -halt-on-error` produced no PDF at
+# all — two undefined control sequences twelve lines apart — with nothing going
+# red.  A stranger who clones the repo runs pdflatex; that is the check.
+#
+# The check is NOT "pdflatex exited 0".  In `-interaction=nonstopmode` pdflatex
+# exits 0 while dropping undefined macros on the floor and leaving gaps in the
+# text, so each job also reads the log of the LAST pass and fails on:
+#
+#   * any undefined control sequence — a macro used and never defined;
+#   * any undefined reference or citation, AFTER the last pass only.  A single
+#     pass reports hundreds of both and means nothing: the bibliography is
+#     inline (`\begin{thebibliography}`), so there is no bibtex step and a
+#     normal multi-pass build resolves all of it;
+#   * "Rerun to get cross-references right" still present after the last pass,
+#     which means the pass count below has become too small.
+#
+# Three passes is the number README.md documents, and it is the number needed:
+# after pass two the paper still asks to be rerun.
+#
+# `s3.tex` is deliberately not built.  It is a section fragment with no
+# preamble and no \begin{document} — not a standalone document, and included by
+# nothing.  It is not missing from this list by oversight.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: paper-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: ${{ matrix.doc }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {doc: positivity-obstruction.tex, dir: paper, id: positivity-obstruction}
+          - {doc: start.tex,                  dir: .,     id: start}
+    steps:
+      - uses: actions/checkout@v4
+
+      # No full TeX Live: the preamble needs geometry, amsmath/amssymb/amsthm,
+      # graphicx, fontenc, microtype, url, xcolor and hyperref, plus enumitem
+      # and mathtools for start.tex.  cm-super supplies Type 1 versions of the
+      # T1-encoded Computer Modern fonts; without it pdflatex falls back to
+      # bitmapped Type 3 and the PDF is unreadable on screen.  It does not
+      # change which fonts the document asks for.
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended cm-super
+
+      - name: pdflatex ${{ matrix.doc }} (three passes)
+        working-directory: ${{ matrix.dir }}
+        run: |
+          set -o pipefail
+          for pass in 1 2 3; do
+            echo "::group::pass $pass"
+            pdflatex -interaction=nonstopmode -halt-on-error "${{ matrix.doc }}"
+            echo "::endgroup::"
+          done
+
+      - name: A PDF came out
+        working-directory: ${{ matrix.dir }}
+        run: |
+          pdf="${{ matrix.doc }}"; pdf="${pdf%.tex}.pdf"
+          test -s "$pdf" || { echo "::error::no $pdf was produced"; exit 1; }
+          ls -l "$pdf"
+
+      - name: Nothing left undefined after the last pass
+        working-directory: ${{ matrix.dir }}
+        run: |
+          log="${{ matrix.doc }}"; log="${log%.tex}.log"
+          rc=0
+          # `grep -a`: these logs carry non-UTF-8 bytes and grep otherwise
+          # treats them as binary and prints nothing but "Binary file matches".
+          if grep -a -n 'Undefined control sequence' "$log"; then
+            echo "::error::$log: a macro is used and never defined"
+            rc=1
+          fi
+          if grep -a -n 'LaTeX Warning: Reference .* undefined' "$log"; then
+            echo "::error::$log: undefined reference after the last pass"
+            rc=1
+          fi
+          if grep -a -n 'LaTeX Warning: Citation .* undefined' "$log"; then
+            echo "::error::$log: undefined citation after the last pass"
+            rc=1
+          fi
+          if grep -a -n 'Rerun to get cross-references right' "$log"; then
+            echo "::error::$log: still asking to be rerun — the build needs more than three passes"
+            rc=1
+          fi
+          exit $rc
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.id }}-pdf
+          path: ${{ matrix.dir }}/${{ matrix.id }}.pdf
+          if-no-files-found: error

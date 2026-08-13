@@ -12,6 +12,7 @@
 
 \usepackage[margin=1.05in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}      % \scalebox, for \widecheck below
 \usepackage[T1]{fontenc}
 \usepackage{microtype}
 \usepackage{url}
@@ -47,6 +48,7 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\A}{\mathbb{A}}
+\newcommand{\C}{\mathbb{C}}
 \newcommand{\E}{\mathcal{E}}
 \newcommand{\F}{\mathcal{F}}
 \newcommand{\PS}{\mathit{PS}}
@@ -54,10 +56,25 @@
 \newcommand{\QW}{QW}
 \newcommand{\file}[1]{\path{#1}}
 
+% \widecheck: the wide check accent, absent from amsmath/amssymb.  Built by
+% flipping \widehat vertically (graphicx only) rather than loading mathabx,
+% which would pull in a whole font set and change the look of the document.
+\makeatletter
+\newcommand{\widecheck}[1]{{\mathpalette\wc@check{#1}}}
+\newcommand{\wc@check}[2]{%
+  \setbox\z@\hbox{$\m@th#1#2$}%                        % the argument
+  \setbox\tw@\hbox{$\m@th#1\widehat{\phantom{#2}}$}%    % a hat sized to it
+  \setbox\thr@@\hbox{$\m@th#1x$}%                       % x-height, for clearance
+  \dimen@\ht\tw@ \advance\dimen@\ht\z@ \advance\dimen@.4\ht\thr@@
+  \hbox{\rlap{\raise\dimen@\hbox{\scalebox{1}[-1]{\box\tw@}}}\box\z@}%
+}
+\makeatother
+
 % keep macros out of PDF bookmark strings
 \pdfstringdefDisableCommands{%
   \def\QW{QW}\def\E{E}\def\F{F}\def\R{R}\def\Q{Q}\def\Z{Z}\def\A{A}%
-  \def\PS{PS}\def\Sonin{S}\def\file#1{#1}%
+  \def\C{C}\def\PS{PS}\def\Sonin{S}\def\file#1{#1}%
+  \def\widecheck#1{#1}%
 }
 
 \title{The prolate mechanism is sign-blind:\\

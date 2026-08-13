@@ -2,13 +2,15 @@
 
 [![lean](https://github.com/drellem2/riemann/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/drellem2/riemann/actions/workflows/lean.yml?query=branch%3Amain)
 [![verifiers](https://github.com/drellem2/riemann/actions/workflows/verifiers.yml/badge.svg?branch=main)](https://github.com/drellem2/riemann/actions/workflows/verifiers.yml?query=branch%3Amain)
+[![paper](https://github.com/drellem2/riemann/actions/workflows/paper.yml/badge.svg?branch=main)](https://github.com/drellem2/riemann/actions/workflows/paper.yml?query=branch%3Amain)
 
 Work on the Riemann Hypothesis via Connes' spectral approach.
 
-Everything here is agent-produced. The two badges are the part a stranger can
+Everything here is agent-produced. The three badges are the part a stranger can
 check without taking anyone's word for it: **lean** re-runs the Lean build, the
-`sorry` grep and the axiom audit on a clean machine, and **verifiers** re-runs
-the numerical scripts. What they do and do not cover is set out under
+`sorry` grep and the axiom audit on a clean machine, **verifiers** re-runs
+the numerical scripts, and **paper** builds the LaTeX documents from scratch.
+What they do and do not cover is set out under
 [Continuous integration](#continuous-integration) — read that before reading a
 green tick as more than it is.
 
@@ -252,7 +254,7 @@ change substantially.
 
 ## Continuous integration
 
-Two GitHub Actions workflows run on every push to `main` and on every pull
+Three GitHub Actions workflows run on every push to `main` and on every pull
 request. They re-run checks that already existed in this repository; they do not
 add new ones. Nothing here is a proof of anything — it is evidence that the
 artefacts still do what the notes say they do, produced by a machine that is not
@@ -414,9 +416,37 @@ machine re-derived the mathematics, and it is not a substitute for reading the
 notes. Most of what these scripts print is measurement rather than verdict, and
 those numbers are checked against the notes by a reader, not by CI.
 
+### `paper` — the LaTeX documents
+
+[`.github/workflows/paper.yml`](.github/workflows/paper.yml) builds
+`paper/positivity-obstruction.tex` and `start.tex` from scratch on a clean
+machine, three `pdflatex` passes each — the same command this README documents.
+There is no bibtex step: the paper's bibliography is inline
+(`\begin{thebibliography}`), so the passes resolve it.
+
+**Exiting 0 is not the check.** In `-interaction=nonstopmode` pdflatex exits 0
+while dropping undefined macros and leaving gaps in the text, so each job also
+reads the log of the last pass and fails on an undefined control sequence, an
+undefined reference or citation, or a request to rerun. The reference and
+citation checks are made **after the last pass only**: one pass reports 218
+undefined references and 63 undefined citations in the paper, and both numbers
+are artefacts of running one pass. After the third there are none.
+
+This workflow exists because the paper spent time on `main` in a state where
+`pdflatex -halt-on-error` produced **no PDF at all** — `\C` and `\widecheck`
+were used and never defined — while both other badges stayed green. A green
+`paper` tick means a stranger who clones the repository and runs pdflatex gets
+the PDF; it says nothing whatever about what is in it.
+
+`s3.tex` is not built, and is not missing by oversight: it is a section fragment
+with no preamble, not a standalone document, and nothing includes it.
+
 ### Reproducing the same checks locally
 
 ```sh
+cd paper && pdflatex positivity-obstruction.tex   # three passes; no bibtex
+                                                  # (the bibliography is inline)
+
 lean/scripts/check.sh                 # the Lean build, sorry grep and axiom audit
 
 pip install numpy mpmath              # numpy for four scripts, mpmath for most
