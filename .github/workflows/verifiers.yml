@@ -1,0 +1,76 @@
+name: verifiers
+
+# Re-runs the `notes/verify_*.py` scripts on a clean machine.  Each script is
+# its own job, so the run page names every script it ran and how long it took —
+# a single tick covering an unnamed subset would be worse than no CI at all.
+#
+# READ `README.md`, section "Continuous integration", before reading a green
+# tick here as "every number in `notes/` was rechecked".  It is not that.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verifiers-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: ${{ matrix.script }} ${{ matrix.args }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {script: verify_arch_positivity.py,     args: ""}
+          - {script: verify_citation_u8.py,         args: ""}
+          - {script: verify_deficit_repair.py,      args: ""}
+          - {script: verify_dunster.py,             args: ""}
+          - {script: verify_h0.py,                  args: ""}
+          - {script: verify_h1.py,                  args: ""}
+          - {script: verify_independent_recheck.py, args: ""}
+          - {script: verify_index_convention.py,    args: ""}
+          - {script: verify_prolate_claims.py,      args: ""}
+          - {script: verify_prolate_rate.py,        args: ""}
+          - {script: verify_q1.py,                  args: ""}
+          - {script: verify_q2.py,                  args: ""}
+          - {script: verify_q3.py,                  args: ""}
+          - {script: verify_semilocal_gap.py,       args: ""}
+          - {script: verify_sign_claims.py,         args: ""}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # numpy for the four Connes-Consani matrix scripts, mpmath for the
+      # arbitrary-precision ones.  `verify_independent_recheck.py` needs
+      # neither, by design — it is the standard-library second implementation.
+      - run: pip install --quiet numpy mpmath
+
+      # Several scripts import their siblings by bare module name, so the
+      # working directory has to be `notes/`.
+      - name: ${{ matrix.script }}
+        working-directory: notes
+        run: |
+          set -o pipefail
+          python "${{ matrix.script }}" ${{ matrix.args }} 2>&1 | tee run.log
+          # These scripts REPORT; with three exceptions they do not exit
+          # non-zero when a check they can decide comes out wrong — they print
+          # a verdict word into a table cell and return 0.  So the exit status
+          # alone would be green either way, and the verdict words have to be
+          # promoted to the exit status here.  `(FAILS)` and `NO` are
+          # deliberately not in this list: both appear in cells that are
+          # EXPECTED to fail and are documented as such (see README.md).
+          if grep -nE 'Traceback|REFUTED|MISMATCH' run.log; then
+            echo "::error::${{ matrix.script }} printed a failing verdict (see the matched lines above)"
+            exit 1
+          fi
