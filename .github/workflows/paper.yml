@@ -35,9 +35,23 @@ on:
 permissions:
   contents: read
 
+# `cancel-in-progress` is right on a PR branch — do not burn runners on a commit
+# a later push has superseded — and wrong on `main`, where each push's run is
+# the record of whether that commit was green.  `docs/roadmap.md` is regenerated
+# within minutes of every merge, so with a bare `true` the merge's own run was
+# routinely cancelled by the docs push behind it: five such runs on `main` on
+# 2026-08-13 (665f05c, 79ec435, bd7edc5, d678fc0, a5a8651).  No coverage was
+# lost — the superseding tree is the merge plus a roadmap edit — but the merge
+# reads `cancelled`, and had any of those merges been red the failure would have
+# surfaced on, and been blamed on, the roadmap commit that cancelled it.
+#
+# On `pull_request` events `github.ref` is `refs/pull/N/merge`, never
+# `refs/heads/main`, so PR cancellation is unaffected.  That the expression
+# yields a real boolean and not a truthy string was measured, not assumed; the
+# measurement is recorded in mg-4bbd.
 concurrency:
   group: paper-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   build:
