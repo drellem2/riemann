@@ -155,9 +155,14 @@ now a \emph{tested} external dependency, which is not the same as a proved one.
 (iii)~The external chain is two citations deep and not one: (107) is itself a
 citation.  (iv)~Lemma~\ref{lem:amplitude}'s hypothesis ``analytic at $x=1$''
 was doing two jobs and is now split into the two it was doing --- a repair
-found by machine-checking the lemma in Lean, which also machine-checks the
-elementary layer beneath Theorem~\ref{thm:q1}.  All four are recorded in
-\S\ref{sec:corrections}.
+found by machine-checking the lemma in Lean.  (v)~Corollary~\ref{cor:upper} was
+stated without the hypothesis that carries the rate, $\mu^{-1}\log(1-\chi_2)
+\to-4\pi$; it is now hypothesis \textbf{(F)}, and naming it makes visible that
+\emph{the $4\pi$ of Theorem~\ref{thm:main} enters through Fuchs
+\cite{Fuchs1964} and only through Fuchs} --- a second import in a ledger that
+listed one.  Found by machine-checking the corollary, which now also
+machine-checks Theorem~\ref{thm:q2} and the elementary layer beneath
+Theorem~\ref{thm:q1}.  All five are recorded in \S\ref{sec:corrections}.
 
 \tableofcontents
 
@@ -379,10 +384,13 @@ hypothesis (29) fails at index~$8$ below $\mu^*_8=2.1169$
 & verified numerically --- \emph{which is not a proof, and the import is not
 re-derived}; the next coefficient \observed{} & the equations are Dunster's;
 the check and the coefficient are \emph{ours} (\S\ref{sec:h0}) \\
-The elementary layer beneath Theorem~\ref{thm:q1} --- Lemma~\ref{lem:amplitude}
-and the coefficient bounds --- is machine-checked: $26$ results, no
-\texttt{sorry}, standard axioms only.  The formalisation stops below
-Theorem~\ref{thm:q1} itself
+Machine-checked in Lean~4: the elementary layer beneath
+Theorem~\ref{thm:q1}; Theorem~\ref{thm:q2} given the remainder bounds below it;
+and Corollary~\ref{cor:upper} given its four legs.  $65$ results, no
+\texttt{sorry}, standard axioms only.  Theorem~\ref{thm:q1} is blocked by the
+Pr\"ufer angle and is the only chain step that wall blocks;
+Theorems~\ref{thm:q3} and \ref{thm:h0} are blocked by much larger mathlib
+absences
 & proved and machine-checked & \emph{ours} (\S\ref{sec:standards},
 \file{lean/README.md}) \\
 $\limsup\mu^{-1}\log s(\mu)\le-4\pi$, and
@@ -635,23 +643,43 @@ recorded as doing so.
 
 \paragraph{Machine-checked statements.}  A fourth status, narrower than
 \proved{} and different in kind from a second reader: a statement whose proof
-has been formalised and compiles.  The elementary layer beneath
-Theorem~\ref{thm:q1} --- Lemma~\ref{lem:amplitude} and the coefficient bounds
-it is built on --- has been formalised in Lean~4 against mathlib: $26$ results,
-no \texttt{sorry} anywhere in the sources, \texttt{\#print axioms} reporting
-\texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} for all of
-them and \texttt{sorryAx} for none, with the toolchain and the mathlib revision
-pinned in \file{lean/README.md} and the whole development rebuilt and audited
-by \file{lean/scripts/check.sh}, which exits non-zero on any of the three
-failures.  \emph{The coverage stops below the oscillatory-integral proposition
-and below Theorem~\ref{thm:q1} itself} --- Proposition~4.2 and Theorem~5.2 in
-the numbering of \file{band-edge-connection.md}, neither attempted: both need a
-continuous branch of the Pr\"ufer angle along an ODE-defined curve, which
-mathlib does not supply and which is a piece of work in its own right rather
-than a translation of the note.  So the machine-checked layer is the bottom of
-\S\ref{sec:q1}, not \S\ref{sec:q1}.  It gates nothing here, and it has already
-paid for itself once: it is where Lemma~\ref{lem:amplitude}'s hypothesis was
-found to be two hypotheses (\S\ref{sec:lemma51}).  \emph{Nothing in it
+has been formalised and compiles.  Formalised in Lean~4 against mathlib:
+$65$ results, no \texttt{sorry} anywhere in the sources, \texttt{\#print axioms}
+reporting \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} for
+all of them and \texttt{sorryAx} for none, with the toolchain and the mathlib
+revision pinned in \file{lean/README.md} and the whole development rebuilt and
+audited by \file{lean/scripts/check.sh}, which exits non-zero on any of the three
+failures.  Three layers, and the honest statement of each:
+
+\begin{itemize}\itemsep2pt
+\item \textbf{The elementary layer beneath Theorem~\ref{thm:q1}} ---
+Lemma~\ref{lem:amplitude} and the coefficient bounds it is built on --- complete.
+\item \textbf{Theorem~\ref{thm:q2}}, with its explicit constant, \emph{taking the
+off-band splitting and its two remainder bounds as hypotheses} (they rest on
+Theorem~\ref{thm:q1}), together with both Fourier identities of
+\S\ref{sec:q2} proved from scratch and Corollary~\ref{cor:quantisation}'s
+divergence.
+\item \textbf{Corollary~\ref{cor:upper}}, i.e.\ the passage from the four legs to
+$\limsup\mu^{-1}\log s(\mu)\le-4\pi$, \emph{with the four legs as hypotheses},
+plus an instantiation at this paper's own exponents so the hypotheses are
+exhibited as satisfiable.
+\end{itemize}
+
+\noindent\emph{What is not attempted, and why, is tabulated target by target in
+\file{lean/README.md}}, and the boundary is not where one would guess.
+Theorem~\ref{thm:q1} needs a continuous branch of the Pr\"ufer angle along an
+ODE-defined curve, which mathlib does not supply and which is a piece of work in
+its own right rather than a translation of a note --- and it is the \emph{only}
+step on the chain that wall blocks.  Theorem~\ref{thm:q3} and
+Theorem~\ref{thm:h0} are blocked by something else and far larger: mathlib has
+neither Riemann--von Mangoldt nor de la Vall\'ee Poussin, and nothing whatever on
+prolate or parabolic-cylinder functions.  \emph{So what is machine-checked is the
+elementary layer, one of the four legs modulo the leg below it, and the skeleton
+that joins them --- and not the two legs that import.}  It gates nothing here,
+and it has now paid for itself twice: it is where
+Lemma~\ref{lem:amplitude}'s hypothesis was found to be two hypotheses
+(\S\ref{sec:lemma51}), and where Corollary~\ref{cor:upper} was found to be
+missing hypothesis \textbf{(F)} (\S\ref{sec:identity}).  \emph{Nothing in it
 approaches a sign}, which \S\ref{sec:houserule} records as a row rather than as
 a disappointment.
 
@@ -1573,10 +1601,11 @@ special function studied since 1961 and computable to arbitrary precision ---
 none of which was true of \eqref{H1} as stated, and all of which is why the
 chain closed.
 
-\begin{corollary}\label{cor:upper}
-Suppose \eqref{H0} holds, and suppose
+\begin{corollary}[machine-checked]\label{cor:upper}
+Suppose \eqref{H0} holds, suppose
 $\sum_{\frac12+is\in Z}|\F_\mu r(s)|^2\le\Xi(\mu)(1-\chi_2(\lambda))$ with $\Xi$
-subexponential in $\mu$.  Then
+subexponential in $\mu$, and suppose
+\textbf{(F)} $\mu^{-1}\log\big(1-\chi_2(\lambda)\big)\to-4\pi$.  Then
 \[
   s(\mu)\;\le\;\frac{\QW_\lambda(g,g)}{\|g\|^2}\;\le\;
   \frac{\Xi(\mu)}{\|g\|^2}\,(1-\chi_2(\lambda)),
@@ -1585,12 +1614,50 @@ subexponential in $\mu$.  Then
 \]
 \end{corollary}
 
-Both hypotheses of Corollary~\ref{cor:upper} are supplied in
-\S\ref{sec:unconditional}: the second by Theorem~\ref{thm:q3} and the first by
-Theorem~\ref{thm:h0}.  Note what the corollary actually consumes of \eqref{H0},
-because it is weaker than the hypothesis and the difference is what made
-\eqref{H0} tractable: only $\mu^{-1}\log\|g\|^2\to0$, so \emph{any}
-$\|g\|^2\ge e^{-o(\mu)}$ gives the same $-4\pi$.
+The three hypotheses are supplied as follows: the second by
+Theorem~\ref{thm:q3}, the first by Theorem~\ref{thm:h0}, and \textbf{(F)} by
+Fuchs' asymptotic in the form Connes cites it (\S\ref{sec:fuchs}).  Note what the
+corollary actually consumes of \eqref{H0}, because it is weaker than the
+hypothesis and the difference is what made \eqref{H0} tractable: only
+$\mu^{-1}\log\|g\|^2\to0$, so \emph{any} $\|g\|^2\ge e^{-o(\mu)}$ gives the same
+$-4\pi$.
+
+\paragraph{Hypothesis (F) was not in the printed statement, and it should have
+been --- because it is where the $4\pi$ comes from.}  An earlier form of this
+corollary assumed \eqref{H0} and the $\Xi$ bound only, and concluded the
+$-4\pi$.  It does not follow from those two: $\Xi$ and $\|g\|^2$ are both
+subexponential, so \emph{nothing in them mentions $4\pi$ at all}, and the rate
+has to enter through $1-\chi_2$.  \emph{The omission was found by formalising the
+corollary}: \file{lean/Riemann/Assembly.lean}'s
+\texttt{limsup\_le\_neg\_four\_pi} cannot be stated without its \texttt{hN}
+hypothesis, which is (F).  Two consequences worth stating plainly.
+
+\begin{itemize}\itemsep2pt
+\item \textbf{The $4\pi$ of Theorem~\ref{thm:main} enters through Fuchs and only
+through Fuchs.}  It is not produced anywhere in \S\ref{sec:unconditional}; every
+theorem there is a bound by a subexponential factor times $1-\chi_2$.  This is
+consistent with \S\ref{sec:fuchs}'s own observation that the rate cannot
+discriminate the index --- the rate is not ours to discriminate with.
+\item \textbf{So Theorem~\ref{thm:main}'s external ledger has two entries, not
+one.}  Its status line reads ``\proved{} modulo \cite{Dunster2017} eq.\
+(124)+(107)'' and now also names \cite{Fuchs1964}, which
+\S\ref{sec:provenance} lists under ``not read''.  \emph{Nothing about ``unconditional'' changes} ---
+Fuchs' asymptotic is classical and \proved{} --- but a paper that counts citation
+depth to two decimal places elsewhere (\textbf{G13}) was one citation short here.
+Recorded in \S\ref{sec:corrections}.
+\end{itemize}
+
+\paragraph{And the corollary is machine-checked.}  Given its three hypotheses,
+the passage to $\limsup\mu^{-1}\log s(\mu)\le-4\pi$ is formalised in Lean~4
+(\S\ref{sec:standards}), together with an instantiation at this paper's own
+exponents --- $\Xi=C\mu^6\log^3\!\mu$, $1-\chi_2=C'\mu^{9/2}e^{-4\pi\mu}$,
+$\|g\|^2\to0.219\ldots$ --- so that the hypotheses are exhibited as satisfiable
+rather than merely assumed.  The primary formalised statement is the $\epsilon$
+form, \emph{for every $\epsilon>0$, eventually $\log s(\mu)\le(-4\pi+\epsilon)\mu$},
+which is what the chain gives and is stronger than the $\limsup$; the $\limsup$
+is to be read in $[-\infty,\infty]$ as usual.  \emph{What is checked is the
+skeleton, not the legs}: the four legs are hypotheses, and two of them are
+prose.
 
 That is a real half of the answer, and it is the half every number in this
 project is consistent with, because every computed $s$ is itself an upper bound.
@@ -1602,7 +1669,8 @@ one-sidedness are the \emph{same} fact and not two.
 \label{sec:unconditional}
 % ==========================================================================
 
-\begin{theorem}[\ours, \proved{} modulo \cite{Dunster2017} eq.\ (124)+(107)]
+\begin{theorem}[\ours, \proved{} modulo \cite{Dunster2017} eq.\ (124)+(107) and
+\cite{Fuchs1964}]
 \label{thm:main}
 $\displaystyle\limsup_{\mu\to\infty}\ \frac{\log s(\mu)}{\mu}\ \le\ -4\pi$,
 with no hypothesis.  Quantitatively,
@@ -1630,7 +1698,7 @@ applied, and \S\ref{sec:boundary} is unmoved.
 3 & $x|\Phi_n(x)|\le K(c)|\Phi_n(1)|$, $K$ bounded (Q1)
   & proved & \S\ref{sec:q1} \\
 4 & $\sup_{t>1}t|\sum_m\Phi_n(mt)|\le K_P(c)|\Phi_n(1)|$, $K_P=O(\log c)$ (Q2)
-  & proved & \S\ref{sec:q2} \\
+  & proved; machine-checked given the remainder bounds & \S\ref{sec:q2} \\
 5 & the truncated zero sum: $\Xi$ polynomial (Q3)
   & proved & \S\ref{sec:q3} \\
 6 & $\|g\|^2\to0.219247199549\ldots$ \eqref{H0}
@@ -1996,7 +2064,8 @@ Passing from one prolate function to the summation map means passing from
 $\Phi$ to $G(t):=\sum_{m\ge1}\Phi(mt)$, and the triangle inequality is
 log-divergent: $\sum_m|\Phi(1)|/(mt)$ diverges harmonically.
 
-\begin{theorem}[\ours]\label{thm:q2}
+\begin{theorem}[\ours; machine-checked given Prop.~4.1 of
+\file{dilate-sum.md}]\label{thm:q2}
 Let $c>\sqrt2$, let $n$ be even and $0\le\chi_n<c^2$.  Then for every $t>1$ the
 series $G(t)=\sum_{m\ge1}\Phi_n(mt)$ converges, and
 \[
@@ -2057,6 +2126,31 @@ it.  Any argument that appears to is wrong.
 
 That is stated at this length deliberately: a statement of Q2 that omits it
 invites exactly the ODE-only proof attempt that cannot work.
+
+\paragraph{This subsection is machine-checked from the off-band splitting up, and
+that is further than the Pr\"ufer wall would suggest.}  Formalised in Lean~4
+(\S\ref{sec:standards}): both Fourier identities --- $\sum_mm^{-1}\sin m\gamma
+=\frac{\pi-\gamma}{2}$ and $\sum_mm^{-1}\cos m\gamma=-\log(2\sin\frac\gamma2)$
+--- the bound $\pi/2$ on the first including at the resonance $\gamma=0$,
+Corollary~\ref{cor:quantisation}'s divergence of the second as $\gamma\to0^+$,
+the reduction $\gamma=ct\bmod2\pi$, absolute convergence of the remainder series,
+and Theorem~\ref{thm:q2} itself with its explicit constant --- taking the
+splitting $\Phi=a_1\sin(cx)/x+W$ and its two remainder bounds as hypotheses,
+since those rest on Theorem~\ref{thm:q1}.  \emph{The two identities turn out to be
+the imaginary and real parts of one complex logarithm}, $-\log(1-e^{i\gamma})$,
+which is why they are a dichotomy rather than two facts.
+
+\emph{Why this was reachable when \S\ref{sec:q1} is not} is worth a sentence,
+because it is not what one would guess.  The Pr\"ufer angle blocks
+\S\ref{sec:q1} and nothing else on this chain: the Lagrange system that
+\file{dilate-sum.md} \S3 runs on --- $u=\alpha\sin cx+\beta\cos cx$,
+$u'=c(\alpha\cos cx-\beta\sin cx)$ --- determines $\alpha$ and $\beta$ as
+\emph{explicit single-valued algebraic functions of $(u,u')$}, with no continuous
+branch to construct anywhere.  It is the \emph{polar} form of that substitution,
+not the substitution, that mathlib cannot supply.  Reading \S3 as ``the Pr\"ufer
+system again'' would have classified Q2 as blocked, and it is not.
+\file{lean/README.md} carries the reachability table target by target, including
+the two rows (Q3, \eqref{H0}) that are blocked by something else and much larger.
 
 \subsection{Q3: the truncation, and the premise that was false}
 \label{sec:q3}
@@ -2532,11 +2626,15 @@ index~$8$ below $\mu=2.1169$
 asymptotic, and an inequality between $\chi_n$ and $c^2$; $\QW_\lambda$ does
 not occur in any of them
 & \textbf{sign-blind} \\
-\S\ref{sec:standards}, \S\ref{sec:lemma51}: the elementary layer is
-machine-checked; Lemma~\ref{lem:amplitude}'s hypothesis splits in two
-& a compiled proof about an ODE, and a statement about which hypotheses that
-proof consumes.  \emph{Formalisation raises confidence in magnitude results and
-supplies no direction} --- no sign occurs anywhere in the development
+\S\ref{sec:standards}, \S\ref{sec:lemma51}, \S\ref{sec:q2},
+\S\ref{sec:identity}: the elementary layer, Theorem~\ref{thm:q2} and
+Corollary~\ref{cor:upper} are machine-checked; Lemma~\ref{lem:amplitude}'s
+hypothesis splits in two; Corollary~\ref{cor:upper} was missing \textbf{(F)}
+& compiled proofs about an ODE, a Fourier series and a $\limsup$, and statements
+about which hypotheses those proofs consume.  \emph{Formalisation raises
+confidence in magnitude results and supplies no direction} --- no sign occurs
+anywhere in the development, and every formalised conclusion is an equality, a
+bound on a modulus, or invariant under relabelling its arguments
 & \textbf{sign-blind} \\
 Thm.~\ref{thm:main} / Cor.~\ref{cor:upper}:
 $\limsup\mu^{-1}\log s\le-4\pi$, and the rate $4\pi$
@@ -2881,12 +2979,13 @@ predicate being inhabited --- mathlib's ODE existence theory is not wired up
 here, so no witness is exhibited --- and what it does check is that the
 first-order system really is the second-order equation, sign for sign, which is
 the check whose failure would have made the rest vacuous.  \S\ref{sec:standards}.
-\emph{And the same honesty applies to it as to the scripts}: the build was not
-re-run on this editing pass, and the counts above are transcribed from the note
-that owns it.  What \emph{was} checked here, because it is free, is that no
-\texttt{sorry} occurs in any source file and that the axiom audit lists $26$
-results; the compilation itself is reproducible by the command above and was
-last run by the ticket that produced it.
+\emph{And the same honesty applies to it as to the scripts}: the build \emph{was}
+re-run on this editing pass --- \file{lean/scripts/check.sh} exits zero, reporting
+$65$ results and none depending on \texttt{sorryAx} --- and the counts above are
+that run's output rather than a transcription.  What is also checked, because it
+is free, is that no \texttt{sorry} occurs in any source file and that the axiom
+audit lists $65$
+results; the compilation is reproducible by that script.
 
 \paragraph{A defect found in our own apparatus, and scoped.}
 \file{verify_h1.sph_j_all} --- the shared routine evaluating the entire
@@ -3159,12 +3258,12 @@ is where it was sharpened to ``an involution and a square''.
 \subsection{Corrections, recorded rather than absorbed}
 \label{sec:corrections}
 
-Eight corrections of ours are folded into the text above.  They are listed here
+Nine corrections of ours are folded into the text above.  They are listed here
 because a reader weighing the tables should know which way the errors ran, and
-because the pattern in them is itself a finding.  The last two are new in this
-revision, and they are the only two so far that were found by something other
-than a person re-reading their own work: one by a machine, one by opening a
-source that had been quoted rather than read.
+because the pattern in them is itself a finding.  The last three are new in this
+revision and the last two were both found by a machine: \emph{formalisation has
+now found one defect per ticket it has run for}, which is the strongest argument
+in this paper for continuing to run it.
 
 \begin{enumerate}\itemsep3pt
 \item \textbf{A stated strategy read as a companion theorem.}  An early note
@@ -3242,6 +3341,32 @@ weakening was, and \S\ref{sec:q1}'s hypothesis paragraph had inherited it.  It
 is worth its place in this list for how it was found rather than for what it
 cost: the first lemma formalised, on the first ticket, and by an artefact that
 cannot be persuaded that a hypothesis is obviously enough.
+\item \textbf{A corollary missing the hypothesis that carries its own
+conclusion, found by the same machine.}  Corollary~\ref{cor:upper} was printed
+with two hypotheses --- \eqref{H0}, and the $\Xi(\mu)(1-\chi_2)$ bound --- and
+concluded $\limsup\mu^{-1}\log s(\mu)\le-4\pi$.  It does not follow: both stated
+hypotheses are subexponential-factor statements, \emph{neither mentions $4\pi$},
+and the rate has to arrive with $1-\chi_2$.  The missing hypothesis is now
+\textbf{(F)}, $\mu^{-1}\log(1-\chi_2(\lambda))\to-4\pi$, and it is Fuchs'
+asymptotic \cite{Fuchs1964} --- a source this paper lists under ``not read''.
+
+\emph{No conclusion moves and ``unconditional'' is unaffected}: (F) holds, it is
+classical, \S\ref{sec:fuchs} states it and checks the constant to $100$ digits,
+and the corollary was always going to be applied with it in hand.  What moves is
+the \textbf{ledger}: Theorem~\ref{thm:main}'s status line named one import and
+there are two, and the more interesting half of that is which one supplies the
+headline number --- \emph{the $4\pi$ is Fuchs', not ours}, and no theorem of
+\S\ref{sec:unconditional} produces it.  This is consistent with, and sharper
+than, item~4 above: the rate cannot discriminate the index because the rate was
+never ours to discriminate with.
+
+Two things about how it survived.  It is a \emph{structural} omission and not a
+transcription slip --- the Lean statement cannot be written down without (F),
+which is exactly why formalising found it on the first attempt at the corollary
+--- and it survived because the paper supplies (F) two hundred lines earlier, in
+a subsection about a different question (\S\ref{sec:fuchs}, on whether the rate
+discriminates the index), so every reader who checked the corollary against the
+paper found the fact present and the hypothesis list unexamined.
 \end{enumerate}
 
 \noindent Three further corrections, all cosmetic and none of them of this kind,

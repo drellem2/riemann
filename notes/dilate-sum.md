@@ -839,3 +839,114 @@ and six items are pending. What this note adds to that batch:
    not a conjecture, to the same extent that H1 is — i.e. modulo Q3.
 
 None of these touches G10, Theorem `thm:boundary`, or anything about the sign.
+
+---
+
+## 12. Machine-checked: Theorem 5.1, the dichotomy of §3, and what that cost — mg-7fc6
+
+Work item **mg-7fc6**. `lean/Riemann/Sawtooth.lean` and `lean/Riemann/DilateSum.lean`;
+audited by `lean/scripts/check.sh` (65 results, `#print axioms` reports only
+`propext, Classical.choice, Quot.sound`, no `sorry` anywhere). Toolchain
+`leanprover/lean4:v4.29.1`, mathlib `5e932f97dd25535344f80f9dd8da3aab83df0fe6`.
+
+**What is machine-checked, exactly.**
+
+| Statement here | Lean name | Status |
+|---|---|---|
+| §3's sawtooth, $\sum_{m\ge1}m^{-1}\sin m\gamma=\frac{\pi-\gamma}{2}$ on $(0,2\pi)$ | `Sawtooth.tendsto_sin_sum` | **proved** |
+| §3's divergent partner, $\sum_{m\ge1}m^{-1}\cos m\gamma=-\log(2\sin\frac\gamma2)$ | `Sawtooth.tendsto_cos_sum` | **proved** |
+| the bound $\vert\sum_{m\ge1}m^{-1}\sin m\gamma\vert\le\frac\pi2$ on $[0,2\pi)$, resonance included | `Sawtooth.sawtooth_abs_le` | **proved** |
+| **Cor. 3.4's divergence**: the cosine sum $\to+\infty$ as $\gamma\to0^+$ | `Sawtooth.tendsto_cos_sum_value_atTop` | **proved** |
+| §5's reduction $\gamma:=ct\bmod2\pi$, i.e. $\sin(cmt)=\sin(m\gamma)$ for integer $m$ | `DilateSum.exists_gamma` | **proved** |
+| absolute convergence of $\sum_m W(mt)$ from Prop. 4.1(ii) alone | `DilateSum.summable_abs_W` | **proved** |
+| **Thm 5.1's mechanism**: $t\vert G(t)\vert\le\frac\pi2\vert a_1\vert+t\sum_m\vert W(mt)\vert$ | `DilateSum.exists_limit_and_bound` | **proved** |
+| **Thm 5.1's constant**: $t\sum_m\vert W(mt)\vert\le B_1P(1+\log X)+2B_2P/X$ | `DilateSum.tsum_abs_le` | **proved** |
+| **Theorem 5.1** (Q2), assembled | `DilateSum.theorem_q2` | **proved, given Prop. 4.1** |
+| Lemmas 2.1, 3.1, 3.2, 3.3 and Prop. 4.1 | — | **not attempted** — see below |
+| Prop. 6.1 (Poisson on the band) | — | **not attempted**; it is used only by §7's numerics |
+
+So the machine-checked statement is: **§§2–4's conclusions (the splitting
+$\Phi=a_1\sin(cx)/x+W$, and Prop. 4.1(i)+(ii)) imply Theorem 5.1**, with the explicit
+constant, and the sawtooth cancellation that makes it work is proved from scratch
+rather than assumed. Prop. 4.1 itself is a hypothesis because it consumes **Q1**,
+and Q1 is behind mathlib's missing continuous-Prüfer-angle infrastructure
+(`lean/README.md`; mg-a087).
+
+**Why Q2 was reachable at all, which is the finding worth keeping.** mg-a087 stopped
+at Lemma 2.1 because a continuous branch of the Prüfer angle along an ODE-defined
+curve does not exist in mathlib. The reason that wall does *not* extend to Q2 is
+visible in §3 and I did not see it until formalising forced the question:
+
+> **Lemma 3.2's Lagrange system needs no continuous branch.** Solving
+> $u=\alpha\sin cx+\beta\cos cx$, $u'=c(\alpha\cos cx-\beta\sin cx)$ for
+> $(\alpha,\beta)$ gives $\alpha=u\sin cx+u'\cos(cx)/c$ and
+> $\beta=u\cos cx-u'\sin(cx)/c$ — **explicit, globally defined, single-valued,
+> smooth algebraic functions of $(u,u')$.** Nothing is lifted along a curve. The
+> Prüfer angle of Q1 is the *nonlinear* polar version of the same substitution, and
+> it is the polar form, not the substitution, that is unavailable.
+
+Reading §3 as "the Prüfer system again" would have classified Q2 as blocked. It is
+not, and the two halves of Theorem 5.1 that mathlib actually supplies are **Abel's
+limit theorem on the unit circle** (`Complex.tendsto_tsum_powerSeries_nhdsWithin_lt`)
+and **Dirichlet's test** (`Antitone.cauchySeq_series_mul_of_tendsto_zero_of_bounded`).
+
+**How the sawtooth is proved, since §3 quotes it without proof.** With $w=e^{i\gamma}$:
+Dirichlet's test gives convergence of $\sum_m w^m/m$; Abel's theorem identifies the
+limit with $\lim_{x\to1^-}\sum_m(xw)^m/m=-\log(1-w)$ by continuity of $\log$ on the
+slit plane, legitimate because $\Re(1-w)=1-\cos\gamma=2\sin^2(\gamma/2)>0$; and
+$1-e^{i\gamma}=2\sin(\gamma/2)\,e^{i(\gamma-\pi)/2}$ gives
+$$-\log(1-e^{i\gamma})=-\log\big(2\sin\tfrac\gamma2\big)+i\,\tfrac{\pi-\gamma}{2}.$$
+**Both of §3's displayed identities are the two components of one complex logarithm**,
+which is why they are a dichotomy and not two facts: the bounded one is the imaginary
+part and the unbounded one is the real part, of the same function.
+
+**A clarification of this note's own §5, not a correction.** §5 splits a
+*conditionally* convergent series into a sawtooth and a remainder. That is legitimate
+exactly because the remainder is *absolutely* convergent — Prop. 4.1(ii) — and the
+sawtooth's own convergence is Dirichlet's test, both of which §5 states. Formalising
+makes the dependency mechanical rather than implicit: Lean's `HasSum` is
+unconditional convergence, which for a real series is absolute convergence, so
+$\sum_m m^{-1}\sin m\gamma$ **has no `HasSum`** and every statement about it in
+`Sawtooth.lean` is a `Tendsto` of initial partial sums. Nothing in §5 is wrong; what
+is now checked is that the split never needs the sawtooth to be absolutely
+convergent, which it is not.
+
+**A deviation from §5's proof, recorded rather than smoothed.** §5 splits the
+remainder sum at $mt=X_*$. `DilateSum.tsum_abs_le` splits at the *index*
+$\lfloor X\rfloor$ instead — a coarser split, since $mt<X$ implies $m<X$, so the low
+set is larger. It gives the same constant, because in both cases the low bound is
+summed against $\sum_{m\le\lfloor X\rfloor}m^{-1}=H_{\lfloor X\rfloor}\le1+\log X$
+(mathlib's `harmonic_floor_le_one_add_log`). The high half uses the sharper
+telescoping tail $\sum_{m\ge K}m^{-2}\le1/K$ rather than §5's $2/N$, which is where
+the slack for the coarser split comes from.
+
+**The house rule (§8), applied to the Lean.** Every statement in both files is
+**sign-blind**, and nothing in them is false for $\Phi\mapsto-\Phi$: under that map
+$a_1\mapsto-a_1$, $W\mapsto-W$, $S\mapsto-S$, and every conclusion is an equality or
+a bound on a modulus. `Sawtooth.tendsto_cos_sum_value_atTop` is a divergence to
+$+\infty$ of $-\log(2\sin(\gamma/2))$, a quantity with no $\Phi$ in it at all. **No
+statement formalised here has a one-signed conclusion, and none of it approaches
+G10.** That is the answer §8 predicts, and it is correct rather than a defect.
+
+**What formalising did *not* find.** No error in this note. mg-a087's most valuable
+byproduct was a repair to an informal hypothesis (Lemma 5.1's "analytic at $x=1$"
+splitting in two); nothing of that kind turned up here. The two items above are a
+clarification and a deviation, and calling either a repair would be an overstatement.
+The one genuine finding about a *stated hypothesis list* is in the paper's
+`cor:upper`, not in this note — see `lean/README.md` item 4 and paper §6.6.
+
+**Paper edits made by this ticket**, since §11 above left the paper untouched and this
+ticket did not:
+
+13. **§7.5 (Q2) carries a machine-checked paragraph**, and Theorem `thm:q2`'s statement is
+    labelled *machine-checked given Prop. 4.1*. The paragraph also states why Q2 was
+    reachable when §7.4 (Q1) is not — the Lagrange/Prüfer distinction above.
+14. **§6.6's Corollary `cor:upper` gains hypothesis (F)**, and §9.4's correction list gains
+    a ninth item. That finding is not this note's; it is recorded in
+    `h0-lower-bound.md` §13 and `lean/README.md` item 4.
+15. **§1.6's machine-checked-status paragraph and §1.5's results table are rewritten** for
+    the new scope: three layers (the elementary layer; Q2 modulo Prop. 4.1; the assembly
+    modulo its four legs), 65 audited results, and the per-target reachability table in
+    `lean/README.md`.
+16. **§8's house-rule table row for the formalisation is widened** to cover Q2 and the
+    assembly, with the same verdict: sign-blind.

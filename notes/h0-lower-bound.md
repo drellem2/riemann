@@ -775,3 +775,55 @@ taken well inside (29). §7's tables are measurements, not applications of (E).
 bound, or G13's status as an external dependency. A numerical check is not a proof. What it
 buys is that G13 is now a *tested* import, with its hypotheses enumerated and one of them
 found to bite.
+
+---
+
+## 13. Appended by mg-7fc6: `cor:upper` was missing the hypothesis that carries the $4\pi$
+
+Work item **mg-7fc6**, from formalising the assembly in Lean
+(`lean/Riemann/Assembly.lean`; `lean/README.md` item 4; paper §6.6 and §9.4 item 9).
+This belongs here because §1 item **6** of this note is the closest thing in the corpus
+to a statement of what `cor:upper` consumes, and it turns out to have been one item short.
+
+**The finding.** The paper's Corollary `cor:upper` was printed with two hypotheses —
+(H0), and $\sum_Z|\mathcal F_\mu r|^2\le\Xi(\mu)(1-\chi_2)$ with $\Xi$ subexponential —
+and concluded $\limsup\mu^{-1}\log s(\mu)\le-4\pi$. **It does not follow from those two.**
+Both are statements that a factor is subexponential; *neither mentions $4\pi$*; so the
+rate must arrive with $1-\chi_2$, and the corollary needs
+$$\textbf{(F)}\qquad \mu^{-1}\log\big(1-\chi_2(\lambda)\big)\;\longrightarrow\;-4\pi$$
+as a third hypothesis. (F) is Fuchs' 1964 asymptotic in the form Connes cites it
+(paper §5.2), which the paper's provenance section lists under **not read**.
+
+**Why formalising found it and re-reading did not.** The omission is *structural*: the
+Lean statement `Riemann.Assembly.limsup_le_neg_four_pi` cannot be written down without
+its `hN` hypothesis, because `Subexp Ξ` and `Subexp G` are the only other inputs and
+neither names a rate. A prose corollary can leave the rate implicit and read correctly
+to anyone who has §5.2 in mind two hundred lines earlier — and §5.2 is a subsection about
+a *different* question (whether the rate discriminates the prolate index), so a reader
+checking `cor:upper` against the paper finds the fact present and the hypothesis list
+unexamined.
+
+**What moves and what does not.**
+
+- **Nothing about "unconditional" moves.** (F) holds, it is classical, and §5.2 checks
+  Connes' constant against Fuchs at $n=4$ to 100 digits. The corollary was always going
+  to be applied with (F) in hand.
+- **The ledger moves.** Theorem `thm:main`'s status line read "*proved modulo
+  Dunster (124)+(107)*" and names **two** imports now, not one. §1 item 4 of this note
+  says Dunster is "the imported input"; it is *an* imported input.
+- **And the sharper half: the $4\pi$ is Fuchs', not ours.** No theorem of the paper's
+  §7 produces it; every one of them bounds a quantity by a subexponential factor times
+  $1-\chi_2$. That is consistent with, and sharper than, the paper's own §5.2 remark
+  that the rate cannot discriminate the index — *the rate was never ours to discriminate
+  with*.
+
+**§1 item 6 of this note is confirmed, not corrected.** "What `cor:upper` consumes is
+$\mu^{-1}\log\|g\|^2\to0$; **any** $\|g\|^2\ge e^{-o(\mu)}$ gives the same $-4\pi$" is
+exactly the Lean hypothesis (`Subexp G`), and the stronger "bounded below" form is never
+unfolded. Formalising turns that remark into the shape of the theorem.
+
+**House rule.** Everything above is **sign-blind**, vacuously: `Assembly.lean` quantifies
+over arbitrary real-valued functions of $\mu$ and is invariant under relabelling them.
+Its only inequality hypothesis is an *upper* bound on $s(\mu)\|g\|^2$, which is the safe
+direction, exactly as §8 of this note records for (H0) itself. Nothing here approaches
+G10.
