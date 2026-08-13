@@ -17,19 +17,17 @@ and Daniel has chosen the route (below).
 
 ## Now (in flight)
 
-*Nothing.* mg-7fc6 was filed at 09:08 and merged at 09:55 (`4788c42`).
+*Nothing.* mg-7fc6 merged 09:55 (`4788c42`); mg-fe9a merged 10:48 (`2bc06b5`). mg-5995 filed 11:58, awaiting dispatch.
 
 ## Next (queued, available)
 
-- **mg-fe9a** — *CI on the public repo.* Nothing re-runs `lean/scripts/check.sh` or the
-  fifteen `notes/verify_*.py` scripts; there is no `.github/workflows/` at all. The 65
-  machine-checked results have been compiled by the polecat that wrote them and by the
-  refinery gate, and by nothing else — I could not independently confirm the build this
-  morning without compiling mathlib from source on a loaded host. For a public repo whose
-  credibility claim is reproducibility, and whose next readers are strangers with every
-  reason to discount agent-produced proofs, a green check anyone can click is worth more
-  than another paragraph. Took the slot ahead of Prop. 4.1 because it serves the live
-  endorsement question rather than the mathematics.
+- **mg-5995** — *Twelve of the fifteen `verify_*.py` print `REFUTED` and exit 0.* Give them a
+  real exit-code contract, with a positive control per script proving the new contract can
+  fail. **The record is not contaminated** — no note cites an exit code; every citation quotes
+  numbers a reader read — and CI is already gated by an output grep that was positive-
+  controlled. The live exposure is that mg-fe9a's README now invites strangers to reproduce
+  locally, and the reproduction command cannot fail. That trap points at exactly the reader we
+  are trying to win.
 
 ## Later (proposed, not filed)
 
@@ -77,7 +75,7 @@ and Daniel has chosen the route (below).
 - Periodic **S3 re-check**: CCM's deferred semilocal prolate operator had not appeared as of
   Feb 2026 (arXiv-only; `math.jhu.edu` and `alainconnes.org` both 403'd).
 
-## Recently shipped (last 7d — 30 items)
+## Recently shipped (last 7d — 31 items)
 
 Merged since the 08-12 17:05 regeneration:
 
@@ -87,6 +85,7 @@ Merged since the 08-12 17:05 regeneration:
 | mg-fc1c | The paper states Dunster's **actual** hypothesis, the covered region, and the two-deep chain. Went past its ticket: explained *why* Q1's and Dunster's thresholds are one number (Q1's hypothesis is (29) relaxed to its boundary), added **"tested"** as a third epistemic category beside proved and observed, and re-measured two more inbound anchors that had drifted. |
 | mg-882b | **Citation audit closed** — U1, U2, U3, U8, U9, plus U4's stale row and the converse check. |
 | mg-7fc6 | **The Lean frontier moved past the elementary layer**, and the reachability question was answered by measurement rather than by my guess. 65 audited results, no `sorry`. See below for exactly what this does and does not mean. |
+| mg-fe9a | **CI, and the 65 results now have an independent compile.** `lean` and `verifiers` both green on `main`, both badges reading *passing*. The Lean build takes 3m55s on a cold cache with `Downloaded: 8232/8232 (100%)` — nothing compiled from source — and ends `check.sh: OK - 65 results, none depending on sorryAx`. Its **finding** was worth more than the workflows: 12 of the 15 `verify_*.py` scripts print `REFUTED`/`MISMATCH` and exit 0, so a naive call is green either way. Filed as mg-5995. |
 
 ### What mg-7fc6 proved, stated so it cannot be over-read
 
@@ -147,11 +146,15 @@ true claim would have been its own failure.
   wrote and another read. mg-7fc6 moved the line — the spine and Q2 are machine-checked now —
   but it moved it to where the remaining gaps are *mathlib gaps*, not effort gaps, which is a
   harder place to push from.
-- **Nobody has re-run the Lean build outside the polecat and the refinery gate.** I verified
-  mg-7fc6 statically only (65 results listed in `Axioms.lean`, no `sorry` in sources, every
-  claimed theorem present) and stopped the check when it began cloning mathlib from source on
-  a host running six polecats — see mg-eb47. An independent compile on an idle box, or CI,
-  would close this.
+- ~~Nobody has re-run the Lean build outside the polecat and the refinery gate.~~ **Closed by
+  mg-fe9a at 10:48Z**: a clean GitHub runner now builds from the pinned manifest on every push
+  to `main`. This was open for about ninety minutes.
+- **CI's coverage is narrower than its badge.** Four verifiers run reduced grids to fit the
+  time budget (`verify_q1.py` 2m02s in CI against 25m31s at full grid; `verify_h0.py`'s full
+  grid was cancelled at a 30-minute cap, so its true runtime is only a lower bound). The
+  reduced grids are weaker in a way nobody has quantified — mg-fe9a measured that
+  `verify_q1.py`'s `--quick` grid does not reach the `(FAILS)` cell its full grid prints. The
+  README states this; a green tick does not.
 - **Still nobody outside this fleet has read a line.** Daniel has ruled that a human reviewer
   is the wrong instrument and Lean is the substitute; that is a real answer, and it is not the
   same thing as the risk being gone. The endorsement requirement partially re-imports it: an
