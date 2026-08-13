@@ -283,7 +283,9 @@ measured **3m55s** with a cold cache and **2m11s** with a warm one, of which
 
 [`.github/workflows/verifiers.yml`](.github/workflows/verifiers.yml) runs **all
 fifteen** `notes/verify_*.py` scripts, one GitHub job each, so the run page names
-every script it ran and how long it took. Nothing is silently skipped.
+every script it ran and how long it took. Nothing is silently skipped. A
+sixteenth job runs [the positive control](#the-exit-code-contract) that proves
+those fifteen exit statuses can still fail.
 
 Eleven run on their **full grid** — the same run you would get locally with no
 arguments. Four run on the **reduced grid** their own `--quick` / `QUICK=1`
@@ -344,9 +346,24 @@ fifteen with `VERIFY_SELFTEST_FORCE_FAIL=1`, which forces the first decision the
 script reaches to come out negative, and requires a non-zero exit naming that
 check. A script that imported the contract but never used it would reach no
 decision, exit 0, and be reported as a failure by that test. The three fastest
-are also run unforced and must exit 0. That test is a local check and is not in
-the workflow: what CI runs is the fifteen scripts themselves, whose exit status
-now means something.
+are also run unforced and must exit 0.
+
+**That test runs in CI**, as the `exit-code contract (positive control)` job of
+the `verifiers` workflow — the same badge, because what it guards is the exit
+status of the same fifteen scripts. A control only a human remembers to run
+decays into the state this repository was in before 2026-08-13, and it decays
+without anything going red. The forced runs stop at the first decision, so the
+job is cheap: **1m00s and 1m34s** on two runs on a developer machine, against
+twenty-plus minutes for the grids above.
+
+It distinguishes a broken contract from a machine that cannot run the scripts at
+all. On a box without `mpmath` every one of the fifteen dies at import and exits
+1, which reads as fifteen broken contracts; that reading is wrong and the fix is
+one `pip install`. So the test checks the imports the selected scripts need
+before running anything, reports what is missing and what to install, and exits
+**2** — a status that says the contract was not tested, as distinct from the 1
+that says it failed. Anything that dies of `ModuleNotFoundError` anyway is
+reported under `NOT RUN` rather than counted as a failure.
 
 **The four scripts CI runs on a reduced grid had their wired checks verified
 against their FULL grids by hand when the contract was written — all four exit 0
@@ -407,11 +424,17 @@ cd notes && python verify_q1.py       # any verifier; run from `notes/`
 echo $?                               # 0 iff every check it states came out right
 
 cd notes && python test_exit_codes.py # ~2 min: proves each script can still fail
+echo $?                               # 0 pass, 1 a contract failed, 2 not run
 ```
 
 The verifiers must be run with `notes/` as the working directory — several
 import their siblings by bare module name. `verify_independent_recheck.py` needs
 neither numpy nor mpmath, which is the point of it.
+
+If the `pip install` line above was skipped, `test_exit_codes.py` says so and
+exits 2 rather than reporting fifteen failures: without `mpmath` every script
+dies at import and exits 1, and a run that never happened is not a contract that
+does not work.
 
 ## License
 
