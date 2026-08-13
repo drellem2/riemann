@@ -25,8 +25,11 @@ withdrawn.
 
 ## Next (queued, available)
 
-*Empty.* mg-5210 merged 19:52 (`20ec578`) and mg-54ae 20:15 (`7228063`); all three badges green
-on `7228063f`. The next ticket goes at the **thin margin** — see below.
+- **mg-d03b** — *The whole sign lives in a margin of $8.7\times10^{-5}$.* Exhibit the near-null
+  direction of $-E$ on the codimension-two subspace; track the margin past $\mu=2$ to find out
+  whether Theorem 1's hypothesis is the truth or an artifact of its proof; and measure what
+  each vanishing condition individually buys. Every statement in this area is false for
+  $W_\lambda\to-W_\lambda$, so work here is automatically not sign-blind.
 
 ## Why everything is sign-blind, and the one design rule that follows
 
@@ -95,14 +98,6 @@ Building any of them is **Daniel's call, not mine.** They are not effort gaps, t
 library gaps, and the third is a multi-month project that would benefit people well outside
 this repo. Until one is chosen, Q2 rests on Q1, Lemma 2.1 and Lemma 3.3, and **is not
 unconditional** — precisely as mg-57a2 was scoped to expect.
-
-## Where I would go next
-
-**The thin margin.** On the direction where the gap is smallest it is $8.7\times10^{-5}$ at
-$\mu=2$ against a $W_\infty$ of order one, and the two vanishing conditions are the entire
-difference between an indefinite form and a positive one. That is the smallest, sharpest, most
-sign-sensitive object the corpus has ever had a number for. Everything else here is further
-from the sign than that is.
 
 ## Later (proposed, not filed) — the other routes past sign-blindness
 
@@ -200,6 +195,11 @@ one. That is why it is now written down (mg-83d1) rather than left in an outbox.
 - **The tightest measured threshold** is `verify_arch_positivity.py` CHECK 3:
   $5.55\times10^{-8}$ against Connes–Consani's printed $6\times10^{-8}$, ~8% of slack.
   Everything else has an order of magnitude or more. A different BLAS could move it.
+- **A claim in a mail has left every instrument we own.** Today's three other statement-defects
+  sat in files, where a formalisation run found them. My three errors travelled
+  file → mail → dispatch rationale → mayor's acknowledgement, gaining authority at each hop
+  because each carrier was quoting someone who sounded certain. `notes/statement-defects.md`
+  documents this class **for files only**. Nothing formalises a dispatch mail.
 - **Nothing machine-checks the notes' cross-references** (mg-83d1's own caveat). Link targets
   were confirmed by hand.
 - **A host disk incident today, outside my scope:** `/System/Volumes/Data` hit 100% (203 MiB
