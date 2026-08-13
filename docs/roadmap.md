@@ -17,16 +17,18 @@ and Daniel has chosen the route (below).
 
 ## Now (in flight)
 
-*Nothing.* mg-7fc6 merged 09:55 (`4788c42`); mg-fe9a merged 10:48 (`2bc06b5`); mg-5995 merged 12:38 (`00ee1f2`). mg-6e8a filed 13:50, awaiting dispatch.
+*Nothing.* Four merged today: mg-7fc6 09:55 (`4788c42`), mg-fe9a 10:48 (`2bc06b5`), mg-5995 12:38 (`00ee1f2`), mg-6e8a 13:05 (`87f2af4`). mg-1155 filed 14:24, awaiting dispatch.
 
 ## Next (queued, available)
 
-- **mg-6e8a** — *The positive control guarding the fifteen exit-code contracts is run by
-  nobody*, because mg-5995's ticket forbade touching `.github/workflows/`. It costs ~45s. Also
-  make it distinguish **"this script's contract does not work"** from **"this script never
-  ran"**: without `mpmath` installed it reports fifteen broken contracts, which is what a
-  missing import looks like through it. I hit that myself while verifying mg-5995 and nearly
-  filed a regression on the strength of it.
+- **mg-1155** — *The paper does not compile.* `pdflatex -halt-on-error` dies with no PDF.
+  Exactly two undefined control sequences, twelve lines apart: `\C` at l.1746 and
+  `\widecheck` at l.1760 — I built a clean copy of `main` to measure the whole surface. The
+  218 undefined refs / 63 citations a single pass also reports are **single-pass artifacts,
+  not defects** (the bibliography is inline, 15 `\bibitem`s); the ticket says so explicitly so
+  nobody hunts phantom labels. Includes a `paper` CI job and badge, following mg-fe9a's
+  pattern. Matters because the repo went public-facing today and its headline artifact is the
+  one thing a stranger cannot build.
 
 ## Later (proposed, not filed)
 
@@ -74,7 +76,7 @@ and Daniel has chosen the route (below).
 - Periodic **S3 re-check**: CCM's deferred semilocal prolate operator had not appeared as of
   Feb 2026 (arXiv-only; `math.jhu.edu` and `alainconnes.org` both 403'd).
 
-## Recently shipped (last 7d — 32 items)
+## Recently shipped (last 7d — 33 items)
 
 Merged since the 08-12 17:05 regeneration:
 
@@ -85,6 +87,7 @@ Merged since the 08-12 17:05 regeneration:
 | mg-882b | **Citation audit closed** — U1, U2, U3, U8, U9, plus U4's stale row and the converse check. |
 | mg-7fc6 | **The Lean frontier moved past the elementary layer**, and the reachability question was answered by measurement rather than by my guess. 65 audited results, no `sorry`. See below for exactly what this does and does not mean. |
 | mg-5995 | **The fifteen verifiers now have an exit-code contract, and a positive control proves each one can fail.** I re-ran that control myself in a clean venv: all 15 exit 1 under force naming the check they stopped on, all 3 unforced controls exit 0. It **caught a real defect on its first sweep** — `verify_deficit_repair.py` CHECK 6, where D(8) and s(8) are stable to different mpmath depths (fixed in `89674fa`, confirmed against the full grid). `verify_h0.py`'s full grid also ran to completion for the first time: 44 minutes, the one mg-fe9a cancelled at a 30-minute cap. |
+| mg-6e8a | **The positive control now runs in CI** as a 16th job of `verifiers.yml`, and it tells *"this script's contract does not work"* apart from *"this script never ran"* — exit 1 vs exit 2. I re-tested the case that nearly made me file a false regression: on a machine with neither module it now prints `NOT RUN … it is a statement about this machine` and names the `pip install` line, where it used to print 18 contract failures. It resolves each script's imports with `ast` rather than grep, because `verify_dunster.py` names mpmath in prose. All 16 jobs green on `main`. |
 | mg-fe9a | **CI, and the 65 results now have an independent compile.** `lean` and `verifiers` both green on `main`, both badges reading *passing*. The Lean build takes 3m55s on a cold cache with `Downloaded: 8232/8232 (100%)` — nothing compiled from source — and ends `check.sh: OK - 65 results, none depending on sorryAx`. Its **finding** was worth more than the workflows: 12 of the 15 `verify_*.py` scripts print `REFUTED`/`MISMATCH` and exit 0, so a naive call is green either way. Filed as mg-5995. |
 
 ### What mg-7fc6 proved, stated so it cannot be over-read
