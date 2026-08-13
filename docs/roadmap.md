@@ -21,7 +21,7 @@ and Daniel has chosen the route (below).
 
 ## Next (queued, available)
 
-*Empty.* See "Later" — the next call is Daniel's.
+*Empty.* mg-fe9a filed at 10:35, awaiting dispatch.
 
 ## Later (proposed, not filed)
 
@@ -33,16 +33,21 @@ and Daniel has chosen the route (below).
   cylinder functions, which mathlib does not have. Building any of these is **Daniel's call,
   not mine** — the last is a research-library project in its own right.
 - **Prop. 4.1** of `notes/dilate-sum.md` (the $x^{-2}$ remainder bound) is currently a
-  *hypothesis* of the formalised Q2. mg-7fc6 rates it "probably reachable, not attempted" —
-  the Lagrange system needs no continuous branch. **This is the cheapest remaining win**: it
-  would convert Q2 from conditional-on-a-hypothesis to standing on its own. Not filed only
-  because the one-thing-at-a-time slot should go to whatever Daniel picks next.
+  *hypothesis* of the formalised Q2, and mg-7fc6 rates it "probably reachable, not attempted"
+  — the Lagrange system is the Prüfer system's *linear* cousin and needs no continuous branch.
+  **Correction to the 10:15 revision of this file, which said this was the cheapest remaining
+  win and would let Q2 stand on its own: it would not.** `lean/README.md:44` gives the reason
+  — Prop. 4.1(ii) consumes Q1 for $\|u\|\le K_1\|\Phi(1)\|$, so formalising it moves Q2's
+  dependency from Prop. 4.1 to **Q1**, which is behind the Prüfer wall. It terminates in the
+  same place. The remaining value is real but smaller: Q2 would rest on one prose input
+  instead of two, and the exercise is the predicted next site for a missing-hypothesis find
+  (two for two so far). Worth doing, not worth doing first.
 - **Q1′** — the proof's amplitude bound is $2^{1/4}\sqrt c$ where the measured ratio straddles
   $\sqrt{2/\pi}$. Slack in a proved constant; low value.
-- **CI on the public repo.** Nothing currently re-runs `lean/scripts/check.sh` or the fifteen
+- **CI on the public repo — FILED as mg-fe9a (10:35).** Nothing currently re-runs `lean/scripts/check.sh` or the fifteen
   `notes/verify_*.py` scripts; there is no `.github/workflows/`. For a public repo whose
   credibility claim is reproducibility, a green check is worth more than a paragraph. Not
-  filed yet. With mg-7fc6 merged this is now a live candidate for the next slot, and mg-7fc6
+  With mg-7fc6 merged this took the next slot ahead of Prop. 4.1, and mg-7fc6
   strengthened the case: 65 machine-checked results are worth more when a machine re-runs them.
 
 ## Backlog (open, no near-term plan)
