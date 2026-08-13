@@ -712,8 +712,9 @@ K_P(c)=O(\log c).$$
 
 **Theorem 5.2 above is the only non-elementary input, and it enters in the one form
 this note did not emphasise: it says $u=\sqrt{x^2-1}\,\Phi$ is BOUNDED.** In the
-Liouville form $u''+(c^2+\epsilon)u=0$ with $\epsilon=\frac{c^2-\chi+1}{x^2-1}$
-integrable at infinity, boundedness of $u$ is exactly what makes the Lagrange
+Liouville form $u''+(c^2+\epsilon)u=0$ with
+$\epsilon=\frac{c^2-\chi}{x^2-1}+\frac{1}{(x^2-1)^2}$ integrable at infinity
+(**corrected by mg-57a2**; `dilate-sum.md` §13), boundedness of $u$ is exactly what makes the Lagrange
 coefficients' derivatives integrable, hence what gives the off-band remainder its
 second power of $x$. **Lemma 5.1 alone would not do it** — it gives
 $|u|\le\sqrt{x^2-1}\,|\Phi(1)|$, which grows. So the factor $x$ that §6 above called

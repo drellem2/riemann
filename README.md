@@ -269,7 +269,7 @@ exits non-zero if the build fails, if `sorry` appears, or if any result depends
 on `sorryAx`. A green tick means the log ends in
 
 ```
-check.sh: OK — 65 results, none depending on sorryAx
+check.sh: OK — 91 results, none depending on sorryAx
 ```
 
 **mathlib is never compiled from source.** The workflow uses

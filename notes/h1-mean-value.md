@@ -709,8 +709,8 @@ what stands between this note and H1 is Q3 alone** (plus Q4/H0, which is separat
 2. **Q1 is not merely *an* input to Q2; it is *the* input.** Q1 says
    $x|\Phi|\le K_1|\Phi(1)|$, which says exactly that $u=\sqrt{x^2-1}\Phi$ is
    **bounded** — and bounded $u$ against the integrable perturbation
-   $\epsilon=\frac{c^2-\chi+1}{x^2-1}$ is what makes the Lagrange coefficients
-   converge. §5's Lemma 5.1 alone is **not** enough: it gives
+   $\epsilon=\frac{c^2-\chi}{x^2-1}+\frac{1}{(x^2-1)^2}$ (**corrected by mg-57a2**;
+   `dilate-sum.md` §13) is what makes the Lagrange coefficients converge. §5's Lemma 5.1 alone is **not** enough: it gives
    $|u|\le\sqrt{x^2-1}|\Phi(1)|$, which grows.
 3. **§4's sawtooth is the right mechanism, and it is right for a reason this note
    does not state: the leading off-band term is a *pure sine*.**

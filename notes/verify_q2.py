@@ -420,7 +420,10 @@ def check0():
 def check1():
     print("\nCHECK 1 -- alpha_infty = 2 Phi(1)/(c mu_Phi) and beta_infty = 0")
     print("u = sqrt(x^2-1) Phi solves u'' + (c^2 + eps) u = 0 with")
-    print("eps = (c^2 - chi + 1)/(x^2 - 1); writing u = alpha sin(cx) + beta cos(cx),")
+    print("eps = (c^2 - chi)/(x^2 - 1) + 1/(x^2 - 1)^2  [corrected by mg-57a2; the")
+    print("printed (c^2 - chi + 1)/(x^2 - 1) was wrong.  This check never evaluates")
+    print("eps -- alpha and beta come algebraically from (u, u') -- which is part of")
+    print("why the slip survived]; writing u = alpha sin(cx) + beta cos(cx),")
     print("u' = c(alpha cos - beta sin), both alpha and beta converge.  The proof")
     print("needs beta_infty = 0 EXACTLY -- it is what makes the dilate sum a")
     print("sawtooth rather than a divergent log.  Reported relative to |a_1|.\n")

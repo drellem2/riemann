@@ -34,14 +34,21 @@ guessed: **Q2 and the assembly are reachable; Q1, H0 and Q3 are not.** The
 dividing line is not "elementary versus hard" — it is whether the argument needs
 a *continuous branch of a phase along an ODE-defined curve*.
 
+mg-57a2 then closed the one row that read "probably yes, not attempted":
+**Prop. 4.1 is proved**, and it terminates in Q1 exactly where mg-7fc6 predicted.
+Formalising it refuted `dilate-sum.md` Lemma 3.1's printed potential — item 7 of
+"What formalising changed", below, and the first *incorrect proof* rather than
+understated hypothesis this development has found.
+
 | Paper result | Reachable without new mathlib infrastructure? | Reason |
 |---|---|---|
 | **Lemma `lem:amplitude`** — `\|Φ x\| ≤ \|Φ 1\|` | **yes — done** (mg-a087) | Sturm functional; algebraic, no phase |
 | **Lemma 3.1, Lemma 4.1** (first three bounds) | **yes — done** (mg-a087) | explicit coefficient bounds |
 | **Thm `thm:q1`** (Q1) | **no** | needs the modified Prüfer angle `θ` with `Φ = ρ sin θ`, i.e. a *continuous* argument along an ODE solution. mathlib has continuous logarithms but not this. Explicitly out of scope for mg-7fc6 |
 | **Lemma 4.1** — fourth bound, `θ' ≥ k - f` | **arithmetic half only** (mg-a087) | `k - f ≥ c₋` is proved; `θ' ≥ k - f` is about `θ` |
-| **Thm `thm:q2`** (Q2) — the dilate sum | **yes — done, given Prop. 4.1** | its two halves are (a) the sawtooth/log dichotomy, which is Abel's limit theorem on the unit circle — mathlib has it — and (b) a series split, harmonic sum and `m⁻²` tail. **Neither is an ODE statement.** Prop. 4.1's two remainder bounds are hypotheses, because they rest on Q1 |
-| **Thm `thm:q2`** — Prop. 4.1 (the `x⁻²` remainder) | **probably yes, not attempted** | Lemma 3.2's Lagrange system is the Prüfer system's *linear* cousin: `α, β` are explicit algebraic functions of `(u, u')`, globally smooth, **needing no continuous branch**. This is the finding that made Q2 look reachable in the first place. Lemma 3.3 additionally needs Riemann–Lebesgue (mathlib has it) and Lemma 2.1's integration by parts. Not attempted because Prop. 4.1(ii) consumes Q1 for `\|u\| ≤ K₁\|Φ(1)\|`, so it would still terminate in the same hypothesis |
+| **Thm `thm:q2`** (Q2) — the dilate sum | **yes — done, given Q1 and Lemma 3.3** | its two halves are (a) the sawtooth/log dichotomy, which is Abel's limit theorem on the unit circle — mathlib has it — and (b) a series split, harmonic sum and `m⁻²` tail. **Neither is an ODE statement.** Prop. 4.1's two remainder bounds were hypotheses for mg-7fc6 and are now proved (row below) |
+| **Thm `thm:q2`** — Prop. 4.1 (the `x⁻²` remainder) | **yes — done** (mg-57a2) | measured, not guessed. mg-7fc6's prediction held: Lemma 3.2's Lagrange system is the Prüfer system's *linear* cousin — `α, β` are explicit algebraic functions of `(u, u')`, globally smooth, **needing no continuous branch** — and it went in as written. Lemma 3.1 (the Liouville form) and Lemma 3.2 (the system, and its `x⁻¹` convergence rate) are proved outright; **Q1** and **Lemma 3.3** (`α_∞ = a₁`, `β_∞ = 0`) are the hypotheses, so it terminates in Q1 exactly as predicted. Lemma 3.2's convergence needed **no integration theory** — an explicit majorant antiderivative plus two monotonicity arguments replaces `∫_X^∞ |α'|`. **Formalising this row found `dilate-sum.md` Lemma 3.1's potential to be wrong** — item 7 below |
+| **`dilate-sum.md` Lemma 2.1** (two integrations by parts, Riemann–Lebesgue) and **Lemma 3.3** (`β_∞ = 0`) | **not attempted** | mathlib has Riemann–Lebesgue and integration by parts, so this is reachable in principle; it was left out to keep mg-57a2 inside its scope limit. It is the remaining prose input to Q2 besides Q1, and it is where the finite-Fourier eigenrelation (F) enters |
 | **Cor `cor:quantisation`** — `β_∞ ≠ 0` ⟹ `sup t\|G\| = +∞` | **yes — done** (the divergence half) | `∑ cos(mγ)/m = -log(2 sin(γ/2)) → +∞` as `γ → 0⁺` |
 | **Thm `thm:q3`** (Q3) | **no** | needs Riemann–von Mangoldt, de la Vallée Poussin's zero-free region, subharmonicity of `\|F\|²` on a strip, and Plancherel on horizontal lines. mathlib has **neither** classical zeta input |
 | **Thm `thm:h0`** (H0) | **no** | rests on Dunster (124)+(107) — uniform asymptotics of prolate functions by parabolic cylinder functions. mathlib has no prolate functions, no parabolic cylinder functions, and no coalescing-turning-point theory. Not a Prüfer problem; a *no such special function exists* problem |
@@ -50,13 +57,14 @@ a *continuous branch of a phase along an ODE-defined curve*.
 | **Prop `prop:identity`** | **not attempted** | one line informally, but it needs `F_μ`, the zero set `Z` and `QW_λ` as Lean objects — a definitional layer, not a proof |
 | **Prop `prop:noH1`**, **`prop:indefinite`**, **`prop:witness`** | **not attempted** | not on the `-4π` chain |
 
-`#print axioms` reports `[propext, Classical.choice, Quot.sound]` for all **65**
+`#print axioms` reports `[propext, Classical.choice, Quot.sound]` for all **91**
 results and `sorryAx` for none. There is no `sorry` anywhere in `Riemann/`.
 
 ### The one-sentence version
 
 > The Prüfer wall blocks **Q1 and nothing else** on the chain. Above it, Q2 is
-> blocked only *through* Q1, and the assembly is not blocked at all. What blocks
+> blocked only *through* Q1 — now measured rather than predicted: Prop. 4.1 is
+> proved and it terminates in Q1 — and the assembly is not blocked at all. What blocks
 > Q3 and H0 is a different and much larger absence: mathlib has neither of the two
 > classical facts about the zeros of `ζ`, and no prolate or parabolic-cylinder
 > special functions whatsoever.
@@ -71,6 +79,11 @@ results and `sorryAx` for none. There is no `sorry` anywhere in `Riemann/`.
   is bounded, `∑ cos(mγ)/m = -log(2 sin(γ/2))` is not. (mg-7fc6)
 * `Riemann/DilateSum.lean` — Theorem `thm:q2` with its explicit constant, given
   Prop. 4.1's two remainder bounds as hypotheses. (mg-7fc6)
+* `Riemann/Remainder.lean` — `dilate-sum.md` Lemmas 3.1 and 3.2 and
+  **Proposition 4.1**, with Q1 and Lemma 3.3 as hypotheses; and
+  `theorem_q2_of_prolate`, which is `DilateSum.theorem_q2` with those two
+  hypotheses discharged. Contains the refutation of Lemma 3.1 as printed
+  (`printed_potential_not_deriv`). (mg-57a2)
 * `Riemann/Assembly.lean` — Corollary `cor:upper` and the `limsup` half of
   Theorem `thm:main`, with the four legs as hypotheses. (mg-7fc6)
 * `Riemann/Axioms.lean` — the axiom audit; every claimed result is listed.
@@ -125,9 +138,10 @@ made everything else vacuous.
 ## What formalising changed in the informal statements
 
 Recorded in `notes/band-edge-connection.md` §13, `notes/h1-mean-value.md` §16 and
-`notes/dilate-sum.md` §12, and repeated here. Items 1–3 are mg-a087's; item 4 is
-mg-7fc6's, and items 5–6 are clarifications rather than repairs — stated as such
-rather than dressed up.
+`notes/dilate-sum.md` §§12–13, and repeated here. Items 1–3 are mg-a087's; item 4
+is mg-7fc6's, and items 5–6 are clarifications rather than repairs — stated as
+such rather than dressed up. **Item 7 is mg-57a2's and is different in kind from
+all of them: an incorrect proof, the first formalisation has found here.**
 
 1. **Lemma 5.1's use of "Φ is analytic at `x=1`" splits into two independent
    hypotheses**, and the note's remark that "boundedness near `x=1` would do"
@@ -198,16 +212,70 @@ rather than dressed up.
    is strictly stronger than any `limsup` reading, and is the sentence worth
    quoting.
 
+7. **`dilate-sum.md` Lemma 3.1 prints the wrong Liouville potential — the first
+   *incorrect proof* this development has found.** The note (and paper §7.5)
+   state that `u := √(x²-1) Φ` satisfies `u'' + (c²+ε)u = 0` with
+   `ε = (c²-χ+1)/(x²-1)`. It does not. The true potential is
+
+   ```
+   ε(x) = (c²-χ)/(x²-1) + 1/(x²-1)²
+   ```
+
+   The note's proof divides `½(p^{-1/2}p')'` by `p^{-1/2}` where the preceding
+   line licenses `p^{1/2}`; with `p = x²-1` that turns an `(x²-1)⁻²` into an
+   `(x²-1)⁻¹`. Both halves are machine-checked: `Remainder.hasDerivAt_uu'` proves
+   the corrected identity, and `Remainder.printed_potential_not_deriv` refutes
+   the printed one at the separating instance `c = χ = 0`, `Φ ≡ 1`, `x = 2`
+   (there `u = √(x²-1)`, `u'' = -(x²-1)^{-3/2}`, and only the corrected `ε`
+   annihilates it).
+
+   **Nothing downstream moves, and that is checked and not argued.** `ε` is
+   consumed at exactly one point — the tail bound `∫_X^∞ ε` of Lemma 3.2 — and
+   the true `ε` satisfies it with *more* room than the printed one:
+   `(2c² + 2/3)/X` against `2(c²+1)/X`, both below the `3c²/X` actually used
+   (`Remainder.eps_le_deriv_MM`, `Remainder.MM_le`). `B₁`, `B₂`, `K_P(c)` and
+   every number in `dilate-sum.md` §7 stand as printed.
+
+   Why it survived two notes and a formalisation ticket, since that is the part
+   worth keeping: the two potentials **agree to leading order as `x → ∞`**, which
+   is the only regime the argument uses, so no asymptotic check separates them;
+   `notes/verify_q2.py` checks the *conclusions* of Lemmas 3.2–3.3 and Prop. 4.1
+   and **never evaluates `ε`**, so no grid could catch it; and mg-7fc6 stopped one
+   lemma short, taking the off-band splitting as a hypothesis, so Lemma 3.1 was
+   never presented to the compiler. It was reachable only by formalising
+   *downward* into the step nobody had a reason to doubt.
+
+8. **Prop. 4.1(i) needs no hypothesis on `c`, `χ` or the ODE.** It is Q1 plus
+   `|sin| ≤ 1`. `Remainder.prop41_i` carries neither `IsSolution` nor `0 ≤ χ < c²`
+   nor `√2 < c` nor `β_∞ = 0`; every standing hypothesis of `dilate-sum.md` §0
+   beyond Q1 is spent in part (ii) and nowhere else. Same shape as items 2–3
+   above: a localisation, not a correction.
+
+9. **The eigenrelation (F) enters Prop. 4.1 through `β_∞ = 0` and nothing else.**
+   All of Lemma 3.2 (`abs_sub_al_le`, `abs_sub_be_le`) is pure ODE; (F) appears
+   only as `tail_le`'s `hβ` hypothesis. `dilate-sum.md` §3's Corollary 3.4 says
+   exactly this, and it is now structural rather than asserted.
+
 **A deviation, recorded because it is not a transcription.** `dilate-sum.md`
 Thm 5.1 splits the remainder sum at `mt = X_*`; `Riemann.DilateSum.tsum_abs_le`
 splits at the *index* `⌊X⌋₊`. That is a coarser split (the low set is larger,
 since `mt < X` implies `m < X`) and it yields the same constant, because the low
 bound is summed against `harmonic ⌊X⌋₊ ≤ 1 + log X` either way.
 
+**A second deviation, same kind.** `dilate-sum.md` Lemma 3.2 proves `(3.3)` by
+integrating `|α'| ≤ (ε/c)K₁|Φ(1)|` from `X` to `∞`. `Riemann/Remainder.lean`
+uses **no integration theory at all**: `MM c x = 2c²/x + 4/(3x³)` is an explicit
+majorant antiderivative with `-MM' ≥ ε` pointwise on `[√2,∞)`, and
+`abs_sub_le_of_deriv_le` gets `|α y - α x| ≤ k(M x - M y)` from `α + kM` antitone
+and `α - kM` monotone. Same constant, and the *existence* of `α_∞`, `β_∞` is not
+needed — Lemma 3.3 supplies their values as a hypothesis.
+
 **No sign, and nothing approaching RH, appears anywhere in this development.**
 It is confidence in existing magnitude results and nothing more. Applying the
 house rule target by target: `lem:amplitude`, Lemma 3.1, Lemma 4.1, the two
-Fourier identities of `Sawtooth.lean`, Theorem `thm:q2` and the whole of
+Fourier identities of `Sawtooth.lean`, Theorem `thm:q2`, the whole of
+`Remainder.lean` (under `Φ ↦ -Φ`: `u ↦ -u`, `α ↦ -α`, `β ↦ -β`, `a₁ ↦ -a₁`,
+`W ↦ -W`, and `eps`/`MM` mention no `Φ` at all) and the whole of
 `Assembly.lean` are **every one of them sign-blind** — each is an equality, or a
 bound on a modulus, or (in the assembly) invariant under relabelling its
 arguments, and **not one of them becomes false under `W_λ ↦ -W_λ`**. Nothing new

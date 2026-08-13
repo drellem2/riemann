@@ -54,8 +54,10 @@ wrong about which quantity was resisting.
 
 **3. The proof is one application of variation of parameters, and Q1 is exactly the
 input that makes it work.** In the Liouville form $u:=\sqrt{x^2-1}\,\Phi$ satisfies
-$u''+(c^2+\epsilon)u=0$ with $\epsilon=\frac{c^2-\chi+1}{x^2-1}$ integrable at
-infinity. Q1 says $x|\Phi|\le K_1|\Phi(1)|$, which says **exactly that $u$ is
+$u''+(c^2+\epsilon)u=0$ with
+$\epsilon=\frac{c^2-\chi}{x^2-1}+\frac{1}{(x^2-1)^2}$ integrable at infinity
+(**corrected by mg-57a2**; §3, §13). Q1 says $x|\Phi|\le K_1|\Phi(1)|$, which
+says **exactly that $u$ is
 bounded** — and bounded $u$ plus integrable $\epsilon$ gives
 $\int^\infty|\alpha'|+|\beta'|<\infty$ for the Lagrange coefficients, hence
 convergence of the amplitudes at rate $O(c/x)$, hence the $x^{-2}$ remainder. §§3–4.
@@ -221,18 +223,33 @@ whose hypotheses would otherwise have to be re-checked.*
 
 ## 3. The Liouville form, and the two constants at infinity — *ours (classical technique)*
 
+> **CORRECTED by mg-57a2 — this lemma was stated and proved wrongly.** The
+> printed potential was $\epsilon=\frac{c^2-\chi+1}{x^2-1}$, from dividing
+> $\tfrac12(p^{-1/2}p')'$ by $p^{-1/2}$ where it must be divided by $p^{1/2}$.
+> The correct statement and proof are below, and both are machine-checked
+> (`Riemann.Remainder.hasDerivAt_uu'`, with the printed form separately refuted
+> by `Riemann.Remainder.printed_potential_not_deriv`). **Nothing downstream
+> changes** — see §13, and the corrected tail bound in Lemma 3.2 below.
+
 **Lemma 3.1 (ours).** *Put $u:=\sqrt{x^2-1}\,\Phi$. On $x>1$,*
 $$u''+\big(c^2+\epsilon(x)\big)\,u=0,\qquad
-\epsilon(x)=\frac{c^2-\chi+1}{x^2-1}\;>\;0. \tag{3.1}$$
+\epsilon(x)=\frac{c^2-\chi}{x^2-1}+\frac{1}{(x^2-1)^2}\;>\;0. \tag{3.1}$$
 
 *Proof.* (E) is $(p\Phi')'+q\Phi=0$ with $p=x^2-1$, $q=c^2x^2-\chi$. Substituting
-$\Phi=p^{-1/2}u$ gives $(p\Phi')'=p^{1/2}u''-\tfrac12(p^{-1/2}p')'u$, so
-$$u''+\Big[\frac qp-\frac{(p^{-1/2}p')'}{2p^{-1/2}}\Big]u=0 .$$
+$\Phi=p^{-1/2}u$ gives $(p\Phi')'=p^{1/2}u''-\tfrac12(p^{-1/2}p')'u$, so, dividing
+by $p^{1/2}$,
+$$u''+\Big[\frac qp-\frac{(p^{-1/2}p')'}{2p^{1/2}}\Big]u=0 .$$
 With $p'=2x$, $p^{-1/2}p'=2x(x^2-1)^{-1/2}$ and
 $(p^{-1/2}p')'=2(x^2-1)^{-1/2}-2x^2(x^2-1)^{-3/2}=-2(x^2-1)^{-3/2}$, so the bracket's
-second term is $-\frac1{x^2-1}$ and
-$\frac qp+\frac1{x^2-1}=\frac{c^2x^2-\chi+1}{x^2-1}=c^2+\frac{c^2-\chi+1}{x^2-1}$.
-Positivity of $\epsilon$ is $\chi<c^2$. ∎
+second term is $+\frac1{(x^2-1)^2}$ and
+$\frac qp+\frac1{(x^2-1)^2}=c^2+\frac{c^2-\chi}{x^2-1}+\frac{1}{(x^2-1)^2}$.
+Positivity of $\epsilon$ is $\chi\le c^2$, which $\chi<c^2$ gives. ∎
+
+*One-line control, needing no machine.* At $c=\chi=0$ the equation
+$\big((x^2-1)\Phi'\big)'=0$ has the solution $\Phi\equiv1$, so $u=\sqrt{x^2-1}$
+and $u''=-(x^2-1)^{-3/2}$. The corrected $\epsilon=(x^2-1)^{-2}$ gives
+$u''+\epsilon u=0$; the printed $\epsilon=(x^2-1)^{-1}$ gives
+$u''+\epsilon u=(x^2-1)^{-1/2}-(x^2-1)^{-3/2}\neq0$.
 
 **Lemma 3.2 (ours; the Lagrange system, and Q1 is what closes it).** *Write, on
 $(1,\infty)$,*
@@ -258,12 +275,16 @@ $|u|\le\sqrt{x^2-1}\,|\Phi(1)|$, which grows, and then $\int|\alpha'|$ diverges.
 factor $x$ that Q1 adds is exactly the factor that makes $u$ bounded.)
 
 Hence $|\alpha'|,|\beta'|\le\frac{\epsilon}{c}K_1|\Phi(1)|$, and for $X\ge\sqrt2$,
-using $\chi\ge0$ and $\operatorname{artanh}s\le\frac{s}{1-s^2}$,
+using $\chi\ge0$, $\operatorname{artanh}s\le\frac{s}{1-s^2}$, and
+$X^2-1\ge X^2/2$ throughout (which is $X\ge\sqrt2$),
 $$\int_X^\infty\epsilon
-=(c^2-\chi+1)\,\operatorname{artanh}\frac1X
-\;\le\;(c^2+1)\,\frac{X}{X^2-1}\;\le\;\frac{2(c^2+1)}{X},$$
-the last step because $X^2-1\ge X^2/2$ for $X\ge\sqrt2$. Since $c>\sqrt2$ gives
-$2(c^2+1)\le3c^2$,
+=(c^2-\chi)\,\operatorname{artanh}\frac1X+\int_X^\infty\frac{dt}{(t^2-1)^2}
+\;\le\;\frac{2c^2}{X}+\int_X^\infty\frac{4\,dt}{t^4}
+\;=\;\frac{2c^2}{X}+\frac{4}{3X^3}\;\le\;\frac{2c^2+\tfrac23}{X}.$$
+*(**mg-57a2**: this is the corrected $\epsilon$ of Lemma 3.1. The printed
+$\epsilon$ gave $\frac{2(c^2+1)}{X}$ here, and the corrected one is **smaller**;
+both are $\le\frac{3c^2}{X}$, so (3.3) and everything after it are untouched.)*
+Since $c>\sqrt2$ gives $2c^2+\tfrac23\le3c^2$,
 $$\int_X^\infty|\alpha'|,\ \int_X^\infty|\beta'|\;\le\;\frac{K_1|\Phi(1)|}{c}\cdot\frac{3c^2}{X}
 =\frac{3cK_1|\Phi(1)|}{X}.$$
 Both integrals are finite, so the limits exist, and (3.3) is the sum of the two
@@ -932,6 +953,11 @@ G10.** That is the answer §8 predicts, and it is correct rather than a defect.
 byproduct was a repair to an informal hypothesis (Lemma 5.1's "analytic at $x=1$"
 splitting in two); nothing of that kind turned up here. The two items above are a
 clarification and a deviation, and calling either a repair would be an overstatement.
+
+> **Superseded by §13 (mg-57a2).** That paragraph is **wrong**, and it is wrong
+> because mg-7fc6 stopped one lemma short: it formalised §5 and took §§2–4 as
+> hypotheses, so Lemma 3.1 was never checked. Formalising Lemma 3.1 refutes it —
+> the printed Liouville potential is not the true one. See §13.
 The one genuine finding about a *stated hypothesis list* is in the paper's
 `cor:upper`, not in this note — see `lean/README.md` item 4 and paper §6.6.
 
@@ -950,3 +976,118 @@ ticket did not:
     `lean/README.md`.
 16. **§8's house-rule table row for the formalisation is widened** to cover Q2 and the
     assembly, with the same verdict: sign-blind.
+
+---
+
+## 13. Machine-checked: Prop. 4.1 — and Lemma 3.1 was wrong — mg-57a2
+
+Work item **mg-57a2**. `lean/Riemann/Remainder.lean`; audited by
+`lean/scripts/check.sh` (**91** results, `#print axioms` reports only
+`propext, Classical.choice, Quot.sound`, no `sorry` anywhere). Same pins as §12:
+toolchain `leanprover/lean4:v4.29.1`, mathlib `5e932f97dd25535344f80f9dd8da3aab83df0fe6`.
+
+### 13.1 The headline: the printed Liouville potential is not the true one
+
+**Lemma 3.1 as printed said**
+$$u''+\big(c^2+\epsilon\big)u=0,\qquad \epsilon(x)=\frac{c^2-\chi+1}{x^2-1}.$$
+
+**The true potential is**
+$$\epsilon(x)=\frac{c^2-\chi}{x^2-1}+\frac{1}{(x^2-1)^2}.$$
+
+The slip is one character of one line: the note divides $\tfrac12(p^{-1/2}p')'$ by
+$p^{-1/2}$ where dividing by $p^{1/2}$ is what the previous line licenses. With
+$p=x^2-1$ that turns an $(x^2-1)^{-2}$ into an $(x^2-1)^{-1}$ — and the two agree
+to leading order at infinity, which is why it survived. §3 above is corrected in
+place, with the one-line control ($c=\chi=0$, $\Phi\equiv1$) written out there.
+
+Two Lean results carry it, and the second is the one that makes it a refutation
+rather than a preference:
+
+| statement | Lean name |
+|---|---|
+| $u=\sqrt{x^2-1}\,\Phi$ has $u''=-(c^2+\epsilon)u$ with the **corrected** $\epsilon$ | `Remainder.hasDerivAt_uu'` |
+| the **printed** $\epsilon$ is *not* the derivative, at $c=\chi=0$, $\Phi\equiv1$, $x=2$ | `Remainder.printed_potential_not_deriv` |
+
+> **This is the first incorrect proof formalisation has found in this corpus.**
+> The record through mg-a087 and mg-7fc6 was two runs, two missing hypotheses,
+> zero wrong proofs, and both earlier finds were *hypothesis* defects — printed
+> statements weaker than the arguments beneath them. This one is different in
+> kind: a displayed formula that is false, inside a proof whose conclusion is
+> nonetheless true.
+
+### 13.2 Nothing downstream moves, and that is checked rather than asserted
+
+$\epsilon$ is used for exactly one purpose in this note: the tail bound
+$\int_X^\infty\epsilon$ in Lemma 3.2. The corrected $\epsilon$ satisfies it with
+**more** room than the printed one:
+
+| | $\int_X^\infty\epsilon$, $X\ge\sqrt2$ | used as |
+|---|---|---|
+| printed $\epsilon$ | $\le\dfrac{2(c^2+1)}{X}$ | $\le\dfrac{3c^2}{X}$ |
+| **true** $\epsilon$ | $\le\dfrac{2c^2+\frac23}{X}$ | $\le\dfrac{3c^2}{X}$ |
+
+Both reduce to the same $\frac{3c^2}{X}$ once $c>\sqrt2$, so **(3.3), Prop. 4.1's
+$B_1$ and $B_2$, Thm 5.1's $K_P(c)$, the whole of §5 and every number in §7 stand
+exactly as printed.** In Lean this is `Remainder.eps_le_deriv_MM` (the corrected
+$\epsilon$ is below $2c^2/x^2+4/x^4$) followed by `Remainder.MM_le`; the constant
+$6c$ in (3.3) is unchanged.
+
+The corrected $\epsilon$ is also *more* obviously positive — it is a sum of two
+non-negative terms, and needs only $\chi\le c^2$ where the printed one needed
+$\chi<c^2+1$.
+
+### 13.3 What else is now machine-checked
+
+| Statement here | Lean name | Status |
+|---|---|---|
+| Lemma 3.1, the Liouville form, **corrected** | `Remainder.hasDerivAt_uu`, `hasDerivAt_uu'` | **proved** |
+| Lemma 3.1 as printed | `Remainder.printed_potential_not_deriv` | **refuted** |
+| Lemma 3.2's algebra: $u=\alpha\sin+\beta\cos$ | `Remainder.al_add_be` | **proved** |
+| Lemma 3.2's (3.2): $\alpha'=-\frac\epsilon c u\cos$, $\beta'=\frac\epsilon c u\sin$ | `Remainder.hasDerivAt_al`, `hasDerivAt_be` | **proved** |
+| $\vert u\vert\le K_1\vert\Phi(1)\vert$ from Q1 | `Remainder.abs_uu_le` | **proved from Q1** |
+| Lemma 3.2's (3.3), Cauchy form | `Remainder.abs_sub_al_le`, `abs_sub_be_le` | **proved** |
+| Lemma 3.2's (3.3) against $\alpha_\infty,\beta_\infty$ | `Remainder.tail_le` | **proved given Lemma 3.3** |
+| **Prop. 4.1(i)** | `Remainder.prop41_i` | **proved from Q1** |
+| **Prop. 4.1(ii)** | `Remainder.prop41_ii` | **proved from Q1 + Lemma 3.3** |
+| Thm 5.1 with Prop. 4.1 discharged | `Remainder.theorem_q2_of_prolate` | **proved** |
+| Lemma 2.1, Lemma 3.3, Prop. 6.1 | — | **not attempted** |
+
+So Q2 now rests on **Q1 and Lemma 3.3** rather than on Prop. 4.1. It is *not*
+unconditional: Q1 is still behind the Prüfer wall (`lean/README.md`; mg-a087),
+and this ticket did not go near it. What changed is that the prose input has gone
+from two items to one-and-a-half, and that mg-7fc6's prediction — that Lemma 3.2's
+Lagrange system is the Prüfer system's *linear* cousin and needs no continuous
+branch — **held**: $\alpha,\beta$ went in as explicit algebraic functions of
+$(u,u')$ and nothing had to be lifted along a curve.
+
+### 13.4 Two smaller things formalising localised
+
+- **Prop. 4.1(i) needs no hypothesis on $c$, $\chi$ or the ODE at all.** It is Q1
+  plus $|\sin|\le1$, and `Remainder.prop41_i` carries neither `hsol` nor
+  $0\le\chi<c^2$ nor $c>\sqrt2$ nor `hβ`. Every one of §0's standing hypotheses
+  beyond Q1 is spent in part (ii) and nowhere else. Same shape as
+  `lean/README.md` items 2–3 for mg-a087: the note's blanket hypotheses are true
+  where used, and formalising says *where*.
+- **(F) enters Prop. 4.1 through $\beta_\infty=0$ and through nothing else.**
+  `abs_sub_al_le` and `abs_sub_be_le` — all of Lemma 3.2 — are pure ODE; the
+  eigenrelation appears only as `tail_le`'s `hβ`. That is exactly what §3's
+  Corollary 3.4 claims, now structural rather than asserted.
+- **Lemma 3.2's convergence needed no integration theory.** (3.3) is proved by
+  comparing $\alpha$ against an explicit majorant antiderivative
+  $M(x)=2c^2/x+4/(3x^3)$ and using that $\alpha+kM$ is antitone while $\alpha-kM$
+  is monotone (`Remainder.abs_sub_le_of_deriv_le`). No $\int_X^\infty|\alpha'|$
+  appears in the Lean at all. Recorded because it is a deviation from the note's
+  proof, not a transcription of it.
+
+### 13.5 The house rule (§8), applied to this ticket
+
+> **Is any statement added here false for $-W_\lambda$?**
+
+**No. Every one is sign-blind, and this remains the correct answer.** Under
+$\Phi\mapsto-\Phi$: $u\mapsto-u$, $\alpha\mapsto-\alpha$, $\beta\mapsto-\beta$,
+$a_1\mapsto-a_1$, $W\mapsto-W$; every conclusion in `Remainder.lean` is a
+derivative identity, an algebraic identity, or a bound on a modulus, and all are
+invariant. `eps` and `MM` contain no $\Phi$ whatever. **Nothing here has a
+one-signed conclusion and nothing approaches G10.** The correction to Lemma 3.1
+is sign-blind too: it changes a potential, and the potential does not see the
+sign of the solution.

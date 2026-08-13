@@ -2105,7 +2105,9 @@ proved constant is loose by a factor $17$--$28$ and the truth is $1$.
 \paragraph{Theorem~\ref{thm:q1} is not a stepping stone to this; it is the
 hypothesis in disguise.}  In the Liouville form $u=\sqrt{x^2-1}\,\Phi$, which
 satisfies $u''+(c^2+\epsilon)u=0$ with
-$\epsilon=\frac{c^2-\chi+1}{x^2-1}$ integrable at infinity, Q1 says exactly that
+$\epsilon=\frac{c^2-\chi}{x^2-1}+\frac{1}{(x^2-1)^2}$ integrable at infinity
+(the potential printed here was previously wrong; item~10 of
+\S\ref{sec:corrections}), Q1 says exactly that
 \emph{$u$ is bounded} --- and bounded $u$ against an integrable perturbation is
 what makes the Lagrange coefficients converge and gives the off-band remainder
 its second power of $x$.  Lemma~\ref{lem:amplitude} alone would not do: it gives
@@ -2151,9 +2153,14 @@ that is further than the Pr\"ufer wall would suggest.}  Formalised in Lean~4
 --- the bound $\pi/2$ on the first including at the resonance $\gamma=0$,
 Corollary~\ref{cor:quantisation}'s divergence of the second as $\gamma\to0^+$,
 the reduction $\gamma=ct\bmod2\pi$, absolute convergence of the remainder series,
-and Theorem~\ref{thm:q2} itself with its explicit constant --- taking the
-splitting $\Phi=a_1\sin(cx)/x+W$ and its two remainder bounds as hypotheses,
-since those rest on Theorem~\ref{thm:q1}.  \emph{The two identities turn out to be
+and Theorem~\ref{thm:q2} itself with its explicit constant.  \emph{The two
+remainder bounds are no longer hypotheses}: \file{lean/Riemann/Remainder.lean}
+proves both, together with the Liouville form and the Lagrange system beneath
+them, leaving Theorem~\ref{thm:q1} and the $\beta_\infty=0$ of
+Corollary~\ref{cor:quantisation} as the only inputs.  \emph{Formalising that
+layer refuted the Liouville potential this paper and the underlying note both
+printed} --- item~10 of \S\ref{sec:corrections}; the corrected potential changes
+no constant anywhere, and that too is machine-checked.  \emph{The two identities turn out to be
 the imaginary and real parts of one complex logarithm}, $-\log(1-e^{i\gamma})$,
 which is why they are a dichotomy rather than two facts.
 
@@ -2646,7 +2653,9 @@ not occur in any of them
 \S\ref{sec:standards}, \S\ref{sec:lemma51}, \S\ref{sec:q2},
 \S\ref{sec:identity}: the elementary layer, Theorem~\ref{thm:q2} and
 Corollary~\ref{cor:upper} are machine-checked; Lemma~\ref{lem:amplitude}'s
-hypothesis splits in two; Corollary~\ref{cor:upper} was missing \textbf{(F)}
+hypothesis splits in two; Corollary~\ref{cor:upper} was missing \textbf{(F)};
+the off-band remainder bounds are proved and the Liouville potential beneath
+them was wrong as printed
 & compiled proofs about an ODE, a Fourier series and a $\limsup$, and statements
 about which hypotheses those proofs consume.  \emph{Formalisation raises
 confidence in magnitude results and supplies no direction} --- no sign occurs
@@ -3275,12 +3284,17 @@ is where it was sharpened to ``an involution and a square''.
 \subsection{Corrections, recorded rather than absorbed}
 \label{sec:corrections}
 
-Nine corrections of ours are folded into the text above.  They are listed here
+Ten corrections of ours are folded into the text above.  They are listed here
 because a reader weighing the tables should know which way the errors ran, and
-because the pattern in them is itself a finding.  The last three are new in this
-revision and the last two were both found by a machine: \emph{formalisation has
+because the pattern in them is itself a finding.  The last four are new in this
+revision and the last three were each found by a machine: \emph{formalisation has
 now found one defect per ticket it has run for}, which is the strongest argument
-in this paper for continuing to run it.
+in this paper for continuing to run it.  \emph{Item~10 is the first of them that
+is a wrong proof rather than an understated hypothesis}, and the difference is
+worth reading: items~8 and~9 were printed statements weaker than the arguments
+beneath them, which re-reading cannot see because the prose is true as far as it
+goes; item~10 is a displayed formula that is false, inside a proof whose
+conclusion is nonetheless correct.
 
 \begin{enumerate}\itemsep3pt
 \item \textbf{A stated strategy read as a companion theorem.}  An early note
@@ -3384,6 +3398,40 @@ which is exactly why formalising found it on the first attempt at the corollary
 a subsection about a different question (\S\ref{sec:fuchs}, on whether the rate
 discriminates the index), so every reader who checked the corollary against the
 paper found the fact present and the hypothesis list unexamined.
+\item \textbf{A false formula inside a correct proof: the Liouville potential.}
+\S\ref{sec:q2} and \file{notes/dilate-sum.md} Lemma~3.1 both printed the
+Liouville transform of the prolate equation as
+\[
+  u=\sqrt{x^2-1}\,\Phi,\qquad u''+(c^2+\epsilon)u=0,\qquad
+  \epsilon=\frac{c^2-\chi+1}{x^2-1}.
+\]
+The potential is wrong.  The true one is
+$\epsilon=\frac{c^2-\chi}{x^2-1}+\frac{1}{(x^2-1)^2}$; the note's proof divides
+$\tfrac12(p^{-1/2}p')'$ by $p^{-1/2}$ where the preceding line licenses $p^{1/2}$,
+and with $p=x^2-1$ that turns an $(x^2-1)^{-2}$ into an $(x^2-1)^{-1}$.  A control
+needing no machine: at $c=\chi=0$ the equation $((x^2-1)\Phi')'=0$ has the
+solution $\Phi\equiv1$, so $u=\sqrt{x^2-1}$ and $u''=-(x^2-1)^{-3/2}$, which the
+true potential annihilates and the printed one does not.
+
+\emph{No constant anywhere moves, and this is checked rather than argued.}  The
+potential is consumed at exactly one point --- the tail bound $\int_X^\infty
+\epsilon$ that makes the Lagrange coefficients converge --- and the true
+$\epsilon$ satisfies it with \emph{more} room than the printed one
+($(2c^2+\tfrac23)/X$ against $2(c^2+1)/X$, both below the $3c^2/X$ actually
+used).  So Theorem~\ref{thm:q2}'s $B_1$, $B_2$ and $K_P(c)$, and every number in
+the tables of \S\ref{sec:q2}, stand as printed.
+
+Three things about how it survived.  The two potentials \emph{agree to leading
+order as $x\to\infty$}, which is the regime the whole argument lives in, so no
+asymptotic sanity check separates them.  The numerical companion
+(\file{notes/verify_q2.py}) checks the conclusions of Lemmas 3.2--3.3 and
+Proposition~4.1 --- $\alpha,\beta$ extracted algebraically from $(u,u')$, and
+the two remainder bounds --- \emph{none of which evaluates $\epsilon$}, so a grid
+could not have caught it either.  And the previous formalisation ticket stopped
+one lemma short: it took the off-band splitting as a hypothesis, so Lemma~3.1 was
+never presented to the compiler.  \emph{The defect was reachable only by
+formalising the step nobody had a reason to doubt}, which is the argument for
+formalising downward rather than outward.
 \end{enumerate}
 
 \noindent Three further corrections, all cosmetic and none of them of this kind,
