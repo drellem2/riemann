@@ -279,3 +279,5 @@ behaviour.
   free) during mg-57a2 and killed a `lake cache-get`. p57a2 freed ~12 GB from
   `~/Library/Caches/go-build` and mailed human and mayor. Noted here only because it nearly
   cost a Lean run.
+
+<!-- production control for mg-4bbd: this commit deliberately follows 7314936 within ~1 min. Both CI runs must complete; neither may be cancelled. -->
