@@ -25,7 +25,7 @@ withdrawn.
 
 ## Next (queued, available)
 
-*Empty.* Thirteen items merged today. **The decision on the board is R2 — the semilocal
+*Empty.* Fourteen items merged today. **The decision on the board is R2 — the semilocal
 extension** — and it is Daniel's, not mine: it is the largest commitment here, and the
 archimedean ceiling being proved is exactly what makes adding places the only way past it.
 
@@ -228,6 +228,31 @@ one. That is why it is now written down (mg-83d1) rather than left in an outbox.
   not was mine and I caught it before filing: I had queued Prop. 4.1 as "the cheapest win,
   makes Q2 stand alone", and `lean/README.md:44` showed it consumes Q1 and terminates at the
   same wall.
+
+## An instrument defect I was causing
+
+Every merge's CI run on `main` was being **cancelled by my own roadmap push** 4–7 minutes
+later: all three workflows carried `cancel-in-progress: true` grouped by `github.ref`, which
+is right on a PR branch and wrong on the default branch. **Five runs today** — `665f05c`,
+`79ec435`, `bd7edc5`, `d678fc0`, `a5a8651` — each a code merge, each superseded by a
+documentation commit that then went green in its place.
+
+Coverage was never lost (my commit is the merge's tree plus a roadmap edit), but the record
+was: a merge's validation was attributed to a later, unrelated commit. **And one badly-timed
+push from something worse** — had a merge broken CI inside that window, the failure would have
+surfaced on the *next* run and been blamed on `docs/roadmap.md`, which cannot cause it.
+mg-5210 turned `verifiers` red today, so the window was not hypothetical.
+
+Fixed in mg-4bbd: `cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}` on all three.
+The control is worth recording because it is the shape this repo keeps needing — a
+byte-identical workflow pushed to two branches differing **only** in ref, one expression
+resolving false and one true, giving SUCCESS-with-successor-queued against CANCELLED. Same
+blob, opposite outcomes, one variable. That is what rules out the truthy-string failure the
+ticket warned about.
+
+**Known residue:** `main` is hardcoded rather than read from
+`github.event.repository.default_branch`, so a future rename silently restores the old
+behaviour.
 
 ## Gaps I'm watching
 
