@@ -10,6 +10,7 @@ import Riemann.Sturm
 import Riemann.BandEdge
 import Riemann.Sawtooth
 import Riemann.DilateSum
+import Riemann.Remainder
 import Riemann.Assembly
 
 namespace Riemann.Prolate
@@ -80,6 +81,39 @@ namespace Riemann.DilateSum
 #print axioms Riemann.DilateSum.theorem_q2
 
 end Riemann.DilateSum
+
+namespace Riemann.Remainder
+
+-- Lemmas 3.1 and 3.2 and Proposition 4.1 of `dilate-sum.md`, given Q1 and Lemma 3.3
+-- (`printed_potential_not_deriv` is the refutation of Lemma 3.1's printed potential)
+#print axioms Riemann.Remainder.rt_nonneg
+#print axioms Riemann.Remainder.rt_pos
+#print axioms Riemann.Remainder.rt_sq
+#print axioms Riemann.Remainder.rt_le
+#print axioms Riemann.Remainder.hasDerivAt_rt
+#print axioms Riemann.Remainder.hasDerivAt_uu
+#print axioms Riemann.Remainder.hasDerivAt_uu'
+#print axioms Riemann.Remainder.printed_potential_not_deriv
+#print axioms Riemann.Remainder.al_add_be
+#print axioms Riemann.Remainder.hasDerivAt_sin_mul
+#print axioms Riemann.Remainder.hasDerivAt_cos_mul
+#print axioms Riemann.Remainder.hasDerivAt_al
+#print axioms Riemann.Remainder.hasDerivAt_be
+#print axioms Riemann.Remainder.MM_nonneg
+#print axioms Riemann.Remainder.hasDerivAt_MM
+#print axioms Riemann.Remainder.eps_nonneg
+#print axioms Riemann.Remainder.eps_le_deriv_MM
+#print axioms Riemann.Remainder.MM_le
+#print axioms Riemann.Remainder.abs_sub_le_of_deriv_le
+#print axioms Riemann.Remainder.abs_uu_le
+#print axioms Riemann.Remainder.abs_sub_al_le
+#print axioms Riemann.Remainder.abs_sub_be_le
+#print axioms Riemann.Remainder.tail_le
+#print axioms Riemann.Remainder.prop41_i
+#print axioms Riemann.Remainder.prop41_ii
+#print axioms Riemann.Remainder.theorem_q2_of_prolate
+
+end Riemann.Remainder
 
 namespace Riemann.Assembly
 
