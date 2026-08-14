@@ -5,8 +5,11 @@
 
 **Where this stands, in one paragraph.** `paper/positivity-obstruction.tex` contains an
 **unconditional** upper bound, $\limsup\mu^{-1}\log s(\mu)\le-4\pi$, a rate Connes–Consani
-plot as a figure and never name. The mathematics did not move today; **the evidence under it
-did.** Lean went 26 → 91 audited results and now covers Q2 and the assembly to the $-4\pi$,
+plot as a figure and never name. **On 2026-08-14 the mathematics did move, once:** Theorem A's
+only hypothesis is now discharged by a theorem of ours with no numerics in it (mg-e205), so the
+archimedean ceiling is unconditional. Note which direction that is — it makes our strongest
+*obstruction* final, not our positivity. The rest of the overnight work was repair.
+Before that, on 08-13, the mathematics did not move and **the evidence under it did.** Lean went 26 → 91 audited results and now covers Q2 and the assembly to the $-4\pi$,
 not just the elementary layer; the fifteen numerical verifiers gained exit codes that can
 actually fail; the paper compiles; and three CI workflows re-run all of it on a clean machine
 on every push. Formalising also refuted a printed formula that four readings had missed. **The
@@ -21,20 +24,53 @@ withdrawn.
 
 ## Now (in flight)
 
-**mg-e205** — *is $\hat\epsilon(0)=-2\vartheta'(0)$ exactly?* Claimed by `pe205`, running 57
-min at the time of writing. Two constants derived by different routes in different tickets
-agree to $2\times10^{-8}$ — and the closed form matches the paper's constant an order of
-magnitude better than it matches the quadrature it was validated against, which is what an
-exact identity with two independent approximations looks like. If it holds, Theorem A's only
-analytic input is discharged by a theorem of ours that is already proved. **Provenance is
-weak on purpose and stated in the ticket: I found it by comparing two printed decimals.** Step
-1 is 25-digit evaluation, which can refute it cheaply, and a refutation is a success.
+**mg-2ff4** — *is the near-degeneracy the content of Theorem 1's first condition?* Just filed.
+mg-e205 measured Connes–Consani's archimedean positivity as **nearly degenerate**: $\sigma_S$
+is minimised at $t=0$ with value $1.67\times10^{-8}$ against terms of order $5$, and the
+near-null direction is zero frequency — the constant. Theorem 1 imposes $\hat g(0)=0$, which
+annihilates exactly that direction, and `eps-hat-deficit.md` never mentions Theorem 1 or the
+vanishing conditions at all. The ticket is written so that *"trivial, and here is why"* is a
+success; I am putting two observations next to each other, not deriving anything.
 
 ## Next (queued, available)
 
-*Empty, and deliberately so.* mg-e205 either opens a line or closes one, and queueing behind
-an unresolved identity would be queueing on a guess. **R2 is decided: NO-GO** — see "THE CALL"
-below.
+*Empty.* mg-2ff4 is the only live thread and it may close in one slice. **R2 is decided:
+NO-GO** — see "THE CALL" below.
+
+**mg-e205 settled, 08:06 — the conjecture was REFUTED and the refutation is worth more than
+the conjecture would have been.** $\hat\epsilon(0)=5.372183435911\ldots$ against
+$\log\pi-\psi(\tfrac14)=5.372183419225\ldots$: eight significant digits, parting at the
+ninth, gap $1.6685521965\times10^{-8}$. Not truncation — rebuilding the apparatus at three
+precisions moves $\hat\epsilon(0)$ by $2\times10^{-15}$, $4\times10^{-20}$,
+$4\times10^{-25}$, and the coarsest still resolves the gap by seven orders.
+
+**What is true instead is stronger for the purpose the identity was wanted for, and it is a
+theorem with no numerics in the argument.** $\operatorname{tr}(\vartheta(g\star g^*)\mathbf S)
+=\lVert\mathbf S\vartheta(g)^*\rVert_{HS}^2\ge0$ *is* pointwise positivity of the symbol
+$\sigma_S=2\vartheta'+\hat\epsilon$, so
+$\hat\epsilon(0)\ge-2\vartheta'(0)=\log\pi-\psi(\tfrac14)>0$. **Theorem A's only
+hypothesis is discharged unconditionally, with a named constant.** The ceiling is now
+unconditional.
+
+**And the eight digits are not a coincidence: they are $\log(\text{area})=0$.**
+$\sigma_S(0;a)=2\log a+\delta(a)$, and Connes–Consani's $\epsilon$ is the $a=1$ case where
+$2\log a$ vanishes exactly. What is left is the exponentially small prolate defect at
+$c=2\pi$. The $a\ne1$ extrapolation is ours and unproved — what makes it evidence rather than
+curve-fitting is that $2\log a$ was never fitted and nothing in the construction knows about
+it.
+
+**One reading it retired, which was mine.** I filed mg-e205 asking how "bounded below" and
+"indefinite at low frequency" could both be true. They are **one inequality read from opposite
+sides**: $\sigma_S\ge0$ says $-\hat\epsilon(t)\le2\vartheta'(t)$, and at $t=0$ that reads
+$-\hat\epsilon(0)\le-5.372\ldots<0$. The indefiniteness of $-E$ at low frequency is *forced*
+by the archimedean lower bound being the number it is. There was no tension to resolve.
+
+**Scope note, disclosed by the worker unprompted.** The ticket said "a note in `notes/`,
+nothing else touched"; the branch also touched `verifiers.yml`, `test_exit_codes.py` and
+`README.md` to wire the new script into CI, on the grounds that leaving it unwired would make
+README's existing "CI runs all of them" false. Accepted — that reasoning is right, and I would
+rather a worker break a stated scope for a named reason and say so than keep it and leave a
+claim false.
 
 **R2 as a GO/NO-GO, assembled 2026-08-14 05:30 from what the corpus already holds. No new
 work was done for this; every claim is a pointer to a note we have already merged.**
