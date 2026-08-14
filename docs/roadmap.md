@@ -264,10 +264,11 @@ first of those would have killed it. **The fix does what it was for.**
    sha with no completed run.** At today's cadence — fourteen merges — that is not
    hypothetical. The fix should be understood as "an in-flight run is no longer killed", not as
    "every sha gets a completed run".
-   *Candidate remedy, not filed:* drop grouping entirely on the default branch, or group by
-   sha, so each merge gets its own run. Costs runner minutes, buys a complete record.
+   **Filed as mg-121d (2026-08-14 03:0x):** group by sha on the default branch so each merge
+   gets its own run. Costs runner minutes, buys a complete record.
 2. **`main` is hardcoded** rather than read from `github.event.repository.default_branch`, so a
-   branch rename would silently restore the old behaviour.
+   branch rename would silently restore the old behaviour. **Folded into mg-121d** — same
+   three lines in the same three files, and no reason to touch them twice.
 
 *My first attempt at this control was inconclusive and I nearly reported it as a failure*: I
 pushed twice within 9 s while a third run was in flight, which exercises the queue rule rather
