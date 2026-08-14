@@ -127,12 +127,19 @@ mg-d03b then corrected two things in the framing above, both mine:
   margin. And there is **no near-null direction**: the minimiser is the top resolved cosine
   mode, weight $1.000$ on $n=N$, and it moves when the basis moves.
 - **Theorem 1's $\mu\le2$ is an artefact of its proof.** What is truncation-stable is the
-  *inertia*, and by it the conclusion holds to $\mu=6.17$ — three times the stated hypothesis —
-  and is **false past it** ($-0.0921$ at $\mu=8$, unchanged $N=60\to120$). Worth stating
-  wherever that theorem is quoted: a bound that is an artefact reads exactly like a real one.
-- **One condition does all the work.** $\hat g(0)=0$ alone gives $-E\ge0$ to $\mu=2.763$, past
-  Theorem 1's whole support range; at $\mu\le2$ the second condition buys **nothing** for the
-  sign. Refines mg-5210's "they are the theorem" to: *one of them is.*
+  *inertia*. ~~By it the conclusion holds to $\mu=6.17$ — three times the stated hypothesis.~~
+  **REFUTED by mg-0b7a — see the struck rows below: $6.17$ is the even block alone, and the
+  true figure is $2.754$, a factor $1.38$.** The *shape* of the claim survives — the $\mu\le2$
+  is still an artefact and the conclusion is still false past the threshold ($-0.0921$ at
+  $\mu=8$) — but the hypothesis is much closer to sharp than this bullet said. The sentence
+  *"worth stating wherever that theorem is quoted"* stood here for a day attached to the wrong
+  number, which is an instruction to propagate a refuted figure; it is withdrawn.
+- ~~**One condition does all the work.** $\hat g(0)=0$ alone gives $-E\ge0$ to $\mu=2.763$, so
+  at $\mu\le2$ the second condition buys **nothing**.~~ **REFUTED by mg-0b7a, and this one does
+  not survive in any form.** $\mu_c(1)=1.771<2$ once the odd block is included: an odd $g$
+  satisfies $\hat g(0)=0$ for free, so one condition is *no condition at all* on half the
+  space. The second condition does real work inside Theorem 1's own range. mg-5210's "they are
+  the theorem" stands as written; the refinement to "*one* of them is" was wrong.
 
 ## The ceiling is now a THEOREM — and mg-0b7a corrected its own predecessor's numbers
 
