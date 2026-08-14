@@ -84,21 +84,70 @@ to reach a number he has already published. That is the case Daniel named.
 the first non-sign-blind statement here in five months. Its *mechanism* is the part that
 matters: under $W_\lambda\to-W_\lambda$ the Sonin trace does not move — it is
 $\operatorname{Tr}(\vartheta(g)\mathbf S\vartheta(g)^*)$, manifestly a square — while
-$W_\infty$ does. **So every statement that compares the moving quantity to the fixed square is
-sign-sensitive, automatically.** That is not one statement; it is a rule for producing them,
-and it is exactly the design rule this file already states from the other side ("to break the
-invariance you need a row whose analysis side is a product or an adjoint").
+$W_\infty$ does. ~~**So every statement that compares the moving quantity to the fixed square
+is sign-sensitive, automatically.**~~ **FALSE, and refuted by the slice it was written to
+dispatch (mg-baa9, `notes/sign-sensitivity-generator.md` §2). The quantifier decides it, and
+I asserted the wrong row:**
 
-**So the next slice tests the generator, not the programme.** Does the comparison family
-contain anything that points *toward* positivity, or does it only ever produce more
-obstructions? This corpus has become good at obstruction — Theorem A is ours, it is a real
-theorem, and it says the archimedean route alone cannot work. Five months of that is a
-finding about the method as much as about the mathematics.
+| statement | under $W\to-W$ | verdict |
+|---|---|---|
+| $\forall g\in X:\ W(g)\ge T(g)$ | forces $W(g_0)<0$ where $W(g_0)\ge T(g_0)>0$ | **false** — sign-sensitive |
+| $\exists g\in X:\ W(g)<T(g)$ | witnessed by any $g_1\in X$ with $W(g_1)\ge0$ | **true** — sign-blind |
 
-**And it carries a stop-loss, which is the honest half.** If the family turns out to be
-isolated or to yield only further obstructions, the answer to Daniel's question is that we
-have no fresh idea, and I will say so plainly rather than keep spending. One bounded slice,
-then a decision either way.
+**mg-5210 §6 — the statement I built the generator ON — is the second row**, and its
+counterexample was printed two screens above it in mg-5210's own Bottom-line table
+($W_\infty=1.947$, $\operatorname{Tr}=1.913$ at $\mu=1.2$). Assert the inequality and you get
+a sign-sensitive statement; assert that it *fails* and you get a sign-blind one. I read a
+mechanism off one example without checking its quantifier.
+
+**And the deeper finding, which is about the house rule and not about my error.** $-E\ge0$ on
+$X$ and $W_\infty\ge\operatorname{Tr}$ on $X$ are **the same claim** — Theorem `devil` is the
+identity between them — and the house rule calls the first sign-blind and the second
+sign-sensitive. **The test is not invariant under rewriting through a true identity, so a
+count of sign-sensitive statements counts PRESENTATIONS, not content.** That retires
+"three where the corpus had none" (mg-5210 §6) and "four where mg-5210 produced three"
+(mg-d03b §6) as measurements of progress. They were measurements of phrasing.
+
+**The stop-loss fired. The answer is no.** Of 41 statements examined across the five notes,
+20 were marked sign-sensitive; 12 survive, 7 are downgraded, 1 is conditional. Of the 12,
+**two point toward positivity and both are Connes–Consani's.** Ours are: one numerical
+extension of Theorem 1's range in the direction Theorem A proves is capped, two claims since
+refuted, and two signed evaluations pointing away. **No sign-sensitive member that is ours
+points toward positivity.**
+
+**Why, structurally — this is the part worth keeping.** The transfer has a fixed polarity. A
+*lower* bound $-E\ge0$ on $X$ gives $W_\infty\ge\operatorname{Tr}>0$: sign-sensitive, points
+toward positivity. An *indefiniteness* statement about $-E$ gives "the inequality fails
+somewhere": sign-blind, points nowhere. **Every theorem this corpus has proved for itself
+about $E$ is of the second kind** — Theorem A, the inertia counts, $\log\mu_c(k)\le\Lambda(k)$,
+the even/odd split. The half that could point toward positivity needs exactly the input we
+have never had: mg-0b7a's own item 8, that every $\mu_c$ here is an upper bound on a
+threshold whose lower half is unproved.
+
+### Does the NO-GO survive its own rationale collapsing? Yes — and the reason changed
+
+The call rested on two legs: R2 is CCM's deferred work, **and** we have something fresher of
+our own. **The second leg is gone.** The trace-comparison generator is not a generator, and
+nothing of ours in that family points toward positivity. An honest reader should ask whether
+that reopens R2, because "we have a better idea" was half the argument.
+
+It does not, and the first leg was always the load-bearing one: R2 is a large build on a
+roadmap its own authors have not delivered, to reach a quantity Connes has already published
+an asymptotic for. That is unchanged by our route failing. **"Our alternative did not work" is
+not evidence that a different route became fresh.**
+
+**But mg-baa9 found a replacement while looking, and it is not from the generator it was sent
+to test.** §7: the corpus's strongest *ours, proved, sign-sensitive* statement is not a
+comparison against the fixed square at all — it is Theorem `thm:deficit`
+(`paper/positivity-obstruction.tex:1147`), a lower bound on $\lambda_{\min}$ of the
+archimedean form via the Riemann–Siegel theta. The paper's own house-rule section already
+reads its table this way, and the trace comparison is a *special case* of it through the
+identity. **If a generator is worth investing in, that is the one already working.**
+
+Two cautions on that, both the slice's own: the paper was outside its scope, and its
+eighteen-row house-rule table was **spot-checked on two rows, not audited**. So this is a
+lead, not a result — and given item 4 above, a census of that table is now a census of
+presentations unless it is done in a form the identity cannot rewrite.
 
 *My read as it stood before the call, kept because the reasoning is what should be audited.*
 GO buys a chance at the only route past
