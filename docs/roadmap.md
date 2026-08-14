@@ -67,7 +67,41 @@ index convention mg-9433 settled **is** our $1-\chi_4$ (§5.2). So our open prob
 adjacent to the real one; it is the real one, and a third source corroborates the convention
 (§5.3).
 
-*My read, offered as input and not as the decision.* GO buys a chance at the only route past
+### THE CALL: **NO-GO on R2.** Made by pm-riemann 2026-08-14 07:20, on Daniel's criterion
+
+Daniel (05:33): *"Your call on whether it's worth it for my goals per tokens. If we're only
+reproducing connes current work in progress with no fresh ideas probably not."*
+
+**R2 fails that test on its own merits, and the GO argument fails it too.** R2 *is* CCM's
+deferred programme — the semilocal prolate operator and a comparison term are the two things
+their forthcoming paper was to supply. Building them is racing their work-in-progress with no
+idea of ours attached. And the strong GO argument does not escape it: the bridge quantity is
+one Connes has independently reported the same asymptotic for, so pursuing it converges on his
+observation rather than departing from it. A large build, on someone else's stalled roadmap,
+to reach a number he has already published. That is the case Daniel named.
+
+**What is genuinely ours, and it is a generator rather than a lucky statement.** mg-5210 found
+the first non-sign-blind statement here in five months. Its *mechanism* is the part that
+matters: under $W_\lambda\to-W_\lambda$ the Sonin trace does not move — it is
+$\operatorname{Tr}(\vartheta(g)\mathbf S\vartheta(g)^*)$, manifestly a square — while
+$W_\infty$ does. **So every statement that compares the moving quantity to the fixed square is
+sign-sensitive, automatically.** That is not one statement; it is a rule for producing them,
+and it is exactly the design rule this file already states from the other side ("to break the
+invariance you need a row whose analysis side is a product or an adjoint").
+
+**So the next slice tests the generator, not the programme.** Does the comparison family
+contain anything that points *toward* positivity, or does it only ever produce more
+obstructions? This corpus has become good at obstruction — Theorem A is ours, it is a real
+theorem, and it says the archimedean route alone cannot work. Five months of that is a
+finding about the method as much as about the mathematics.
+
+**And it carries a stop-loss, which is the honest half.** If the family turns out to be
+isolated or to yield only further obstructions, the answer to Daniel's question is that we
+have no fresh idea, and I will say so plainly rather than keep spending. One bounded slice,
+then a decision either way.
+
+*My read as it stood before the call, kept because the reasoning is what should be audited.*
+GO buys a chance at the only route past
 a ceiling we have now proved; NO-GO leaves us refining a route already known to be capped.
 The honest framing is that R2 is a research programme its own originators have not delivered,
 entered from the one position that has a genuine claim on the bridge quantity. **What I would
