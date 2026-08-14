@@ -361,9 +361,13 @@ measured **3m55s** with a cold cache and **2m11s** with a warm one, of which
 
 [`.github/workflows/verifiers.yml`](.github/workflows/verifiers.yml) runs **all
 eighteen** `notes/verify_*.py` scripts, one GitHub job each, so the run page names
-every script it ran and how long it took. Nothing is silently skipped. A
-nineteenth job runs [the positive control](#the-exit-code-contract) that proves
-those eighteen exit statuses can still fail.
+every script it ran and how long it took. Nothing is silently skipped. Each of
+those jobs then re-runs its own script with one decision forced negative and
+requires it to go red, and a nineteenth job runs [the same control for all
+eighteen at once](#the-exit-code-contract) — because **the signal CI reads is the
+exit status, and an exit status that cannot be shown to fail is a green tick that
+means nothing.** What a script prints is not checked; see [what is checked, and
+what is only printed](#what-is-checked-and-what-is-only-printed).
 
 Twelve run on their **full grid** — the same run you would get locally with no
 arguments. Six run on the **reduced grid** their own `--quick` / `QUICK=1`
@@ -472,13 +476,23 @@ check. A script that imported the contract but never used it would reach no
 decision, exit 0, and be reported as a failure by that test. The three fastest
 are also run unforced and must exit 0.
 
+A third, **static** control runs before either, needs no imports, and covers
+every decision rather than only the first: every string literal equal to a verdict
+word must be an argument of a `.word(...)` call, and every script must end in
+`VD.finish()`. It is what replaced CI's output grep — see [what is checked, and
+what is only printed](#what-is-checked-and-what-is-only-printed). Requiring the
+`finish()` matters because the forced runs cannot see a missing one: `verdict.py`
+calls `finish` itself at the forced decision, so a script that dropped the call at
+the end of `__main__` would pass the forced control and silently discard every
+failure a later decision recorded.
+
 **That test runs in CI**, as the `exit-code contract (positive control)` job of
 the `verifiers` workflow — the same badge, because what it guards is the exit
 status of the same eighteen scripts. A control only a human remembers to run
 decays into the state this repository was in before 2026-08-13, and it decays
 without anything going red. The forced runs stop at the first decision, so the
-job is cheap: **1m00s and 1m34s** on two runs on a developer machine, against
-twenty-plus minutes for the grids above.
+job is cheap: **1m00s and 1m34s** on two runs on a developer machine, and **54s**
+with the static control added, against twenty-plus minutes for the grids above.
 
 It distinguishes a broken contract from a machine that cannot run the scripts at
 all. On a box without `mpmath` every one of the eighteen dies at import and exits
@@ -487,7 +501,8 @@ one `pip install`. So the test checks the imports the selected scripts need
 before running anything, reports what is missing and what to install, and exits
 **2** — a status that says the contract was not tested, as distinct from the 1
 that says it failed. Anything that dies of `ModuleNotFoundError` anyway is
-reported under `NOT RUN` rather than counted as a failure.
+reported under `NOT RUN` rather than counted as a failure. The static control has
+run by then either way, so a 2 still carries a verdict about the source.
 
 **The four scripts CI runs on a reduced grid had their wired checks verified
 against their FULL grids by hand when the contract was written — all four exit 0
@@ -498,21 +513,60 @@ full grid, which is the run the notes record. Of the two added since,
 `verify_sonin_ceiling.py` was checked the same way when it was written — full
 grid, exit 0, nothing on stderr — and `verify_sonin_margin.py` was not.
 
-CI keeps its output grep (`Traceback|REFUTED|MISMATCH`) as a second line of
-defence, and it is worth keeping for the `Traceback` half. But note what the
-other half covers: `verify_q1.py` is the only script that can print `REFUTED`
-and `verify_independent_recheck.py` the only one that can print `MISMATCH`. The
-other fourteen state their verdicts in prose — "R > D at every mu", "ratios
-above 1 refute the lemma" — with the numbers left to a reader, so that grep
-could only ever have caught a wrong *result* in two of the eighteen. For the rest
-the exit code is not a better signal than the grep; it is the only one there has
-ever been.
+#### What is checked, and what is only printed
+
+**The exit status is the contract. A script's output is not checked.** Its prose
+may say `REFUTED`, `MISMATCH` or `Traceback` as often as the corpus needs it to,
+because this corpus records what it has overturned. Editing a docstring or a
+`print` in `notes/verify_*.py` does not touch CI; editing a `VD.check`/`VD.word`
+call, a threshold, or the `VD.finish()` that ends the script does.
+
+Until 2026-08-14 that was not so. CI also grepped each script's captured output
+for `Traceback|REFUTED|MISMATCH` and failed the job on a match — and **a detector
+that greps output for a failure word cannot tell "this run refuted a claim" from
+"this text mentions that a claim was refuted": the two are the same bytes.**
+`19947c9` added three correct sentences to `verify_sonin_margin.py` recording what
+mg-0b7a had refuted, and turned `main` red on a script that exits 0. The polecat
+that wrote them verified what it changed and was blind to this, because the
+wrapper's contract was about text while the script's was about exit status, and
+nothing said there were two. That grep gets *worse* as the notes get more honest,
+so it is gone (mg-a682).
+
+Two words were already excluded from it by hand, for the same reason one word
+short — see [what a green tick does not mean](#what-a-green-verifiers-tick-does-not-mean).
+
+Removing it costs little, because it was never much of a signal. `verify_q1.py`
+is the only script that can print `REFUTED` and `verify_independent_recheck.py`
+the only one that can print `MISMATCH`; the other sixteen state their verdicts in
+prose — "R > D at every mu", "ratios above 1 refute the lemma" — with the numbers
+left to a reader. So the word half of that grep could only ever have caught a
+wrong *result* in two of the eighteen, and in both of those `verdict.py` computes
+the printed word and the exit status from the same boolean, so they cannot drift
+apart. The `Traceback` half needed no cover at all: the interpreter exits
+non-zero whenever it prints one, and `set -o pipefail` in the workflow is what
+carries that status across the `tee`.
+
+What the grep did still cover is a verdict word printed *outside* that
+machinery — a bare `print("REFUTED")`, which is the pre-2026-08-13 defect exactly.
+`test_exit_codes.py` now covers that **statically**, and covers every decision in
+every script rather than only the first: every string literal equal to a verdict
+word must be an argument of a `.word(...)` call, and every script must end in
+`VD.finish()`. That draws the verdict/prose line where the two actually differ —
+a verdict is the word alone, as a value; prose is the word inside a sentence — and
+not in the output, where they do not differ at all. What it does not catch is a
+verdict word assembled rather than written (`"REFUT" + "ED"`, an f-string); no
+script does that.
+
+Each of the eighteen `verify` jobs also runs the forced-negative control for its
+own script, in its own job, right after the run it is meant to validate. So a
+green job says "this script ran clean **and** its failure path is live on this
+runner", not "this script ran".
 
 ### What a green `verifiers` tick does not mean
 
-Two failure words are deliberately **not** in CI's grep, because they mark
-cells that are *allowed* to fail — and for the same reason the exit-code contract
-does not gate on them either. `(FAILS)` is one: on its full grid
+Two failure words mark cells that are *allowed* to fail, so the exit-code
+contract does not gate on them — and they were the two words hand-excluded from
+CI's output grep back when there was one. `(FAILS)` is one: on its full grid
 `verify_q1.py` prints exactly one such cell,
 
 ```
@@ -524,7 +578,10 @@ which is the ratio \(r\ge 1\) row, the same documented boundary as the
 `dunster-check.md` already flag. Gating on `(FAILS)` would paint the badge red
 for something the notes already record and explain. `NO` — the negative branch in
 `verify_h1.py` and `verify_semilocal_gap.py` — is excluded for the same reason,
-pre-emptively: it did not occur in any run made here, on either grid.
+pre-emptively: it did not occur in any run made here, on either grid. Neither
+word is in `BAD_WORDS` in `notes/test_exit_codes.py`, which is where that
+exclusion now lives; adding a word there is a claim that no passing run may ever
+print it as a cell.
 
 Note that the `(FAILS)` cell above appears on the **full** grid, which CI does
 not run for `verify_q1.py`; the reduced grid does not reach it. That is one more
@@ -534,10 +591,10 @@ that full grid rather than reasoned about: the run prints the cell and exits 0,
 so the exclusion is measured.
 
 So: a green tick means **every script still runs to completion on a clean
-machine, every check any of them states came out right, and none of them printed
-a verdict word that was not already expected.** It does not mean a human or a
-machine re-derived the mathematics, and it is not a substitute for reading the
-notes. Most of what these scripts print is measurement rather than verdict, and
+machine, every check any of them states came out right, and every one of them was
+shown on that same runner to be able to report a wrong one.** It does not mean a
+human or a machine re-derived the mathematics, and it is not a substitute for
+reading the notes. Most of what these scripts print is measurement rather than verdict, and
 those numbers are checked against the notes by a reader, not by CI.
 
 ### `paper` — the LaTeX documents

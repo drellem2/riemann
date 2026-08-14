@@ -30,6 +30,30 @@ The negative control is the other half: the three fastest scripts are also run
 unforced and must exit 0.  Without it a contract that failed everything would
 pass every test above.
 
+A third, STATIC control runs before either, and it is the one that replaced CI's
+output grep (mg-a682).  Both forced controls above stop at the FIRST decision, so
+neither says anything about a verdict word printed by a later one -- and the old
+`grep -E 'Traceback|REFUTED|MISMATCH' run.log` in `.github/workflows/verifiers.yml`
+was what covered that case.  That grep could not tell a verdict from prose about
+one, because they are the same bytes: `verify_sonin_margin.py` documents two
+readings mg-0b7a refuted, printed those three sentences, and turned `main` red
+while exiting 0.  So the distinction is drawn where it is structural instead --
+in the SOURCE, not in the output:
+
+  * a verdict is the word ALONE, as a value: `VD.word(ok, "ok", "REFUTED", ...)`;
+  * prose about a verdict is the word inside a sentence, and a sentence is never
+    equal to the word.
+
+`wiring_failures` requires every string literal equal to a verdict word to be an
+argument of a `.word(...)` call, so prose may contain `REFUTED` freely and a bare
+`print("REFUTED")` -- the mg-5995 defect, a cell that reports a refutation and
+exits 0 -- is a failure here.  It also requires each script to END in
+`VD.finish()`, since a script that records a later failure and never reaches
+`finish()` exits 0 and neither forced control would notice.
+
+Being static it needs no imports, so it runs before the environment check and its
+verdict is about the source rather than about this machine.
+
 A script that never ran is not a script whose contract is broken, and the two
 must not be reported the same way.  On a machine without `mpmath` installed
 every one of the eighteen dies at import and exits 1, which looks exactly like
@@ -41,9 +65,10 @@ a module installed but broken) is reported as an environment failure rather than
 as a contract failure.  A module that is present but too old is the same case
 wearing different clothes and is checked the same way -- see `FLOORS`.
 
-Exit status: 0 if every script passed both controls, 1 if any contract failed,
-2 if the environment is missing something and the contract was therefore not
-tested.  A 2 is not a result about the contract; it means the run did not happen.
+Exit status: 0 if every script passed all three controls, 1 if any contract
+failed, 2 if the environment is missing something and the RUN controls were
+therefore not tested.  A 2 is not a result about the contract; it means the runs
+did not happen.  The static control has run by then either way.
 """
 
 import ast
@@ -98,6 +123,95 @@ SCRIPTS = [
 
 # the negative control: fast enough to run in full inside a test.
 CLEAN = ["verify_semilocal_gap.py", "verify_sign_claims.py", "verify_prolate_claims.py"]
+
+# the verdict words that a script prints INSTEAD OF a passing word, i.e. the ones
+# whose appearance in a table cell is the script saying the check came out wrong.
+# `(FAILS)` and `NO` are deliberately absent, for the same reason they are absent
+# from the exit-code contract itself: both mark cells that are EXPECTED to fail
+# and that README.md documents as such.  Adding a word here is a claim that no
+# passing run may ever print it as a cell.
+#
+# Note that the line below would fail this file's own check, and the paragraphs
+# above it would not -- which is the check working, and is why only `SCRIPTS` is
+# scanned.  The remedy is an artefact of the same kind as the defect: what is
+# NOT caught is a verdict word assembled rather than written (`"REFUT" + "ED"`,
+# an f-string), because then no literal equals the word.  Nothing in the corpus
+# does that, and a script that did would be reaching for it.
+BAD_WORDS = ("REFUTED", "MISMATCH")
+
+
+def _is_main_guard(node):
+    """True for `if __name__ == "__main__":`."""
+    if not isinstance(node, ast.If) or not isinstance(node.test, ast.Compare):
+        return False
+    t = node.test
+    return (isinstance(t.left, ast.Name) and t.left.id == "__name__"
+            and len(t.comparators) == 1
+            and isinstance(t.comparators[0], ast.Constant)
+            and t.comparators[0].value == "__main__")
+
+
+def _calls(node, attr):
+    """True if `node` is a call to something named `.attr(...)`."""
+    return (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+            and node.func.attr == attr)
+
+
+def wiring_failures(scripts):
+    """The static control.  A list of what is wrong in the source; [] if nothing.
+
+    Two things, both of which would let a script report a wrong result and exit 0:
+
+      * a verdict word standing alone as a value anywhere other than inside a
+        `.word(...)` call -- `print("REFUTED")` decides nothing and exits 0.
+        A string that merely CONTAINS the word is prose and is not touched: that
+        is the whole distinction the old CI grep could not draw.
+      * a script that does not END in `VD.finish()`.  Both forced controls below
+        stop at the first decision -- `verdict.py` calls `finish` itself there --
+        so a missing `finish()` is invisible to them; a failure recorded by any
+        later decision would be dropped on the floor and the script would exit 0.
+    """
+    out = []
+    for script, _, _ in scripts:
+        path = os.path.join(HERE, script)
+        with open(path) as fh:
+            source = fh.read()
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", SyntaxWarning)
+            tree = ast.parse(source, filename=path)
+
+        wired = set()
+        for node in ast.walk(tree):
+            if _calls(node, "word"):
+                for arg in list(node.args) + [kw.value for kw in node.keywords]:
+                    wired.add(id(arg))
+        for node in ast.walk(tree):
+            if (isinstance(node, ast.Constant) and isinstance(node.value, str)
+                    and node.value.strip() in BAD_WORDS and id(node) not in wired):
+                out.append("%s:%d: %r stands alone as a value but is not an "
+                           "argument of a `.word(...)` call, so printing it "
+                           "would not fail the run"
+                           % (script, node.lineno, node.value))
+
+        # Two shapes are in use and both are fine: a `__main__` guard whose last
+        # statement is `VD.finish()`, and `verify_prolate_claims.py` /
+        # `verify_sign_claims.py`, which have no guard and run at module level
+        # ending in a top-level `VD.finish()`.  What is checked is the last thing
+        # the script executes, whichever shape it is.  (This distinction was
+        # measured, not assumed: requiring the guard flagged those two on the
+        # first run of this control.)
+        mains = [n for n in tree.body if _is_main_guard(n)]
+        if len(mains) > 1:
+            out.append("%s: %d `if __name__ == \"__main__\":` blocks, expected "
+                       "at most 1" % (script, len(mains)))
+            continue
+        where, body = ("`__main__`", mains[0].body) if mains else ("the module", tree.body)
+        last = body[-1]
+        if not (isinstance(last, ast.Expr) and _calls(last.value, "finish")):
+            out.append("%s:%d: %s does not end in a `.finish()` call, so a "
+                       "failure recorded after the first decision would exit 0"
+                       % (script, last.lineno, where))
+    return out
 
 
 def imported_names(path):
@@ -225,6 +339,21 @@ def main(argv):
         print("no such script: %s" % ", ".join(wanted))
         return 1
 
+    # The static control first: it needs no imports, so its verdict is about the
+    # source and holds on a machine that cannot run anything below.
+    print("STATIC CONTROL -- every verdict word is wired, every __main__ ends in finish()")
+    wiring = wiring_failures(scripts)
+    for w in wiring:
+        print("    %s" % w)
+    if wiring:
+        print()
+        print("FAILED -- %d of the %d scripts selected can report a wrong result "
+              "and exit 0." % (len({w.split(":")[0] for w in wiring}), len(scripts)))
+        return 1
+    print("%d scripts: no unwired %s, all end in finish()."
+          % (len(scripts), "/".join(BAD_WORDS)))
+    print()
+
     missing = check_environment(scripts)
     if missing:
         print("NOT RUN -- this environment does not have what the scripts need.")
@@ -296,8 +425,8 @@ def main(argv):
         return 1
     if never_ran:
         return 2
-    print("every script tested has a reachable failing exit path, and the "
-          "unforced runs exit 0.")
+    print("every script tested has a reachable failing exit path, its verdict "
+          "words are wired to it, and the unforced runs exit 0.")
     return 0
 
 
