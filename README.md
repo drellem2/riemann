@@ -308,11 +308,33 @@ change substantially.
 
 ## Continuous integration
 
-Three GitHub Actions workflows run on every push to `main` and on every pull
-request. They re-run checks that already existed in this repository; they do not
-add new ones. Nothing here is a proof of anything — it is evidence that the
-artefacts still do what the notes say they do, produced by a machine that is not
-the one that wrote them.
+Three GitHub Actions workflows run on every pull request, and on every push to
+`main` that changes anything outside `docs/**`. They re-run checks that already
+existed in this repository; they do not add new ones. Nothing here is a proof of
+anything — it is evidence that the artefacts still do what the notes say they
+do, produced by a machine that is not the one that wrote them.
+
+### One run per sha on `main`, and none for docs-only pushes
+
+Each push to `main` gets its **own** concurrency group, keyed on the sha, so no
+run can displace another and every commit that changes code carries its own
+verdict. Before 2026-08-14 this was not true and the record had holes in it:
+GitHub permits only one *pending* run per group, so a second push landing while
+a run was in flight evicted the first from the queue before it started. It
+happened to `7314936`, which was cancelled ten seconds after it was created with
+zero jobs run, and at fourteen merges a day it was not rare. A displaced run
+leaves a `cancelled` row that reads exactly like a deliberate cancellation, so
+the holes were not visible from the run list. Pull requests still coalesce under
+a shared group — a superseded branch push has no independent value.
+
+The other half is that `docs/**` pushes no longer open runs at all. Regenerating
+`docs/roadmap.md` is a five-line edit and it was building Lean, building the
+paper and running nineteen verifier jobs several times a day, each of those runs
+able to evict a merge's. The filter is `docs/**` and not `**.md` on purpose:
+`notes/*.md` is the corpus and this file records which verifier scripts run on
+reduced grids, so a change to either is a change CI should re-run. It applies to
+the `push` trigger only, so a docs-only *pull request* still gets all three
+checks.
 
 ### `lean` — the Lean development
 

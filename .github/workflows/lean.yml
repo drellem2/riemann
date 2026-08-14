@@ -12,6 +12,30 @@ name: lean
 on:
   push:
     branches: [main]
+    # A docs-only push opens a full run of all three workflows — a five-line
+    # edit to `docs/roadmap.md` (`e42b0f2`) built Lean, built the paper, and ran
+    # nineteen verifier jobs — and such a run can displace a merge's queued one.
+    # That is the original cause of mg-4bbd: that ticket stopped the CANCELLING
+    # and left the PUSHING, so the population of interfering pushes stayed
+    # exactly as large as it was.  This drops them.
+    #
+    # Scoped to `docs/**` deliberately.  `'**.md'` would be wrong here:
+    # `notes/*.md` is the corpus and `README.md` records which verifier scripts
+    # run reduced grids, so a change to either is a change CI should re-run.
+    #
+    # `paths-ignore` is under `push:` only, so the `pull_request:` trigger below
+    # is untouched and a docs-only PR still gets all three checks.  That matters
+    # because a required check that never reports leaves a PR either blocked
+    # forever or merged on a check that did not run.  Measured 2026-08-14:
+    # nothing requires them anyway — `gh api
+    # repos/drellem2/riemann/branches/main/protection` returns 404 "Branch not
+    # protected" and `gh api repos/drellem2/riemann/rulesets` returns `[]`.  If
+    # protection is ever added, this is the line to re-read.
+    #
+    # `branches: [main]` above cannot be de-hardcoded the way the concurrency
+    # block below is: trigger filters are matched before any expression context
+    # exists, so no `${{ }}` is evaluated at this point in the file.
+    paths-ignore: ['docs/**']
   pull_request:
   workflow_dispatch:
 
@@ -32,9 +56,38 @@ permissions:
 # `refs/heads/main`, so PR cancellation is unaffected.  That the expression
 # yields a real boolean and not a truthy string was measured, not assumed; the
 # measurement is recorded in mg-4bbd.
+#
+# The group carries the sha on the default branch, and that is a SECOND and
+# separate mechanism from `cancel-in-progress`.  GitHub allows only one PENDING
+# run per concurrency group: a push arriving while a run is in flight does not
+# queue behind it, it EVICTS whatever was already pending.  `cancel-in-progress:
+# false` governs the RUNNING run and has no bearing on that.  Both halves were
+# measured on `main` on 2026-08-13: `fa6cf39` (mg-4bbd's own merge, 22:52:24)
+# ran to completion despite two later pushes, which is the fix working, while
+# `7314936` (22:53:27) was cancelled at 22:53:37 — one second after `bc2ca66`
+# was pushed at 22:53:36 — having never started a single job (`gh run view
+# 31751762413 --json jobs` returns `[]`).  So any two merges landing inside one
+# run's lifetime left the middle sha with no completed run, and a displaced run
+# leaves a `cancelled` row indistinguishable from a deliberate cancellation.
+# One group per sha on the default branch means nothing can displace anything.
+# Feature branches keep coalescing under the bare ref, which is what you want
+# there: a superseded branch push has no independent value.
+#
+# Note the interaction with `paths-ignore` above: a merge whose whole diff is
+# under `docs/**` opens no run on the default branch at all, so "every sha has a
+# completed run" is a claim about shas that change something outside `docs/**`.
+#
+# The default branch is read from the event payload rather than hardcoded, so a
+# branch rename cannot silently restore the pre-mg-4bbd behaviour.  That
+# `github.event.repository.default_branch` is populated (`main`) was measured on
+# both `push` and `workflow_dispatch` payloads, and that `<cond> && github.sha
+# || ''` yields the full sha on the true arm and the empty string on the false
+# arm was measured on the same runner rather than assumed — mg-121d.  The
+# default-branch arm itself cannot be exercised from a branch: it is true only
+# once this file is ON the default branch.
 concurrency:
-  group: lean-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  group: lean-${{ github.ref }}-${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && github.sha || '' }}
+  cancel-in-progress: ${{ github.ref != format('refs/heads/{0}', github.event.repository.default_branch) }}
 
 jobs:
   check:
