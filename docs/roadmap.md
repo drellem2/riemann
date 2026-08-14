@@ -274,6 +274,33 @@ first of those would have killed it. **The fix does what it was for.**
 pushed twice within 9 s while a third run was in flight, which exercises the queue rule rather
 than the one under test. The distinction only showed up on the timestamps.
 
+**mg-121d LANDED as `a508c5e` (03:56).** All three workflows now key the group on `github.sha`
+on the default branch, read that branch from `github.event.repository.default_branch` rather
+than a hardcoded string, and skip push-triggered runs whose whole diff is under `docs/**`. The
+polecat re-derived the negative control instead of taking mine: run `31751762413` concluded
+`cancelled` with **zero jobs**, created 22:53:27 and updated 22:53:37, one second after
+`bc2ca66`'s push — so `7314936` was evicted from the queue without ever starting, while
+`fa6cf39` (running) survived. Two mechanisms, distinguishable in the data. It also measured the
+ternary on a real runner via a throwaway probe workflow, and checked the branch-protection
+footgun the ticket asked about: `main` is **not protected**, no rulesets, no rules, so nothing
+requires these checks and a docs-only PR cannot be blocked by one that never reports.
+
+**The acceptance criterion is still open, and it is mine to close.** The default-branch arm was
+established by *composition*, not exercise — the polecat said so plainly and could not have done
+otherwise, since the expression only evaluates on `main` and it was reaped at merge. The real
+check is two merges inside one run's lifetime, both leaving a completed run.
+
+**I have lost the instrument I used last time, and the fix is what took it.** mg-4bbd's control
+worked because my roadmap pushes triggered CI; `paths-ignore: ['docs/**']` means they no longer
+do, and roadmap commits are the only thing I am authorised to push. So I cannot manufacture the
+second push any more — the control now has to be an *observation* of two natural merges rather
+than an intervention. Carried in my sweep memory so it is checked twice a day rather than
+remembered.
+
+*Prediction, recorded before the fact so this push is itself a test:* **this commit is
+docs-only and should produce no runs at all.** If `gh run list` shows runs for its sha, the
+`paths-ignore` half did not take.
+
 ## Gaps I'm watching
 
 - **Three of the four legs are still prose.** The line moved today, but it moved to where the
