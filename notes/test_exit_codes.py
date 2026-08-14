@@ -6,7 +6,7 @@
 
 A test that has never been observed failing is not known to work.  Every
 `verify_*.py` script now decides something and exits 1 when the decision comes
-out negative -- so for each of the eighteen this runs the script with
+out negative -- so for each of the nineteen this runs the script with
 
     VERIFY_SELFTEST_FORCE_FAIL=1
 
@@ -56,8 +56,8 @@ verdict is about the source rather than about this machine.
 
 A script that never ran is not a script whose contract is broken, and the two
 must not be reported the same way.  On a machine without `mpmath` installed
-every one of the eighteen dies at import and exits 1, which looks exactly like
-eighteen broken contracts unless something says otherwise -- and that reading is
+every one of the nineteen dies at import and exits 1, which looks exactly like
+nineteen broken contracts unless something says otherwise -- and that reading is
 worse than the truth, because the fix is one `pip install`.  So the imports the
 selected scripts need are checked BEFORE anything is run, and any child that
 dies of `ModuleNotFoundError` anyway (a sibling import this scan did not follow,
@@ -105,6 +105,7 @@ SCRIPTS = [
     ("verify_citation_u8.py", [], {}),
     ("verify_deficit_repair.py", ["--quick"], {}),
     ("verify_dunster.py", [], {}),
+    ("verify_eps_deficit.py", ["--quick"], {}),
     ("verify_h0.py", [], {"QUICK": "1"}),
     ("verify_h1.py", [], {}),
     ("verify_independent_recheck.py", [], {}),
@@ -124,12 +125,20 @@ SCRIPTS = [
 # the negative control: fast enough to run in full inside a test.
 CLEAN = ["verify_semilocal_gap.py", "verify_sign_claims.py", "verify_prolate_claims.py"]
 
-# the verdict words that a script prints INSTEAD OF a passing word, i.e. the ones
-# whose appearance in a table cell is the script saying the check came out wrong.
-# `(FAILS)` and `NO` are deliberately absent, for the same reason they are absent
-# from the exit-code contract itself: both mark cells that are EXPECTED to fail
-# and that README.md documents as such.  Adding a word here is a claim that no
-# passing run may ever print it as a cell.
+# the verdict words a script may print as a VERDICT, i.e. as the whole value of a
+# cell rather than as a word inside a sentence.  `(FAILS)` and `NO` are
+# deliberately absent, for the same reason they are absent from the exit-code
+# contract itself: both mark cells that are EXPECTED to fail and that README.md
+# documents as such.
+#
+# UNTIL mg-e205 THIS LIST ALSO MEANT "no passing run may ever print these", and
+# that is no longer true.  `verify_eps_deficit.py` REFUTES the identity it was
+# sent to test, so its passing word is `REFUTED` and its failing word is
+# `(identity holds)` -- the polarity of every other script here, reversed.  The
+# static check below is unaffected, because what it requires is that the literal
+# be WIRED to a decision, not which branch of that decision prints it; and the
+# CI grep that did assume the stronger reading is gone (mg-a682), which is the
+# only reason a script like that can exist at all.
 #
 # Note that the line below would fail this file's own check, and the paragraphs
 # above it would not -- which is the check working, and is why only `SCRIPTS` is
@@ -241,7 +250,7 @@ def requirements(script, _seen=None):
     """The third-party modules `script` needs, following sibling imports.
 
     Today every script that needs mpmath or numpy imports it directly, so the
-    recursion changes no answer.  It is here because eleven of the eighteen import
+    recursion changes no answer.  It is here because eleven of the nineteen import
     another verifier by bare module name: the first one to take a dependency only
     through a sibling would otherwise be cleared to run on a machine that cannot
     run it, and would then be reported as a broken contract, which is the exact

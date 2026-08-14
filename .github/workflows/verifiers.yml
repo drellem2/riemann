@@ -4,7 +4,7 @@ name: verifiers
 # its own job, so the run page names every script it ran and how long it took —
 # a single tick covering an unnamed subset would be worse than no CI at all.
 #
-# Twelve scripts run on their FULL grid.  Six run on the reduced grid their
+# Twelve scripts run on their FULL grid.  Seven run on the reduced grid their
 # own `--quick` / `QUICK=1` switch selects, because their full grids exceed a
 # sane per-push budget.  Which is which is recorded here, in the job names, and
 # in README.md under "Continuous integration" — read that before reading a
@@ -17,9 +17,9 @@ name: verifiers
 # `VD.word` call, a threshold, or the `VD.finish()` that ends the script does.
 # See the long note on the run step below for what changed and why (mg-a682).
 #
-# A nineteenth job, `exit-codes`, runs the controls for the exit-code contract
-# those eighteen depend on.  It belongs in this workflow rather than in its own:
-# the thing it guards is the exit status of the same eighteen scripts, so the
+# A twentieth job, `exit-codes`, runs the controls for the exit-code contract
+# those nineteen depend on.  It belongs in this workflow rather than in its own:
+# the thing it guards is the exit status of the same nineteen scripts, so the
 # badge that goes green for them should be the badge that goes red when the
 # status underneath it stops meaning anything.  Each `verify` job additionally
 # runs that control for its own script, in its own job.
@@ -127,10 +127,18 @@ jobs:
           - {script: verify_independent_recheck.py, args: "", env: ""}
           - {script: verify_sonin_trace.py,         args: "", env: ""}
           # --- reduced grid: full grid exceeds the per-push budget ----------
-          # `--quick` / `QUICK=1` keep every check and coarsen the grid (fewer
-          # bandwidths c, larger step).  They do not skip checks.
+          # `--quick` / `QUICK=1` coarsen the grid (fewer bandwidths c, larger
+          # step).  Where a reduced grid ALSO drops a wired check, the script's
+          # own docstring names which one -- `verify_sonin_ceiling.py` and
+          # `verify_eps_deficit.py` both do.  Do not read this block as "every
+          # check still runs"; read the docstrings.
           - {script: verify_sonin_margin.py,        args: "--quick", env: ""}
           - {script: verify_sonin_ceiling.py,       args: "--quick", env: ""}
+          # `--quick` here also drops ONE wired check, not just grid points:
+          # CHECK 6's unresolved-rows claim needs a half-width past a = 1.4 and
+          # the reduced grid has none.  Recorded in README.md's table and in the
+          # script's own docstring; it is the only such case in this matrix.
+          - {script: verify_eps_deficit.py,         args: "--quick", env: ""}
           - {script: verify_q1.py,                  args: "--quick", env: ""}
           - {script: verify_prolate_rate.py,        args: "--quick", env: ""}
           - {script: verify_deficit_repair.py,      args: "--quick", env: ""}
@@ -206,7 +214,7 @@ jobs:
       # decision — so this job's green tick says "the script ran clean AND its
       # failure path is live here", rather than "the script ran".
       #
-      # The `exit-codes` job below runs the same control for all eighteen at
+      # The `exit-codes` job below runs the same control for all nineteen at
       # once, and this does not replace it: that job also runs the NEGATIVE
       # control and the static wiring control, and it is what a developer runs
       # locally.  This one is here because the step above is the step that lost
@@ -230,7 +238,7 @@ jobs:
           echo "exited non-zero, on the decision it names:"
           grep -n 'FORCED NEGATIVE' forced.log
 
-  # The controls for the contract.  Every one of the eighteen is run once with
+  # The controls for the contract.  Every one of the nineteen is run once with
   # its first decision forced negative and must exit non-zero naming that
   # decision; the three fastest are run unforced and must exit 0; and a static
   # pass requires every verdict word in the source to be an argument of a
