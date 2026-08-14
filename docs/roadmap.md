@@ -29,6 +29,51 @@ withdrawn.
 extension** — and it is Daniel's, not mine: it is the largest commitment here, and the
 archimedean ceiling being proved is exactly what makes adding places the only way past it.
 
+**R2 as a GO/NO-GO, assembled 2026-08-14 05:30 from what the corpus already holds. No new
+work was done for this; every claim is a pointer to a note we have already merged.**
+
+*What R2 requires.* Not "transport the archimedean proof to $p$". `semilocal-gap.md` §3.3 and
+§10: the archimedean contribution alone changes sign past $L=\log2$, and positivity is
+restored **only by adding the prime 2** — so the object needed is a theorem about
+**cancellation between places**, which is a different and harder kind of statement than the
+one Connes–Consani proved. Two specific things are missing semilocally: the diagonalisation
+of the angle operator (there is no semilocal Slepian–Pollak — supplying one *is* the
+"semilocal prolate operator" programme), and any comparison term at all — no semilocal
+$\epsilon$, no compactness statement, no spectral analysis (§2, §3).
+
+*Three things that should lower the estimate of our odds.*
+1. **The originators have deferred it.** CCM's proposed $\mathbf W_{\lambda,S}$ has its
+   Jacobi coefficients deferred to a forthcoming paper, its metaplectic alternative deferred
+   to the same, and the property that would make either usable is called "another constraint
+   in the search" rather than proved. As of Connes' own **Feb 2026** survey the proved
+   positivity is still exactly *support in $[2^{-1/2},2^{1/2}]$, archimedean*, and semilocal
+   positivity appears in **no** list of next steps (§4).
+2. **The target is numerically fragile.** Perturbing the prime $2$ to $1.9999$ or $2.0005$
+   destroys positivity; the crossing sits at $\mu\approx2.2710$. We rebuilt that computation
+   from scratch and it agrees with theirs on all five numbers, so it is not a truncation or
+   precision artefact (§10.2) — the fragility is real, not measurement error.
+3. **Each prime is sign-neutral by an exact argument, not a heuristic.** Multiplication by
+   $e^{i\pi x/\log n}$ conjugates $V(n)$ into $-V(n)$, so the prime spectrum is symmetric
+   about $0$ on the nose, at every $\lambda$, before any condition is imposed (§3.2). Places
+   do not *supply* sign; only the cancellation between them does. That is what makes item 1's
+   deferral expected rather than surprising.
+
+*And the one thing that should raise them, which is the strongest argument for GO.*
+`start.tex:39`'s central unresolved estimate $QW_\lambda(Eh_\lambda)\asymp1-\chi_4$ **is the
+bridge quantity** — it evaluates the semilocal form on an archimedean-built vector, which is
+exactly the comparison the gap consists of. Connes' 2026 survey independently reports "a
+striking similarity" between $\epsilon(\lambda)$ and $1-\chi_2(\lambda)$, which under the
+index convention mg-9433 settled **is** our $1-\chi_4$ (§5.2). So our open problem is not
+adjacent to the real one; it is the real one, and a third source corroborates the convention
+(§5.3).
+
+*My read, offered as input and not as the decision.* GO buys a chance at the only route past
+a ceiling we have now proved; NO-GO leaves us refining a route already known to be capped.
+The honest framing is that R2 is a research programme its own originators have not delivered,
+entered from the one position that has a genuine claim on the bridge quantity. **What I would
+not do is let it default.** Twelve hours of no decision is a NO-GO taken by silence, and the
+board is empty in the meantime.
+
 ## Why everything is sign-blind, and the one design rule that follows
 
 mg-8599's lemma is the whole story: if every analysis-side entry of a dictionary is a
