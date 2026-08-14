@@ -18,6 +18,8 @@ corpus moves** — §7.
 
 > **CORRECTED BY mg-d03b — read [`sonin-margin.md`](sonin-margin.md) with this note.**
 > Two claims below are wrong and are marked where they occur.
+> **This preamble was then itself corrected by mg-0b7a
+> ([`sonin-ceiling.md`](sonin-ceiling.md)) — see the struck sentence at the end of it.**
 >
 > 1. **There is no margin of $8.7\times10^{-5}$.** $-E$ is a compact operator, so its
 >    eigenvalues accumulate at $0$ and the smallest eigenvalue of an $N$-term truncation
@@ -28,9 +30,33 @@ corpus moves** — §7.
 > 2. **`verify_sonin_trace.conditions()` row 1 was not $\hat g(i/2)$** — an endpoint,
 >    now fixed. No output of this note's script moved: the two runs are byte-identical.
 >
-> What replaces the margin is the inertia, which is truncation-stable: Theorem 1's
-> conclusion holds to $\mu=6.17$ against its stated $\mu\le2$, is false past that, and
-> needs only *one* of its two conditions at $\mu\le2$.
+> What replaces the margin is the inertia, which is truncation-stable. The two figures
+> this preamble first attached to that — written while correcting something else, and
+> refuted a day later — are struck rather than swapped, so the correction can be checked:
+>
+> > ~~Theorem 1's conclusion holds to $\mu=6.17$ against its stated $\mu\le2$, is false
+> > past that, and needs only *one* of its two conditions at $\mu\le2$.~~
+>
+> **REFUTED by mg-0b7a — [`sonin-ceiling.md`](sonin-ceiling.md) Bottom-line 6–7 and §5.**
+> Both figures are mg-d03b's **even block alone**. $E$ is a convolution form, so
+> $E(g)=E(g_{\rm ev})+E(g_{\rm odd})$; every script in this corpus works in
+> $\xi_n=\cos(2\pi ny/L)$, which spans the even block only; and Theorem 1 imposes no
+> parity condition, so odd $g$ is admissible and was missing. With it:
+>
+> - $\mu_c(2)=\mathbf{2.754}$, not $6.17$ — **a factor $1.38$ over the stated $\mu\le2$,
+>   not $3.09$.** The *shape* survives: $\mu\le2$ is still an artefact of the proof and
+>   the conclusion is still false past the threshold. The size does not, and the
+>   hypothesis is much closer to sharp than this sentence said.
+> - **"Needs only *one* of its two conditions" is FALSE, not merely imprecise.**
+>   $\mu_c(1)=\mathbf{1.771}<2$: an odd $g$ satisfies $\hat g(0)=0$ for free, so one
+>   condition is no condition at all on half the space. The second condition does real
+>   work *inside* Theorem 1's own range — which is Bottom-line item 6 of this note as
+>   written, that mg-d03b half-retired and mg-0b7a restored.
+>
+> The inertia itself stands, and so does everything else in this note: neither figure
+> appears anywhere outside this preamble — not in the Bottom line, not in §§1–8 —
+> which was re-checked when this correction was made. Both numbers are mg-0b7a's,
+> quoted, not re-derived here.
 
 ---
 

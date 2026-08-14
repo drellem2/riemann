@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """What lives in the 8.7e-5?  Four checks for `sonin-margin.md` (mg-d03b).  Needs numpy.
 
+Two readings drawn from CHECK 4 below are REFUTED by mg-0b7a (`sonin-ceiling.md`) --
+this script computes the EVEN BLOCK ALONE.  See (3) and CHECK 4's own output; the
+checks and their values are unchanged and still pass.
+
     cd notes && python verify_sonin_margin.py            # 4m59s measured
     cd notes && python verify_sonin_margin.py --quick    # 34s, same checks
 
@@ -60,17 +64,35 @@ N = 60 and N = 120, because they live at low frequency where the basis is
 complete long before the truncation bites.  With the conditions computed
 correctly, CHECKS 3 and 4 find (N = 120; each is an upper bound falling in N)
 
-    codim k        mu_c(k) = largest mu with  -E >= 0
-    ------------------------------------------------
-      0 (none)     indefinite at every mu computed
-      1            2.763        -- already covers Theorem 1's whole range mu <= 2
-      2 (Thm 1)    6.174        -- three times the theorem's stated hypothesis
-      3           13.01
-      4           26.46
+    codim k        mu_c(k), THIS SCRIPT      mu_c(k), full space (mg-0b7a)
+    ---------------------------------------------------------------------
+      0 (none)     indefinite at every mu    indefinite
+      1            2.763                     1.771   <-- BELOW 2
+      2 (Thm 1)    6.174                     2.754
+      3           13.01                      4.140
+      4           26.46                      6.024
 
-so mu <= 2 is an artefact of the proof, by a factor of three; ONE of the two
-conditions is enough at mu = 2; and the theorem's conclusion does genuinely
-fail, past mu_c(2).  It has to: eps > 0, so eps_hat(0) = 5.37 > 0, so the symbol
+*** CORRECTED BY mg-0b7a (`sonin-ceiling.md`, `verify_sonin_ceiling.py` CHECK 5).
+The basis below -- xi_n = cos(2 pi n y / L) -- spans the EVEN BLOCK ALONE, E is a
+convolution form so E(g) = E(g_ev) + E(g_odd), and Theorem 1 imposes no parity
+condition, so the admissible odd g are missing from this script's left column.
+Two readings drawn from it below do not survive:
+
+  - "mu <= 2 is an artefact by a FACTOR OF THREE" -- it is a factor 1.38
+    (2.754 / 2), not 3.09.  That mu <= 2 is an artefact at all survives; the
+    size does not, and the hypothesis is much closer to sharp than stated here.
+  - "ONE of the two conditions is enough at mu = 2" -- FALSE, not merely
+    imprecise.  mu_c(1) = 1.771 < 2 on the full space: an odd g satisfies
+    ghat(0) = 0 for free, so one condition is no condition at all on half the
+    space, and the second does real work inside Theorem 1's own range.
+
+The left column and every check below are unchanged and still pass: they are
+correct statements about the even block, and `verify_sonin_ceiling.py` uses them
+as its baseline.  Only the readings are corrected, in place.  Both corrected
+numbers are mg-0b7a's, quoted, not re-derived here. ***
+
+The theorem's conclusion does genuinely fail past mu_c(2), on either column.
+It has to: eps > 0, so eps_hat(0) = 5.37 > 0, so the symbol
 of -E is negative at low frequency and only a support short enough to keep ghat
 out of that band can save it.  log mu_c is close to linear in k, slope 0.752
 measured against the 2 pi / t_0 = 0.999 the symbol suggests -- CHECK 4.
@@ -94,7 +116,8 @@ replacement evaluates F xi_n in closed form, int_{-1}^1 P_k(x) e^{izx} dx =
 --- HOUSE RULE ---------------------------------------------------------------
 
 Stated per check at the end.  The two headline statements -- "Theorem 1's
-conclusion holds to mu = 6.17, not 2" and "it fails past that" -- are statements
+conclusion holds to mu = 6.17, not 2" (even block; 2.754 on the full space,
+mg-0b7a) and "it fails past that" -- are statements
 about W_inf(g*g^*) >= Tr(theta(g) S theta(g)^*) and are **FALSE for
 W_lambda -> -W_lambda**: the trace does not move under that substitution and
 W_inf does.  Everything about eps alone, including the whole of (1) and (2), is
@@ -597,21 +620,30 @@ def check4(pr, eps, t0):
                  "CHECK 4: mu_c(k) is stable to 1% between N = 60 and N = 120")
         print()
     VD.check(mcs[2] > 2.0,
-             "CHECK 4: mu_c(2) > 2 -- Theorem 1's conclusion survives past its "
-             "stated hypothesis, so mu <= 2 is an artefact of the proof")
+             "CHECK 4: mu_c(2) > 2 ON THE EVEN BLOCK -- Theorem 1's conclusion "
+             "survives past its stated hypothesis, so mu <= 2 is an artefact of "
+             "the proof.  The full-space figure is mg-0b7a's 2.754, not 6.174; "
+             "this half of the claim survives the correction, the factor does not")
     VD.check(mcs[1] > 2.0,
-             "CHECK 4: mu_c(1) > 2 -- ghat(0) = 0 ALONE already covers Theorem 1's "
-             "whole support range; the second condition buys nothing at mu <= 2")
+             "CHECK 4: mu_c(1) > 2 ON THE EVEN BLOCK -- the reading of this drawn "
+             "here, that ghat(0) = 0 alone covers Theorem 1's range and the second "
+             "condition buys nothing at mu <= 2, is REFUTED by mg-0b7a: on the full "
+             "space mu_c(1) = 1.771 < 2 (odd g has ghat(0) = 0 for free).  The "
+             "even-block inequality below is what this check asserts")
     VD.check(mcs[2] < MU_MAX,
              "CHECK 4: mu_c(2) is finite -- the conclusion does fail, it is not "
              "true for all mu")
-    print("  Theorem 1 is stated for mu <= 2 and its conclusion holds to mu = %.2f."
+    print("  Theorem 1 is stated for mu <= 2 and its conclusion holds, ON THE EVEN")
+    print("  BLOCK, to mu = %.2f -- a factor %.2f in mu, %.2f in log mu."
+          % (mcs[2], mcs[2] / 2.0, np.log(mcs[2]) / np.log(2.0)))
+    print("  CORRECTED by mg-0b7a (`sonin-ceiling.md`, `verify_sonin_ceiling.py`")
+    print("  CHECK 5): the cosine basis here spans the EVEN BLOCK ALONE and Theorem 1")
+    print("  imposes no parity, so the admissible odd g are missing.  With them,")
+    print("  mu_c(2) = 2.754 -- a factor 1.38, NOT %.2f.  The hypothesis is still not"
+          % (mcs[2] / 2.0))
+    print("  sharp and still not vacuous: the conclusion is FALSE at mu = %.2f and"
           % mcs[2])
-    print("  That is a factor %.2f in mu, %.2f in log mu.  The hypothesis is not"
-          % (mcs[2] / 2.0, np.log(mcs[2]) / np.log(2.0)))
-    print("  sharp -- and it is not vacuous either: the conclusion is FALSE at")
-    print("  mu = %.2f and above.  Both halves are FALSE for W_lambda -> -W_lambda."
-          % mcs[2])
+    print("  above ON THIS BLOCK.  Both halves are FALSE for W_lambda -> -W_lambda.")
     print()
     print("  log mu_c against k: each condition buys a fixed FACTOR in the support,")
     print("  and that is the structural handle the work item asked for.  The reason")
@@ -644,12 +676,17 @@ def house_rule(mcs):
     print()
     print("  FALSE for W_lambda -> -W_lambda (the trace is fixed, W_inf flips):")
     print("    * Theorem 1's conclusion W_inf(g*g^*) >= Tr(theta(g) S theta(g)^*)")
-    print("      holds on the codimension-two subspace to mu = %.2f, three times its"
+    print("      holds on the codimension-two subspace to mu = %.2f -- ON THE EVEN"
           % mcs[2])
-    print("      stated hypothesis mu <= 2.                        CHECK 4")
+    print("      BLOCK.  REFUTED as a full-space statement by mg-0b7a: it is")
+    print("      mu = 2.754, a factor 1.38 on the stated mu <= 2, not 3.09.")
+    print("                                                        CHECK 4")
     print("    * It is FALSE past that, at mu = 8 and above.       CHECKS 3, 4")
     print("    * At mu <= 2 one condition, ghat(0) = 0, already gives it; the second")
-    print("      buys nothing there.                                CHECKS 3, 4")
+    print("      buys nothing there.  REFUTED by mg-0b7a: on the full space")
+    print("      mu_c(1) = 1.771 < 2, since an odd g has ghat(0) = 0 for free, so")
+    print("      one condition is no condition at all on half the space.")
+    print("                                                        CHECKS 3, 4")
     print("    * Unconditioned, the inequality fails at every mu on the grid")
     print("      (mg-5210 sec 6, reproduced).                       CHECK 3")
     print()
