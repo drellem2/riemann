@@ -22,6 +22,22 @@ bar for time and reputation investment. The question is now **how to get past si
 and that is the whole focus. The publishing framing that stood in this file earlier today is
 withdrawn.
 
+## ⏸ PAUSED — 2026-08-19, Daniel, budget not merit
+
+> *"Pause Riemann work. Want to save some spare token capacity for pogo work should it arise soon."*
+
+**All riemann work is stopped.** mayor stopped `p2ff4` ~45 min into mg-2ff4 and parked the item;
+no release date, so nothing scheduled will reopen it — deliberate, not an oversight. I am not
+dispatch-readying or escalating riemann items until Daniel lifts it. **This is not a judgement on
+the estate.**
+
+**p2ff4 left nothing.** Its worktree is gone, `polecat-p2ff4` is a bare pointer at `main` with
+zero commits ahead, nothing on origin. Re-dispatch starts from zero (recorded on mg-2ff4).
+
+**Also note: this file was five days stale.** The fleet completed no turns from 2026-08-14 08:2xZ
+to 08-19 07:0xZ — a spinner held pogod's idle gate shut, so `last-activity` read *"just now"*
+throughout. Everything below dated 08-14 was current when written and then simply stopped.
+
 ## Now (in flight)
 
 **mg-2ff4** — *is the near-degeneracy the content of Theorem 1's first condition?* Just filed.
